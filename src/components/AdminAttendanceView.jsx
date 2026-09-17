@@ -1,0 +1,212 @@
+import { useState, useEffect, useCallback } from "react";
+import api from "../data/axiosConfig";
+import { AlertTriangle } from "lucide-react";
+
+function fmt(mins) {
+  if (!mins) return "0h 00m";
+  return `${Math.floor(mins / 60)}h ${(mins % 60).toString().padStart(2, "0")}m`;
+}
+function fmtTime(d) {
+  if (!d) return "—";
+  return new Date(d).toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" });
+}
+
+const STATUS_STYLE = {
+  active:       { dot: "bg-emerald-500", text: "text-emerald-600 dark:text-emerald-400",  badge: "bg-emerald-50 dark:bg-emerald-950/40",  label: "Active" },
+  on_break:     { dot: "bg-amber-500",   text: "text-amber-600 dark:text-amber-400",      badge: "bg-amber-50 dark:bg-amber-950/40",      label: "On Break" },
+  idle:         { dot: "bg-red-500 animate-pulse", text: "text-red-600 dark:text-red-400", badge: "bg-red-50 dark:bg-red-950/40",          label: "Idle" },
+  logged_out:   { dot: "bg-gray-400",    text: "text-gray-500 dark:text-gray-400",         badge: "bg-gray-50 dark:bg-gray-900/40",         label: "Logged Out" },
+  not_logged_in:{ dot: "bg-gray-300",    text: "text-gray-400",                            badge: "bg-gray-50 dark:bg-gray-900/40",         label: "Not In" },
+};
+
+/**
+ * Compute live break minutes on the client side as a fallback.
+ * If the backend provides `liveBreakMinutes`, that takes priority.
+ * Otherwise, sum all completed breaks + add the ongoing break duration
+ * if the employee is currently on_break and the last break has no endTime.
+ */
+function getLiveBreakMinutes(rec) {
+  // Prefer backend-provided live value
+  if (rec.liveBreakMinutes != null) return rec.liveBreakMinutes;
+
+  const breaks = rec.breaks || [];
+  const now = Date.now();
+
+  const total = breaks.reduce((sum, b) => {
+    const start = b.startTime ? new Date(b.startTime).getTime() : null;
+    if (!start) return sum;
+    // If break has no end time and status is on_break, treat it as ongoing
+    const end = b.endTime ? new Date(b.endTime).getTime() : (rec.status === "on_break" ? now : null);
+    if (!end) return sum;
+    return sum + Math.max(0, (end - start) / 60000);
+  }, 0);
+
+  return Math.round(total);
+}
+
+export default function AdminAttendanceView() {
+  const [records, setRecords] = useState([]);
+  const [date, setDate]       = useState(new Date().toISOString().slice(0, 10));
+  const [loading, setLoading] = useState(true);
+
+  // ── Company shift window (read-only) ────────────────────────────────────
+  // Replaces the old per-employee "Ideal Time" free-text field — see the
+  // matching change in AttendanceTable.jsx for why.
+  const [shiftCfg, setShiftCfg] = useState(null);
+  useEffect(() => {
+    api.get("/admin/company/attendance-config").then(r => setShiftCfg(r.data)).catch(() => {});
+  }, []);
+  const fmtShift = (h, m) => {
+    if (h == null) return "—";
+    const period = h >= 12 ? "PM" : "AM";
+    const h12 = h % 12 === 0 ? 12 : h % 12;
+    return `${h12}:${String(m || 0).padStart(2, "0")} ${period}`;
+  };
+  const shiftLabel = shiftCfg
+    ? `${fmtShift(shiftCfg.shiftStartHour, shiftCfg.shiftStartMinute)} – ${fmtShift(shiftCfg.shiftEndHour, shiftCfg.shiftEndMinute)}`
+    : null;
+
+  const fetchData = useCallback(async () => {
+    setLoading(true);
+    try {
+      const res = await api.get(`/attendance/company?date=${date}`);
+      setRecords(res.data || []);
+    } catch {}
+    setLoading(false);
+  }, [date]);
+
+  useEffect(() => { fetchData(); }, [fetchData]);
+
+  // Auto-refresh every 30s
+  useEffect(() => {
+    const t = setInterval(fetchData, 30000);
+    return () => clearInterval(t);
+  }, [fetchData]);
+
+  const summary = {
+    active:    records.filter(r => r.status === "active").length,
+    on_break:  records.filter(r => r.status === "on_break").length,
+    idle:      records.filter(r => r.status === "idle").length,
+    logged_out:records.filter(r => r.status === "logged_out").length,
+    not_in:    records.filter(r => r.status === "not_logged_in").length,
+  };
+
+  return (
+    <div className="bg-white dark:bg-[#1A1D27] border border-[#E4E7EF] dark:border-[#262A38] rounded-2xl p-5">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-3 flex-wrap gap-3">
+        <div>
+          <h3 className="text-[15px] font-bold text-gray-800 dark:text-gray-100">Team Attendance</h3>
+          <p className="text-[11px] text-gray-400">Auto-refreshes every 30s</p>
+        </div>
+        <div className="flex items-center gap-3">
+          <input type="date" value={date} max={new Date().toISOString().slice(0,10)}
+            onChange={e => setDate(e.target.value)}
+            className="text-[12px] border border-gray-200 dark:border-white/10 bg-white dark:bg-[#0D0F14] rounded-lg px-3 py-1.5 text-gray-700 dark:text-gray-300" />
+          <button
+            onClick={fetchData}
+            disabled={loading}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 dark:bg-blue-950/40 text-blue-600 text-[12px] font-bold hover:bg-blue-100 disabled:opacity-60 disabled:cursor-not-allowed transition"
+          >
+            {loading ? (
+              <svg className="w-3.5 h-3.5 animate-spin" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+              </svg>
+            ) : (
+              <span>↻</span>
+            )}
+            {loading ? "Refreshing…" : "Refresh"}
+          </button>
+        </div>
+      </div>
+
+      {shiftLabel && (
+        <p className="text-[11px] text-indigo-500 dark:text-indigo-400 font-semibold mb-4">
+          Company shift hours: {shiftLabel}
+        </p>
+      )}
+
+      {/* Summary pills */}
+      <div className="flex flex-wrap gap-2 mb-5">
+        {[["Active", summary.active, "emerald"], ["On Break", summary.on_break, "amber"], ["Idle", summary.idle, "red"], ["Logged Out", summary.logged_out, "gray"], ["Not In", summary.not_in, "slate"]].map(([label, count, color]) => (
+          <span key={label} className={`text-[11px] font-semibold px-2.5 py-1 rounded-full bg-${color}-50 dark:bg-${color}-950/40 text-${color}-600 dark:text-${color}-400`}>
+            {label}: {count}
+          </span>
+        ))}
+      </div>
+
+      {loading ? (
+        <div className="space-y-2">
+          {[1,2,3].map(i => <div key={i} className="h-14 rounded-xl bg-gray-100 dark:bg-white/5 animate-pulse" />)}
+        </div>
+      ) : records.length === 0 ? (
+        <div className="flex flex-col items-center justify-center py-10 gap-2 text-gray-400">
+          <svg className="w-8 h-8 opacity-30" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7"/>
+          </svg>
+          <p className="text-[13px]">No attendance records for this date.</p>
+        </div>
+      ) : (
+        <div className="space-y-2 max-h-[420px] overflow-y-auto pr-1">
+          {records.map((rec, i) => {
+            const st = STATUS_STYLE[rec.status] || STATUS_STYLE["not_logged_in"];
+            // FIX: use live work minutes with fallback, and live break minutes with fallback
+            const workMins  = rec.liveWorkMinutes  ?? rec.totalWorkMinutes;
+            const breakMins = getLiveBreakMinutes(rec);
+            return (
+              <div key={i} className="flex items-center gap-3 p-3 rounded-xl bg-gray-50 dark:bg-white/[0.03] border border-gray-100 dark:border-white/5">
+                {/* Avatar */}
+                <div className="w-9 h-9 rounded-full bg-indigo-100 dark:bg-indigo-950/40 flex items-center justify-center text-[12px] font-bold text-indigo-600 dark:text-indigo-400 shrink-0">
+                  {(rec.user?.name || "?").split(" ").map(n => n[0]).join("").slice(0,2).toUpperCase()}
+                </div>
+                {/* Info */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2">
+                    <p className="text-[13px] font-semibold text-gray-800 dark:text-gray-100 truncate">{rec.user?.name || "Unknown"}</p>
+                    <span className={`flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full ${st.badge} ${st.text}`}>
+                      <span className={`w-1.5 h-1.5 rounded-full ${st.dot}`} />
+                      {st.label}
+                    </span>
+                    {rec.status === "idle" && (
+                      <span className="inline-flex items-center gap-1 text-[10px] font-bold text-red-500 bg-red-50 dark:bg-red-950/40 px-2 py-0.5 rounded-full"><AlertTriangle className="w-2.5 h-2.5" /> IDLE</span>
+                    )}
+                  </div>
+                  <div className="flex gap-3 mt-0.5 text-[10px] text-gray-400 flex-wrap">
+                    <span>In: {fmtTime(rec.loginTime)}</span>
+                    {rec.logoutTime && <span>Out: {fmtTime(rec.logoutTime)}</span>}
+                    <span>Work: {fmt(workMins)}</span>
+                    {/* FIX: now uses getLiveBreakMinutes which accounts for ongoing breaks */}
+                    <span>Breaks: {fmt(breakMins)}</span>
+                    {rec.breaks?.length > 0 && <span>{rec.breaks.length} break{rec.breaks.length > 1 ? "s" : ""}</span>}
+                  </div>
+                  {/* Idle remarks — pending count badge + most recent filled one */}
+                  {(() => {
+                    const idleBreaks = (rec.breaks || []).filter(b => b.reason === "Auto Idle");
+                    if (idleBreaks.length === 0) return null;
+                    const pendingCount = idleBreaks.filter(b => b.remarkStatus === "pending").length;
+                    const lastFilled   = [...idleBreaks].reverse().find(b => b.remarkStatus === "filled");
+                    return (
+                      <div className="flex items-center gap-1.5 mt-1 text-[10px] flex-wrap">
+                        {pendingCount > 0 && (
+                          <span className="inline-flex items-center gap-1 font-bold text-amber-600 bg-amber-50 dark:bg-amber-950/40 px-1.5 py-0.5 rounded-full">
+                            <AlertTriangle className="w-2.5 h-2.5" /> {pendingCount} idle remark{pendingCount > 1 ? "s" : ""} pending
+                          </span>
+                        )}
+                        {lastFilled && (
+                          <span className="text-gray-400 italic truncate max-w-[160px]" title={lastFilled.remark}>
+                            "{lastFilled.remark}"
+                          </span>
+                        )}
+                      </div>
+                    );
+                  })()}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}

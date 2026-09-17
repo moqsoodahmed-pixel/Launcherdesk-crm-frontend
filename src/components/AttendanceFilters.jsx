@@ -1,0 +1,169 @@
+import { useState, useEffect } from "react";
+import { fetchAttendanceUsers } from "../services/attendanceService";
+
+const STATUS_OPTIONS = [
+  { value: "",         label: "All Statuses" },
+  { value: "present",  label: "Present" },
+  { value: "absent",   label: "Absent" },
+  { value: "late",     label: "Late" },
+  { value: "half_day", label: "Half-Day" },
+  { value: "leave",    label: "Leave" },
+];
+
+function getQuickRange(type) {
+  // Use local date to avoid UTC timezone shift (critical for IST +5:30)
+  const now = new Date();
+  const localToday = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+
+  const localDate = (d) =>
+    `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+
+  if (type === "today") return { startDate: localToday, endDate: localToday };
+
+if (type === "week") {
+  const start = new Date(now);
+  start.setDate(now.getDate() - 7); // today minus 7 days
+  return {
+    startDate: localDate(start),   // ← use localDate, not toISOString
+    endDate:   localToday,
+  };
+}
+
+  if (type === "month") {
+    const y = now.getFullYear(), m = now.getMonth();
+    return {
+      startDate: localDate(new Date(y, m, 1)),
+      endDate:   localToday, // ← today, not end of month
+    };
+  }
+
+  if (type === "year") {
+    return {
+      startDate: `${now.getFullYear()}-01-01`,
+      endDate:   localToday, // ← today, not Dec 31
+    };
+  }
+
+  return { startDate: localToday, endDate: localToday };
+}
+
+export default function AttendanceFilters({ filters, onChange }) {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    fetchAttendanceUsers()
+      .then(setUsers)
+      .catch(() => {});
+  }, []);
+
+  const set = (key, val) =>
+    onChange({ ...filters, [key]: val, quick: "" });
+
+  const applyQuick = (type) => {
+    const { startDate, endDate } = getQuickRange(type);
+    onChange({ ...filters, startDate, endDate, quick: type });
+  };
+
+  const reset = () => {
+    const today = new Date().toISOString().slice(0, 10);
+    onChange({ startDate: today, endDate: today, userId: "", crmStatus: "", quick: "today" });
+  };
+
+  const QUICK_BTNS = [
+    { label: "Today", key: "today" },
+    { label: "Week",  key: "week"  },
+    { label: "Month", key: "month" },
+    { label: "Year",  key: "year"  },
+  ];
+
+  const inputCls =
+    "text-[12px] border border-gray-200 dark:border-white/10 bg-white dark:bg-[#0D0F14] rounded-lg px-3 py-1.5 text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-400/50";
+
+  return (
+    <div className="bg-white dark:bg-[#1A1D27] border border-[#E4E7EF] dark:border-[#262A38] rounded-2xl p-4 mb-4">
+      {/* Quick range buttons */}
+      <div className="flex flex-wrap gap-2 mb-3">
+        {QUICK_BTNS.map(({ label, key }) => (
+          <button
+            key={key}
+            onClick={() => applyQuick(key)}
+            className={`px-3 py-1.5 rounded-lg text-[12px] font-semibold transition
+              ${filters.quick === key
+                ? "bg-indigo-600 text-white shadow"
+                : "bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 hover:bg-indigo-50 dark:hover:bg-indigo-950/30 hover:text-indigo-600"
+              }`}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+
+      {/* Filter row */}
+      <div className="flex flex-wrap gap-3 items-end">
+        <div className="flex flex-col gap-1">
+          <label className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">From</label>
+          <input
+            type="date"
+            value={filters.startDate}
+            max={filters.endDate || new Date().toISOString().slice(0, 10)}
+            onChange={e => set("startDate", e.target.value)}
+            className={inputCls}
+          />
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <label className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">To</label>
+          <input
+            type="date"
+            value={filters.endDate}
+            min={filters.startDate}
+            max={new Date().toISOString().slice(0, 10)}
+            onChange={e => set("endDate", e.target.value)}
+            className={inputCls}
+          />
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <label className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Employee</label>
+          <select
+            value={filters.userId || ""}
+            onChange={e => set("userId", e.target.value)}
+            className={inputCls}
+          >
+            <option value="">All Employees</option>
+            {users.map(u => (
+              <option key={u._id} value={u._id}>{u.name}</option>
+            ))}
+          </select>
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <label className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Status</label>
+          <select
+            value={filters.crmStatus || ""}
+            onChange={e => set("crmStatus", e.target.value)}
+            className={inputCls}
+          >
+            {STATUS_OPTIONS.map(o => (
+              <option key={o.value} value={o.value}>{o.label}</option>
+            ))}
+          </select>
+        </div>
+
+        <button
+          onClick={reset}
+          className="px-3 py-1.5 rounded-lg text-[12px] font-semibold bg-gray-100 dark:bg-white/5 text-gray-500 dark:text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/20 transition"
+        >
+          Reset
+        </button>
+      </div>
+
+      {/* Active range display */}
+      {(filters.startDate || filters.endDate) && (
+        <p className="mt-2 text-[11px] text-indigo-500 font-medium">
+          Showing: {filters.startDate} → {filters.endDate}
+        </p>
+      )}
+    </div>
+  );
+}
