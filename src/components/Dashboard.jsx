@@ -153,9 +153,9 @@ function LineChart({ data1, data2, labels }) {
   useEffect(() => {
     if (!canvasRef.current || !window.Chart) return;
     const dark      = isDarkMode();
-    const textColor = dark ? "#9DA3BB" : "#6B7280";
+    const textColor = dark ? "#9DA3BB" : "#64748B";
     const gridColor = dark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)";
-    const bgColor   = dark ? "#1A1D27" : "#ffffff";
+    const bgColor   = dark ? "#24303F" : "#ffffff";
 
     if (chartRef.current) { chartRef.current.destroy(); chartRef.current = null; }
 
@@ -167,13 +167,13 @@ function LineChart({ data1, data2, labels }) {
           {
             label: "New leads",
             data: data1,
-            borderColor: "#2563EB",
+            borderColor: "#3C50E0",
             backgroundColor: "rgba(37,99,235,0.08)",
             fill: true,
             tension: 0.4,
             pointRadius: 4,
             pointHoverRadius: 6,
-            pointBackgroundColor: "#2563EB",
+            pointBackgroundColor: "#3C50E0",
             pointBorderColor: bgColor,
             pointBorderWidth: 2,
             borderWidth: 2,
@@ -202,10 +202,10 @@ function LineChart({ data1, data2, labels }) {
         plugins: {
           legend: { display: false },
           tooltip: {
-            backgroundColor: dark ? "#1A1D27" : "#ffffff",
-            titleColor: dark ? "#F0F2FA" : "#0F1117",
-            bodyColor: dark ? "#9DA3BB" : "#6B7280",
-            borderColor: dark ? "#262A38" : "#E5E7EB",
+            backgroundColor: dark ? "#24303F" : "#ffffff",
+            titleColor: dark ? "#FFFFFF" : "#1C2434",
+            bodyColor: dark ? "#9DA3BB" : "#64748B",
+            borderColor: dark ? "#2E3A47" : "#E2E8F0",
             borderWidth: 1,
             padding: 10,
             cornerRadius: 8,
@@ -263,8 +263,8 @@ function DonutChart({ segments }) {
   useEffect(() => {
     if (!canvasRef.current || !window.Chart) return;
     const dark       = isDarkMode();
-    const emptyColor = dark ? "#262A38" : "#E5E7EB";
-    const borderCol  = dark ? "#1A1D27" : "#ffffff";
+    const emptyColor = dark ? "#2E3A47" : "#E2E8F0";
+    const borderCol  = dark ? "#24303F" : "#ffffff";
 
     if (chartRef.current) { chartRef.current.destroy(); chartRef.current = null; }
 
@@ -288,10 +288,10 @@ function DonutChart({ segments }) {
           legend: { display: false },
           tooltip: {
             enabled: !allZero,
-            backgroundColor: dark ? "#1A1D27" : "#ffffff",
-            titleColor: dark ? "#F0F2FA" : "#0F1117",
-            bodyColor: dark ? "#9DA3BB" : "#6B7280",
-            borderColor: dark ? "#262A38" : "#E5E7EB",
+            backgroundColor: dark ? "#24303F" : "#ffffff",
+            titleColor: dark ? "#FFFFFF" : "#1C2434",
+            bodyColor: dark ? "#9DA3BB" : "#64748B",
+            borderColor: dark ? "#2E3A47" : "#E2E8F0",
             borderWidth: 1,
             padding: 10,
             cornerRadius: 8,
@@ -308,7 +308,7 @@ function DonutChart({ segments }) {
   useEffect(() => {
     if (!chartRef.current) return;
     const dark       = isDarkMode();
-    const emptyColor = dark ? "#262A38" : "#E5E7EB";
+    const emptyColor = dark ? "#2E3A47" : "#E2E8F0";
     chartRef.current.data.labels = allZero ? ["No data"] : segments.map((s) => s.label);
     chartRef.current.data.datasets[0].data = allZero ? [1] : values;
     chartRef.current.data.datasets[0].backgroundColor = allZero ? [emptyColor] : colors;
@@ -324,7 +324,7 @@ function DonutChart({ segments }) {
 }
 
 // ── Modal Overlay ─────────────────────────────────────────────────────────────
-function Modal({ open, onClose, title, subtitle, children, accentColor = "#2563EB" }) {
+function Modal({ open, onClose, title, subtitle, children, accentColor = "#3C50E0" }) {
   useEffect(() => {
     if (!open) return;
     const handleKey = (e) => { if (e.key === "Escape") onClose(); };
@@ -350,29 +350,29 @@ function Modal({ open, onClose, title, subtitle, children, accentColor = "#2563E
       />
       <div
         className="relative z-10 w-full sm:max-w-2xl max-h-[90vh] sm:max-h-[85vh] flex flex-col
-          bg-white dark:bg-[#13161E]
-          rounded-t-3xl sm:rounded-2xl
-          border border-[#E5E7EB] dark:border-[#262A38]
+          bg-white dark:bg-[#1A222C]
+          rounded-t-3xl sm:rounded-xl
+          border border-[#E2E8F0] dark:border-[#2E3A47]
           shadow-2xl overflow-hidden"
         style={{ animation: "slideUp 0.22s cubic-bezier(0.4,0,0.2,1) both" }}
       >
         <div className="h-1 w-full shrink-0" style={{ background: accentColor }} />
         <div className="flex justify-center pt-2 pb-0 sm:hidden">
-          <div className="w-10 h-1 rounded-full bg-[#E5E7EB] dark:bg-[#262A38]" />
+          <div className="w-10 h-1 rounded-full bg-[#E2E8F0] dark:bg-[#2E3A47]" />
         </div>
-        <div className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 border-b border-[#F0F2FA] dark:border-[#1E2130] shrink-0">
+        <div className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 border-b border-[#FFFFFF] dark:border-[#1E2130] shrink-0">
           <div className="min-w-0">
-            <h2 className="text-[15px] sm:text-[16px] font-bold text-[#0F1117] dark:text-[#F0F2FA] truncate">{title}</h2>
+            <h2 className="text-[15px] sm:text-[16px] font-bold text-[#1C2434] dark:text-[#FFFFFF] truncate">{title}</h2>
             {subtitle && (
-              <p className="text-[11px] sm:text-[12px] text-[#6B7280] dark:text-[#565C75] mt-0.5 truncate">{subtitle}</p>
+              <p className="text-[11px] sm:text-[12px] text-[#64748B] dark:text-[#565C75] mt-0.5 truncate">{subtitle}</p>
             )}
           </div>
           <button
             onClick={onClose}
             className="w-8 h-8 flex items-center justify-center rounded-xl ml-3 shrink-0
-              text-[#6B7280] dark:text-[#565C75]
-              hover:bg-[#F3F4F6] dark:hover:bg-[#1A1D27]
-              hover:text-[#0F1117] dark:hover:text-[#F0F2FA]
+              text-[#64748B] dark:text-[#565C75]
+              hover:bg-[#F1F5F9] dark:hover:bg-[#24303F]
+              hover:text-[#1C2434] dark:hover:text-[#FFFFFF]
               transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
             aria-label="Close"
           >
@@ -398,7 +398,7 @@ function Modal({ open, onClose, title, subtitle, children, accentColor = "#2563E
 function heatFor(count) {
   if (count >= 10) return { bg: "bg-red-50 dark:bg-red-950/40",    text: "text-red-600 dark:text-red-400",    bar: "#DC2626", label: "High" };
   if (count >= 5)  return { bg: "bg-amber-50 dark:bg-amber-950/40", text: "text-amber-600 dark:text-amber-400", bar: "#D97706", label: "Med"  };
-  return               { bg: "bg-blue-50 dark:bg-blue-950/30", text: "text-blue-600 dark:text-blue-400", bar: "#2563EB", label: "Low"  };
+  return               { bg: "bg-blue-50 dark:bg-blue-950/30", text: "text-blue-600 dark:text-blue-400", bar: "#3C50E0", label: "Low"  };
 }
 
 // ── Admin-level lead list (drill-down, shared by phone & email reveal modals) ─
@@ -433,8 +433,8 @@ function AdminLeadRevealList({ leads, onBack, adminName, maskFn, revealIcon: Rev
           All Admins
         </button>
         <span className="text-[#D1D5DB] dark:text-[#374151]">·</span>
-        <span className="text-[13px] font-bold text-[#0F1117] dark:text-[#F0F2FA] truncate">{adminName}</span>
-        <span className="ml-auto shrink-0 text-[11px] font-semibold text-[#6B7280] dark:text-[#565C75]">
+        <span className="text-[13px] font-bold text-[#1C2434] dark:text-[#FFFFFF] truncate">{adminName}</span>
+        <span className="ml-auto shrink-0 text-[11px] font-semibold text-[#64748B] dark:text-[#565C75]">
           {leads.length} lead{leads.length !== 1 ? "s" : ""}
         </span>
       </div>
@@ -448,9 +448,9 @@ function AdminLeadRevealList({ leads, onBack, adminName, maskFn, revealIcon: Rev
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full pl-9 pr-4 py-2.5 rounded-xl text-[13px]
-              bg-[#F8F9FC] dark:bg-[#1A1D27]
-              border border-[#E5E7EB] dark:border-[#262A38]
-              text-[#0F1117] dark:text-[#F0F2FA]
+              bg-[#F1F5F9] dark:bg-[#24303F]
+              border border-[#E2E8F0] dark:border-[#2E3A47]
+              text-[#1C2434] dark:text-[#FFFFFF]
               placeholder:text-[#9CA3AF] dark:placeholder:text-[#565C75]
               focus:outline-none focus:ring-2 focus:border-blue-500
               transition-colors"
@@ -459,7 +459,7 @@ function AdminLeadRevealList({ leads, onBack, adminName, maskFn, revealIcon: Rev
         </div>
       )}
 
-      <div className="flex items-center justify-between px-3 pb-2 mb-1 border-b border-[#F0F2FA] dark:border-[#1E2130]">
+      <div className="flex items-center justify-between px-3 pb-2 mb-1 border-b border-[#FFFFFF] dark:border-[#1E2130]">
         <span className="text-[10px] font-semibold uppercase tracking-wider text-[#9CA3AF] dark:text-[#565C75]">Lead</span>
         <span className="text-[10px] font-semibold uppercase tracking-wider text-[#9CA3AF] dark:text-[#565C75]">Reveals</span>
       </div>
@@ -467,7 +467,7 @@ function AdminLeadRevealList({ leads, onBack, adminName, maskFn, revealIcon: Rev
       {filtered.length === 0 ? (
         <div className="py-10 text-center">
           <RevealIcon className="w-8 h-8 mx-auto mb-2 text-[#D1D5DB] dark:text-[#374151]" />
-          <p className="text-[13px] text-[#6B7280] dark:text-[#565C75]">
+          <p className="text-[13px] text-[#64748B] dark:text-[#565C75]">
             {search ? "No leads match your search." : "No reveals for this admin."}
           </p>
         </div>
@@ -480,8 +480,8 @@ function AdminLeadRevealList({ leads, onBack, adminName, maskFn, revealIcon: Rev
               <div
                 key={i}
                 className="flex items-center gap-3 px-3 py-3 rounded-xl
-                  bg-[#F8F9FC] dark:bg-[#1A1D27]
-                  border border-[#E5E7EB] dark:border-[#262A38]
+                  bg-[#F1F5F9] dark:bg-[#24303F]
+                  border border-[#E2E8F0] dark:border-[#2E3A47]
                   transition-colors"
                 style={{ "--hover-border": accentColor }}
               >
@@ -497,9 +497,9 @@ function AdminLeadRevealList({ leads, onBack, adminName, maskFn, revealIcon: Rev
                   </span>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-[13px] font-semibold text-[#0F1117] dark:text-[#F0F2FA] truncate">{item.name || "—"}</p>
+                  <p className="text-[13px] font-semibold text-[#1C2434] dark:text-[#FFFFFF] truncate">{item.name || "—"}</p>
                   <p className="text-[11px] font-mono text-[#8B92A9] mt-0.5">{maskFn(item.mobile || item.email)}</p>
-                  <div className="mt-1.5 h-1 bg-[#E5E7EB] dark:bg-[#262A38] rounded-full overflow-hidden">
+                  <div className="mt-1.5 h-1 bg-[#E2E8F0] dark:bg-[#2E3A47] rounded-full overflow-hidden">
                     <div className="h-full rounded-full transition-all duration-500" style={{ width: `${pct}%`, background: heat.bar }} />
                   </div>
                 </div>
@@ -562,11 +562,11 @@ function RevealModal({
         ) : adminList.length === 0 ? (
           <div className="py-12 text-center">
             <RevealIcon className="w-10 h-10 mx-auto mb-3 text-[#D1D5DB] dark:text-[#374151]" />
-            <p className="text-[14px] text-[#6B7280] dark:text-[#565C75]">No {title.toLowerCase()} recorded yet.</p>
+            <p className="text-[14px] text-[#64748B] dark:text-[#565C75]">No {title.toLowerCase()} recorded yet.</p>
           </div>
         ) : (
           <div className="space-y-2">
-            <div className="flex items-center justify-between px-3 pb-2 mb-1 border-b border-[#F0F2FA] dark:border-[#1E2130]">
+            <div className="flex items-center justify-between px-3 pb-2 mb-1 border-b border-[#FFFFFF] dark:border-[#1E2130]">
               <span className="text-[10px] font-semibold uppercase tracking-wider text-[#9CA3AF] dark:text-[#565C75]">Admin</span>
               <span className="text-[10px] font-semibold uppercase tracking-wider text-[#9CA3AF] dark:text-[#565C75]">Reveals</span>
             </div>
@@ -582,8 +582,8 @@ function RevealModal({
                     key={i}
                     onClick={() => setSelectedAdmin(admin)}
                     className="w-full text-left group flex items-center gap-3 sm:gap-4 px-3 py-3.5 rounded-xl
-                      bg-[#F8F9FC] dark:bg-[#1A1D27]
-                      border border-[#E5E7EB] dark:border-[#262A38]
+                      bg-[#F1F5F9] dark:bg-[#24303F]
+                      border border-[#E2E8F0] dark:border-[#2E3A47]
                       hover:bg-white dark:hover:bg-[#1E2130]
                       transition-all duration-150 focus:outline-none focus-visible:ring-2"
                   >
@@ -598,7 +598,7 @@ function RevealModal({
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
-                        <p className="text-[13px] font-semibold text-[#0F1117] dark:text-[#F0F2FA] truncate">
+                        <p className="text-[13px] font-semibold text-[#1C2434] dark:text-[#FFFFFF] truncate">
                           {admin.adminName || "Unknown Admin"}
                         </p>
                         {admin.adminEmail && (
@@ -608,11 +608,11 @@ function RevealModal({
                         )}
                       </div>
                       <div className="flex items-center gap-3 mt-0.5">
-                        <span className="text-[11px] text-[#6B7280] dark:text-[#565C75]">
+                        <span className="text-[11px] text-[#64748B] dark:text-[#565C75]">
                           {admin.leadsRevealed || 0} unique lead{(admin.leadsRevealed || 0) !== 1 ? "s" : ""}
                         </span>
                       </div>
-                      <div className="mt-1.5 h-1 bg-[#E5E7EB] dark:bg-[#262A38] rounded-full overflow-hidden">
+                      <div className="mt-1.5 h-1 bg-[#E2E8F0] dark:bg-[#2E3A47] rounded-full overflow-hidden">
                         <div
                           className="h-full rounded-full transition-all duration-500"
                           style={{ width: `${pct}%`, background: heat.bar }}
@@ -647,11 +647,11 @@ function RevealModal({
       {topRevealed.length === 0 ? (
         <div className="py-12 text-center">
           <RevealIcon className="w-10 h-10 mx-auto mb-3 text-[#D1D5DB] dark:text-[#374151]" />
-          <p className="text-[14px] text-[#6B7280] dark:text-[#565C75]">No {title.toLowerCase()} recorded yet.</p>
+          <p className="text-[14px] text-[#64748B] dark:text-[#565C75]">No {title.toLowerCase()} recorded yet.</p>
         </div>
       ) : (
         <div className="space-y-2">
-          <div className="flex items-center justify-between px-3 pb-1 mb-1 border-b border-[#F0F2FA] dark:border-[#1E2130]">
+          <div className="flex items-center justify-between px-3 pb-1 mb-1 border-b border-[#FFFFFF] dark:border-[#1E2130]">
             <span className="text-[11px] font-semibold uppercase tracking-wider text-[#9CA3AF] dark:text-[#565C75]">Lead</span>
             <span className="text-[11px] font-semibold uppercase tracking-wider text-[#9CA3AF] dark:text-[#565C75]">Views</span>
           </div>
@@ -659,12 +659,12 @@ function RevealModal({
             const heat = heatFor(item.count);
             const pct  = Math.round((item.count / maxCount) * 100);
             return (
-              <div key={i} className="group flex items-center gap-3 sm:gap-4 px-3 py-3 rounded-xl hover:bg-[#F8F9FC] dark:hover:bg-[#1A1D27] transition-colors">
+              <div key={i} className="group flex items-center gap-3 sm:gap-4 px-3 py-3 rounded-xl hover:bg-[#F1F5F9] dark:hover:bg-[#24303F] transition-colors">
                 <span className="w-5 sm:w-6 text-[12px] font-bold text-[#9CA3AF] dark:text-[#565C75] shrink-0 tabular-nums text-center">{i + 1}</span>
                 <div className="flex-1 min-w-0">
-                  <p className="text-[13px] font-semibold text-[#0F1117] dark:text-[#F0F2FA] truncate">{item.name}</p>
+                  <p className="text-[13px] font-semibold text-[#1C2434] dark:text-[#FFFFFF] truncate">{item.name}</p>
                   <p className="text-[11px] text-[#8B92A9] font-mono mt-0.5">{maskFn(item.email || item.mobile)}</p>
-                  <div className="mt-1.5 h-1 bg-[#E5E7EB] dark:bg-[#262A38] rounded-full overflow-hidden w-full">
+                  <div className="mt-1.5 h-1 bg-[#E2E8F0] dark:bg-[#2E3A47] rounded-full overflow-hidden w-full">
                     <div className="h-full rounded-full transition-all duration-500" style={{ width: `${pct}%`, background: heat.bar }} />
                   </div>
                 </div>
@@ -739,7 +739,7 @@ function LeadsDetailModal({ open, onClose, title, leads, accentColor, TitleIcon 
     "Converted":      { bg: "bg-green-50 dark:bg-green-950/40",  text: "text-green-700 dark:text-green-400",  dot: "#16A34A" },
     "In Progress":    { bg: "bg-amber-50 dark:bg-amber-950/40",   text: "text-amber-700 dark:text-amber-400",  dot: "#D97706" },
     "Not Interested": { bg: "bg-red-50 dark:bg-red-950/40",       text: "text-red-700 dark:text-red-400",      dot: "#DC2626" },
-    "New":            { bg: "bg-blue-50 dark:bg-blue-950/30",     text: "text-blue-700 dark:text-blue-400",    dot: "#2563EB" },
+    "New":            { bg: "bg-blue-50 dark:bg-blue-950/30",     text: "text-blue-700 dark:text-blue-400",    dot: "#3C50E0" },
   };
 
   return (
@@ -759,9 +759,9 @@ function LeadsDetailModal({ open, onClose, title, leads, accentColor, TitleIcon 
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full pl-9 pr-4 py-2.5 rounded-xl text-[13px]
-              bg-[#F8F9FC] dark:bg-[#1A1D27]
-              border border-[#E5E7EB] dark:border-[#262A38]
-              text-[#0F1117] dark:text-[#F0F2FA]
+              bg-[#F1F5F9] dark:bg-[#24303F]
+              border border-[#E2E8F0] dark:border-[#2E3A47]
+              text-[#1C2434] dark:text-[#FFFFFF]
               placeholder:text-[#9CA3AF] dark:placeholder:text-[#565C75]
               focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500
               transition-colors"
@@ -772,7 +772,7 @@ function LeadsDetailModal({ open, onClose, title, leads, accentColor, TitleIcon 
       {filtered.length === 0 ? (
         <div className="py-12 text-center">
           {TitleIcon && <TitleIcon className="w-10 h-10 mx-auto mb-3 text-[#D1D5DB] dark:text-[#374151]" />}
-          <p className="text-[14px] text-[#6B7280] dark:text-[#565C75]">
+          <p className="text-[14px] text-[#64748B] dark:text-[#565C75]">
             {search ? "No leads match your search." : "No leads found."}
           </p>
         </div>
@@ -784,8 +784,8 @@ function LeadsDetailModal({ open, onClose, title, leads, accentColor, TitleIcon 
               <div
                 key={lead.id || i}
                 className="flex items-center gap-3 px-3 sm:px-4 py-3 sm:py-3.5 rounded-xl
-                  bg-[#F8F9FC] dark:bg-[#1A1D27]
-                  border border-[#E5E7EB] dark:border-[#262A38]
+                  bg-[#F1F5F9] dark:bg-[#24303F]
+                  border border-[#E2E8F0] dark:border-[#2E3A47]
                   hover:border-blue-300 dark:hover:border-blue-800
                   transition-colors"
               >
@@ -798,7 +798,7 @@ function LeadsDetailModal({ open, onClose, title, leads, accentColor, TitleIcon 
 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <p className="text-[13px] font-semibold text-[#0F1117] dark:text-[#F0F2FA] truncate">
+                    <p className="text-[13px] font-semibold text-[#1C2434] dark:text-[#FFFFFF] truncate">
                       {lead.name || "—"}
                     </p>
                     <span className={`inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full ${sc.bg} ${sc.text}`}>
@@ -807,7 +807,7 @@ function LeadsDetailModal({ open, onClose, title, leads, accentColor, TitleIcon 
                     </span>
                   </div>
                   <div className="flex items-center gap-2 mt-0.5 flex-wrap">
-                    <span className="flex items-center gap-1 text-[11px] text-[#6B7280] dark:text-[#565C75]">
+                    <span className="flex items-center gap-1 text-[11px] text-[#64748B] dark:text-[#565C75]">
                       <Users className="w-3 h-3 shrink-0" />
                       <span className="font-medium text-[#374151] dark:text-[#9DA3BB] truncate max-w-[100px]">
                         {lead.agent || "Unassigned"}
@@ -856,15 +856,15 @@ function KpiCard({ label, value, sub, up, IconComponent, variant = "blue", onCli
       role={clickable ? "button" : undefined}
       tabIndex={clickable ? 0 : undefined}
       onKeyDown={clickable ? (e) => e.key === "Enter" && onClick?.() : undefined}
-      className={`bg-white dark:bg-[#1A1D27] border border-[#E5E7EB] dark:border-[#262A38]
-        rounded-2xl p-4 sm:p-5 transition-all duration-200
+      className={`bg-white dark:bg-[#24303F] border border-[#E2E8F0] dark:border-[#2E3A47]
+        rounded-xl p-4 sm:p-5 transition-all duration-200
         ${clickable
           ? `cursor-pointer hover:shadow-lg hover:ring-2 ${s.ring} hover:-translate-y-0.5 active:translate-y-0 select-none group`
           : "hover:shadow-md"
         }`}
     >
       <div className="flex items-start justify-between mb-2 sm:mb-3">
-        <span className="text-[10px] sm:text-[11px] font-semibold text-[#6B7280] dark:text-[#565C75] uppercase tracking-wider leading-tight pr-2">
+        <span className="text-[10px] sm:text-[11px] font-semibold text-[#64748B] dark:text-[#565C75] uppercase tracking-wider leading-tight pr-2">
           {label}
         </span>
         <div className="flex items-center gap-1.5 shrink-0">
@@ -876,7 +876,7 @@ function KpiCard({ label, value, sub, up, IconComponent, variant = "blue", onCli
           </span>
         </div>
       </div>
-      <div className="text-[24px] sm:text-[30px] font-bold text-[#0F1117] dark:text-[#F0F2FA] leading-none mb-1.5 sm:mb-2 tabular-nums">
+      <div className="text-[24px] sm:text-[30px] font-bold text-[#1C2434] dark:text-[#FFFFFF] leading-none mb-1.5 sm:mb-2 tabular-nums">
         {value}
       </div>
       {sub && (
@@ -896,15 +896,15 @@ function KpiCard({ label, value, sub, up, IconComponent, variant = "blue", onCli
 function RangeToggle({ range, onChange }) {
   const RANGES = { today: "Today", week: "Week", month: "Month", quarter: "Qtr" };
   return (
-    <div className="flex items-center gap-0.5 sm:gap-1 bg-[#F3F4F6] dark:bg-[#13161E] border border-[#E5E7EB] dark:border-[#262A38] rounded-xl p-1">
+    <div className="flex items-center gap-0.5 sm:gap-1 bg-[#F1F5F9] dark:bg-[#1A222C] border border-[#E2E8F0] dark:border-[#2E3A47] rounded-xl p-1">
       {Object.entries(RANGES).map(([key, label]) => (
         <button
           key={key}
           onClick={() => onChange(key)}
           className={`px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[11px] sm:text-[12px] font-semibold transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500
             ${range === key
-              ? "bg-white dark:bg-[#1A1D27] text-[#0F1117] dark:text-[#F0F2FA] shadow-sm"
-              : "text-[#6B7280] dark:text-[#565C75] hover:text-[#374151] dark:hover:text-[#9DA3BB]"
+              ? "bg-white dark:bg-[#24303F] text-[#1C2434] dark:text-[#FFFFFF] shadow-sm"
+              : "text-[#64748B] dark:text-[#565C75] hover:text-[#374151] dark:hover:text-[#9DA3BB]"
             }`}
         >
           {label}
@@ -917,7 +917,7 @@ function RangeToggle({ range, onChange }) {
 // ── Error banner ──────────────────────────────────────────────────────────────
 function ErrorBanner({ message, onRetry }) {
   return (
-    <div className="bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 rounded-2xl p-4 mb-6 flex items-center justify-between gap-4">
+    <div className="bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 rounded-xl p-4 mb-6 flex items-center justify-between gap-4">
       <div className="flex items-center gap-3 min-w-0">
         <AlertTriangle className="w-5 h-5 text-red-600 dark:text-red-400 shrink-0" />
         <p className="text-[13px] font-semibold text-red-700 dark:text-red-400 truncate">{message}</p>
@@ -935,17 +935,17 @@ function ErrorBanner({ message, onRetry }) {
 // ── Skeleton ──────────────────────────────────────────────────────────────────
 function Skeleton() {
   return (
-    <div className="bg-[#F8F9FC] dark:bg-[#0D0F14] min-h-screen px-4 sm:px-6 py-6 sm:py-8 animate-pulse">
-      <div className="h-7 sm:h-8 w-40 sm:w-48 bg-[#E5E7EB] dark:bg-[#262A38] rounded-xl mb-2" />
-      <div className="h-4 w-52 sm:w-64 bg-[#E5E7EB] dark:bg-[#262A38] rounded-xl mb-6 sm:mb-8" />
+    <div className="bg-[#F1F5F9] dark:bg-[#1A222C] min-h-screen px-4 sm:px-6 py-6 sm:py-8 animate-pulse">
+      <div className="h-7 sm:h-8 w-40 sm:w-48 bg-[#E2E8F0] dark:bg-[#2E3A47] rounded-xl mb-2" />
+      <div className="h-4 w-52 sm:w-64 bg-[#E2E8F0] dark:bg-[#2E3A47] rounded-xl mb-6 sm:mb-8" />
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-5 sm:mb-6">
         {[...Array(4)].map((_, i) => (
-          <div key={i} className="bg-white dark:bg-[#1A1D27] border border-[#E5E7EB] dark:border-[#262A38] rounded-2xl h-24 sm:h-28" />
+          <div key={i} className="bg-white dark:bg-[#24303F] border border-[#E2E8F0] dark:border-[#2E3A47] rounded-xl h-24 sm:h-28" />
         ))}
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4">
-        <div className="lg:col-span-2 bg-white dark:bg-[#1A1D27] border border-[#E5E7EB] dark:border-[#262A38] rounded-2xl h-56 sm:h-64" />
-        <div className="bg-white dark:bg-[#1A1D27] border border-[#E5E7EB] dark:border-[#262A38] rounded-2xl h-56 sm:h-64" />
+        <div className="lg:col-span-2 bg-white dark:bg-[#24303F] border border-[#E2E8F0] dark:border-[#2E3A47] rounded-xl h-56 sm:h-64" />
+        <div className="bg-white dark:bg-[#24303F] border border-[#E2E8F0] dark:border-[#2E3A47] rounded-xl h-56 sm:h-64" />
       </div>
     </div>
   );
@@ -953,7 +953,7 @@ function Skeleton() {
 
 // ── Source & pipeline colors ──────────────────────────────────────────────────
 const SOURCE_COLORS = {
-  "Google Ads":   "#2563EB",
+  "Google Ads":   "#3C50E0",
   "Campaign":     "#7C3AED",
   "Facebook Ads": "#0891B2",
   "Web Form":     "#16A34A",
@@ -961,7 +961,7 @@ const SOURCE_COLORS = {
 };
 
 const PIPELINE_SEGMENTS_CONFIG = [
-  { key: "new",       label: "New",            color: "#2563EB" },
+  { key: "new",       label: "New",            color: "#3C50E0" },
   { key: "progress",  label: "In progress",    color: "#D97706" },
   { key: "lost",      label: "Not interested", color: "#DC2626" },
   { key: "converted", label: "Converted",      color: "#16A34A" },
@@ -1119,7 +1119,7 @@ export default function Dashboard() {
       return acc;
     }, {});
     const FALLBACK_COLORS = [
-      "#2563EB", "#7C3AED", "#0891B2", "#16A34A",
+      "#3C50E0", "#7C3AED", "#0891B2", "#16A34A",
       "#D97706", "#DC2626", "#0D9488", "#9333EA",
     ];
     return Object.entries(counts)
@@ -1145,7 +1145,7 @@ export default function Dashboard() {
             l.status === "Converted"        ? "#16A34A"
             : l.status === "In Progress"    ? "#D97706"
             : l.status === "Not Interested" ? "#DC2626"
-            : "#2563EB",
+            : "#3C50E0",
         })),
     [allLeads]
   );
@@ -1159,13 +1159,13 @@ export default function Dashboard() {
   if (loading) return <Skeleton />;
 
   return (
-    <div className="bg-[#F8F9FC] dark:bg-[#0D0F14] min-h-screen font-poppins px-4 sm:px-6 py-6 sm:py-8">
+    <div className="bg-[#F1F5F9] dark:bg-[#1A222C] min-h-screen font-poppins px-4 sm:px-6 py-6 sm:py-8">
 
       {/* ── Header ── */}
       <div className="flex flex-wrap items-start sm:items-center justify-between gap-3 mb-6 sm:mb-8">
         <div className="min-w-0">
           <div className="flex items-center gap-2 mb-1 flex-wrap">
-            <h1 className="text-[20px] sm:text-[24px] font-bold text-[#0F1117] dark:text-[#F0F2FA]">Dashboard</h1>
+            <h1 className="text-[20px] sm:text-[24px] font-bold text-[#1C2434] dark:text-[#FFFFFF]">Dashboard</h1>
             <span
               className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide shrink-0
                 ${isSuperAdmin
@@ -1176,7 +1176,7 @@ export default function Dashboard() {
               {isSuperAdmin ? "SuperAdmin" : "Admin"}
             </span>
           </div>
-        <p className="text-[12px] sm:text-[13px] text-[#6B7280] dark:text-[#565C75] truncate">
+        <p className="text-[12px] sm:text-[13px] text-[#64748B] dark:text-[#565C75] truncate">
   Welcome back, {user?.name || "Admin"} ·{" "}
   {isSuperAdmin
     ? `${kpi.total.toLocaleString()} total leads`
@@ -1188,8 +1188,8 @@ export default function Dashboard() {
           <button
             onClick={() => { loadData(true); fetchDashStats(); }}
             disabled={refreshing}
-            className={`p-2 sm:p-2 rounded-xl border border-[#E5E7EB] dark:border-[#262A38] bg-white dark:bg-[#1A1D27]
-              text-[#6B7280] hover:text-[#2563EB] dark:hover:text-[#4F8EF7]
+            className={`p-2 sm:p-2 rounded-xl border border-[#E2E8F0] dark:border-[#2E3A47] bg-white dark:bg-[#24303F]
+              text-[#64748B] hover:text-[#3C50E0] dark:hover:text-[#80CAEE]
               hover:border-blue-300 dark:hover:border-blue-700
               transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500
               ${refreshing ? "opacity-60 cursor-not-allowed" : ""}`}
@@ -1261,16 +1261,16 @@ export default function Dashboard() {
       {/* ── Chart row ── */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4 mb-5 sm:mb-6">
 
-        <div className="lg:col-span-2 bg-white dark:bg-[#1A1D27] border border-[#E5E7EB] dark:border-[#262A38] rounded-2xl p-4 sm:p-5">
+        <div className="lg:col-span-2 bg-white dark:bg-[#24303F] border border-[#E2E8F0] dark:border-[#2E3A47] rounded-xl p-4 sm:p-5">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 sm:mb-5">
             <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-5">
-              <h2 className="text-[13px] sm:text-[14px] font-bold text-[#0F1117] dark:text-[#F0F2FA]">Leads over time</h2>
+              <h2 className="text-[13px] sm:text-[14px] font-bold text-[#1C2434] dark:text-[#FFFFFF]">Leads over time</h2>
               <div className="flex items-center gap-3 sm:gap-4">
-                <span className="flex items-center gap-1.5 text-[11px] text-[#6B7280] dark:text-[#565C75]">
-                  <span className="w-3 h-1.5 rounded-full bg-[#2563EB] inline-block shrink-0" />
+                <span className="flex items-center gap-1.5 text-[11px] text-[#64748B] dark:text-[#565C75]">
+                  <span className="w-3 h-1.5 rounded-full bg-[#3C50E0] inline-block shrink-0" />
                   New leads
                 </span>
-                <span className="flex items-center gap-1.5 text-[11px] text-[#6B7280] dark:text-[#565C75]">
+                <span className="flex items-center gap-1.5 text-[11px] text-[#64748B] dark:text-[#565C75]">
                   <span className="inline-block shrink-0" style={{ width: 14, height: 0, borderTop: "2px dashed #16A34A", verticalAlign: "middle" }} />
                   Converted
                 </span>
@@ -1280,33 +1280,33 @@ export default function Dashboard() {
           </div>
 
           {leads.length === 0 ? (
-            <div className="h-[180px] sm:h-[200px] flex flex-col items-center justify-center gap-2 text-[13px] text-[#6B7280] dark:text-[#565C75]">
+            <div className="h-[180px] sm:h-[200px] flex flex-col items-center justify-center gap-2 text-[13px] text-[#64748B] dark:text-[#565C75]">
               <BarChart2 className="w-8 h-8 opacity-40" />
               No leads in this period
             </div>
           ) : chartReady ? (
             <LineChart data1={chart.new} data2={chart.conv} labels={chart.labels} />
           ) : (
-            <div className="h-[180px] sm:h-[200px] flex items-center justify-center text-[12px] text-[#6B7280] dark:text-[#565C75]">
+            <div className="h-[180px] sm:h-[200px] flex items-center justify-center text-[12px] text-[#64748B] dark:text-[#565C75]">
               Loading chart…
             </div>
           )}
         </div>
 
-        <div className="bg-white dark:bg-[#1A1D27] border border-[#E5E7EB] dark:border-[#262A38] rounded-2xl p-4 sm:p-5">
-          <h2 className="text-[13px] sm:text-[14px] font-bold text-[#0F1117] dark:text-[#F0F2FA] mb-4 sm:mb-5">Pipeline status</h2>
+        <div className="bg-white dark:bg-[#24303F] border border-[#E2E8F0] dark:border-[#2E3A47] rounded-xl p-4 sm:p-5">
+          <h2 className="text-[13px] sm:text-[14px] font-bold text-[#1C2434] dark:text-[#FFFFFF] mb-4 sm:mb-5">Pipeline status</h2>
           <div className="flex items-center gap-4">
             <div className="relative shrink-0" style={{ width: 110, height: 110 }}>
               {chartReady ? (
                 <DonutChart segments={pipelineSegs} />
               ) : (
-                <div className="w-full h-full rounded-full border-4 border-[#E5E7EB] dark:border-[#262A38]" />
+                <div className="w-full h-full rounded-full border-4 border-[#E2E8F0] dark:border-[#2E3A47]" />
               )}
               <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                <span className="text-[18px] sm:text-[20px] font-bold text-[#0F1117] dark:text-[#F0F2FA] leading-none tabular-nums">
+                <span className="text-[18px] sm:text-[20px] font-bold text-[#1C2434] dark:text-[#FFFFFF] leading-none tabular-nums">
                   {pipelineTotal.toLocaleString()}
                 </span>
-                <span className="text-[9px] text-[#6B7280] dark:text-[#565C75] mt-0.5">total</span>
+                <span className="text-[9px] text-[#64748B] dark:text-[#565C75] mt-0.5">total</span>
               </div>
             </div>
             <div className="space-y-2.5 sm:space-y-3 flex-1 min-w-0">
@@ -1314,7 +1314,7 @@ export default function Dashboard() {
                 <div key={s.label} className="flex items-center gap-2">
                   <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full shrink-0" style={{ background: s.color }} />
                   <span className="text-[10px] sm:text-[11px] text-[#4B5563] dark:text-[#9DA3BB] flex-1 leading-none truncate">{s.label}</span>
-                  <span className="text-[11px] sm:text-[12px] font-semibold text-[#0F1117] dark:text-[#F0F2FA] tabular-nums shrink-0">
+                  <span className="text-[11px] sm:text-[12px] font-semibold text-[#1C2434] dark:text-[#FFFFFF] tabular-nums shrink-0">
                     {s.value.toLocaleString()}
                   </span>
                 </div>
@@ -1327,12 +1327,12 @@ export default function Dashboard() {
       {/* ── Bottom row ── */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
 
-        <div className="bg-white dark:bg-[#1A1D27] border border-[#E5E7EB] dark:border-[#262A38] rounded-2xl p-4 sm:p-5">
-          <h2 className="text-[13px] sm:text-[14px] font-bold text-[#0F1117] dark:text-[#F0F2FA] mb-3 sm:mb-4">
+        <div className="bg-white dark:bg-[#24303F] border border-[#E2E8F0] dark:border-[#2E3A47] rounded-xl p-4 sm:p-5">
+          <h2 className="text-[13px] sm:text-[14px] font-bold text-[#1C2434] dark:text-[#FFFFFF] mb-3 sm:mb-4">
             {isSuperAdmin ? "Top employees" : "Employee performance"}
           </h2>
           {agentStats.every((a) => a.leads === 0) ? (
-            <p className="text-[13px] text-[#6B7280] dark:text-[#565C75]">No activity in this period.</p>
+            <p className="text-[13px] text-[#64748B] dark:text-[#565C75]">No activity in this period.</p>
           ) : (
             <div className="space-y-3 sm:space-y-4">
               {agentStats.map((a) => (
@@ -1345,20 +1345,20 @@ export default function Dashboard() {
                       >
                         {a.avatar}
                       </div>
-                      <span className="text-[11px] sm:text-[12px] font-medium text-[#0F1117] dark:text-[#F0F2FA] truncate">{a.name}</span>
+                      <span className="text-[11px] sm:text-[12px] font-medium text-[#1C2434] dark:text-[#FFFFFF] truncate">{a.name}</span>
                     </div>
                     <span className="text-[10px] sm:text-[11px] font-semibold text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-500/10 px-1.5 sm:px-2 py-0.5 rounded-full shrink-0 ml-2">
                       {a.conv} conv
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="flex-1 h-1.5 sm:h-2 bg-[#F3F4F6] dark:bg-[#262A38] rounded-full overflow-hidden">
+                    <div className="flex-1 h-1.5 sm:h-2 bg-[#F1F5F9] dark:bg-[#2E3A47] rounded-full overflow-hidden">
                       <div
                         className="h-full rounded-full transition-all duration-500"
                         style={{ width: `${Math.round((a.leads / maxLeads) * 100)}%`, background: a.color }}
                       />
                     </div>
-                    <span className="text-[10px] sm:text-[11px] text-[#6B7280] dark:text-[#565C75] w-6 sm:w-8 text-right tabular-nums shrink-0">
+                    <span className="text-[10px] sm:text-[11px] text-[#64748B] dark:text-[#565C75] w-6 sm:w-8 text-right tabular-nums shrink-0">
                       {a.leads}
                     </span>
                   </div>
@@ -1368,11 +1368,11 @@ export default function Dashboard() {
           )}
         </div>
 
-        <div className="bg-white dark:bg-[#1A1D27] border border-[#E5E7EB] dark:border-[#262A38] rounded-2xl p-4 sm:p-5">
-          <h2 className="text-[13px] sm:text-[14px] font-bold text-[#0F1117] dark:text-[#F0F2FA] mb-3 sm:mb-4">Leads by source</h2>
+        <div className="bg-white dark:bg-[#24303F] border border-[#E2E8F0] dark:border-[#2E3A47] rounded-xl p-4 sm:p-5">
+          <h2 className="text-[13px] sm:text-[14px] font-bold text-[#1C2434] dark:text-[#FFFFFF] mb-3 sm:mb-4">Leads by source</h2>
           <div className="space-y-2.5 sm:space-y-3">
             {sourceStats.length === 0 ? (
-              <p className="text-[13px] text-[#6B7280] dark:text-[#565C75]">No data for this period.</p>
+              <p className="text-[13px] text-[#64748B] dark:text-[#565C75]">No data for this period.</p>
             ) : (
               sourceStats.map((s) => (
                 <div key={s.label}>
@@ -1382,13 +1382,13 @@ export default function Dashboard() {
                       <span className="text-[11px] sm:text-[12px] text-[#4B5563] dark:text-[#9DA3BB] truncate">{s.label}</span>
                     </div>
                     <div className="flex items-center gap-1.5 shrink-0 ml-2">
-                      <span className="text-[10px] sm:text-[11px] text-[#6B7280] dark:text-[#565C75] tabular-nums">{s.count}</span>
-                      <span className="text-[11px] sm:text-[12px] font-semibold text-[#0F1117] dark:text-[#F0F2FA] tabular-nums w-7 sm:w-8 text-right">
+                      <span className="text-[10px] sm:text-[11px] text-[#64748B] dark:text-[#565C75] tabular-nums">{s.count}</span>
+                      <span className="text-[11px] sm:text-[12px] font-semibold text-[#1C2434] dark:text-[#FFFFFF] tabular-nums w-7 sm:w-8 text-right">
                         {s.pct}%
                       </span>
                     </div>
                   </div>
-                  <div className="h-1 sm:h-1.5 bg-[#F3F4F6] dark:bg-[#262A38] rounded-full overflow-hidden">
+                  <div className="h-1 sm:h-1.5 bg-[#F1F5F9] dark:bg-[#2E3A47] rounded-full overflow-hidden">
                     <div
                       className="h-full rounded-full transition-all duration-500"
                       style={{ width: `${s.pct}%`, background: s.color }}
@@ -1398,24 +1398,24 @@ export default function Dashboard() {
               ))
             )}
           </div>
-          <div className="mt-4 sm:mt-5 pt-3 sm:pt-4 border-t border-[#E5E7EB] dark:border-[#262A38] grid grid-cols-2 gap-2 sm:gap-3">
+          <div className="mt-4 sm:mt-5 pt-3 sm:pt-4 border-t border-[#E2E8F0] dark:border-[#2E3A47] grid grid-cols-2 gap-2 sm:gap-3">
             {[
               { label: "Total leads",  value: allLeads.length },
               { label: "Active users", value: agents.length },
               { label: "Sources",      value: uniqueSources },
               { label: "Campaigns",    value: uniqueCampaigns },
             ].map((s) => (
-              <div key={s.label} className="bg-[#F8F9FC] dark:bg-[#13161E] rounded-xl px-2.5 sm:px-3 py-2 sm:py-2.5">
-                <div className="text-[14px] sm:text-[16px] font-bold text-[#0F1117] dark:text-[#F0F2FA] tabular-nums">{s.value}</div>
-                <div className="text-[9px] sm:text-[10px] text-[#6B7280] dark:text-[#565C75] mt-0.5 truncate">{s.label}</div>
+              <div key={s.label} className="bg-[#F1F5F9] dark:bg-[#1A222C] rounded-xl px-2.5 sm:px-3 py-2 sm:py-2.5">
+                <div className="text-[14px] sm:text-[16px] font-bold text-[#1C2434] dark:text-[#FFFFFF] tabular-nums">{s.value}</div>
+                <div className="text-[9px] sm:text-[10px] text-[#64748B] dark:text-[#565C75] mt-0.5 truncate">{s.label}</div>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="bg-white dark:bg-[#1A1D27] border border-[#E5E7EB] dark:border-[#262A38] rounded-2xl p-4 sm:p-5">
+        <div className="bg-white dark:bg-[#24303F] border border-[#E2E8F0] dark:border-[#2E3A47] rounded-xl p-4 sm:p-5">
           <div className="flex items-center justify-between mb-3 sm:mb-4">
-            <h2 className="text-[13px] sm:text-[14px] font-bold text-[#0F1117] dark:text-[#F0F2FA]">Recent activity</h2>
+            <h2 className="text-[13px] sm:text-[14px] font-bold text-[#1C2434] dark:text-[#FFFFFF]">Recent activity</h2>
             <span className="flex items-center gap-1.5 text-[10px] font-semibold text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-500/10 px-2 py-1 rounded-full shrink-0">
               <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse inline-block" />
               Live
@@ -1423,10 +1423,10 @@ export default function Dashboard() {
           </div>
           <div className="space-y-0">
             {activity.length === 0 ? (
-              <p className="text-[13px] text-[#6B7280] dark:text-[#565C75] py-4">No recent activity.</p>
+              <p className="text-[13px] text-[#64748B] dark:text-[#565C75] py-4">No recent activity.</p>
             ) : (
               activity.map((a, i) => (
-                <div key={i} className="flex gap-2.5 sm:gap-3 py-2.5 sm:py-3 border-b border-[#F3F4F6] dark:border-[#262A38] last:border-0">
+                <div key={i} className="flex gap-2.5 sm:gap-3 py-2.5 sm:py-3 border-b border-[#F1F5F9] dark:border-[#2E3A47] last:border-0">
                   <div className="mt-1.5 w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full shrink-0" style={{ background: a.dot }} />
                   <div className="flex-1 min-w-0">
                     <p className="text-[11px] sm:text-[12px] text-[#4B5563] dark:text-[#9DA3BB] leading-snug truncate">{a.text}</p>

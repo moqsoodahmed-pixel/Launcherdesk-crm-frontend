@@ -56,13 +56,13 @@ const InvoiceTest     = lazy(() => import("./pages/InvoiceTest"));
 // ── Page loader ───────────────────────────────────────────────────────────────
 function PageLoader() {
   return (
-    <div className="flex items-center justify-center h-full min-h-screen bg-[#F0F4FF] dark:bg-[#0D0F14]">
+    <div className="flex items-center justify-center h-full min-h-screen bg-gray-2 dark:bg-boxdark-2">
       <div className="flex flex-col items-center gap-3">
-        <svg className="w-8 h-8 animate-spin text-[#2563EB]" fill="none" viewBox="0 0 24 24">
+        <svg className="w-8 h-8 animate-spin text-primary" fill="none" viewBox="0 0 24 24">
           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
         </svg>
-        <p className="text-[13px] text-[#8B92A9] font-medium">Loading…</p>
+        <p className="text-[13px] text-body dark:text-bodydark font-medium">Loading…</p>
       </div>
     </div>
   );
@@ -320,25 +320,25 @@ function CompanyHeader() {
 
   const roleColor =
     role === "super_admin" || role === "superadmin"
-      ? "bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-500/30"
+      ? "bg-warning/10 text-warning border-warning/20"
       : role === "admin"
-      ? "bg-purple-50 dark:bg-purple-500/10 text-purple-700 dark:text-purple-400 border-purple-200 dark:border-purple-500/30"
-      : "bg-blue-50 dark:bg-blue-500/10 text-blue-700 dark:text-blue-400 border-blue-200 dark:border-blue-500/30";
+      ? "bg-primary/10 text-primary border-primary/20"
+      : "bg-secondary/10 text-blue-600 dark:text-secondary border-secondary/20";
 
   return (
-    <div className="sticky top-0 z-30 flex items-center justify-between gap-2 pl-14 pr-3 sm:pr-5 md:px-5 py-2.5 bg-white/90 dark:bg-[#13161E]/90 backdrop-blur-md border-b border-gray-100 dark:border-white/5 shadow-sm">
-      <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+    <div className="sticky top-0 z-30 flex items-center justify-between gap-2 pl-14 pr-3 sm:pr-6 md:px-6 h-16 bg-white/90 dark:bg-boxdark/90 backdrop-blur-md border-b border-stroke dark:border-strokedark">
+      <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
         <img
           src={headerLogo}
           alt={headerName}
           className="h-7 w-auto max-w-[100px] object-contain shrink-0"
           onError={e => { e.currentTarget.src = "/launcherdesk_logo.svg"; }}
         />
-        <span className="text-sm font-semibold text-gray-700 dark:text-gray-200 tracking-tight truncate max-w-[90px] sm:max-w-[180px]">
+        <span className="text-sm font-semibold text-black dark:text-white tracking-tight truncate max-w-[90px] sm:max-w-[180px]">
           {headerName}
         </span>
       </div>
-      <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+      <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
         <ThemeToggle />
         {/* Notification bell — admin, superadmin, and employees (new-lead alerts) */}
         {(role === 'admin' || role === 'superadmin' || role === 'super_admin' || role === 'user') && (
@@ -357,7 +357,7 @@ function CompanyHeader() {
         {(role === 'admin' || role === 'superadmin' || role === 'super_admin') && (
           <SheetIntegrationAdminSettings />
         )}
-        <span className={`whitespace-nowrap shrink-0 text-[10px] sm:text-[11px] font-semibold px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full border ${roleColor}`}>
+        <span className={`whitespace-nowrap shrink-0 ml-1 text-[10px] sm:text-[11px] font-semibold px-2 sm:px-2.5 py-1 rounded-full border ${roleColor}`}>
           {roleLabel}
         </span>
       </div>
@@ -389,7 +389,7 @@ function AppLayout() {
     <NotificationProvider>
       <TermsGate>
         <ClockInGate>
-          <div className="flex h-screen overflow-hidden">
+          <div className="flex h-screen overflow-hidden bg-gray-2 dark:bg-boxdark-2">
             <Sidebar />
             <main className="flex-1 overflow-hidden flex flex-col min-w-0">
               {/* Expiry / suspension banners — ordered from most to least severe */}

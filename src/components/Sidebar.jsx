@@ -507,7 +507,7 @@ export function Sidebar() {
 
       {/* ── Sidebar ───────────────────────────────────────────────────────── */}
       <div
-        className={`sidebar h-screen flex flex-col bg-white dark:bg-[#13161E] border-r border-gray-100 dark:border-white/5 shadow-sm
+        className={`sidebar h-screen flex flex-col bg-[#1C2434]
           fixed md:sticky inset-y-0 left-0 z-40 top-0
           transition-transform duration-300 ease-in-out
           ${mobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
@@ -515,24 +515,24 @@ export function Sidebar() {
         style={{ width: effMinimized ? "72px" : "260px" }}
       >
         {/* Header — shows dynamic brand logo/name */}
-        <div className="flex items-center justify-between px-4 py-5 border-b border-gray-100 dark:border-white/5 min-w-0">
+        <div className="flex items-center justify-between px-4 py-5 border-b border-white/5 min-w-0">
           <img
             src={companyLogo}
-            className={`h-10 w-auto max-w-[120px] object-contain me-2 ${effMinimized ? "cursor-pointer" : ""}`}
+            className={`h-9 w-9 rounded-lg bg-white p-1 object-contain me-2 ${effMinimized ? "cursor-pointer" : ""}`}
             alt={companyName}
             onClick={() => { if (effMinimized) { localStorage.setItem("sidebar_minimized", "false"); setMinimized(false); } }}
             title={effMinimized ? "Expand sidebar" : undefined}
             onError={e => { e.currentTarget.src = "/launcherdesk_logo.svg"; }}
           />
           {!effMinimized && (
-            <span className="nav-label font-semibold text-lg tracking-widest uppercase text-gray-600 dark:text-gray-500 truncate max-w-[110px]">
+            <span className="nav-label font-semibold text-sm tracking-widest uppercase text-white truncate max-w-[110px]">
               {companyName}
             </span>
           )}
           {!effMinimized && !isMobile && (
             <button
               onClick={() => { localStorage.setItem("sidebar_minimized", "true"); setMinimized(true); }}
-              className="toggle-btn ml-auto p-1.5 rounded-lg text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-white/10"
+              className="toggle-btn ml-auto p-1.5 rounded-lg text-bodydark hover:text-white hover:bg-white/10"
               title="Minimize sidebar"
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
@@ -544,13 +544,13 @@ export function Sidebar() {
 
         {/* Employee Profile */}
         {user && (
-          <div className={`mx-3 mt-3 rounded-xl border bg-gray-50 dark:bg-white/[0.03] ${effMinimized ? "p-2 flex justify-center" : "p-3 flex items-center gap-3"} ${roleStyle.border}`}>
+          <div className={`mx-3 mt-3 rounded-lg border bg-white/[0.03] ${effMinimized ? "p-2 flex justify-center" : "p-3 flex items-center gap-3"} border-white/10`}>
             <div className={`w-8 h-8 rounded-full border flex items-center justify-center text-[11px] font-bold shrink-0 ${roleStyle.bg} ${roleStyle.border} ${roleStyle.text}`}>
               {initials}
             </div>
             {!effMinimized && (
               <div className="flex-1 min-w-0">
-                <p className="text-[12px] font-semibold text-gray-800 dark:text-gray-200 truncate">{user.name}</p>
+                <p className="text-[12px] font-semibold text-white truncate">{user.name}</p>
                 <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full capitalize ${roleStyle.bg} ${roleStyle.text}`}>
                   {user.role}
                 </span>
@@ -572,29 +572,29 @@ export function Sidebar() {
               <Link
                 key={item.to}
                 to={item.to}
-                className={`nav-item flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium
+                className={`nav-item flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium
                   ${isActive
-                    ? "bg-indigo-50 dark:bg-indigo-500/15 text-indigo-600 dark:text-indigo-400"
-                    : "text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-indigo-500/15 hover:text-gray-900 dark:hover:text-indigo-300"
+                    ? "bg-primary/15 text-primary"
+                    : "text-bodydark hover:bg-white/5 hover:text-white"
                   }`}
               >
-                <span className={`icon-wrap relative ${isActive ? "text-indigo-500 dark:text-indigo-400" : ""}`}>
+                <span className={`icon-wrap relative ${isActive ? "text-primary" : ""}`}>
                   {item.icon}
                   {hasOverdue && (
                     <span
-                      className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-red-500 border-2 border-white dark:border-[#13161E] animate-pulse"
+                      className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-red-500 border-2 border-[#1C2434] animate-pulse"
                       title={`${followUpAlerts.overdueCount} overdue follow-up${followUpAlerts.overdueCount > 1 ? "s" : ""}`}
                     />
                   )}
                   {hasToday && (
                     <span
-                      className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-yellow-400 border-2 border-white dark:border-[#13161E]"
+                      className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-yellow-400 border-2 border-[#1C2434]"
                       title={`${followUpAlerts.todayCount} follow-up${followUpAlerts.todayCount > 1 ? "s" : ""} due today`}
                     />
                   )}
                   {hasWaUnread && (
                     <span
-                      className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-red-500 border-2 border-white dark:border-[#13161E]"
+                      className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-red-500 border-2 border-[#1C2434]"
                       title={`${waUnread} unread WhatsApp message${waUnread > 1 ? "s" : ""}`}
                     />
                   )}
@@ -623,7 +623,7 @@ export function Sidebar() {
                   </span>
                 )}
                 {effMinimized && isActive && (
-                  <span className="absolute right-2 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-indigo-500" />
+                  <span className="absolute right-2 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-primary" />
                 )}
                 {effMinimized && (
                   <span className="tooltip absolute left-16 z-50 bg-gray-900 dark:bg-gray-800 text-white text-xs font-medium px-2.5 py-1.5 rounded-lg shadow-xl">
@@ -638,7 +638,7 @@ export function Sidebar() {
         </nav>
 
         {/* Footer */}
-        <div className="px-3 py-4 border-t border-gray-100 dark:border-white/5 flex flex-col gap-1">
+        <div className="px-3 py-4 border-t border-white/5 flex flex-col gap-1">
           {/* Read-only indicator — shown when subscription is not active/trial */}
           {readOnlyMode && !isDeveloper && !effMinimized && readOnlyStyle && (
             <div className={`flex items-center gap-2 px-3 py-2 rounded-xl mb-1 ${readOnlyStyle.bg}`}>
@@ -660,7 +660,7 @@ export function Sidebar() {
           <button
             onClick={() => setShowLogoutModal(true)}
             className={`logout-btn flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium w-full
-              text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 hover:text-red-600 dark:hover:text-red-300
+              text-red-400 hover:bg-red-500/10 hover:text-red-300
               ${effMinimized ? "justify-center" : ""}`}
           >
             <span className="icon-wrap">
