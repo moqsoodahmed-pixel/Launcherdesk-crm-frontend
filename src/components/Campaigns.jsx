@@ -2275,7 +2275,6 @@ function CampaignCard({ c, onSelect, onEdit, onToggle, onDelete, onQualification
 // ── Main Campaigns page ───────────────────────────────────────────────────────
 export default function Campaigns() {
   const { hasFeature } = usePlanFeatures();
-  const { getRole } = require("../data/dataService") ? (() => { try { return require("../data/dataService"); } catch { return {}; } })() : {};
 
   // ── Role detection ──────────────────────────────────────────────────────────
   const isSuperAdmin = (() => {

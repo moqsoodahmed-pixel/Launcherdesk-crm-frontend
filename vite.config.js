@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react'
 // In local dev, all /api calls are proxied to localhost:5000 so you never
 // hit CORS errors. In production (Render) the VITE_API_URL env var is used
 // directly by axiosConfig.js, so this proxy block has no effect there.
-const BACKEND_DEV_URL = 'http://localhost:5000'
+const BACKEND_DEV_URL = process.env.VITE_BACKEND_URL || 'http://localhost:5000'
 
 export default defineConfig({
   plugins: [react()],

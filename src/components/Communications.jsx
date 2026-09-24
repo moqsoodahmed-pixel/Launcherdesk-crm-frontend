@@ -1675,16 +1675,16 @@ function WhatsAppPanel({ currentUser }) {
   };
 
   // FIX: Delete zombie conversations (created when template send failed — "No messages yet")
-  // const deleteConversation = async (convId) => {
-  //   if (!window.confirm("Delete this conversation and all its messages? This cannot be undone.")) return;
-  //   try {
-  //     await axios.delete(`${API_URL}/whatsapp/conversations/${convId}`, authHeaders);
-  //     setConversations((prev) => prev.filter((c) => c._id !== convId));
-  //     if (selected?._id === convId) { setSelected(null); setMessages([]); }
-  //   } catch (err) {
-  //     alert(err.response?.data?.error || "Failed to delete conversation");
-  //   }
-  // };
+  const deleteConversation = async (convId) => {
+    if (!window.confirm("Delete this conversation and all its messages? This cannot be undone.")) return;
+    try {
+      await axios.delete(`${API_URL}/whatsapp/conversations/${convId}`, authHeaders);
+      setConversations((prev) => prev.filter((c) => c._id !== convId));
+      if (selected?._id === convId) { setSelected(null); setMessages([]); }
+    } catch (err) {
+      alert(err.response?.data?.error || "Failed to delete conversation");
+    }
+  };
 
   const filtered = conversations.filter((c) => {
     const matchSearch = !search || c.contactName?.toLowerCase().includes(search.toLowerCase()) || c.waPhone?.includes(search) || c.lead?.name?.toLowerCase().includes(search.toLowerCase());

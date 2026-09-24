@@ -15,43 +15,47 @@ import { clearFeaturesCache } from "./hooks/usePlanFeatures";
 import TelegramSettings from "./components/TelegramSettings";
 import DailyReportTelegramSettings from "./components/DailyReportTelegramSettings";
 import SheetIntegrationAdminSettings from "./components/SheetIntegrationAdminSettings";
+import {
+  Search, Command, Plus, ChevronDown, ChevronRight, Users, Megaphone,
+  MessageSquare, Calendar,
+} from "lucide-react";
 
 // ── Lazy-loaded pages — each becomes its own chunk ────────────────────────────
-const Dashboard      = lazy(() => import("./components/Dashboard"));
-const Campaigns      = lazy(() => import("./components/Campaigns"));
-const Dailyreport    = lazy(() => import("./components/DailyReport"));
+const Dashboard = lazy(() => import("./components/Dashboard"));
+const Campaigns = lazy(() => import("./components/Campaigns"));
+const Dailyreport = lazy(() => import("./components/DailyReport"));
 const NurtureSequenceBuilder = lazy(() => import("./pages/Admin/NurtureSequenceBuilder"));
-const ReportPage     = lazy(() => import("./components/ReportPage"));
-const PerfMarketing  = lazy(() => import("./components/PerformanceMarketingDashboard"));
-const MktLogin       = lazy(() => import("./marketing/MarketingLogin"));
-const MktDashboard   = lazy(() => import("./marketing/MarketingDashboard"));
+const ReportPage = lazy(() => import("./components/ReportPage"));
+const PerfMarketing = lazy(() => import("./components/PerformanceMarketingDashboard"));
+const MktLogin = lazy(() => import("./marketing/MarketingLogin"));
+const MktDashboard = lazy(() => import("./marketing/MarketingDashboard"));
 const AdminLeadsPage = lazy(() => import("./components/AdminLeadsPage"));
 const Communications = lazy(() => import("./components/Communications"));
 const AttendancePage = lazy(() => import("./pages/AttendancePage"));
-const UpgradePlan    = lazy(() => import("./components/UpgradePlan"));
+const UpgradePlan = lazy(() => import("./components/UpgradePlan"));
 
 // User pages
-const UserLogin              = lazy(() => import("./pages/UserLogin"));
-const UserDashboard          = lazy(() => import("./pages/UserDashboard"));
-const UserDailyReport        = lazy(() => import("./pages/UserDailyReport"));
-const UserLeadsPage          = lazy(() => import("./pages/UserLeadsPage"));
-const UserLeadCommunication  = lazy(() => import("./pages/UserLeadCommunication"));
-const UserSheetIntegration   = lazy(() => import("./pages/UserSheetIntegration"));
+const UserLogin = lazy(() => import("./pages/UserLogin"));
+const UserDashboard = lazy(() => import("./pages/UserDashboard"));
+const UserDailyReport = lazy(() => import("./pages/UserDailyReport"));
+const UserLeadsPage = lazy(() => import("./pages/UserLeadsPage"));
+const UserLeadCommunication = lazy(() => import("./pages/UserLeadCommunication"));
+const UserSheetIntegration = lazy(() => import("./pages/UserSheetIntegration"));
 
 // Developer pages
-const DeveloperDashboard         = lazy(() => import("./pages/developer/DeveloperDashboard"));
-const DeveloperCompanies         = lazy(() => import("./pages/developer/Companies"));
-const DeveloperCompanyDetails    = lazy(() => import("./pages/developer/CompanyDetails"));
-const DeveloperSubscriptions     = lazy(() => import("./pages/developer/Subscriptions"));
+const DeveloperDashboard = lazy(() => import("./pages/developer/DeveloperDashboard"));
+const DeveloperCompanies = lazy(() => import("./pages/developer/Companies"));
+const DeveloperCompanyDetails = lazy(() => import("./pages/developer/CompanyDetails"));
+const DeveloperSubscriptions = lazy(() => import("./pages/developer/Subscriptions"));
 const DeveloperPlanCustomization = lazy(() => import("./pages/developer/PlanCustomization"));
-const DeveloperAddonManager      = lazy(() => import("./pages/developer/AddonManagerPage"));
+const DeveloperAddonManager = lazy(() => import("./pages/developer/AddonManagerPage"));
 
 // Auth pages
-const AdminLogin      = lazy(() => import("./pages/UserLogin")); // /admin/login now redirects to the unified login
+const AdminLogin = lazy(() => import("./pages/UserLogin")); // /admin/login now redirects to the unified login
 const SuperAdminLogin = lazy(() => import("./pages/SuperAdminLogin"));
-const ForgotPassword  = lazy(() => import("./pages/ForgotPassword"));
-const CustomReports   = lazy(() => import("./pages/CustomReports"));
-const InvoiceTest     = lazy(() => import("./pages/InvoiceTest"));
+const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
+const CustomReports = lazy(() => import("./pages/CustomReports"));
+const InvoiceTest = lazy(() => import("./pages/InvoiceTest"));
 
 // ── Page loader ───────────────────────────────────────────────────────────────
 function PageLoader() {
@@ -59,8 +63,8 @@ function PageLoader() {
     <div className="flex items-center justify-center h-full min-h-screen bg-gray-2 dark:bg-boxdark-2">
       <div className="flex flex-col items-center gap-3">
         <svg className="w-8 h-8 animate-spin text-primary" fill="none" viewBox="0 0 24 24">
-          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
-          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
         </svg>
         <p className="text-[13px] text-body dark:text-bodydark font-medium">Loading…</p>
       </div>
@@ -102,8 +106,8 @@ class ErrorBoundary extends React.Component {
             {this.state.retrying ? (
               <>
                 <svg className="w-8 h-8 animate-spin text-[#2563EB]" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
                 </svg>
                 <p className="text-[13px] text-[#8B92A9] font-medium">Retrying…</p>
               </>
@@ -130,7 +134,7 @@ class ErrorBoundary extends React.Component {
 
 function getStoredAuth() {
   const token = localStorage.getItem("token");
-  const user  = JSON.parse(localStorage.getItem("user") || "null");
+  const user = JSON.parse(localStorage.getItem("user") || "null");
   return { token, user };
 }
 
@@ -159,7 +163,7 @@ function useAuthNavGuard() {
 // ── Login Guard ────────────────────────────────────────────────────────────────
 function LoginGuard({ children }) {
   const location = useLocation();
-  const navigate  = useNavigate();
+  const navigate = useNavigate();
   const { token, user } = getStoredAuth();
 
   useEffect(() => {
@@ -192,7 +196,7 @@ function DailyReportRoleSwitch() {
 function RootRedirect() {
   const { user } = getStoredAuth();
   if (user?.role === "developer") return <Navigate to="/developer/dashboard" replace />;
-  if (user?.role === "user")      return <Navigate to="/user/dashboard" replace />;
+  if (user?.role === "user") return <Navigate to="/user/dashboard" replace />;
   return <Navigate to="/dashboard" replace />;
 }
 
@@ -213,7 +217,7 @@ function AdminRoute({ children }) {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!token || !user) return <Navigate to="/login" replace />;
-  if (user.role === "user")      return <Navigate to="/user/dashboard" replace />;
+  if (user.role === "user") return <Navigate to="/user/dashboard" replace />;
   if (user.role === "developer") return <Navigate to="/developer/dashboard" replace />;
   return children;
 }
@@ -234,7 +238,7 @@ function SuperAdminRoute({ children }) {
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  if (!token || !user)          return <Navigate to="/login" replace />;
+  if (!token || !user) return <Navigate to="/login" replace />;
   if (!isSuperAdmin(user.role)) return <Navigate to="/dashboard" replace />;
   return children;
 }
@@ -277,10 +281,119 @@ function DeveloperRoute({ children }) {
   return children;
 }
 
+// ── Breadcrumb — purely presentational label lookup, no data fetching ────────
+const ROUTE_LABELS = {
+  dashboard: "Dashboard", leads: "Leads", reportpage: "Report Page",
+  campaigns: "Campaigns", communications: "Communications",
+  "daily-report": "Daily Report", "nurture-sequence": "Lead Nurture",
+  attendance: "Attendance", "custom-reports": "Custom Reports",
+  "upgrade-plan": "Upgrade Plan", user: "Employee", developer: "Developer",
+  companies: "Companies", subscriptions: "Subscriptions",
+  "plan-customization": "Plan Customization", addons: "Add-ons",
+  "sheet-integration": "Excel / Google Sheet",
+};
+function prettifySegment(seg) {
+  return ROUTE_LABELS[seg] || seg.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+}
+function Breadcrumb() {
+  const location = useLocation();
+  const segments = location.pathname.split("/").filter(Boolean);
+  if (segments.length === 0) return null;
+  return (
+    <div className="hidden md:flex items-center gap-1.5 text-[12.5px] min-w-0">
+      <span className="text-slate-400 dark:text-slate-500 font-medium">Launcherdesk</span>
+      {segments.map((seg, i) => (
+        <span key={i} className="flex items-center gap-1.5 min-w-0">
+          <ChevronRight className="w-3 h-3 text-slate-300 dark:text-slate-600 shrink-0" />
+          <span
+            className={`truncate ${i === segments.length - 1 ? "text-slate-700 dark:text-slate-200 font-semibold" : "text-slate-400 dark:text-slate-500"}`}
+          >
+            {prettifySegment(seg)}
+          </span>
+        </span>
+      ))}
+    </div>
+  );
+}
+
+// ── Today's date — a small live label, recomputed on an interval so it never
+// goes stale across midnight if the tab stays open. No API calls involved. ──
+function useTodayLabel() {
+  const [label, setLabel] = React.useState(() =>
+    new Date().toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" })
+  );
+  React.useEffect(() => {
+    const id = setInterval(() => {
+      setLabel(new Date().toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" }));
+    }, 60 * 1000);
+    return () => clearInterval(id);
+  }, []);
+  return label;
+}
+
+// ── Quick create — real navigation shortcuts to the pages where each object
+// is actually created (no fabricated actions, no dead links). ───────────────
+function QuickCreateMenu({ role }) {
+  const [open, setOpen] = React.useState(false);
+  const ref = React.useRef(null);
+  const navigate = useNavigate();
+
+  React.useEffect(() => {
+    const onClick = (e) => { if (ref.current && !ref.current.contains(e.target)) setOpen(false); };
+    document.addEventListener("mousedown", onClick);
+    return () => document.removeEventListener("mousedown", onClick);
+  }, []);
+
+  const isAdmin = role === "admin" || role === "superadmin" || role === "super_admin";
+  const items = isAdmin
+    ? [
+      { label: "Add a lead", hint: "Leads", icon: Users, to: "/leads" },
+      { label: "New campaign", hint: "Campaigns", icon: Megaphone, to: "/campaigns" },
+      { label: "Send a blast", hint: "Communications", icon: MessageSquare, to: "/communications" },
+    ]
+    : [
+      { label: "Add a lead", hint: "My Leads", icon: Users, to: "/leads" },
+    ];
+
+  return (
+    <div className="relative" ref={ref}>
+      <button
+        onClick={() => setOpen((v) => !v)}
+        className="btn-primary btn-sm !px-3"
+      >
+        <Plus className="w-3.5 h-3.5" />
+        <span className="hidden sm:inline">Create</span>
+        <ChevronDown className="w-3 h-3 hidden sm:inline opacity-80" />
+      </button>
+      {open && (
+        <div className="absolute right-0 mt-2 w-56 surface-card !rounded-xl shadow-popover overflow-hidden py-1.5 z-40 animate-scale-in origin-top-right">
+          {items.map((it) => {
+            const Icon = it.icon;
+            return (
+              <button
+                key={it.label}
+                onClick={() => { setOpen(false); navigate(it.to); }}
+                className="w-full flex items-center gap-2.5 px-3 py-2 text-[13px] font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/[0.05] hover:text-slate-900 dark:hover:text-white transition-colors"
+              >
+                <span className="w-7 h-7 rounded-lg bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-300 flex items-center justify-center shrink-0">
+                  <Icon className="w-3.5 h-3.5" />
+                </span>
+                <span className="flex-1 text-left">{it.label}</span>
+                <span className="text-[11px] text-slate-400">{it.hint}</span>
+              </button>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ── Sticky Company Header ──────────────────────────────────────────────────────
 function CompanyHeader() {
   const { user } = getStoredAuth();
   const role = (user?.role || "user").toLowerCase();
+  const todayLabel = useTodayLabel();
 
   const [brand, setBrand] = React.useState(() => {
     try { return JSON.parse(localStorage.getItem("company_brand") || "null"); } catch { return null; }
@@ -297,12 +410,12 @@ function CompanyHeader() {
           localStorage.setItem("company_brand", JSON.stringify(b));
         }
       })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   React.useEffect(() => {
     const handler = () => {
-      try { setBrand(JSON.parse(localStorage.getItem("company_brand") || "null")); } catch {}
+      try { setBrand(JSON.parse(localStorage.getItem("company_brand") || "null")); } catch { }
     };
     window.addEventListener("company_brand_updated", handler);
     return () => window.removeEventListener("company_brand_updated", handler);
@@ -316,29 +429,69 @@ function CompanyHeader() {
 
   const roleLabel =
     role === "super_admin" || role === "superadmin" ? "Super Admin" :
-    role === "admin" ? "Admin" : "Employee";
+      role === "admin" ? "Admin" : "Employee";
 
   const roleColor =
     role === "super_admin" || role === "superadmin"
-      ? "bg-warning/10 text-warning border-warning/20"
+      ? "bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/20"
       : role === "admin"
-      ? "bg-primary/10 text-primary border-primary/20"
-      : "bg-secondary/10 text-blue-600 dark:text-secondary border-secondary/20";
+        ? "bg-violet-50 text-violet-700 border-violet-200 dark:bg-violet-500/10 dark:text-violet-400 dark:border-violet-500/20"
+        : "bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-500/10 dark:text-blue-400 dark:border-blue-500/20";
 
   return (
-    <div className="sticky top-0 z-30 flex items-center justify-between gap-2 pl-14 pr-3 sm:pr-6 md:px-6 h-16 bg-white/90 dark:bg-boxdark/90 backdrop-blur-md border-b border-stroke dark:border-strokedark">
-      <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
-        <img
-          src={headerLogo}
-          alt={headerName}
-          className="h-7 w-auto max-w-[100px] object-contain shrink-0"
-          onError={e => { e.currentTarget.src = "/launcherdesk_logo.svg"; }}
-        />
-        <span className="text-sm font-semibold text-black dark:text-white tracking-tight truncate max-w-[90px] sm:max-w-[180px]">
-          {headerName}
-        </span>
+    <div className="sticky top-0 z-30 flex items-center justify-between gap-2 sm:gap-4 pl-14 pr-3 sm:pr-6 md:px-6 h-16 bg-white/85 dark:bg-[#0F1420]/85 backdrop-blur-xl border-b border-slate-200/70 dark:border-white/[0.06]">
+      {/* ── Left: brand mark + breadcrumb ── */}
+      <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+        <div className="hidden lg:flex items-center gap-2 min-w-0 shrink-0">
+          <img
+            src={headerLogo}
+            alt={headerName}
+            className="h-6 w-auto max-w-[90px] object-contain shrink-0"
+            onError={e => { e.currentTarget.src = "/launcherdesk_logo.svg"; }}
+          />
+          <span className="text-[13px] font-bold text-slate-900 dark:text-white tracking-tight truncate max-w-[140px]">
+            {headerName}
+          </span>
+          <span className="w-px h-4 bg-slate-200 dark:bg-white/10 mx-1 shrink-0" />
+        </div>
+        <Breadcrumb />
       </div>
-      <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
+
+      {/* ── Right: search / actions / integrations / profile ── */}
+      <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+        {/* Command palette trigger — opens the same Cmd/Ctrl+K palette as the sidebar */}
+        <button
+          onClick={() => window.dispatchEvent(new Event("open_command_palette"))}
+          className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl text-[12.5px] text-slate-400
+            bg-slate-100/70 dark:bg-white/[0.05] border border-transparent hover:border-slate-200 dark:hover:border-white/10
+            transition-colors"
+          title="Search (Ctrl/Cmd+K)"
+        >
+          <Search className="w-3.5 h-3.5" />
+          <span className="text-slate-400">Search…</span>
+          <kbd className="flex items-center gap-0.5 text-[10px] font-semibold border border-slate-300/70 dark:border-white/10 rounded px-1 py-0.5 ml-1">
+            <Command className="w-2.5 h-2.5" />K
+          </kbd>
+        </button>
+        <button
+          onClick={() => window.dispatchEvent(new Event("open_command_palette"))}
+          className="icon-btn sm:hidden"
+          title="Search"
+        >
+          <Search className="w-4 h-4" />
+        </button>
+
+        <span className="hidden xl:flex items-center gap-1.5 text-[12px] font-medium text-slate-400 dark:text-slate-500 px-2">
+          <Calendar className="w-3.5 h-3.5" />
+          {todayLabel}
+        </span>
+
+        {(role === 'admin' || role === 'superadmin' || role === 'super_admin') && (
+          <QuickCreateMenu role={role} />
+        )}
+
+        <span className="w-px h-6 bg-slate-200 dark:bg-white/10 mx-0.5 hidden sm:block" />
+
         <ThemeToggle />
         {/* Notification bell — admin, superadmin, and employees (new-lead alerts) */}
         {(role === 'admin' || role === 'superadmin' || role === 'super_admin' || role === 'user') && (
@@ -357,7 +510,7 @@ function CompanyHeader() {
         {(role === 'admin' || role === 'superadmin' || role === 'super_admin') && (
           <SheetIntegrationAdminSettings />
         )}
-        <span className={`whitespace-nowrap shrink-0 ml-1 text-[10px] sm:text-[11px] font-semibold px-2 sm:px-2.5 py-1 rounded-full border ${roleColor}`}>
+        <span className={`whitespace-nowrap shrink-0 ml-0.5 text-[10px] sm:text-[11px] font-semibold px-2 sm:px-2.5 py-1 rounded-full border ${roleColor}`}>
           {roleLabel}
         </span>
       </div>
@@ -440,7 +593,7 @@ function AuthenticatedLayout() {
 
 function UpgradePlanWithMembers(props) {
   const [currentAdmins, setCurrentAdmins] = useState([]);
-  const [currentUsers,  setCurrentUsers]  = useState([]);
+  const [currentUsers, setCurrentUsers] = useState([]);
 
   useEffect(() => {
     api.get("/admin/")
@@ -448,14 +601,14 @@ function UpgradePlanWithMembers(props) {
         const list = Array.isArray(data) ? data : (data?.admins ?? []);
         setCurrentAdmins(list);
       })
-      .catch(() => {});
+      .catch(() => { });
 
     api.get("/admin/company/users")
       .then(({ data }) => {
         const list = Array.isArray(data) ? data : (data?.users ?? []);
         setCurrentUsers(list);
       })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   const UpgradePlanComponent = lazy(() => import("./components/UpgradePlan"));
@@ -489,14 +642,14 @@ function AppInner() {
         <Routes>
           {/* ── Marketing Panel — fully standalone, no CRM auth guards ──── */}
           <Route path="/marketing/login" element={<Suspense fallback={null}><MktLogin /></Suspense>} />
-          <Route path="/marketing" element={<Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="w-6 h-6 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin"/></div>}><MktDashboard /></Suspense>} />
+          <Route path="/marketing" element={<Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="w-6 h-6 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin" /></div>}><MktDashboard /></Suspense>} />
 
           {/* ── CRM routes ─────────────────────────────────────────────────────── */}
 
           {/* ── Public login routes ── */}
-          <Route path="/login"            element={<LoginGuard><UserLogin /></LoginGuard>} />
-          <Route path="/forgot-password"  element={<LoginGuard><ForgotPassword /></LoginGuard>} />
-          <Route path="/admin/login"      element={<Navigate to="/login" replace />} />
+          <Route path="/login" element={<LoginGuard><UserLogin /></LoginGuard>} />
+          <Route path="/forgot-password" element={<LoginGuard><ForgotPassword /></LoginGuard>} />
+          <Route path="/admin/login" element={<Navigate to="/login" replace />} />
           <Route path="/superadmin/login" element={<LoginGuard><SuperAdminLogin /></LoginGuard>} />
 
           {/* ── Authenticated shell — mounts ONCE. Every route below is just an
@@ -509,12 +662,12 @@ function AppInner() {
             {/* ── Admin Dashboard ── */}
             <Route path="/dashboard" element={
               <AdminRoute><Dashboard /></AdminRoute>
-            }/>
+            } />
 
             {/* ── User Dashboard ── */}
             <Route path="/user/dashboard" element={
               <UserRoute><UserDashboard /></UserRoute>
-            }/>
+            } />
 
             {/* ── User Communications (own leads only) ── */}
             <Route path="/user/communications" element={
@@ -523,7 +676,7 @@ function AppInner() {
                   <UserLeadCommunication />
                 </FeatureGate>
               </UserRoute>
-            }/>
+            } />
 
             {/* ── User Excel / Google Sheet integration ── */}
             <Route path="/user/sheet-integration" element={
@@ -532,49 +685,49 @@ function AppInner() {
                   <UserSheetIntegration />
                 </FeatureGate>
               </UserRoute>
-            }/>
+            } />
 
             {/* ── Developer pages ── */}
             <Route path="/developer/dashboard" element={
               <DeveloperRoute><DeveloperDashboard /></DeveloperRoute>
-            }/>
+            } />
             <Route path="/developer/companies" element={
               <DeveloperRoute><DeveloperCompanies /></DeveloperRoute>
-            }/>
+            } />
             <Route path="/developer/companies/:id" element={
               <DeveloperRoute><DeveloperCompanyDetails /></DeveloperRoute>
-            }/>
+            } />
             <Route path="/developer/subscriptions" element={
               <DeveloperRoute><DeveloperSubscriptions /></DeveloperRoute>
-            }/>
+            } />
             <Route path="/developer/plan-customization" element={
               <DeveloperRoute><DeveloperPlanCustomization /></DeveloperRoute>
-            }/>
+            } />
             <Route path="/developer/addons" element={
               <DeveloperRoute><DeveloperAddonManager /></DeveloperRoute>
-            }/>
+            } />
 
             {/* ── Admin-only pages ── */}
             <Route path="/performance-marketing" element={<PerfMarketing />} />
             <Route path="/reportpage" element={
               <AdminRoute><FeatureGate featureKey="basic-reports"><ReportPage /></FeatureGate></AdminRoute>
-            }/>
+            } />
             <Route path="/campaigns" element={
               <AdminRoute><Campaigns /></AdminRoute>
-            }/>
+            } />
             <Route path="/attendance" element={
               <AdminRoute><FeatureGate featureKey="attendance"><AttendancePage /></FeatureGate></AdminRoute>
-            }/>
+            } />
 
             {/* ── Upgrade Plan — SuperAdmin only ── */}
             <Route path="/upgrade-plan" element={
               <SuperAdminRoute><UpgradePlanWithMembers /></SuperAdminRoute>
-            }/>
+            } />
 
             {/* ── Custom Reports — SuperAdmin only ── */}
             <Route path="/custom-reports" element={
               <SuperAdminRoute><CustomReports /></SuperAdminRoute>
-            }/>
+            } />
 
             {/* ── Communications ── */}
             <Route path="/communications" element={
@@ -588,7 +741,7 @@ function AppInner() {
                   <Communications currentUser={user} />
                 </FeatureGate>
               </AdminRoute>
-            }/>
+            } />
 
             {/* ── Leads — role-aware ── */}
             <Route path="/leads" element={<LeadsRoleSwitch />} />
@@ -596,17 +749,17 @@ function AppInner() {
             {/* ── Daily report — role-aware ── */}
             <Route path="/daily-report" element={
               <FeatureGate featureKey="daily-report"><DailyReportRoleSwitch /></FeatureGate>
-            }/>
+            } />
 
             {/* ── Lead nurture sequence — admin only, single-company rollout ── */}
             <Route path="/nurture-sequence" element={
               <AdminRoute><FeatureGate featureKey="leadNurtureSequence"><NurtureSequenceBuilder /></FeatureGate></AdminRoute>
-            }/>
+            } />
 
           </Route>
 
           {/* ── Legacy redirects ── */}
-          <Route path="/whatsapp"      element={<Navigate to="/communications" replace />} />
+          <Route path="/whatsapp" element={<Navigate to="/communications" replace />} />
           <Route path="/email-history" element={<Navigate to="/communications" replace />} />
 
           {/* ── Call recordings redirect to dashboard (page removed) ── */}

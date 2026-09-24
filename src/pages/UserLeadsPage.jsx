@@ -8,7 +8,7 @@ import { maskPhone as _maskPhone } from "../utils/maskPhone";
 import { Check, AlertTriangle, X } from "lucide-react";
 import useEntitlements from "../hooks/useEntitlements";
 
-const BACKEND_ROOT = import.meta.env.VITE_API_URL.replace(/\/api$/, "")
+const BACKEND_ROOT = (import.meta.env.VITE_API_URL || "").replace(/\/api$/, "");
  
 
 function maskPhone(phone) { return _maskPhone(phone) || "—"; }
@@ -688,6 +688,8 @@ const primaryDigits   = (lead.primaryPhone || lead.phone || "").replace(/\D/g, "
 
 // ── Update drawer ─────────────────────────────────────────────────────────────
 function UpdateDrawer({ lead, onClose, onSaved }) {
+  const { hasFeature } = useEntitlements();
+  const showNurtureFields = hasFeature("leadNurtureSequence");
   const [status,       setStatus]       = useState(lead.status);
   const [remark,       setRemark]       = useState("");
   const [outcome,      setOutcome]      = useState("");

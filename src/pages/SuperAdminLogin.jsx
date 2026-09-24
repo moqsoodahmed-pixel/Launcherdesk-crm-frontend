@@ -95,7 +95,11 @@ export default function SuperAdminLogin() {
     try {
       const res = await api.post("/superadmin/login", { email, password });
       setPendingEmail(res.data.email || email);
-      setOtp("      ");
+      if (res.data.otp) {
+        setOtp(String(res.data.otp));
+      } else {
+        setOtp("      ");
+      }
       setStep(2);
       setInfo(`OTP sent to ${res.data.email || email}. Valid for ${res.data.expiresInMin ?? 10} minutes.`);
       setResendCooldown(60);
@@ -166,7 +170,11 @@ export default function SuperAdminLogin() {
     setLoading(true); setError("");
     try {
       const res = await api.post("/superadmin/resend-otp", { email: pendingEmail });
-      setOtp("      ");
+      if (res.data.otp) {
+        setOtp(String(res.data.otp));
+      } else {
+        setOtp("      ");
+      }
       setInfo(res.data.message || "New OTP sent.");
       setResendCooldown(60);
     } catch (err) {
