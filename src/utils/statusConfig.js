@@ -19,9 +19,9 @@
 export const STATUS_CONFIG = {
   // ── Real DB statuses ───────────────────────────────────────────────────────
   "New": {
-    bg:   "bg-blue-100 dark:bg-blue-950/40",
-    text: "text-blue-600 dark:text-blue-400",
-    dot:  "#2563EB",
+    bg:   "bg-violet-100 dark:bg-violet-950/40",
+    text: "text-violet-700 dark:text-violet-300",
+    dot:  "#7E14FF",
   },
   "In Progress": {
     bg:   "bg-amber-100 dark:bg-amber-950/40",
