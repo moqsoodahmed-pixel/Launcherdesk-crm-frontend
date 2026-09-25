@@ -118,7 +118,7 @@ class ErrorBoundary extends React.Component {
                 </p>
                 <button
                   onClick={() => window.location.reload()}
-                  className="px-4 py-2 rounded-xl bg-[#2563EB] text-white text-[13px] font-semibold hover:bg-blue-700 transition"
+                  className="px-4 py-2 rounded-xl bg-[#7E14FF] text-white text-[13px] font-semibold hover:bg-[#6300D6] transition"
                 >
                   Reload page
                 </button>
@@ -375,7 +375,7 @@ function QuickCreateMenu({ role }) {
                 onClick={() => { setOpen(false); navigate(it.to); }}
                 className="w-full flex items-center gap-2.5 px-3 py-2 text-[13px] font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/[0.05] hover:text-slate-900 dark:hover:text-white transition-colors"
               >
-                <span className="w-7 h-7 rounded-lg bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-300 flex items-center justify-center shrink-0">
+                <span className="w-7 h-7 rounded-lg bg-[#F3EBFF] dark:bg-[#7E14FF]/15 text-[#7E14FF] dark:text-violet-300 flex items-center justify-center shrink-0">
                   <Icon className="w-3.5 h-3.5" />
                 </span>
                 <span className="flex-1 text-left">{it.label}</span>
@@ -436,10 +436,10 @@ function CompanyHeader() {
       ? "bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/20"
       : role === "admin"
         ? "bg-violet-50 text-violet-700 border-violet-200 dark:bg-violet-500/10 dark:text-violet-400 dark:border-violet-500/20"
-        : "bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-500/10 dark:text-blue-400 dark:border-blue-500/20";
+        : "bg-[#F3EBFF] text-[#6300D6] border-[#D5BDFF] dark:bg-[#7E14FF]/15 dark:text-violet-300 dark:border-[#7E14FF]/30";
 
   return (
-    <div className="sticky top-0 z-30 flex items-center justify-between gap-2 sm:gap-4 pl-14 pr-3 sm:pr-6 md:px-6 h-16 bg-white/85 dark:bg-[#0F1420]/85 backdrop-blur-xl border-b border-slate-200/70 dark:border-white/[0.06]">
+    <div className="sticky top-0 z-30 flex items-center justify-between gap-2 sm:gap-4 pl-14 pr-3 sm:pr-6 md:px-6 h-16 bg-white/85 dark:bg-[#181029]/85 backdrop-blur-xl border-b border-[#E7DCFA]/80 dark:border-white/[0.06]">
       {/* ── Left: brand mark + breadcrumb ── */}
       <div className="flex items-center gap-3 sm:gap-4 min-w-0">
         <div className="hidden lg:flex items-center gap-2 min-w-0 shrink-0">

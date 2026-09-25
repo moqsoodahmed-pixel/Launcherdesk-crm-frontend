@@ -12,15 +12,33 @@ export default {
         // Poppins is now the default sans family (loaded in index.html), so the
         // whole app renders in it consistently — not just elements that opted in
         // with the font-poppins class.
-        sans: ["Poppins", "ui-sans-serif", "system-ui", "sans-serif"],
+        // Launcherdesk type: Plus Jakarta Sans for reading, Space Grotesk for
+        // headings and numbers (its squared figures make KPIs scan faster).
+        sans: ["\"Plus Jakarta Sans\"", "ui-sans-serif", "system-ui", "sans-serif"],
+        display: ["\"Space Grotesk\"", "\"Plus Jakarta Sans\"", "ui-sans-serif", "sans-serif"],
         poppins: ["Poppins", "sans-serif"],
       },
       // ── TailAdmin design tokens ───────────────────────────────────────────
       // Used by the auth pages (AdminLogin, UserLogin, SuperAdminLogin) which
       // are styled to match the TailAdmin admin-dashboard template.
       colors: {
-        primary: "#3C50E0",
-        secondary: "#80CAEE",
+        // ── Launcherdesk brand scale ────────────────────────────────────
+        launcher: {
+          50:  "#F7F3FF",
+          100: "#EDE6FF",
+          200: "#DECCFF",
+          300: "#C39BFF",
+          400: "#A46BFF",
+          500: "#863BFF",
+          600: "#7E14FF",
+          700: "#6300D6",
+          800: "#4F00AA",
+          900: "#3F0A7A",
+          sky: "#47BFFF",
+          ink: "#170B29",
+        },
+        primary: "#7E14FF",
+        secondary: "#47BFFF",
         stroke: "#E2E8F0",
         strokedark: "#2E3A47",
         "form-input": "#1D2A39",
@@ -56,9 +74,12 @@ export default {
         "5xl": "2.5rem",
       },
       backgroundImage: {
-        "brand-gradient": "linear-gradient(135deg, #4f46e5 0%, #6366f1 45%, #8b5cf6 100%)",
-        "brand-gradient-soft": "linear-gradient(135deg, rgba(79,70,229,0.10) 0%, rgba(139,92,246,0.10) 100%)",
-        "mesh-hero": "radial-gradient(at 0% 0%, rgba(99,102,241,0.20) 0px, transparent 50%), radial-gradient(at 100% 0%, rgba(139,92,246,0.18) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(59,130,246,0.14) 0px, transparent 50%)",
+        // ── Launcherdesk brand gradients ────────────────────────────────
+        // Sampled from the logo: #7E14FF bolt, #863BFF highlight, #47BFFF
+        // cool edge. These replace the old generic indigo ramp.
+        "brand-gradient": "linear-gradient(135deg, #6300D6 0%, #7E14FF 45%, #863BFF 100%)",
+        "brand-gradient-soft": "linear-gradient(135deg, rgba(126,20,255,0.10) 0%, rgba(71,191,255,0.10) 100%)",
+        "mesh-hero": "radial-gradient(at 0% 0%, rgba(126,20,255,0.20) 0px, transparent 50%), radial-gradient(at 100% 0%, rgba(134,59,255,0.18) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(71,191,255,0.16) 0px, transparent 50%)",
       },
       keyframes: {
         fadeIn: { from: { opacity: 0 }, to: { opacity: 1 } },

@@ -10,6 +10,32 @@
    ══════════════════════════════════════════════════════════════════════ */
 
 @layer base {
+
+    /* ── Launcherdesk brand tokens ──────────────────────────────────────────
+       Sampled straight from the official mark (public/favicon.svg): the bolt
+       is #7E14FF over #863BFF, lit with #EDE6FF, with #47BFFF as the cool
+       secondary. Everything violet in the app resolves back to these. */
+    :root {
+        --ld-violet: #7E14FF;
+        --ld-violet-light: #863BFF;
+        --ld-violet-deep: #6300D6;
+        --ld-sky: #47BFFF;
+        --ld-lavender: #EDE6FF;
+        --ld-ink: #170B29;
+        --ld-muted: #7D7296;
+
+        /* Page canvas */
+        --ld-canvas: #F7F3FF;
+        --ld-canvas-2: #F1EAFF;
+        --ld-hairline: #E7DCFA;
+    }
+
+    .dark {
+        --ld-canvas: #0B0715;
+        --ld-canvas-2: #120B22;
+        --ld-hairline: #2B1E48;
+    }
+
     html {
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
@@ -51,6 +77,128 @@
 }
 
 @layer components {
+
+    /* ── Launcherdesk dashboard canvas ──────────────────────────────────────
+       Replaces the old flat #F0F4FF wash. A lavender base carries two soft
+       brand glows — violet from the top-left, sky from the top-right — that
+       sit behind the content and stay put while the page scrolls, so the
+       colour reads as the product's identity rather than as decoration on
+       any one card. Kept under 15% opacity so body text keeps full contrast. */
+    .ld-canvas {
+        background-color: var(--ld-canvas);
+        background-image:
+            radial-gradient(900px 520px at 4% -8%, rgba(126, 20, 255, 0.14), transparent 62%),
+            radial-gradient(760px 460px at 98% -4%, rgba(71, 191, 255, 0.16), transparent 60%),
+            radial-gradient(1100px 620px at 50% 108%, rgba(134, 59, 255, 0.10), transparent 64%);
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+    }
+
+    .dark .ld-canvas {
+        background-color: var(--ld-canvas);
+        background-image:
+            radial-gradient(900px 520px at 4% -8%, rgba(126, 20, 255, 0.24), transparent 62%),
+            radial-gradient(760px 460px at 98% -4%, rgba(71, 191, 255, 0.12), transparent 60%),
+            radial-gradient(1100px 620px at 50% 108%, rgba(134, 59, 255, 0.16), transparent 64%);
+    }
+
+    /* Cards lift off the canvas with a violet-cast shadow instead of a neutral
+       grey one — a grey shadow over a lavender page reads as dirt. */
+    .ld-card {
+        box-shadow:
+            0 1px 2px rgba(86, 24, 160, 0.05),
+            0 8px 24px -12px rgba(86, 24, 160, 0.18);
+    }
+
+    .dark .ld-card {
+        box-shadow:
+            0 1px 2px rgba(0, 0, 0, 0.4),
+            0 8px 24px -12px rgba(0, 0, 0, 0.6);
+    }
+
+    /* Header bar: frosted so the canvas glow shows through faintly. */
+    .ld-header {
+        background-color: rgba(255, 255, 255, 0.82);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+    }
+
+    .dark .ld-header {
+        background-color: rgba(24, 16, 41, 0.82);
+    }
+
+    /* ── Dashboard hero banner ─────────────────────────────────────────────
+       The greeting + quick stats sit on the logo's violet, with a sky glint
+       in the corner — the first thing an employee sees is the brand. */
+    .ld-hero {
+        background-color: #6300D6;
+        background-image:
+            radial-gradient(420px 260px at 100% 0%, rgba(71, 191, 255, 0.45), transparent 70%),
+            radial-gradient(520px 320px at 0% 100%, rgba(40, 0, 110, 0.55), transparent 70%),
+            linear-gradient(120deg, #5B00C7 0%, #7E14FF 55%, #9A4DFF 100%);
+        box-shadow: 0 18px 40px -18px rgba(99, 0, 214, 0.65);
+    }
+
+    /* ── Sidebar: deep violet panel ────────────────────────────────────────
+       Scoped overrides so the existing Sidebar markup keeps working while
+       it switches from a white panel to the brand's night-violet. */
+    .ld-sidebar {
+        background-color: #1A0B38;
+        background-image:
+            radial-gradient(360px 280px at 0% 0%, rgba(126, 20, 255, 0.45), transparent 70%),
+            radial-gradient(300px 260px at 100% 100%, rgba(71, 191, 255, 0.18), transparent 70%),
+            linear-gradient(180deg, #1F0D45 0%, #150830 100%);
+        color: #E9E1FA;
+    }
+
+    .ld-sidebar .text-slate-900,
+    .ld-sidebar .dark\:text-white { color: #FFFFFF !important; }
+
+    .ld-sidebar .text-slate-600,
+    .ld-sidebar .text-slate-500,
+    .ld-sidebar .text-slate-400,
+    .ld-sidebar .dark\:text-slate-300,
+    .ld-sidebar .dark\:text-slate-400,
+    .ld-sidebar .dark\:text-slate-500 { color: #BBAEDB !important; }
+
+    .ld-sidebar .border-slate-100,
+    .ld-sidebar .border-slate-200,
+    .ld-sidebar .border-slate-200\/70,
+    .ld-sidebar .border-slate-300\/70 { border-color: rgba(255, 255, 255, 0.10) !important; }
+
+    .ld-sidebar .bg-slate-50,
+    .ld-sidebar .bg-slate-50\/70 { background-color: rgba(255, 255, 255, 0.06) !important; }
+
+    /* Nav hover + active item */
+    .ld-sidebar a:hover,
+    .ld-sidebar button:hover { color: #FFFFFF !important; }
+
+    .ld-sidebar .hover\:bg-slate-50:hover { background-color: rgba(255, 255, 255, 0.08) !important; }
+
+    .ld-sidebar .bg-violet-50 {
+        background: linear-gradient(90deg, rgba(126, 20, 255, 0.55), rgba(126, 20, 255, 0.20)) !important;
+        color: #FFFFFF !important;
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.10);
+    }
+    .ld-sidebar .bg-violet-50 * { color: #FFFFFF !important; }
+
+    .ld-sidebar .icon-btn { color: #BBAEDB; }
+    .ld-sidebar .icon-btn:hover { background-color: rgba(255, 255, 255, 0.10); color: #FFFFFF; }
+
+    /* Role chip + avatar tile read on the dark panel */
+    .ld-sidebar .text-\[\#7E14FF\] { color: #D2B6FF !important; }
+    .ld-sidebar .bg-\[\#7E14FF\]\/10 { background-color: rgba(164, 107, 255, 0.22) !important; }
+
+    /* Notification dots were ringed in white for a white panel */
+    .ld-sidebar .border-white { border-color: #1A0B38 !important; }
+
+    /* Sign out stays clearly red, just lifted for contrast */
+    .ld-sidebar .text-rose-500,
+    .ld-sidebar .text-rose-600 { color: #FF8FA8 !important; }
+    .ld-sidebar .logout-btn:hover {
+        background-color: rgba(255, 90, 120, 0.14) !important;
+        color: #FFB3C3 !important;
+    }
 
     /* ── Surface primitives ────────────────────────────────────────────── */
     .surface-card {

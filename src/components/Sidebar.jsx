@@ -144,12 +144,12 @@ function CommandPalette({ open, onClose, items, roleLabel }) {
                   onMouseEnter={() => setActive(i)}
                   className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium transition-colors
                     ${i === active
-                      ? "bg-indigo-50 dark:bg-indigo-500/10 text-indigo-700 dark:text-indigo-300"
+                      ? "bg-violet-50 dark:bg-violet-500/10 text-[#6300D6] dark:text-violet-300"
                       : "text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/[0.04]"}`}
                 >
                   <Icon className="w-4 h-4 shrink-0" />
                   {it.label}
-                  {i === active && <CornerDownLeft className="w-3.5 h-3.5 ml-auto text-indigo-400" />}
+                  {i === active && <CornerDownLeft className="w-3.5 h-3.5 ml-auto text-violet-400" />}
                 </Link>
               );
             })
@@ -288,9 +288,9 @@ export function Sidebar() {
   const roleStyle = {
     super_admin: { border: "border-amber-500/30", bg: "bg-amber-500/10", text: "text-amber-500 dark:text-amber-400" },
     admin: { border: "border-violet-500/30", bg: "bg-violet-500/10", text: "text-violet-500 dark:text-violet-400" },
-    user: { border: "border-blue-500/30", bg: "bg-blue-500/10", text: "text-blue-500 dark:text-blue-400" },
+    user: { border: "border-[#7E14FF]/30", bg: "bg-[#7E14FF]/10", text: "text-[#7E14FF] dark:text-violet-300" },
     developer: { border: "border-emerald-500/30", bg: "bg-emerald-500/10", text: "text-emerald-500 dark:text-emerald-400" },
-  }[role] ?? { border: "border-blue-500/30", bg: "bg-blue-500/10", text: "text-blue-500 dark:text-blue-400" };
+  }[role] ?? { border: "border-[#7E14FF]/30", bg: "bg-[#7E14FF]/10", text: "text-[#7E14FF] dark:text-violet-300" };
 
   const roleLabel = { super_admin: "Super Admin", admin: "Admin", developer: "Developer", user: "Employee" }[role] || "Employee";
 
@@ -397,7 +397,7 @@ export function Sidebar() {
 
       {/* ── Mobile hamburger FAB ──────────────────────────────────────────── */}
       <button
-        className="fixed top-3 left-3 z-50 md:hidden w-9 h-9 flex items-center justify-center rounded-xl bg-white dark:bg-[#141A28] border border-slate-200 dark:border-white/10 shadow-elevated text-slate-600 dark:text-slate-300"
+        className="fixed top-3 left-3 z-50 md:hidden w-9 h-9 flex items-center justify-center rounded-xl bg-white dark:bg-[#181029] border border-slate-200 dark:border-white/10 shadow-elevated text-slate-600 dark:text-slate-300"
         onClick={() => setMobileOpen((v) => !v)}
         title="Toggle menu"
       >
@@ -410,7 +410,7 @@ export function Sidebar() {
 
       {/* ── Sidebar ───────────────────────────────────────────────────────── */}
       <div
-        className={`sidebar h-screen flex flex-col bg-white dark:bg-[#141A28] border-r border-slate-200/80 dark:border-white/[0.06]
+        className={`sidebar ld-sidebar h-screen flex flex-col border-r border-white/[0.08]
           fixed md:sticky inset-y-0 left-0 z-40 top-0
           transition-transform duration-300 ease-in-out
           ${mobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
@@ -509,7 +509,7 @@ export function Sidebar() {
                       to={item.to}
                       className={`nav-item flex items-center gap-3 rounded-xl px-3 py-2.5 text-[13px] font-medium
                         ${isActive
-                          ? "active-glow bg-indigo-50 dark:bg-indigo-500/[0.12] text-indigo-700 dark:text-indigo-300"
+                          ? "active-glow bg-violet-50 dark:bg-violet-500/[0.12] text-[#6300D6] dark:text-violet-300"
                           : "text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/[0.05] hover:text-slate-900 dark:hover:text-white"
                         }`}
                     >
@@ -519,13 +519,13 @@ export function Sidebar() {
                       <span className="icon-wrap relative">
                         <Icon className="w-[18px] h-[18px]" strokeWidth={2} />
                         {hasOverdue && (
-                          <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-rose-500 border-2 border-white dark:border-[#141A28] animate-pulse" title={`${followUpAlerts.overdueCount} overdue follow-up${followUpAlerts.overdueCount > 1 ? "s" : ""}`} />
+                          <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-rose-500 border-2 border-white dark:border-[#181029] animate-pulse" title={`${followUpAlerts.overdueCount} overdue follow-up${followUpAlerts.overdueCount > 1 ? "s" : ""}`} />
                         )}
                         {hasToday && (
-                          <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-amber-400 border-2 border-white dark:border-[#141A28]" title={`${followUpAlerts.todayCount} follow-up${followUpAlerts.todayCount > 1 ? "s" : ""} due today`} />
+                          <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-amber-400 border-2 border-white dark:border-[#181029]" title={`${followUpAlerts.todayCount} follow-up${followUpAlerts.todayCount > 1 ? "s" : ""} due today`} />
                         )}
                         {hasWaUnread && (
-                          <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-rose-500 border-2 border-white dark:border-[#141A28]" title={`${waUnread} unread WhatsApp message${waUnread > 1 ? "s" : ""}`} />
+                          <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-rose-500 border-2 border-white dark:border-[#181029]" title={`${waUnread} unread WhatsApp message${waUnread > 1 ? "s" : ""}`} />
                         )}
                       </span>
                       {!effMinimized && (

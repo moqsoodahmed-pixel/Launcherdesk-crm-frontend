@@ -74,7 +74,7 @@ function parseCSVLine(line) {
 
 // ── Status / Quality configs ──────────────────────────────────────────────────
 const STATUS_CONFIG = {
-  "New":            { bg:"bg-blue-50 dark:bg-blue-950/40",       text:"text-blue-600 dark:text-blue-400",    dot:"#2563EB" },
+  "New":            { bg:"bg-violet-50 dark:bg-violet-950/40",       text:"text-violet-600 dark:text-violet-300",    dot:"#7E14FF" },
   "In Progress":    { bg:"bg-amber-50 dark:bg-amber-950/40",     text:"text-amber-600 dark:text-amber-400",  dot:"#D97706" },
   "Converted":      { bg:"bg-emerald-50 dark:bg-emerald-950/40", text:"text-emerald-600 dark:text-emerald-400", dot:"#059669" },
   "Not Interested": { bg:"bg-red-50 dark:bg-red-950/40",         text:"text-red-600 dark:text-red-400",      dot:"#DC2626" },
@@ -82,7 +82,9 @@ const STATUS_CONFIG = {
 const TEMP_CONFIG = {
   Hot:  { bg:"bg-red-50 dark:bg-red-950/40",    text:"text-red-600 dark:text-red-400",    icon:"" },
   Warm: { bg:"bg-amber-50 dark:bg-amber-950/40",text:"text-amber-600 dark:text-amber-400",icon:"" },
-  Cold: { bg:"bg-blue-50 dark:bg-blue-950/40",  text:"text-blue-600 dark:text-blue-400",  icon:"" },
+  // Cold keeps a cool sky tone — it reads as "cold" instantly, and sky
+  // (#47BFFF) is the logo's own secondary accent, so it stays on-brand.
+  Cold: { bg:"bg-sky-50 dark:bg-sky-950/40",  text:"text-sky-600 dark:text-sky-300",  icon:"" },
 };
 
 function StatusBadge({ status }) {
@@ -408,11 +410,11 @@ function AttendanceMiniWidget() {
     active:     { dot: "bg-emerald-400", color: "text-emerald-600 dark:text-emerald-400", label: "Active",     chipBg: "bg-emerald-50 dark:bg-emerald-950/50 border-emerald-200 dark:border-emerald-800" },
     on_break:   { dot: "bg-amber-400",   color: "text-amber-600 dark:text-amber-400",     label: "On Break",   chipBg: "bg-amber-50 dark:bg-amber-950/50 border-amber-200 dark:border-amber-800" },
     idle:       { dot: "bg-red-400",     color: "text-red-500 dark:text-red-400",         label: "Idle",       chipBg: "bg-red-50 dark:bg-red-950/50 border-red-200 dark:border-red-800" },
-    logged_out: { dot: "bg-gray-400",    color: "text-[#8B92A9]",                         label: "Logged Out", chipBg: "bg-[#F8F9FC] dark:bg-[#13161E] border-[#E4E7EF] dark:border-[#262A38]" },
+    logged_out: { dot: "bg-gray-400",    color: "text-[#7D7296]",                         label: "Logged Out", chipBg: "bg-[#FAF7FF] dark:bg-[#120B22] border-[#E7DCFA] dark:border-[#2B1E48]" },
   };
   const st = ST[record?.status] || ST["logged_out"];
 
-  if (loading) return <div className="h-9 w-28 sm:w-32 rounded-xl bg-[#F1F4FF] dark:bg-[#1E2130] animate-pulse" />;
+  if (loading) return <div className="h-9 w-28 sm:w-32 rounded-xl bg-[#F3EBFF] dark:bg-[#1D1333] animate-pulse" />;
 
   return (
     <div className="relative" ref={panelRef}>
@@ -434,11 +436,11 @@ function AttendanceMiniWidget() {
       </button>
 
       {panelOpen && (
-        <div className="fixed sm:absolute left-2 right-2 sm:left-auto sm:right-0 top-auto sm:top-11 mt-2 sm:mt-0 z-[200] w-auto sm:w-72 max-w-full sm:max-w-none bg-white dark:bg-[#1A1D27] border border-[#E4E7EF] dark:border-[#262A38] rounded-2xl shadow-2xl overflow-hidden">
-          <div className="px-4 py-3 border-b border-[#E4E7EF] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E] flex items-center justify-between">
+        <div className="fixed sm:absolute left-2 right-2 sm:left-auto sm:right-0 top-auto sm:top-11 mt-2 sm:mt-0 z-[200] w-auto sm:w-72 max-w-full sm:max-w-none bg-white dark:bg-[#181029] border border-[#E7DCFA] dark:border-[#2B1E48] rounded-2xl ld-card shadow-2xl overflow-hidden">
+          <div className="px-4 py-3 border-b border-[#E7DCFA] dark:border-[#2B1E48] bg-[#FAF7FF] dark:bg-[#120B22] flex items-center justify-between">
             <div>
-              <p className="text-[13px] font-bold text-[#0F1117] dark:text-white">Attendance</p>
-              <p className="text-[10px] text-[#8B92A9]">{new Date().toLocaleDateString("en-IN", { weekday:"short", day:"2-digit", month:"short" })}</p>
+              <p className="text-[13px] font-bold text-[#170B29] dark:text-white">Attendance</p>
+              <p className="text-[10px] text-[#7D7296]">{new Date().toLocaleDateString("en-IN", { weekday:"short", day:"2-digit", month:"short" })}</p>
             </div>
             {record && (
               <span className={"text-[10px] font-bold px-2 py-0.5 rounded-full border " + st.chipBg + " " + st.color}>{st.label}</span>
@@ -457,17 +459,17 @@ function AttendanceMiniWidget() {
 
           {record?.loginTime && (
             <div className="grid grid-cols-3 gap-2 px-3 pt-3">
-              <div className="bg-[#F8F9FC] dark:bg-[#13161E] rounded-xl px-2 py-2.5 text-center">
-                <p className="text-[9px] text-[#8B92A9] font-semibold uppercase tracking-wide mb-1">Work</p>
-                <p className="text-[13px] font-black text-[#0F1117] dark:text-white leading-none">{fmtMins(workedMins)}</p>
+              <div className="bg-[#FAF7FF] dark:bg-[#120B22] rounded-xl px-2 py-2.5 text-center">
+                <p className="text-[9px] text-[#7D7296] font-semibold uppercase tracking-wide mb-1">Work</p>
+                <p className="text-[13px] font-black text-[#170B29] dark:text-white leading-none">{fmtMins(workedMins)}</p>
               </div>
-              <div className="bg-[#F8F9FC] dark:bg-[#13161E] rounded-xl px-2 py-2.5 text-center">
-                <p className="text-[9px] text-[#8B92A9] font-semibold uppercase tracking-wide mb-1">Break</p>
+              <div className="bg-[#FAF7FF] dark:bg-[#120B22] rounded-xl px-2 py-2.5 text-center">
+                <p className="text-[9px] text-[#7D7296] font-semibold uppercase tracking-wide mb-1">Break</p>
                 <p className="text-[13px] font-black text-amber-500 leading-none">{fmtMins(totalBreakMins)}</p>
               </div>
-              <div className="bg-[#F8F9FC] dark:bg-[#13161E] rounded-xl px-2 py-2.5 text-center">
-                <p className="text-[9px] text-[#8B92A9] font-semibold uppercase tracking-wide mb-1">Login</p>
-                <p className="text-[13px] font-black text-[#0F1117] dark:text-white leading-none">{fmtTime(record.loginTime)}</p>
+              <div className="bg-[#FAF7FF] dark:bg-[#120B22] rounded-xl px-2 py-2.5 text-center">
+                <p className="text-[9px] text-[#7D7296] font-semibold uppercase tracking-wide mb-1">Login</p>
+                <p className="text-[13px] font-black text-[#170B29] dark:text-white leading-none">{fmtTime(record.loginTime)}</p>
               </div>
             </div>
           )}
@@ -486,16 +488,16 @@ function AttendanceMiniWidget() {
               </>
             )}
             {isClockedOut && (
-              <div className="flex-1 py-2 rounded-xl bg-[#F8F9FC] dark:bg-[#13161E] text-center text-[11px] text-[#8B92A9] font-semibold">
+              <div className="flex-1 py-2 rounded-xl bg-[#FAF7FF] dark:bg-[#120B22] text-center text-[11px] text-[#7D7296] font-semibold">
                 Clocked out · {fmtTime(record.logoutTime)}
               </div>
             )}
           </div>
 
           {record?.breaks?.length > 0 && (
-            <div className="mx-3 mb-3 border border-[#E4E7EF] dark:border-[#262A38] rounded-xl overflow-hidden">
-              <p className="px-3 py-2 text-[9px] font-bold text-[#8B92A9] uppercase tracking-widest bg-[#F8F9FC] dark:bg-[#13161E] border-b border-[#E4E7EF] dark:border-[#262A38]">Break Log</p>
-              <div className="divide-y divide-[#F1F4FF] dark:divide-[#1E2130]">
+            <div className="mx-3 mb-3 border border-[#E7DCFA] dark:border-[#2B1E48] rounded-xl overflow-hidden">
+              <p className="px-3 py-2 text-[9px] font-bold text-[#7D7296] uppercase tracking-widest bg-[#FAF7FF] dark:bg-[#120B22] border-b border-[#E7DCFA] dark:border-[#2B1E48]">Break Log</p>
+              <div className="divide-y divide-[#F3EBFF] dark:divide-[#1D1333]">
                 {record.breaks.map((b, i) => {
                   const durMins = breakEntryDurMins(b);
                   const isOngoing = b.startTime && !b.endTime;
@@ -504,7 +506,7 @@ function AttendanceMiniWidget() {
                       <span className={"text-[10px] font-semibold px-1.5 py-0.5 rounded-full " + (b.reason === "Auto Idle" ? "bg-red-50 dark:bg-red-950/40 text-red-500" : "bg-amber-50 dark:bg-amber-950/40 text-amber-600")}>
                         {b.reason || "Break"}
                       </span>
-                      <span className="text-[10px] text-[#8B92A9]">
+                      <span className="text-[10px] text-[#7D7296]">
                         {fmtTime(b.startTime)} → {b.endTime ? fmtTime(b.endTime) : "ongoing"}
                         {isOngoing ? " · ongoing" : ` · ${durMins}m`}
                       </span>
@@ -512,8 +514,8 @@ function AttendanceMiniWidget() {
                   );
                 })}
               </div>
-              <div className="px-3 py-1.5 bg-[#F8F9FC] dark:bg-[#13161E] border-t border-[#E4E7EF] dark:border-[#262A38] flex justify-between">
-                <span className="text-[9px] font-bold text-[#8B92A9] uppercase tracking-wide">Total break</span>
+              <div className="px-3 py-1.5 bg-[#FAF7FF] dark:bg-[#120B22] border-t border-[#E7DCFA] dark:border-[#2B1E48] flex justify-between">
+                <span className="text-[9px] font-bold text-[#7D7296] uppercase tracking-wide">Total break</span>
                 <span className="text-[10px] font-bold text-amber-500">{fmtMins(totalBreakMins)}</span>
               </div>
             </div>
@@ -549,20 +551,26 @@ function AttendanceMiniWidget() {
 
 // KPI / Chart / Activity helpers
 function KpiCard({ label, value, sub, color, icon, trend, trendUp }) {
+  // Tinted card: a soft wash of the card's own colour, a solid accent bar on
+  // the left, and the number set in the display face so it reads first.
   return (
-    <div className="bg-white dark:bg-[#1A1D27] border border-[#E4E7EF] dark:border-[#262A38] rounded-2xl p-4 sm:p-5 flex flex-col gap-2 sm:gap-3 min-w-0">
+    <div
+      className="relative overflow-hidden rounded-3xl p-4 sm:p-5 flex flex-col gap-3 min-w-0 border border-white/70 dark:border-white/[0.06] ld-card bg-white dark:bg-[#181029]"
+      style={{ backgroundImage: `linear-gradient(145deg, ${color}1F 0%, ${color}08 55%, transparent 100%)` }}
+    >
+      <span className="absolute left-0 top-5 bottom-5 w-1 rounded-r-full" style={{ background: color }} />
       <div className="flex items-center justify-between gap-2">
-        <span className="text-[10px] sm:text-[12px] font-bold text-[#8B92A9] dark:text-[#D1D5DB] uppercase tracking-widest truncate">{label}</span>
-        <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center shrink-0" style={{ background: color + "18" }}>
+        <span className="text-[13px] sm:text-[14px] font-semibold text-[#4A3F66] dark:text-[#E3DAF3] truncate">{label}</span>
+        <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl flex items-center justify-center shrink-0 text-white shadow-md" style={{ background: color }}>
           {icon}
         </div>
       </div>
       <div>
-        <p className="text-[24px] sm:text-[32px] font-black text-[#0F1117] dark:text-white leading-none">{value}</p>
-        {sub && <p className="text-[10px] sm:text-[11px] text-[#8B92A9] dark:text-[#D1D5DB] mt-1 truncate">{sub}</p>}
+        <p className="font-display text-[32px] sm:text-[40px] font-bold tracking-tight leading-none" style={{ color }}>{value}</p>
+        {sub && <p className="text-[11px] sm:text-[12px] text-[#7D7296] dark:text-[#C6BBDC] mt-1.5 truncate">{sub}</p>}
       </div>
       {trend !== undefined && (
-        <div className={"flex items-center gap-1 text-[11px] font-semibold " + (trendUp ? "text-emerald-500" : "text-red-500")}>
+        <div className={"inline-flex self-start items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold " + (trendUp ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300" : "bg-red-100 text-red-600 dark:bg-red-500/15 dark:text-red-300")}>
           <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d={trendUp ? "M5 15l7-7 7 7" : "M19 9l-7 7-7-7"}/>
           </svg>
@@ -581,18 +589,18 @@ function RadialProgress({ value, max, color, label, size = 88 }) {
     <div className="flex flex-col items-center gap-2">
       <div className="relative" style={{ width: size, height: size }}>
         <svg width={size} height={size} style={{ transform: "rotate(-90deg)" }}>
-          <circle cx={size/2} cy={size/2} r={r} fill="none" stroke="#E4E7EF" strokeWidth="8" className="dark:stroke-[#262A38]" />
+          <circle cx={size/2} cy={size/2} r={r} fill="none" stroke="#E7DCFA" strokeWidth="8" className="dark:stroke-[#2B1E48]" />
           <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={color} strokeWidth="8"
             strokeDasharray={circ * pct + " " + circ} strokeLinecap="round"
             style={{ transition: "stroke-dasharray 0.8s ease" }} />
         </svg>
         <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-[15px] font-black text-[#0F1117] dark:text-white">{value}</span>
+          <span className="text-[15px] font-black text-[#170B29] dark:text-white">{value}</span>
         </div>
       </div>
       <div className="text-center">
-        <p className="text-[10px] text-[#8B92A9] dark:text-[#D1D5DB] font-semibold uppercase tracking-wide">{label}</p>
-        <p className="text-[9px] text-[#8B92A9] dark:text-[#D1D5DB]">/ {max} target</p>
+        <p className="text-[12px] text-[#7D7296] dark:text-[#C6BBDC] font-semibold">{label}</p>
+        <p className="text-[9px] text-[#7D7296] dark:text-[#C6BBDC]">/ {max} target</p>
       </div>
     </div>
   );
@@ -607,20 +615,20 @@ function ActivityItem({ lead, isLast }) {
           style={{ background: s.dot + "20", color: s.dot }}>
           {lead.name ? lead.name.split(" ").map(n => n[0]).join("").slice(0,2).toUpperCase() : "?"}
         </div>
-        {!isLast && <div className="w-px flex-1 bg-[#E4E7EF] dark:bg-[#262A38] mt-1 mb-1" />}
+        {!isLast && <div className="w-px flex-1 bg-[#E7DCFA] dark:bg-[#2B1E48] mt-1 mb-1" />}
       </div>
       <div className="flex-1 pb-3 min-w-0">
         <div className="flex items-start justify-between gap-2 flex-wrap">
           <div className="min-w-0">
-            <p className="text-[12px] font-semibold text-[#0F1117] dark:text-white truncate">{lead.name}</p>
-            <p className="text-[10px] text-[#8B92A9] dark:text-[#D1D5DB] font-mono mt-0.5">{lead.phone ? maskPhone(lead.phone) : "—"}</p>
+            <p className="text-[12px] font-semibold text-[#170B29] dark:text-white truncate">{lead.name}</p>
+            <p className="text-[10px] text-[#7D7296] dark:text-[#C6BBDC] font-mono mt-0.5">{lead.phone ? maskPhone(lead.phone) : "—"}</p>
           </div>
           <div className="flex flex-col items-end gap-1 shrink-0">
             <StatusBadge status={lead.status} />
-            <span className="text-[9px] text-[#8B92A9] dark:text-[#D1D5DB]">{timeAgo(lead._raw_date)}</span>
+            <span className="text-[9px] text-[#7D7296] dark:text-[#C6BBDC]">{timeAgo(lead._raw_date)}</span>
           </div>
         </div>
-        {lead.remark && <p className="text-[11px] text-[#4B5168] dark:text-[#E5E7EB] mt-1 italic break-words">"{lead.remark}"</p>}
+        {lead.remark && <p className="text-[11px] text-[#4A3F66] dark:text-[#E3DAF3] mt-1 italic break-words">"{lead.remark}"</p>}
       </div>
     </div>
   );
@@ -644,7 +652,7 @@ function ActivityItem({ lead, isLast }) {
 
   return (
     <div ref={ref} className="relative">
-      <label className="block text-[11px] font-semibold text-[#8B92A9] mb-1 uppercase tracking-wide">
+      <label className="block text-[11px] font-semibold text-[#7D7296] mb-1 uppercase tracking-wide">
         Projects
       </label>
 
@@ -652,17 +660,17 @@ function ActivityItem({ lead, isLast }) {
       <button
         type="button"
         onClick={() => setOpen(v => !v)}
-        className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E] text-[13px] text-left transition focus:outline-none focus:border-[#2563EB] hover:border-[#2563EB]/50"
+        className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-[#FAF7FF] dark:bg-[#120B22] text-[13px] text-left transition focus:outline-none focus:border-[#7E14FF] hover:border-[#7E14FF]/50"
       >
         <div className="flex flex-wrap gap-1 flex-1 min-w-0">
           {selectedNames.length === 0 ? (
-            <span className="text-[#8B92A9]">Select projects…</span>
+            <span className="text-[#7D7296]">Select projects…</span>
           ) : (
             selectedNames.map(p => (
               <span
                 key={p._id}
                 className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold text-white"
-                style={{ background: p.color || "#2563EB" }}
+                style={{ background: p.color || "#7E14FF" }}
               >
                 {p.name}
                 <span
@@ -675,7 +683,7 @@ function ActivityItem({ lead, isLast }) {
           )}
         </div>
         <svg
-          className={"w-3.5 h-3.5 shrink-0 ml-2 text-[#8B92A9] transition-transform " + (open ? "rotate-180" : "")}
+          className={"w-3.5 h-3.5 shrink-0 ml-2 text-[#7D7296] transition-transform " + (open ? "rotate-180" : "")}
           fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
         >
           <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
@@ -684,7 +692,7 @@ function ActivityItem({ lead, isLast }) {
 
       {/* Dropdown panel */}
       {open && (
-        <div className="absolute z-[100] mt-1.5 w-full bg-white dark:bg-[#1A1D27] border border-[#E4E7EF] dark:border-[#262A38] rounded-xl shadow-xl overflow-hidden">
+        <div className="absolute z-[100] mt-1.5 w-full bg-white dark:bg-[#181029] border border-[#E7DCFA] dark:border-[#2B1E48] rounded-xl shadow-xl overflow-hidden">
           <div className="py-1 max-h-48 overflow-y-auto">
             {projects.map(p => {
               const active = selectedProjects.includes(String(p._id));
@@ -693,17 +701,17 @@ function ActivityItem({ lead, isLast }) {
                   key={p._id}
                   type="button"
                   onClick={() => toggleProject(String(p._id))}
-                  className="w-full flex items-center gap-2.5 px-3 py-2.5 text-[12px] hover:bg-[#F8F9FC] dark:hover:bg-[#13161E] transition text-left"
+                  className="w-full flex items-center gap-2.5 px-3 py-2.5 text-[12px] hover:bg-[#FAF7FF] dark:hover:bg-[#120B22] transition text-left"
                 >
                   {/* Color swatch */}
                   <span
                     className="w-3 h-3 rounded-full shrink-0"
-                    style={{ background: p.color || "#2563EB" }}
+                    style={{ background: p.color || "#7E14FF" }}
                   />
-                  <span className="flex-1 font-medium text-[#0F1117] dark:text-white">{p.name}</span>
+                  <span className="flex-1 font-medium text-[#170B29] dark:text-white">{p.name}</span>
                   {/* Checkmark */}
                   {active && (
-                    <svg className="w-3.5 h-3.5 shrink-0" style={{ color: p.color || "#2563EB" }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <svg className="w-3.5 h-3.5 shrink-0" style={{ color: p.color || "#7E14FF" }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                     </svg>
                   )}
@@ -712,7 +720,7 @@ function ActivityItem({ lead, isLast }) {
             })}
           </div>
           {selectedNames.length > 0 && (
-            <div className="border-t border-[#E4E7EF] dark:border-[#262A38] px-3 py-2">
+            <div className="border-t border-[#E7DCFA] dark:border-[#2B1E48] px-3 py-2">
               <button
                 type="button"
                 onClick={() => selectedNames.forEach(p => toggleProject(String(p._id)))}
@@ -757,7 +765,7 @@ function UpdateStatusModal({ lead, onClose, onSaved, onNotInterested, projects =
       prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]
     );
 
-  const CLS = "w-full px-3 py-2.5 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E] text-[13px] text-[#0F1117] dark:text-white focus:outline-none focus:border-[#2563EB] transition";
+  const CLS = "w-full px-3 py-2.5 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-[#FAF7FF] dark:bg-[#120B22] text-[13px] text-[#170B29] dark:text-white focus:outline-none focus:border-[#7E14FF] transition";
 
   const handleStatusChange = (e) => {
     if (e.target.value === "Not Interested") { onNotInterested(); return; }
@@ -791,21 +799,21 @@ function UpdateStatusModal({ lead, onClose, onSaved, onNotInterested, projects =
 
   return (
     <div className="fixed inset-0 z-[80] flex items-center justify-center bg-black/50 backdrop-blur-sm p-3 sm:p-4">
-      <div className="w-full max-w-sm bg-white dark:bg-[#1A1D27] rounded-2xl border border-[#E4E7EF] dark:border-[#262A38] p-4 sm:p-6 shadow-2xl max-h-[92vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+      <div className="w-full max-w-sm bg-white dark:bg-[#181029] rounded-2xl border border-[#E7DCFA] dark:border-[#2B1E48] p-4 sm:p-6 shadow-2xl max-h-[92vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
         <div className="flex items-center gap-3 mb-5">
-          <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/40 flex items-center justify-center shrink-0">
-            <svg className="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+          <div className="w-10 h-10 rounded-xl bg-violet-50 dark:bg-violet-950/40 flex items-center justify-center shrink-0">
+            <svg className="w-5 h-5 text-violet-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
           </div>
           <div className="min-w-0">
-            <h3 className="text-[15px] font-bold text-[#0F1117] dark:text-white">Update Lead</h3>
-            <p className="text-[11px] text-[#8B92A9] truncate">{lead.name}</p>
+            <h3 className="text-[15px] font-bold text-[#170B29] dark:text-white">Update Lead</h3>
+            <p className="text-[11px] text-[#7D7296] truncate">{lead.name}</p>
           </div>
         </div>
 
         <div className="space-y-3 mb-4">
           {/* Status */}
           <div>
-            <label className="block text-[11px] font-semibold text-[#8B92A9] mb-1 uppercase tracking-wide">Status</label>
+            <label className="block text-[11px] font-semibold text-[#7D7296] mb-1 uppercase tracking-wide">Status</label>
             <select value={status} onChange={handleStatusChange} className={CLS}>
               {["New","In Progress","Converted","Not Interested"].map(s => <option key={s}>{s}</option>)}
             </select>
@@ -814,7 +822,7 @@ function UpdateStatusModal({ lead, onClose, onSaved, onNotInterested, projects =
 
           {/* Call Outcome */}
           <div>
-            <label className="block text-[11px] font-semibold text-[#8B92A9] mb-1 uppercase tracking-wide">Call Outcome</label>
+            <label className="block text-[11px] font-semibold text-[#7D7296] mb-1 uppercase tracking-wide">Call Outcome</label>
             <select value={outcome} onChange={e => setOutcome(e.target.value)} className={CLS}>
               {OUTCOME_OPTIONS.map(o => <option key={o}>{o}</option>)}
             </select>
@@ -822,13 +830,13 @@ function UpdateStatusModal({ lead, onClose, onSaved, onNotInterested, projects =
 
           {/* Lead Quality */}
           <div>
-            <label className="block text-[11px] font-semibold text-[#8B92A9] mb-1 uppercase tracking-wide">Lead Quality</label>
+            <label className="block text-[11px] font-semibold text-[#7D7296] mb-1 uppercase tracking-wide">Lead Quality</label>
             <div className="grid grid-cols-4 gap-1.5 sm:gap-2">
               {[
-                {val:"",    label:"None",  Icon:null,      color:"#8B92A9", bg:"bg-gray-50 dark:bg-gray-900/30"},
+                {val:"",    label:"None",  Icon:null,      color:"#7D7296", bg:"bg-gray-50 dark:bg-gray-900/30"},
                 {val:"Hot", label:"Hot",   Icon:Flame,     color:"#DC2626", bg:"bg-red-50 dark:bg-red-950/30"},
                 {val:"Warm",label:"Warm",  Icon:CloudSun,  color:"#D97706", bg:"bg-amber-50 dark:bg-amber-950/30"},
-                {val:"Cold",label:"Cold",  Icon:Snowflake, color:"#2563EB", bg:"bg-blue-50 dark:bg-blue-950/30"},
+                {val:"Cold",label:"Cold",  Icon:Snowflake, color:"#7E14FF", bg:"bg-violet-50 dark:bg-violet-950/30"},
               ].map(q => (
                 <button key={q.val} type="button" onClick={() => setTemp(q.val)}
                   className={`py-2 px-1 rounded-xl border-2 text-[10px] sm:text-[11px] font-semibold transition ${q.bg} ${temp === q.val ? "border-current scale-[1.03]" : "border-transparent opacity-60 hover:opacity-100"}`}
@@ -840,7 +848,7 @@ function UpdateStatusModal({ lead, onClose, onSaved, onNotInterested, projects =
 
           {/* Remark */}
           <div>
-            <label className="block text-[11px] font-semibold text-[#8B92A9] mb-1 uppercase tracking-wide">Remark</label>
+            <label className="block text-[11px] font-semibold text-[#7D7296] mb-1 uppercase tracking-wide">Remark</label>
             <textarea value={remark} onChange={e => setRemark(e.target.value)} rows={2} className={CLS + " resize-none"} placeholder="Add a note…" />
           </div>
 
@@ -858,7 +866,7 @@ function UpdateStatusModal({ lead, onClose, onSaved, onNotInterested, projects =
           {/* Follow-up Date */}
           {status !== "Not Interested" && (
             <div>
-              <label className="block text-[11px] font-semibold text-[#8B92A9] mb-1 uppercase tracking-wide">Follow-up Date</label>
+              <label className="block text-[11px] font-semibold text-[#7D7296] mb-1 uppercase tracking-wide">Follow-up Date</label>
               <input type="date" value={followUpDate} min={getTodayStr()} onChange={e => setFollowUpDate(e.target.value)} className={CLS} />
             </div>
           )}
@@ -871,9 +879,9 @@ function UpdateStatusModal({ lead, onClose, onSaved, onNotInterested, projects =
           </div>
         )}
 
-        <div className="flex gap-2 sticky bottom-0 bg-white dark:bg-[#1A1D27] pt-1">
-          <button onClick={onClose} className="flex-1 py-2.5 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] text-[13px] font-semibold text-[#8B92A9] hover:bg-[#F8F9FC] dark:hover:bg-[#13161E] transition">Cancel</button>
-          <button onClick={handleSave} disabled={loading} className="flex-1 py-2.5 rounded-xl bg-[#2563EB] text-white text-[13px] font-semibold hover:bg-blue-700 transition disabled:opacity-60 flex items-center justify-center gap-2">
+        <div className="flex gap-2 sticky bottom-0 bg-white dark:bg-[#181029] pt-1">
+          <button onClick={onClose} className="flex-1 py-2.5 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] text-[13px] font-semibold text-[#7D7296] hover:bg-[#FAF7FF] dark:hover:bg-[#120B22] transition">Cancel</button>
+          <button onClick={handleSave} disabled={loading} className="flex-1 py-2.5 rounded-xl bg-gradient-to-br from-[#863BFF] to-[#7E14FF] text-white shadow-[0_6px_18px_-6px_rgba(126,20,255,0.55)] text-[13px] font-semibold hover:from-[#7E14FF] hover:to-[#6300D6] transition disabled:opacity-60 flex items-center justify-center gap-2">
             {loading ? <><svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg>Saving…</> : "Save Changes"}
           </button>
         </div>
@@ -890,10 +898,10 @@ function EditLeadModal({ lead, onClose, onSave }) {
 
   return (
     <div className="fixed inset-0 z-[90] flex items-center justify-center bg-black/40 backdrop-blur-sm p-3 sm:p-0">
-      <div className="bg-white dark:bg-[#1A1D27] border border-[#E4E7EF] dark:border-[#262A38] rounded-2xl p-4 sm:p-6 w-full max-w-md sm:mx-4 shadow-2xl max-h-[92vh] overflow-y-auto">
+      <div className="bg-white dark:bg-[#181029] border border-[#E7DCFA] dark:border-[#2B1E48] rounded-2xl ld-card p-4 sm:p-6 w-full max-w-md sm:mx-4 shadow-2xl max-h-[92vh] overflow-y-auto">
         <div className="flex items-center justify-between mb-5">
-          <h2 className="text-[16px] font-bold text-[#0F1117] dark:text-[#F0F2FA]">Edit Lead</h2>
-          <button onClick={onClose} className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-[#F1F4FF] dark:hover:bg-[#262A38] text-[#8B92A9] shrink-0">
+          <h2 className="text-[16px] font-bold text-[#170B29] dark:text-[#F4EEFF]">Edit Lead</h2>
+          <button onClick={onClose} className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-[#F3EBFF] dark:hover:bg-[#2B1E48] text-[#7D7296] shrink-0">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
           </button>
         </div>
@@ -904,31 +912,31 @@ function EditLeadModal({ lead, onClose, onSave }) {
             { label: "Remark",    key: "remark" },
           ].map(f => (
             <div key={f.key} className="flex flex-col gap-1">
-              <label className="text-[11px] font-medium text-[#8B92A9] dark:text-[#565C75] uppercase tracking-wide">{f.label}</label>
+              <label className="text-[11px] font-medium text-[#7D7296] dark:text-[#564C70] uppercase tracking-wide">{f.label}</label>
               <input type="text" value={form[f.key] || ""} onChange={e => set(f.key, e.target.value)}
-                className="px-3 py-2 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-white dark:bg-[#13161E] text-[13px] text-[#0F1117] dark:text-[#F0F2FA] focus:outline-none focus:border-[#2563EB]" />
+                className="px-3 py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-white dark:bg-[#120B22] text-[13px] text-[#170B29] dark:text-[#F4EEFF] focus:outline-none focus:border-[#7E14FF]" />
             </div>
           ))}
           <div className="flex flex-col gap-1">
-            <label className="text-[11px] font-medium text-[#8B92A9] dark:text-[#565C75] uppercase tracking-wide">Date</label>
+            <label className="text-[11px] font-medium text-[#7D7296] dark:text-[#564C70] uppercase tracking-wide">Date</label>
             <input type="text" value={form.date || "—"} readOnly
-              className="px-3 py-2 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E] text-[13px] text-[#8B92A9] dark:text-[#565C75] cursor-not-allowed" />
+              className="px-3 py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-[#FAF7FF] dark:bg-[#120B22] text-[13px] text-[#7D7296] dark:text-[#564C70] cursor-not-allowed" />
           </div>
           {[
             { label: "Source", key: "source", options: ALL_SOURCES },
             { label: "Status", key: "status", options: ALL_STATUSES },
           ].map(f => (
             <div key={f.key} className="flex flex-col gap-1">
-              <label className="text-[11px] font-medium text-[#8B92A9] dark:text-[#565C75] uppercase tracking-wide">{f.label}</label>
+              <label className="text-[11px] font-medium text-[#7D7296] dark:text-[#564C70] uppercase tracking-wide">{f.label}</label>
               <select value={form[f.key] || ""} onChange={e => set(f.key, e.target.value)}
-                className="px-3 py-2 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-white dark:bg-[#13161E] text-[13px] text-[#4B5168] dark:text-[#9DA3BB] focus:outline-none">
+                className="px-3 py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-white dark:bg-[#120B22] text-[13px] text-[#4A3F66] dark:text-[#9A8DB6] focus:outline-none">
                 {f.options.map(o => <option key={o}>{o}</option>)}
               </select>
             </div>
           ))}
         </div>
         <div className="flex gap-2 mt-5">
-          <button onClick={onClose} disabled={saving} className="flex-1 py-2 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] text-[13px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] hover:bg-[#F1F4FF] dark:hover:bg-[#262A38] transition disabled:opacity-50">Cancel</button>
+          <button onClick={onClose} disabled={saving} className="flex-1 py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] text-[13px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] hover:bg-[#F3EBFF] dark:hover:bg-[#2B1E48] transition disabled:opacity-50">Cancel</button>
           <button disabled={saving} onClick={async () => {
             const leadId = form.id || form._id;
             const endpoint = `/lead/${leadId}`;
@@ -959,7 +967,7 @@ function EditLeadModal({ lead, onClose, onSave }) {
             } catch (err) {
               alert("Failed to save: " + (err.response?.data?.message || err.message));
             } finally { setSaving(false); }
-          }} className="flex-1 py-2 rounded-xl bg-[#2563EB] text-white text-[13px] font-semibold hover:bg-blue-700 transition disabled:opacity-60 disabled:cursor-not-allowed">
+          }} className="flex-1 py-2 rounded-xl bg-gradient-to-br from-[#863BFF] to-[#7E14FF] text-white shadow-[0_6px_18px_-6px_rgba(126,20,255,0.55)] text-[13px] font-semibold hover:from-[#7E14FF] hover:to-[#6300D6] transition disabled:opacity-60 disabled:cursor-not-allowed">
             {saving ? "Saving…" : "Save Changes"}
           </button>
         </div>
@@ -1067,70 +1075,70 @@ function PhoneNumbersModal({ lead, onClose, onLeadUpdated }) {
 
   return (
     <div className="fixed inset-0 z-[90] flex items-center justify-center bg-black/40 backdrop-blur-sm p-3 sm:p-0">
-      <div className="bg-white dark:bg-[#1A1D27] border border-[#E4E7EF] dark:border-[#262A38] rounded-2xl p-4 sm:p-6 w-full max-w-sm sm:mx-4 shadow-2xl max-h-[92vh] overflow-y-auto">
+      <div className="bg-white dark:bg-[#181029] border border-[#E7DCFA] dark:border-[#2B1E48] rounded-2xl ld-card p-4 sm:p-6 w-full max-w-sm sm:mx-4 shadow-2xl max-h-[92vh] overflow-y-auto">
         <div className="flex items-center justify-between mb-5">
           <div className="min-w-0">
-            <h2 className="text-[15px] font-bold text-[#0F1117] dark:text-[#F0F2FA]">Phone Numbers</h2>
-            <p className="text-[11px] text-[#8B92A9] dark:text-[#565C75] mt-0.5 truncate">{lead.name}</p>
+            <h2 className="text-[15px] font-bold text-[#170B29] dark:text-[#F4EEFF]">Phone Numbers</h2>
+            <p className="text-[11px] text-[#7D7296] dark:text-[#564C70] mt-0.5 truncate">{lead.name}</p>
           </div>
-          <button onClick={onClose} className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-[#F1F4FF] dark:hover:bg-[#262A38] text-[#8B92A9] shrink-0">
+          <button onClick={onClose} className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-[#F3EBFF] dark:hover:bg-[#2B1E48] text-[#7D7296] shrink-0">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
           </button>
         </div>
 
         {/* Primary */}
         <div className="mb-3">
-          <p className="text-[11px] font-semibold text-[#8B92A9] dark:text-[#565C75] uppercase tracking-wide mb-1.5">Primary Number</p>
-          <div className="flex items-center gap-2.5 bg-[#F8F9FC] dark:bg-[#13161E] border border-[#E4E7EF] dark:border-[#262A38] rounded-xl px-3 py-2.5">
-            <PhoneIcon className="text-[#2563EB]" />
-            <span className="text-[13px] font-semibold font-mono text-[#0F1117] dark:text-[#F0F2FA] flex-1 truncate">{primaryPhone || "—"}</span>
-            <span className="text-[9px] font-bold uppercase tracking-wide text-[#2563EB] bg-[#EEF3FF] dark:bg-[#1A2540] px-2 py-0.5 rounded-full shrink-0">Primary</span>
+          <p className="text-[11px] font-semibold text-[#7D7296] dark:text-[#564C70] uppercase tracking-wide mb-1.5">Primary Number</p>
+          <div className="flex items-center gap-2.5 bg-[#FAF7FF] dark:bg-[#120B22] border border-[#E7DCFA] dark:border-[#2B1E48] rounded-xl px-3 py-2.5">
+            <PhoneIcon className="text-[#7E14FF]" />
+            <span className="text-[13px] font-semibold font-mono text-[#170B29] dark:text-[#F4EEFF] flex-1 truncate">{primaryPhone || "—"}</span>
+            <span className="text-[9px] font-bold uppercase tracking-wide text-[#7E14FF] bg-[#F3EBFF] dark:bg-[#271449] px-2 py-0.5 rounded-full shrink-0">Primary</span>
           </div>
         </div>
 
         {/* Secondary */}
         <div className="mb-4">
-          <p className="text-[11px] font-semibold text-[#8B92A9] dark:text-[#565C75] uppercase tracking-wide mb-1.5">Secondary Number</p>
+          <p className="text-[11px] font-semibold text-[#7D7296] dark:text-[#564C70] uppercase tracking-wide mb-1.5">Secondary Number</p>
           {secondaryPhone ? (
             <>
-              <div className="flex items-center gap-2 bg-[#F8F9FC] dark:bg-[#13161E] border border-[#E4E7EF] dark:border-[#262A38] rounded-xl px-3 py-2.5">
+              <div className="flex items-center gap-2 bg-[#FAF7FF] dark:bg-[#120B22] border border-[#E7DCFA] dark:border-[#2B1E48] rounded-xl px-3 py-2.5">
                 <PhoneIcon className="text-[#059669]" />
-                <span className="text-[13px] font-semibold font-mono text-[#0F1117] dark:text-[#F0F2FA] flex-1 truncate">{secondaryPhone}</span>
+                <span className="text-[13px] font-semibold font-mono text-[#170B29] dark:text-[#F4EEFF] flex-1 truncate">{secondaryPhone}</span>
                 <button onClick={handleSwap} disabled={busy} title="Swap primary ↔ secondary"
-                  className="w-7 h-7 flex items-center justify-center rounded-lg border border-[#E4E7EF] dark:border-[#262A38] text-[#7C3AED] hover:bg-[#F3EEFF] dark:hover:bg-[#2A1F40] hover:border-[#7C3AED] transition disabled:opacity-50 shrink-0">
+                  className="w-7 h-7 flex items-center justify-center rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] text-[#7E14FF] hover:bg-[#F1E7FF] dark:hover:bg-[#2A1745] hover:border-[#7E14FF] transition disabled:opacity-50 shrink-0">
                   {busy && busyOp === "swap" ? <Spinner /> : (
                     <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4"/></svg>
                   )}
                 </button>
                 <button onClick={handleRemove} disabled={busy} title="Remove secondary"
-                  className="w-7 h-7 flex items-center justify-center rounded-lg border border-[#E4E7EF] dark:border-[#262A38] text-[#DC2626] hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-[#DC2626] transition disabled:opacity-50 shrink-0">
+                  className="w-7 h-7 flex items-center justify-center rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] text-[#DC2626] hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-[#DC2626] transition disabled:opacity-50 shrink-0">
                   {busy && busyOp === "remove" ? <Spinner /> : (
                     <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                   )}
                 </button>
               </div>
-              <div className="mt-2 flex items-start gap-2 bg-[#F3EEFF] dark:bg-[#1E1030] border border-[#DDD6FE] dark:border-[#4C1D95] rounded-xl px-3 py-2">
-                <svg className="w-3.5 h-3.5 text-[#7C3AED] shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                <p className="text-[11px] text-[#6D28D9] dark:text-[#C4B5FD]">Use ↕ to promote the secondary to primary without losing either number.</p>
+              <div className="mt-2 flex items-start gap-2 bg-[#F1E7FF] dark:bg-[#1C0D33] border border-[#DECCFF] dark:border-[#3F0A7A] rounded-xl px-3 py-2">
+                <svg className="w-3.5 h-3.5 text-[#7E14FF] shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <p className="text-[11px] text-[#6300D6] dark:text-[#C39BFF]">Use ↕ to promote the secondary to primary without losing either number.</p>
               </div>
             </>
           ) : (
-            <div className="flex items-center gap-2.5 bg-[#F8F9FC] dark:bg-[#13161E] border border-dashed border-[#C4C9D9] dark:border-[#3E4257] rounded-xl px-3 py-2.5">
-              <PhoneIcon className="text-[#C4C9D9] dark:text-[#3E4257]" />
-              <span className="text-[12px] text-[#8B92A9] dark:text-[#565C75] italic">No secondary number added</span>
+            <div className="flex items-center gap-2.5 bg-[#FAF7FF] dark:bg-[#120B22] border border-dashed border-[#CBBDE4] dark:border-[#3B295E] rounded-xl px-3 py-2.5">
+              <PhoneIcon className="text-[#CBBDE4] dark:text-[#3B295E]" />
+              <span className="text-[12px] text-[#7D7296] dark:text-[#564C70] italic">No secondary number added</span>
             </div>
           )}
         </div>
 
         {/* Add secondary form */}
         {!secondaryPhone && (
-          <div className="border-t border-[#E4E7EF] dark:border-[#262A38] pt-4">
-            <p className="text-[11px] font-semibold text-[#8B92A9] dark:text-[#565C75] uppercase tracking-wide mb-2">Add Secondary Number</p>
+          <div className="border-t border-[#E7DCFA] dark:border-[#2B1E48] pt-4">
+            <p className="text-[11px] font-semibold text-[#7D7296] dark:text-[#564C70] uppercase tracking-wide mb-2">Add Secondary Number</p>
             <div className="flex flex-col sm:flex-row gap-2">
               <input type="tel" placeholder="e.g. +91 98765 43210" value={newSecondary}
                 onChange={e => { setNewSecondary(e.target.value); setErrorMsg(""); }}
                 onKeyDown={e => { if (e.key === "Enter") handleAdd(); }}
-                className="flex-1 min-w-0 px-3 py-2 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-white dark:bg-[#13161E] text-[13px] text-[#0F1117] dark:text-[#F0F2FA] placeholder-[#8B92A9] focus:outline-none focus:border-[#2563EB] transition" />
+                className="flex-1 min-w-0 px-3 py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-white dark:bg-[#120B22] text-[13px] text-[#170B29] dark:text-[#F4EEFF] placeholder-[#7D7296] focus:outline-none focus:border-[#7E14FF] transition" />
               <button onClick={handleAdd} disabled={!newSecondary.trim() || busy}
                 className="px-4 py-2 rounded-xl bg-[#059669] text-white text-[12px] font-semibold hover:bg-emerald-700 disabled:opacity-50 transition flex items-center justify-center gap-1.5 shrink-0">
                 {busy && busyOp === "add" ? <Spinner /> : null} Save
@@ -1180,8 +1188,8 @@ function PhoneNumbersModal({ lead, onClose, onLeadUpdated }) {
           </div>
         )}
 
-        <div className="mt-5 pt-4 border-t border-[#E4E7EF] dark:border-[#262A38]">
-          <button onClick={onClose} className="w-full py-2 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] text-[13px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] hover:bg-[#F1F4FF] dark:hover:bg-[#262A38] transition">Close</button>
+        <div className="mt-5 pt-4 border-t border-[#E7DCFA] dark:border-[#2B1E48]">
+          <button onClick={onClose} className="w-full py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] text-[13px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] hover:bg-[#F3EBFF] dark:hover:bg-[#2B1E48] transition">Close</button>
         </div>
       </div>
     </div>
@@ -1205,19 +1213,19 @@ function LeadDrawer({ lead, onClose, onUpdate, projects = [] }) {
 
   return (
     <div className="fixed inset-0 z-50 flex justify-end" onClick={onClose}>
-      <div className="w-full sm:max-w-[440px] bg-white dark:bg-[#1A1D27] h-full shadow-2xl overflow-y-auto flex flex-col" onClick={e => e.stopPropagation()}>
-        <div className="px-4 sm:px-6 py-4 sm:py-5 border-b border-[#E4E7EF] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E]">
+      <div className="w-full sm:max-w-[440px] bg-white dark:bg-[#181029] h-full shadow-2xl overflow-y-auto flex flex-col" onClick={e => e.stopPropagation()}>
+        <div className="px-4 sm:px-6 py-4 sm:py-5 border-b border-[#E7DCFA] dark:border-[#2B1E48] bg-[#FAF7FF] dark:bg-[#120B22]">
           <div className="flex items-start justify-between mb-3 gap-2">
             <div className="flex items-center gap-3 min-w-0">
               <div className="w-12 h-12 rounded-2xl flex items-center justify-center text-[15px] font-black shrink-0" style={{ background: s.dot + "20", color: s.dot }}>
                 {name.split(" ").map(n => n[0]).join("").slice(0,2).toUpperCase()}
               </div>
               <div className="min-w-0">
-                <h2 className="text-[17px] sm:text-[18px] font-bold text-[#0F1117] dark:text-white truncate">{name}</h2>
-                <p className="text-[12px] text-[#8B92A9] font-mono">{phone !== "—" ? maskPhone(phone) : "—"}</p>
+                <h2 className="text-[17px] sm:text-[18px] font-bold text-[#170B29] dark:text-white truncate">{name}</h2>
+                <p className="text-[12px] text-[#7D7296] font-mono">{phone !== "—" ? maskPhone(phone) : "—"}</p>
               </div>
             </div>
-            <button onClick={onClose} className="w-8 h-8 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] flex items-center justify-center text-[#8B92A9] hover:text-[#0F1117] dark:hover:text-white transition shrink-0">
+            <button onClick={onClose} className="w-8 h-8 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-center text-[#7D7296] hover:text-[#170B29] dark:hover:text-white transition shrink-0">
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
             </button>
           </div>
@@ -1231,39 +1239,39 @@ function LeadDrawer({ lead, onClose, onUpdate, projects = [] }) {
               return (
                 <span key={String(proj._id)}
                   className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold text-white"
-                  style={{ background: proj.color || "#2563EB" }}>
+                  style={{ background: proj.color || "#7E14FF" }}>
                   {proj.name}
                 </span>
               );
             })}
             {lead.reassignCount > 0 && (
-              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-purple-50 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400">
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-violet-50 dark:bg-violet-950/40 text-violet-600 dark:text-violet-300">
                 Reassigned {lead.reassignCount}
               </span>
             )}
           </div>
         </div>
 
-        <div className="px-4 sm:px-6 py-4 grid grid-cols-2 gap-3 border-b border-[#E4E7EF] dark:border-[#262A38]">
+        <div className="px-4 sm:px-6 py-4 grid grid-cols-2 gap-3 border-b border-[#E7DCFA] dark:border-[#2B1E48]">
           {[{label:"Source",value:lead.source||"—"},{label:"Campaign",value:lead.campaign||"—"},{label:"Date",value:lead.date||"—"},{label:"Remark",value:lead.remark||"No remark"}].map(item => (
-            <div key={item.label} className="bg-[#F8F9FC] dark:bg-[#13161E] rounded-xl p-3 min-w-0">
-              <p className="text-[9px] font-bold text-[#8B92A9] dark:text-[#D1D5DB] uppercase tracking-widest mb-1">{item.label}</p>
-              <p className="text-[12px] font-medium text-[#0F1117] dark:text-white break-words">{item.value}</p>
+            <div key={item.label} className="bg-[#FAF7FF] dark:bg-[#120B22] rounded-xl p-3 min-w-0">
+              <p className="text-[9px] font-bold text-[#7D7296] dark:text-[#C6BBDC] uppercase tracking-widest mb-1">{item.label}</p>
+              <p className="text-[12px] font-medium text-[#170B29] dark:text-white break-words">{item.value}</p>
             </div>
           ))}
         </div>
 
         {callHistory.length > 0 && (
-          <div className="px-4 sm:px-6 py-4 border-b border-[#E4E7EF] dark:border-[#262A38]">
-            <p className="text-[11px] font-bold text-[#8B92A9] dark:text-[#D1D5DB] uppercase tracking-wide mb-3"> Call History ({callHistory.length})</p>
+          <div className="px-4 sm:px-6 py-4 border-b border-[#E7DCFA] dark:border-[#2B1E48]">
+            <p className="text-[11px] font-bold text-[#7D7296] dark:text-[#C6BBDC] uppercase tracking-wide mb-3"> Call History ({callHistory.length})</p>
             <div className="space-y-2 max-h-52 overflow-y-auto pr-1">
               {callHistory.map((h, i) => (
-                <div key={i} className="px-3 py-2.5 rounded-xl bg-[#F8F9FC] dark:bg-[#13161E] border border-[#E4E7EF] dark:border-[#262A38]">
+                <div key={i} className="px-3 py-2.5 rounded-xl bg-[#FAF7FF] dark:bg-[#120B22] border border-[#E7DCFA] dark:border-[#2B1E48]">
                   <div className="flex items-center justify-between mb-1 gap-2 flex-wrap">
-                    <span className="text-[12px] font-semibold text-[#0F1117] dark:text-white truncate">{h.userName || "Unknown Employee"}</span>
-                    <span className="text-[10px] text-[#8B92A9] shrink-0">{fmt(h.calledAt)}</span>
+                    <span className="text-[12px] font-semibold text-[#170B29] dark:text-white truncate">{h.userName || "Unknown Employee"}</span>
+                    <span className="text-[10px] text-[#7D7296] shrink-0">{fmt(h.calledAt)}</span>
                   </div>
-                  <p className="text-[11px] text-[#4B5168] dark:text-[#E5E7EB] break-words">{h.remark}</p>
+                  <p className="text-[11px] text-[#4A3F66] dark:text-[#E3DAF3] break-words">{h.remark}</p>
                   {h.outcome && <span className="inline-block mt-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-red-50 dark:bg-red-950/40 text-red-600 dark:text-red-400">{h.outcome}</span>}
                 </div>
               ))}
@@ -1272,20 +1280,20 @@ function LeadDrawer({ lead, onClose, onUpdate, projects = [] }) {
         )}
 
         {pendingCalls.length > 0 && (
-          <div className="px-4 sm:px-6 py-4 border-b border-[#E4E7EF] dark:border-[#262A38]">
-            <p className="text-[11px] font-bold text-[#8B92A9] dark:text-[#D1D5DB] uppercase tracking-wide mb-3"> Scheduled Follow-ups ({pendingCalls.length} pending)</p>
+          <div className="px-4 sm:px-6 py-4 border-b border-[#E7DCFA] dark:border-[#2B1E48]">
+            <p className="text-[11px] font-bold text-[#7D7296] dark:text-[#C6BBDC] uppercase tracking-wide mb-3"> Scheduled Follow-ups ({pendingCalls.length} pending)</p>
             <div className="space-y-2">
               {pendingCalls.map((sc, i) => {
                 const isPast = new Date(sc.scheduledAt) < new Date();
                 return (
-                  <div key={i} className={"flex items-center gap-3 px-3 py-2.5 rounded-xl border flex-wrap sm:flex-nowrap " + (isPast ? "bg-red-50 dark:bg-red-950/30 border-red-200 dark:border-red-800" : "bg-[#F8F9FC] dark:bg-[#13161E] border-[#E4E7EF] dark:border-[#262A38]")}>
-                    <span className={"w-2 h-2 rounded-full shrink-0 " + (sc.type === "follow-up" ? "bg-blue-500" : "bg-purple-500")} />
+                  <div key={i} className={"flex items-center gap-3 px-3 py-2.5 rounded-xl border flex-wrap sm:flex-nowrap " + (isPast ? "bg-red-50 dark:bg-red-950/30 border-red-200 dark:border-red-800" : "bg-[#FAF7FF] dark:bg-[#120B22] border-[#E7DCFA] dark:border-[#2B1E48]")}>
+                    <span className={"w-2 h-2 rounded-full shrink-0 " + (sc.type === "follow-up" ? "bg-violet-500" : "bg-violet-500")} />
                     <div className="flex-1 min-w-0">
-                      <p className="text-[12px] font-semibold text-[#0F1117] dark:text-white capitalize">{sc.type}</p>
-                      {sc.note && <p className="text-[10px] text-[#8B92A9] break-words">{sc.note}</p>}
+                      <p className="text-[12px] font-semibold text-[#170B29] dark:text-white capitalize">{sc.type}</p>
+                      {sc.note && <p className="text-[10px] text-[#7D7296] break-words">{sc.note}</p>}
                     </div>
                     <div className="text-right shrink-0">
-                      <p className={"text-[11px] font-semibold " + (isPast ? "text-red-500" : "text-[#4B5168] dark:text-[#E5E7EB]")}>{fmt(sc.scheduledAt)}</p>
+                      <p className={"text-[11px] font-semibold " + (isPast ? "text-red-500" : "text-[#4A3F66] dark:text-[#E3DAF3]")}>{fmt(sc.scheduledAt)}</p>
                       {isPast && <p className="text-[9px] text-red-400 font-bold">OVERDUE</p>}
                     </div>
                   </div>
@@ -1296,16 +1304,16 @@ function LeadDrawer({ lead, onClose, onUpdate, projects = [] }) {
         )}
 
         <div className="px-4 sm:px-6 py-4 space-y-2">
-          <button onClick={() => setShowUpdate(true)} className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-[#2563EB] text-white text-[13px] font-semibold hover:bg-blue-700 transition">
+          <button onClick={() => setShowUpdate(true)} className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-br from-[#863BFF] to-[#7E14FF] text-white shadow-[0_6px_18px_-6px_rgba(126,20,255,0.55)] text-[13px] font-semibold hover:from-[#7E14FF] hover:to-[#6300D6] transition">
             <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
             <span className="truncate">Update Status / Lead Quality</span>
           </button>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            <button onClick={() => setShowEdit(true)} className="flex items-center justify-center gap-2 py-2.5 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] text-[#4B5168] dark:text-[#9DA3BB] text-[13px] font-semibold hover:bg-[#F1F4FF] dark:hover:bg-[#262A38] hover:border-[#2563EB] hover:text-[#2563EB] transition">
+            <button onClick={() => setShowEdit(true)} className="flex items-center justify-center gap-2 py-2.5 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] text-[#4A3F66] dark:text-[#9A8DB6] text-[13px] font-semibold hover:bg-[#F3EBFF] dark:hover:bg-[#2B1E48] hover:border-[#7E14FF] hover:text-[#7E14FF] transition">
               <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
               Edit Lead
             </button>
-            <button onClick={() => setShowPhone(true)} className="flex items-center justify-center gap-2 py-2.5 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] text-[#4B5168] dark:text-[#9DA3BB] text-[13px] font-semibold hover:bg-[#F1F4FF] dark:hover:bg-[#262A38] hover:border-[#059669] hover:text-[#059669] transition">
+            <button onClick={() => setShowPhone(true)} className="flex items-center justify-center gap-2 py-2.5 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] text-[#4A3F66] dark:text-[#9A8DB6] text-[13px] font-semibold hover:bg-[#F3EBFF] dark:hover:bg-[#2B1E48] hover:border-[#059669] hover:text-[#059669] transition">
               <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
               <span className="truncate">{lead.secondaryPhone ? "Manage Numbers" : "+ 2nd Number"}</span>
             </button>
@@ -1482,15 +1490,15 @@ function AddLeadModal({ onClose, onAdd }) {
   };
 
   const CLS = key =>
-    "w-full px-3 py-2.5 rounded-xl border text-[13px] bg-white dark:bg-[#13161E] " +
-    "text-[#0F1117] dark:text-white placeholder:text-[#8B92A9] focus:outline-none transition " +
+    "w-full px-3 py-2.5 rounded-xl border text-[13px] bg-white dark:bg-[#120B22] " +
+    "text-[#170B29] dark:text-white placeholder:text-[#7D7296] focus:outline-none transition " +
     (errors[key]
       ? "border-red-400 dark:border-red-500"
-      : "border-[#E4E7EF] dark:border-[#262A38] focus:border-[#2563EB]");
+      : "border-[#E7DCFA] dark:border-[#2B1E48] focus:border-[#7E14FF]");
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-3 sm:p-4">
-      <div className="bg-white dark:bg-[#1A1D27] border border-[#E4E7EF] dark:border-[#262A38] rounded-2xl p-4 sm:p-6 w-full max-w-md shadow-2xl max-h-[92vh] overflow-y-auto">
+      <div className="bg-white dark:bg-[#181029] border border-[#E7DCFA] dark:border-[#2B1E48] rounded-2xl ld-card p-4 sm:p-6 w-full max-w-md shadow-2xl max-h-[92vh] overflow-y-auto">
 
         {/* Header */}
         <div className="flex items-center gap-3 mb-5">
@@ -1500,12 +1508,12 @@ function AddLeadModal({ onClose, onAdd }) {
             </svg>
           </div>
           <div className="min-w-0">
-            <h2 className="text-[16px] font-bold text-[#0F1117] dark:text-white">Add New Lead</h2>
-            <p className="text-[11px] text-[#8B92A9]">Assigned to you automatically</p>
+            <h2 className="text-[16px] font-bold text-[#170B29] dark:text-white">Add New Lead</h2>
+            <p className="text-[11px] text-[#7D7296]">Assigned to you automatically</p>
           </div>
           <button
             onClick={onClose}
-            className="ml-auto w-8 h-8 flex items-center justify-center rounded-xl hover:bg-[#F1F4FF] dark:hover:bg-[#262A38] text-[#8B92A9] shrink-0"
+            className="ml-auto w-8 h-8 flex items-center justify-center rounded-xl hover:bg-[#F3EBFF] dark:hover:bg-[#2B1E48] text-[#7D7296] shrink-0"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
@@ -1518,7 +1526,7 @@ function AddLeadModal({ onClose, onAdd }) {
 
           {/* Name */}
           <div className="flex flex-col gap-1">
-            <label className="text-[11px] font-semibold text-[#8B92A9] uppercase tracking-wide">Lead Name *</label>
+            <label className="text-[11px] font-semibold text-[#7D7296] uppercase tracking-wide">Lead Name *</label>
             <input
               type="text"
               placeholder="Full name"
@@ -1531,7 +1539,7 @@ function AddLeadModal({ onClose, onAdd }) {
 
           {/* Primary Phone */}
           <div className="flex flex-col gap-1">
-            <label className="text-[11px] font-semibold text-[#8B92A9] uppercase tracking-wide">Phone *</label>
+            <label className="text-[11px] font-semibold text-[#7D7296] uppercase tracking-wide">Phone *</label>
             <input
               type="text"
               inputMode="numeric"
@@ -1545,7 +1553,7 @@ function AddLeadModal({ onClose, onAdd }) {
 
           {/* Secondary Phone — spans full width so it's visually distinct */}
           <div className="col-span-1 sm:col-span-2 flex flex-col gap-1">
-            <label className="text-[11px] font-semibold text-[#8B92A9] uppercase tracking-wide">
+            <label className="text-[11px] font-semibold text-[#7D7296] uppercase tracking-wide">
               Secondary Phone
               <span className="ml-1 font-normal normal-case text-[10px]">(optional)</span>
             </label>
@@ -1564,7 +1572,7 @@ function AddLeadModal({ onClose, onAdd }) {
 
           {/* Email */}
           <div className="flex flex-col gap-1">
-            <label className="text-[11px] font-semibold text-[#8B92A9] uppercase tracking-wide">Email</label>
+            <label className="text-[11px] font-semibold text-[#7D7296] uppercase tracking-wide">Email</label>
             <input
               type="text"
               placeholder="email@example.com"
@@ -1577,7 +1585,7 @@ function AddLeadModal({ onClose, onAdd }) {
 
           {/* Campaign */}
           <div className="flex flex-col gap-1">
-            <label className="text-[11px] font-semibold text-[#8B92A9] uppercase tracking-wide">Campaign</label>
+            <label className="text-[11px] font-semibold text-[#7D7296] uppercase tracking-wide">Campaign</label>
             <input
               type="text"
               placeholder="Campaign name"
@@ -1589,7 +1597,7 @@ function AddLeadModal({ onClose, onAdd }) {
 
           {/* Remark — spans full width */}
           <div className="col-span-1 sm:col-span-2 flex flex-col gap-1">
-            <label className="text-[11px] font-semibold text-[#8B92A9] uppercase tracking-wide">Remark</label>
+            <label className="text-[11px] font-semibold text-[#7D7296] uppercase tracking-wide">Remark</label>
             <input
               type="text"
               placeholder="Notes"
@@ -1601,11 +1609,11 @@ function AddLeadModal({ onClose, onAdd }) {
 
           {/* Source */}
           <div className="flex flex-col gap-1">
-            <label className="text-[11px] font-semibold text-[#8B92A9] uppercase tracking-wide">Source</label>
+            <label className="text-[11px] font-semibold text-[#7D7296] uppercase tracking-wide">Source</label>
             <select
               value={form.source}
               onChange={e => set("source", e.target.value)}
-              className="w-full px-3 py-2.5 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-white dark:bg-[#13161E] text-[13px] text-[#0F1117] dark:text-white focus:outline-none"
+              className="w-full px-3 py-2.5 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-white dark:bg-[#120B22] text-[13px] text-[#170B29] dark:text-white focus:outline-none"
             >
               {["Google Ads","Facebook Ads","Web Form","Referral","Manual","CSV Import","Campaign","Other"].map(s => (
                 <option key={s}>{s}</option>
@@ -1615,11 +1623,11 @@ function AddLeadModal({ onClose, onAdd }) {
 
           {/* Status */}
           <div className="flex flex-col gap-1">
-            <label className="text-[11px] font-semibold text-[#8B92A9] uppercase tracking-wide">Status</label>
+            <label className="text-[11px] font-semibold text-[#7D7296] uppercase tracking-wide">Status</label>
             <select
               value={form.status}
               onChange={e => set("status", e.target.value)}
-              className="w-full px-3 py-2.5 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-white dark:bg-[#13161E] text-[13px] text-[#0F1117] dark:text-white focus:outline-none"
+              className="w-full px-3 py-2.5 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-white dark:bg-[#120B22] text-[13px] text-[#170B29] dark:text-white focus:outline-none"
             >
               {["New","In Progress","Converted"].map(s => <option key={s}>{s}</option>)}
             </select>
@@ -1641,7 +1649,7 @@ function AddLeadModal({ onClose, onAdd }) {
         <div className="flex gap-2 mt-5">
           <button
             onClick={onClose}
-            className="flex-1 py-2.5 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] text-[13px] font-semibold text-[#4B5168] dark:text-[#E5E7EB] hover:bg-[#F1F4FF] dark:hover:bg-[#262A38] transition"
+            className="flex-1 py-2.5 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] text-[13px] font-semibold text-[#4A3F66] dark:text-[#E3DAF3] hover:bg-[#F3EBFF] dark:hover:bg-[#2B1E48] transition"
           >
             Cancel
           </button>
@@ -1745,8 +1753,8 @@ function UserChatWidget() {
   return (
     <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex flex-col items-end gap-3">
       {open && (
-        <div className="w-[calc(100vw-2rem)] max-w-[320px] sm:w-80 bg-white dark:bg-[#1A1D27] border border-[#E4E7EF] dark:border-[#262A38] rounded-2xl shadow-2xl overflow-hidden flex flex-col" style={{ height: "min(420px, 70vh)" }}>
-          <div className="flex items-center justify-between px-4 py-3 bg-[#2563EB]">
+        <div className="w-[calc(100vw-2rem)] max-w-[320px] sm:w-80 bg-white dark:bg-[#181029] border border-[#E7DCFA] dark:border-[#2B1E48] rounded-2xl ld-card shadow-2xl overflow-hidden flex flex-col" style={{ height: "min(420px, 70vh)" }}>
+          <div className="flex items-center justify-between px-4 py-3 bg-[#7E14FF]">
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
               <span className="text-[13px] font-semibold text-white">Support Chat</span>
@@ -1755,11 +1763,11 @@ function UserChatWidget() {
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
             </button>
           </div>
-          <div className="flex-1 overflow-y-auto px-4 py-3 space-y-2 bg-[#F8F9FC] dark:bg-[#13161E]">
+          <div className="flex-1 overflow-y-auto px-4 py-3 space-y-2 bg-[#FAF7FF] dark:bg-[#120B22]">
             {messages.length === 0 && (
               <div className="text-center py-8">
-                <p className="mb-2 flex justify-center text-[#8B92A9]"><MessageCircle className="w-7 h-7" strokeWidth={1.5} /></p>
-                <p className="text-[12px] text-[#8B92A9]">Hi {user?.name?.split(" ")[0] || "there"}! How can we help?</p>
+                <p className="mb-2 flex justify-center text-[#7D7296]"><MessageCircle className="w-7 h-7" strokeWidth={1.5} /></p>
+                <p className="text-[12px] text-[#7D7296]">Hi {user?.name?.split(" ")[0] || "there"}! How can we help?</p>
               </div>
             )}
             {messages.map((m, i) => {
@@ -1771,17 +1779,17 @@ function UserChatWidget() {
                     {isEditing ? (
                       <div className="flex items-center gap-1">
                         <input autoFocus value={editingText} onChange={e => setEditingText(e.target.value)} onKeyDown={e => { if(e.key==="Enter") submitEdit(); if(e.key==="Escape") cancelEdit(); }}
-                          className="px-2 py-1 rounded-lg border border-[#2563EB] text-[12px] text-[#0F1117] dark:text-white bg-white dark:bg-[#1A1D27] focus:outline-none w-40" />
-                        <button onClick={submitEdit} className="text-[10px] text-[#2563EB] font-semibold hover:underline">Save</button>
-                        <button onClick={cancelEdit}  className="text-[10px] text-[#8B92A9] hover:underline">Cancel</button>
+                          className="px-2 py-1 rounded-lg border border-[#7E14FF] text-[12px] text-[#170B29] dark:text-white bg-white dark:bg-[#181029] focus:outline-none w-40" />
+                        <button onClick={submitEdit} className="text-[10px] text-[#7E14FF] font-semibold hover:underline">Save</button>
+                        <button onClick={cancelEdit}  className="text-[10px] text-[#7D7296] hover:underline">Cancel</button>
                       </div>
                     ) : (
-                      <div className={"relative px-3 py-2 rounded-2xl text-[12px] break-words " + (m.isDeleted ? "italic text-[#8B92A9] bg-[#F8F9FC] dark:bg-[#1A1D27] border border-dashed border-[#E4E7EF] dark:border-[#262A38]" : isYou ? "bg-[#2563EB] text-white rounded-br-none" : "bg-white dark:bg-[#1A1D27] text-[#0F1117] dark:text-white rounded-bl-none border border-[#E4E7EF] dark:border-[#262A38]")}>
+                      <div className={"relative px-3 py-2 rounded-2xl text-[12px] break-words " + (m.isDeleted ? "italic text-[#7D7296] bg-[#FAF7FF] dark:bg-[#181029] border border-dashed border-[#E7DCFA] dark:border-[#2B1E48]" : isYou ? "bg-gradient-to-br from-[#863BFF] to-[#7E14FF] text-white shadow-[0_6px_18px_-6px_rgba(126,20,255,0.55)] rounded-br-none" : "bg-white dark:bg-[#181029] text-[#170B29] dark:text-white rounded-bl-none border border-[#E7DCFA] dark:border-[#2B1E48]")}>
                         {m.message}
                         {m.editedAt && !m.isDeleted && <span className="text-[9px] opacity-60 ml-1">(edited)</span>}
                         {isYou && !m.isDeleted && m._id && (
                           <div className="absolute top-1 -left-14 hidden group-hover:flex items-center gap-1">
-                            <button onClick={() => startEdit(m)} className="w-5 h-5 rounded-full bg-white dark:bg-[#262A38] border border-[#E4E7EF] dark:border-[#3A3F52] flex items-center justify-center text-[#8B92A9] hover:text-[#2563EB] transition shadow-sm">
+                            <button onClick={() => startEdit(m)} className="w-5 h-5 rounded-full bg-white dark:bg-[#2B1E48] border border-[#E7DCFA] dark:border-[#382758] flex items-center justify-center text-[#7D7296] hover:text-[#7E14FF] transition shadow-sm">
                               <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
                             </button>
                           </div>
@@ -1794,16 +1802,16 @@ function UserChatWidget() {
             })}
             <div ref={bottomRef} />
           </div>
-          <div className="px-3 py-3 border-t border-[#E4E7EF] dark:border-[#262A38] flex gap-2 bg-white dark:bg-[#1A1D27]">
+          <div className="px-3 py-3 border-t border-[#E7DCFA] dark:border-[#2B1E48] flex gap-2 bg-white dark:bg-[#181029]">
             <input value={message} onChange={e => setMessage(e.target.value)} onKeyDown={e => { if(e.key==="Enter") sendMessage(); }} placeholder="Type a message…"
-              className="flex-1 min-w-0 px-3 py-2 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E] text-[12px] text-[#0F1117] dark:text-white placeholder:text-[#8B92A9] focus:outline-none focus:border-[#2563EB] transition" />
-            <button onClick={sendMessage} className="w-9 h-9 rounded-xl bg-[#2563EB] flex items-center justify-center text-white hover:bg-blue-700 transition shrink-0">
+              className="flex-1 min-w-0 px-3 py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-[#FAF7FF] dark:bg-[#120B22] text-[12px] text-[#170B29] dark:text-white placeholder:text-[#7D7296] focus:outline-none focus:border-[#7E14FF] transition" />
+            <button onClick={sendMessage} className="w-9 h-9 rounded-xl bg-[#7E14FF] flex items-center justify-center text-white hover:from-[#7E14FF] hover:to-[#6300D6] transition shrink-0">
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
             </button>
           </div>
         </div>
       )}
-      <button onClick={() => setOpen(o => !o)} className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#2563EB] text-white shadow-lg flex items-center justify-center transition hover:bg-blue-700 hover:scale-105 active:scale-95 shrink-0">
+      <button onClick={() => setOpen(o => !o)} className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gradient-to-br from-[#863BFF] to-[#7E14FF] text-white shadow-[0_6px_18px_-6px_rgba(126,20,255,0.55)] shadow-lg flex items-center justify-center transition hover:from-[#7E14FF] hover:to-[#6300D6] hover:scale-105 active:scale-95 shrink-0">
         {open
           ? <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
           : <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 11.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
@@ -1883,30 +1891,30 @@ function ProjectsCard({ projects, leads, projectFilter, setProjectFilter, setAct
     );
 
   return (
-    <div className="bg-white dark:bg-[#1A1D27] border border-[#E4E7EF] dark:border-[#262A38] rounded-2xl p-4 sm:p-5 flex flex-col" style={{ minHeight: 220 }}>
+    <div className="bg-white dark:bg-[#181029] border border-[#E7DCFA] dark:border-[#2B1E48] rounded-2xl ld-card p-4 sm:p-5 flex flex-col" style={{ minHeight: 220 }}>
 
       {/* Header */}
       <div className="flex items-center gap-2 mb-3 shrink-0">
         {activeProj && (
           <button
             onClick={() => setActiveProj(null)}
-            className="w-6 h-6 flex items-center justify-center rounded-lg hover:bg-[#F1F4FF] dark:hover:bg-[#262A38] text-[#8B92A9] transition shrink-0"
+            className="w-6 h-6 flex items-center justify-center rounded-lg hover:bg-[#F3EBFF] dark:hover:bg-[#2B1E48] text-[#7D7296] transition shrink-0"
           >
             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7"/>
             </svg>
           </button>
         )}
-        <p className="text-[12px] font-bold text-[#0F1117] dark:text-white uppercase tracking-wide flex-1 truncate">
+        <p className="text-[17px] font-semibold text-[#170B29] dark:text-white font-display tracking-tight flex-1 truncate">
           {activeProj ? activeProj.name : "My Projects"}
         </p>
         {!activeProj && (
-          <span className="text-[10px] font-semibold text-[#8B92A9] bg-[#F1F4FF] dark:bg-[#262A38] px-2 py-0.5 rounded-full shrink-0">
+          <span className="text-[10px] font-semibold text-[#7D7296] bg-[#F3EBFF] dark:bg-[#2B1E48] px-2 py-0.5 rounded-full shrink-0">
             {projects.length}
           </span>
         )}
         {activeProj && (
-          <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: activeProj.color || "#2563EB" }} />
+          <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: activeProj.color || "#7E14FF" }} />
         )}
       </div>
 
@@ -1927,20 +1935,20 @@ function ProjectsCard({ projects, leads, projectFilter, setProjectFilter, setAct
           <div className="flex-1 flex flex-col gap-2.5">
             {/* Description */}
             {p.description
-              ? <p className="text-[11px] text-[#8B92A9] dark:text-[#565C75] leading-snug break-words">{p.description}</p>
-              : <p className="text-[11px] text-[#C4C9D9] dark:text-[#3E4257] italic">No description added</p>
+              ? <p className="text-[11px] text-[#7D7296] dark:text-[#564C70] leading-snug break-words">{p.description}</p>
+              : <p className="text-[11px] text-[#CBBDE4] dark:text-[#3B295E] italic">No description added</p>
             }
 
             {/* Stat rows */}
             <div className="space-y-1.5">
               {[
-                { label: "Total Leads", value: projLeads.length, color: "#2563EB" },
+                { label: "Total Leads", value: projLeads.length, color: "#7E14FF" },
                 { label: "Converted",   value: converted,         color: "#059669" },
                 { label: "In Progress", value: inProg,            color: "#D97706" },
-                { label: "New",         value: newL,              color: "#8B92A9" },
+                { label: "New",         value: newL,              color: "#7D7296" },
               ].map(s => (
                 <div key={s.label} className="flex items-center justify-between">
-                  <span className="text-[11px] text-[#4B5168] dark:text-[#9DA3BB]">{s.label}</span>
+                  <span className="text-[11px] text-[#4A3F66] dark:text-[#9A8DB6]">{s.label}</span>
                   <span className="text-[12px] font-bold" style={{ color: s.color }}>{s.value}</span>
                 </div>
               ))}
@@ -1951,18 +1959,18 @@ function ProjectsCard({ projects, leads, projectFilter, setProjectFilter, setAct
               <div className="flex items-center gap-1.5 flex-wrap">
                 {hot  > 0 && <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded-full bg-red-50 dark:bg-red-950/30 text-red-500 inline-flex items-center gap-0.5"><Flame className="w-2.5 h-2.5" /> {hot} Hot</span>}
                 {warm > 0 && <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded-full bg-amber-50 dark:bg-amber-950/30 text-amber-600 inline-flex items-center gap-0.5"><Sun className="w-2.5 h-2.5" /> {warm} Warm</span>}
-                {cold > 0 && <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded-full bg-blue-50 dark:bg-blue-950/30 text-blue-500 inline-flex items-center gap-0.5"><Snowflake className="w-2.5 h-2.5" /> {cold} Cold</span>}
+                {cold > 0 && <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded-full bg-violet-50 dark:bg-violet-950/30 text-violet-500 inline-flex items-center gap-0.5"><Snowflake className="w-2.5 h-2.5" /> {cold} Cold</span>}
               </div>
             )}
 
             {/* Conversion bar */}
             <div>
-              <div className="flex justify-between text-[10px] text-[#8B92A9] mb-1">
+              <div className="flex justify-between text-[10px] text-[#7D7296] mb-1">
                 <span>Conversion rate</span>
-                <span className="font-bold" style={{ color: p.color || "#2563EB" }}>{convPct}%</span>
+                <span className="font-bold" style={{ color: p.color || "#7E14FF" }}>{convPct}%</span>
               </div>
-              <div className="h-1.5 bg-[#F1F4FF] dark:bg-[#262A38] rounded-full overflow-hidden">
-                <div className="h-full rounded-full transition-all duration-700" style={{ width: convPct + "%", background: p.color || "#2563EB" }} />
+              <div className="h-1.5 bg-[#F3EBFF] dark:bg-[#2B1E48] rounded-full overflow-hidden">
+                <div className="h-full rounded-full transition-all duration-700" style={{ width: convPct + "%", background: p.color || "#7E14FF" }} />
               </div>
             </div>
 
@@ -1975,9 +1983,9 @@ function ProjectsCard({ projects, leads, projectFilter, setProjectFilter, setAct
               }}
               className="mt-auto w-full py-2 rounded-xl text-[11px] font-semibold transition border"
               style={{
-                background:  isFiltered ? (p.color || "#2563EB") : "transparent",
-                borderColor: p.color || "#2563EB",
-                color:       isFiltered ? "#fff" : (p.color || "#2563EB"),
+                background:  isFiltered ? (p.color || "#7E14FF") : "transparent",
+                borderColor: p.color || "#7E14FF",
+                color:       isFiltered ? "#fff" : (p.color || "#7E14FF"),
               }}
             >
               {isFiltered ? "✓ Filtering leads — click to clear" : "Filter leads by this project"}
@@ -1989,10 +1997,10 @@ function ProjectsCard({ projects, leads, projectFilter, setProjectFilter, setAct
         /* ── List view ── */
         projects.length === 0 ? (
           <div className="flex-1 flex flex-col items-center justify-center gap-2 text-center py-4">
-            <svg className="w-8 h-8 text-[#E4E7EF] dark:text-[#262A38]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <svg className="w-8 h-8 text-[#E7DCFA] dark:text-[#2B1E48]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A2 2 0 013 12V7a4 4 0 014-4z"/>
             </svg>
-            <p className="text-[11px] text-[#8B92A9] dark:text-[#565C75]">No projects assigned yet</p>
+            <p className="text-[11px] text-[#7D7296] dark:text-[#564C70]">No projects assigned yet</p>
           </div>
         ) : (
           <div className="flex-1 overflow-y-auto space-y-0.5">
@@ -2002,18 +2010,18 @@ function ProjectsCard({ projects, leads, projectFilter, setProjectFilter, setAct
                 <button
                   key={p._id}
                   onClick={() => setActiveProj(p)}
-                  className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-xl hover:bg-[#F8F9FC] dark:hover:bg-[#13161E] transition group text-left"
+                  className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-xl hover:bg-[#FAF7FF] dark:hover:bg-[#120B22] transition group text-left"
                 >
-                  <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: p.color || "#2563EB" }} />
-                  <span className="flex-1 text-[12px] font-semibold text-[#0F1117] dark:text-[#F0F2FA] truncate group-hover:text-[#2563EB] dark:group-hover:text-[#4F8EF7] transition">
+                  <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: p.color || "#7E14FF" }} />
+                  <span className="flex-1 text-[12px] font-semibold text-[#170B29] dark:text-[#F4EEFF] truncate group-hover:text-[#7E14FF] dark:group-hover:text-[#A46BFF] transition">
                     {p.name}
                   </span>
                   {count > 0 && (
-                    <span className="text-[10px] font-bold text-[#8B92A9] shrink-0 bg-[#F1F4FF] dark:bg-[#262A38] px-1.5 py-0.5 rounded-full">
+                    <span className="text-[10px] font-bold text-[#7D7296] shrink-0 bg-[#F3EBFF] dark:bg-[#2B1E48] px-1.5 py-0.5 rounded-full">
                       {count}
                     </span>
                   )}
-                  <svg className="w-3 h-3 text-[#C4C9D9] dark:text-[#3E4257] shrink-0 group-hover:text-[#2563EB] transition" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <svg className="w-3 h-3 text-[#CBBDE4] dark:text-[#3B295E] shrink-0 group-hover:text-[#7E14FF] transition" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"/>
                   </svg>
                 </button>
@@ -2077,7 +2085,7 @@ function TelegramSetupWidget({ user }) {
         className={`relative w-9 h-9 flex items-center justify-center rounded-xl border transition-all shrink-0 ${
           open
             ? "bg-sky-50 dark:bg-sky-500/15 border-sky-300 dark:border-sky-700 text-sky-600"
-            : "border-[#E4E7EF] dark:border-[#262A38] bg-white dark:bg-[#1A1D27] text-[#6B7280] hover:text-sky-500 hover:border-sky-300"
+            : "border-[#E7DCFA] dark:border-[#2B1E48] bg-white dark:bg-[#181029] text-[#6E6386] hover:text-sky-500 hover:border-sky-300"
         }`}
       >
         {/* Send/paper-plane icon */}
@@ -2085,27 +2093,27 @@ function TelegramSetupWidget({ user }) {
           <path strokeLinecap="round" strokeLinejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
         </svg>
         {isConfigured && (
-          <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-500 border-2 border-white dark:border-[#1A1D27]" />
+          <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-500 border-2 border-white dark:border-[#181029]" />
         )}
       </button>
 
       {open && (
         <div
           ref={popRef}
-          className="fixed sm:absolute left-2 right-2 sm:left-auto sm:right-0 top-auto sm:top-full mt-2 w-auto sm:w-[300px] max-w-full bg-white dark:bg-[#1A1D27] border border-[#E4E7EF] dark:border-[#262A38] rounded-2xl shadow-xl z-[500] overflow-hidden"
+          className="fixed sm:absolute left-2 right-2 sm:left-auto sm:right-0 top-auto sm:top-full mt-2 w-auto sm:w-[300px] max-w-full bg-white dark:bg-[#181029] border border-[#E7DCFA] dark:border-[#2B1E48] rounded-2xl ld-card shadow-xl z-[500] overflow-hidden"
         >
           {/* Header */}
-          <div className="flex items-center gap-2.5 px-4 pt-4 pb-3 border-b border-[#F0F2FA] dark:border-[#262A38]">
+          <div className="flex items-center gap-2.5 px-4 pt-4 pb-3 border-b border-[#F4EEFF] dark:border-[#2B1E48]">
             <div className="w-7 h-7 rounded-lg bg-sky-50 dark:bg-sky-500/10 flex items-center justify-center shrink-0">
               <svg className="w-3.5 h-3.5 text-sky-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
               </svg>
             </div>
             <div className="min-w-0">
-              <p className="text-[13px] font-bold text-[#0F1117] dark:text-[#F0F2FA]">Lead Notifications</p>
-              <p className="text-[10px] text-[#8B92A9]">Telegram — personal alerts</p>
+              <p className="text-[13px] font-bold text-[#170B29] dark:text-[#F4EEFF]">Lead Notifications</p>
+              <p className="text-[10px] text-[#7D7296]">Telegram — personal alerts</p>
             </div>
-            <button onClick={() => setOpen(false)} className="ml-auto w-6 h-6 flex items-center justify-center rounded-lg text-[#8B92A9] hover:bg-[#F1F4FF] dark:hover:bg-[#262A38] transition shrink-0">
+            <button onClick={() => setOpen(false)} className="ml-auto w-6 h-6 flex items-center justify-center rounded-lg text-[#7D7296] hover:bg-[#F3EBFF] dark:hover:bg-[#2B1E48] transition shrink-0">
               <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
             </button>
           </div>
@@ -2125,7 +2133,7 @@ function TelegramSetupWidget({ user }) {
 
             {/* Chat ID input */}
             <div>
-              <label className="block text-[11px] font-semibold text-[#8B92A9] uppercase tracking-wide mb-1.5">
+              <label className="block text-[11px] font-semibold text-[#7D7296] uppercase tracking-wide mb-1.5">
                 Your Telegram Chat ID
                 {isConfigured && <span className="ml-1.5 text-[10px] font-normal text-emerald-500">● set</span>}
               </label>
@@ -2135,9 +2143,9 @@ function TelegramSetupWidget({ user }) {
                 onChange={e => setDraft(e.target.value)}
                 onKeyDown={e => { if (e.key === "Enter") handleSave(); }}
                 placeholder="e.g. 123456789"
-                className="w-full px-3 py-2 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E] text-[12px] text-[#0F1117] dark:text-[#F0F2FA] placeholder:text-[#8B92A9] font-mono focus:outline-none focus:border-[#2563EB] transition"
+                className="w-full px-3 py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-[#FAF7FF] dark:bg-[#120B22] text-[12px] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#7D7296] font-mono focus:outline-none focus:border-[#7E14FF] transition"
               />
-              <p className="text-[10px] text-[#8B92A9] mt-1">
+              <p className="text-[10px] text-[#7D7296] mt-1">
                 Message <span className="font-mono font-semibold">@userinfobot</span> on Telegram to get your ID
               </p>
             </div>
@@ -2157,7 +2165,7 @@ function TelegramSetupWidget({ user }) {
             <button
               onClick={handleSave}
               disabled={saving || !hasChanges}
-              className="w-full py-2 rounded-xl bg-[#2563EB] hover:bg-blue-700 disabled:opacity-50 text-white text-[12px] font-semibold transition flex items-center justify-center gap-1.5"
+              className="w-full py-2 rounded-xl bg-[#7E14FF] hover:from-[#7E14FF] hover:to-[#6300D6] disabled:opacity-50 text-white text-[12px] font-semibold transition flex items-center justify-center gap-1.5"
             >
               {saving
                 ? <svg className="w-3.5 h-3.5 animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg>
@@ -2167,10 +2175,10 @@ function TelegramSetupWidget({ user }) {
             </button>
 
             {/* What triggers notifications */}
-            <div className="border-t border-[#F0F2FA] dark:border-[#262A38] pt-2">
-              <p className="text-[10px] text-[#8B92A9] font-semibold mb-1">You'll be notified when:</p>
+            <div className="border-t border-[#F4EEFF] dark:border-[#2B1E48] pt-2">
+              <p className="text-[10px] text-[#7D7296] font-semibold mb-1">You'll be notified when:</p>
               {["A new lead is assigned to you", "A lead is reassigned to you"].map(t => (
-                <p key={t} className="text-[10px] text-[#8B92A9] flex items-center gap-1.5">
+                <p key={t} className="text-[10px] text-[#7D7296] flex items-center gap-1.5">
                   <svg className="w-2.5 h-2.5 text-emerald-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
                   {t}
                 </p>
@@ -2442,28 +2450,28 @@ export default function UserDashboard() {
   const initials = user?.name ? user.name.split(" ").map(n => n[0]).join("").slice(0,2).toUpperCase() : "U";
 
   return (
-    <div className="min-h-screen bg-[#F0F4FF] dark:bg-[#0D0F14]">
+    <div className="min-h-screen ld-canvas">
       {/* ── Sub-header ── */}
-<div className="relative px-4 sm:px-6 py-4 bg-white dark:bg-[#1A1D27] border-b border-[#E4E7EF] dark:border-[#262A38] shadow-sm overflow-visible">
+<div className="ld-hero relative mx-3 sm:mx-6 mt-3 sm:mt-6 rounded-3xl px-5 sm:px-7 py-5 sm:py-6 text-white overflow-visible">
   <div className="flex items-start sm:items-center justify-between flex-wrap gap-3">
           <div className="flex items-center gap-3 min-w-0">
             <div className="min-w-0">
-              <p className="text-[#8B92A9] dark:text-[#D1D5DB] text-[11px] sm:text-[12px] font-medium">{greeting.emoji} {greeting.text}</p>
-              <h1 className="text-[18px] sm:text-[22px] font-black text-[#0F1117] dark:text-white mt-0.5 break-words">
+              <p className="text-white/75 text-[12px] sm:text-[13px] font-medium">{greeting.emoji} {greeting.text}</p>
+              <h1 className="font-display text-[24px] sm:text-[30px] font-bold tracking-tight text-white mt-0.5 break-words">
                 {user?.name || "Employee"}
-                <span className="text-[#8B92A9] dark:text-[#D1D5DB] text-[13px] sm:text-[16px] font-normal ml-2 block sm:inline">— My Workspace</span>
+                <span className="font-sans text-white/70 text-[13px] sm:text-[16px] font-normal ml-2 block sm:inline">— My Workspace</span>
               </h1>
             </div>
           </div>
           <div className="flex items-center gap-2 flex-wrap w-full sm:w-auto">
-            <button onClick={() => setShowAddModal(true)} className="flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl bg-[#2563EB] text-white text-[12px] sm:text-[13px] font-semibold hover:bg-blue-700 transition">
+            <button onClick={() => setShowAddModal(true)} className="flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl bg-white text-[#6300D6] shadow-[0_8px_20px_-8px_rgba(20,0,60,0.55)] text-[12px] sm:text-[13px] font-bold hover:bg-[#F3EBFF] transition">
               <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4"/></svg>
               <span className="whitespace-nowrap">Add Lead</span>
             </button>
 
             {/* CSV import / template */}
-            <div className="flex items-center rounded-xl border border-[#E4E7EF] dark:border-[#262A38] overflow-hidden">
-              <label className={`flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-2 text-[#4B5168] dark:text-[#E5E7EB] text-[11px] sm:text-[13px] font-semibold hover:bg-[#F1F4FF] dark:hover:bg-[#262A38] transition cursor-pointer border-r border-[#E4E7EF] dark:border-[#262A38] ${csvImporting ? "opacity-60 cursor-not-allowed" : ""}`}>
+            <div className="flex items-center rounded-xl border border-white/25 bg-white/10 overflow-hidden">
+              <label className={`flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-2 text-white text-[11px] sm:text-[13px] font-semibold hover:bg-white/15 transition cursor-pointer border-r border-white/20 ${csvImporting ? "opacity-60 cursor-not-allowed" : ""}`}>
                 <input type="file" accept=".csv" className="hidden" disabled={csvImporting} onChange={handleImportCSV}/>
                 {csvImporting
                   ? <svg className="w-4 h-4 animate-spin shrink-0" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg>
@@ -2471,7 +2479,7 @@ export default function UserDashboard() {
                 }
                 <span className="whitespace-nowrap">{csvImporting ? "Importing…" : "Import CSV"}</span>
               </label>
-              <button onClick={downloadCSVTemplate} className="flex items-center gap-1.5 px-2.5 sm:px-3 py-2 text-[#2563EB] dark:text-[#4F8EF7] text-[11px] sm:text-[12px] font-semibold hover:bg-[#EEF3FF] dark:hover:bg-[#1A2540] transition whitespace-nowrap">
+              <button onClick={downloadCSVTemplate} className="flex items-center gap-1.5 px-2.5 sm:px-3 py-2 text-white text-[11px] sm:text-[12px] font-semibold hover:bg-white/15 transition whitespace-nowrap">
                 <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                 Template
               </button>
@@ -2509,22 +2517,22 @@ export default function UserDashboard() {
               </div>
             )}
 
-            <div className="w-9 h-9 rounded-full bg-[#EEF3FF] dark:bg-[#1A2540] flex items-center justify-center text-[13px] font-black text-[#2563EB] dark:text-[#4F8EF7] border border-[#C7D7FF] dark:border-[#2D3A6B] shrink-0">{initials}</div>
+            <div className="w-9 h-9 rounded-full bg-white/15 flex items-center justify-center text-[13px] font-black text-white border border-white/30 shrink-0">{initials}</div>
           </div>
         </div>
 
         {/* Quick stats strip */}
-        <div className="flex items-center gap-3 sm:gap-6 mt-4 pt-4 border-t border-[#E4E7EF] dark:border-[#262A38] flex-wrap">
+        <div className="flex items-center gap-3 sm:gap-6 mt-5 pt-4 border-t border-white/20 flex-wrap">
           {[
-            { label:"My Total Leads", value:kpi.total,          color:"text-[#0F1117] dark:text-white" },
-            { label:"Today",          value:kpi.todayLeads,     color:"text-[#2563EB] dark:text-[#4F8EF7]" },
-            { label:"This Week",      value:kpi.weekLeads,      color:"text-[#2563EB] dark:text-[#4F8EF7]" },
-            { label:"Converted",      value:kpi.converted,      color:"text-[#059669] dark:text-[#34D399]" },
-            { label:"Conv. Rate",     value:kpi.convRate + "%", color:"text-[#059669] dark:text-[#34D399]" },
+            { label:"My Total Leads", value:kpi.total,          color:"text-white" },
+            { label:"Today",          value:kpi.todayLeads,     color:"text-[#BFE8FF]" },
+            { label:"This Week",      value:kpi.weekLeads,      color:"text-[#BFE8FF]" },
+            { label:"Converted",      value:kpi.converted,      color:"text-[#A7F3D0]" },
+            { label:"Conv. Rate",     value:kpi.convRate + "%", color:"text-[#A7F3D0]" },
           ].map(stat => (
             <div key={stat.label} className="flex items-center gap-1.5 sm:gap-2">
-              <span className={"text-[15px] sm:text-[18px] font-black " + stat.color}>{stat.value}</span>
-              <span className="text-[11px] sm:text-[14px] text-[#8B92A9] dark:text-[#D1D5DB] font-medium whitespace-nowrap">{stat.label}</span>
+              <span className={"font-display text-[18px] sm:text-[22px] font-bold " + stat.color}>{stat.value}</span>
+              <span className="text-[12px] sm:text-[13px] text-white/70 font-medium whitespace-nowrap">{stat.label}</span>
             </div>
           ))}
         </div>
@@ -2542,7 +2550,7 @@ export default function UserDashboard() {
 
         {/* KPI cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-          <KpiCard label="My Total Leads" value={kpi.total}      sub="All assigned to you"             color="#2563EB" icon={<UsersIcon className="w-5 h-5"/>} />
+          <KpiCard label="My Total Leads" value={kpi.total}      sub="All assigned to you"             color="#7E14FF" icon={<UsersIcon className="w-5 h-5"/>} />
           <KpiCard label="Converted"      value={kpi.converted}  sub={kpi.convRate + "% success rate"} color="#059669" icon={<CheckIcon className="w-5 h-5"/>} trendUp={kpi.convRate > 20} trend={kpi.convRate + "% rate"} />
           <KpiCard label="In Progress"    value={kpi.inProgress} sub="Awaiting follow-up"              color="#D97706" icon={<LoaderIcon className="w-5 h-5"/>} />
           <KpiCard label="Hot Leads"      value={kpi.hot}        sub="Call these first!"               color="#DC2626" icon={<FlameIcon className="w-5 h-5"/>} />
@@ -2552,29 +2560,29 @@ export default function UserDashboard() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
 
           {/* Daily Targets */}
-          <div className="bg-white dark:bg-[#1A1D27] border border-[#E4E7EF] dark:border-[#262A38] rounded-2xl p-4 sm:p-5">
-            <p className="text-[13px] sm:text-[14px] font-bold text-[#0F1117] dark:text-white uppercase tracking-wide mb-4"> My Daily Targets</p>
+          <div className="bg-white dark:bg-[#181029] border border-[#E7DCFA] dark:border-[#2B1E48] rounded-2xl ld-card p-4 sm:p-5">
+            <p className="text-[17px] sm:text-[18px] font-semibold text-[#170B29] dark:text-white font-display tracking-tight mb-4"> My Daily Targets</p>
             <div className="flex items-center justify-around flex-wrap gap-3">
-              <RadialProgress value={kpi.todayLeads} max={10} color="#2563EB" label="Leads" size={80} />
+              <RadialProgress value={kpi.todayLeads} max={10} color="#7E14FF" label="Leads" size={80} />
               <RadialProgress value={leads.filter(l => isToday(l.date) && l.status==="Converted").length} max={5} color="#059669" label="Convert" size={80} />
               <RadialProgress value={leads.filter(l => isToday(l.date) && l.status==="In Progress").length} max={8} color="#D97706" label="Active" size={80} />
             </div>
-            <p className="text-[9px] text-center text-[#8B92A9] dark:text-[#D1D5DB] mt-3 font-medium uppercase tracking-wide">Targets: 10 leads · 5 conversions · 8 follow-ups</p>
+            <p className="text-[9px] text-center text-[#7D7296] dark:text-[#C6BBDC] mt-3 font-medium ">Targets: 10 leads · 5 conversions · 8 follow-ups</p>
           </div>
 
           {/* Lead Quality */}
-          <div className="bg-white dark:bg-[#1A1D27] border border-[#E4E7EF] dark:border-[#262A38] rounded-2xl p-4 sm:p-5">
-            <p className="text-[12px] font-bold text-[#0F1117] dark:text-white uppercase tracking-wide mb-4">Lead Quality</p>
+          <div className="bg-white dark:bg-[#181029] border border-[#E7DCFA] dark:border-[#2B1E48] rounded-2xl ld-card p-4 sm:p-5">
+            <p className="text-[17px] font-semibold text-[#170B29] dark:text-white font-display tracking-tight mb-4">Lead Quality</p>
             <div className="space-y-3">
-              {[{label:"Hot",color:"#DC2626",icon:"",count:kpi.hot},{label:"Warm",color:"#D97706",icon:"",count:kpi.warm},{label:"Cold",color:"#2563EB",icon:"",count:kpi.cold},{label:"Unclassified",color:"#8B92A9",icon:"—",count:kpi.unclassified}].map(item => (
+              {[{label:"Hot",color:"#DC2626",icon:"",count:kpi.hot},{label:"Warm",color:"#D97706",icon:"",count:kpi.warm},{label:"Cold",color:"#2BA8F0",icon:"",count:kpi.cold},{label:"Unclassified",color:"#7D7296",icon:"—",count:kpi.unclassified}].map(item => (
                 <div key={item.label} className="flex items-center gap-2">
                   <span className="w-4 text-center text-[14px] shrink-0">{item.icon}</span>
                   <div className="flex-1 min-w-0">
                     <div className="flex justify-between text-[13px] sm:text-[14px] mb-0.5 gap-2">
-                      <span className="font-semibold text-[#0F1117] dark:text-white truncate">{item.label}</span>
+                      <span className="font-semibold text-[#170B29] dark:text-white truncate">{item.label}</span>
                       <span className="font-bold shrink-0" style={{ color: item.color }}>{item.count}</span>
                     </div>
-                    <div className="h-1.5 bg-[#F1F4FF] dark:bg-[#262A38] rounded-full overflow-hidden">
+                    <div className="h-1.5 bg-[#F3EBFF] dark:bg-[#2B1E48] rounded-full overflow-hidden">
                       <div className="h-full rounded-full transition-all duration-700" style={{ width: (kpi.total > 0 ? (item.count/kpi.total)*100 : 0) + "%", background: item.color }} />
                     </div>
                   </div>
@@ -2590,7 +2598,7 @@ export default function UserDashboard() {
         {/* Status filter pills */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3">
           {[
-            { label:"New",            count:kpi.newLeads,   color:"#2563EB", bg:"bg-blue-100 dark:bg-blue-950/70",      icon:"" },
+            { label:"New",            count:kpi.newLeads,   color:"#7E14FF", bg:"bg-violet-100 dark:bg-violet-950/70",      icon:"" },
             { label:"In Progress",    count:kpi.inProgress, color:"#D97706", bg:"bg-amber-50 dark:bg-amber-950/30",     icon:"" },
             { label:"Converted",      count:kpi.converted,  color:"#059669", bg:"bg-emerald-50 dark:bg-emerald-950/30", icon:"" },
             { label:"Not Interested", count:kpi.notInt,     color:"#DC2626", bg:"bg-red-50 dark:bg-red-950/30",         icon:"" },
@@ -2602,42 +2610,42 @@ export default function UserDashboard() {
               <span className="text-[16px] sm:text-[18px] shrink-0">{item.icon}</span>
               <div className="text-left min-w-0">
                 <p className="text-[16px] sm:text-[18px] font-black" style={{ color: item.color }}>{item.count}</p>
-                <p className="text-[12px] sm:text-[14px] font-semibold text-[#8B92A9] leading-tight truncate">{item.label}</p>
+                <p className="text-[12px] sm:text-[14px] font-semibold text-[#7D7296] leading-tight truncate">{item.label}</p>
               </div>
             </button>
           ))}
         </div>
 
         {/* Leads / Activity table */}
-        <div className="bg-white dark:bg-[#1A1D27] border border-[#E4E7EF] dark:border-[#262A38] rounded-2xl overflow-hidden">
-          <div className="flex items-center border-b border-[#E4E7EF] dark:border-[#262A38] px-3 sm:px-5 flex-wrap">
+        <div className="bg-white dark:bg-[#181029] border border-[#E7DCFA] dark:border-[#2B1E48] rounded-2xl ld-card overflow-hidden">
+          <div className="flex items-center border-b border-[#E7DCFA] dark:border-[#2B1E48] px-3 sm:px-5 flex-wrap">
             {[{id:"leads",label:"My Leads",count:displayed.length},{id:"activity",label:"Recent Activity",count:recentActivity.length}].map(tab => (
               <button key={tab.id} onClick={() => setActiveTab(tab.id)}
-                className={"flex items-center gap-2 px-3 sm:px-4 py-3 sm:py-4 text-[11px] sm:text-[12px] font-semibold border-b-2 transition whitespace-nowrap " + (activeTab === tab.id ? "border-[#2563EB] text-[#2563EB] dark:text-[#4F8EF7]" : "border-transparent text-[#8B92A9] dark:text-[#D1D5DB] hover:text-[#0F1117] dark:hover:text-white")}>
+                className={"flex items-center gap-2 px-3 sm:px-4 py-3 sm:py-4 text-[11px] sm:text-[12px] font-semibold border-b-2 transition whitespace-nowrap " + (activeTab === tab.id ? "border-[#7E14FF] text-[#7E14FF] dark:text-[#A46BFF]" : "border-transparent text-[#7D7296] dark:text-[#C6BBDC] hover:text-[#170B29] dark:hover:text-white")}>
                 {tab.label}
-                <span className={"px-1.5 py-0.5 rounded-full text-[12px] sm:text-[14px] font-bold " + (activeTab === tab.id ? "bg-[#EEF3FF] dark:bg-[#1A2540] text-[#2563EB] dark:text-[#4F8EF7]" : "bg-[#F1F4FF] dark:bg-[#1E2130] text-[#8B92A9]")}>{tab.count}</span>
+                <span className={"px-1.5 py-0.5 rounded-full text-[12px] sm:text-[14px] font-bold " + (activeTab === tab.id ? "bg-[#F3EBFF] dark:bg-[#271449] text-[#7E14FF] dark:text-[#A46BFF]" : "bg-[#F3EBFF] dark:bg-[#1D1333] text-[#7D7296]")}>{tab.count}</span>
               </button>
             ))}
             {activeTab === "leads" && (
               <div className="w-full lg:w-auto lg:ml-auto flex items-center gap-2 py-2 flex-wrap">
                 <div className="relative flex-1 min-w-[120px] sm:flex-none">
-                  <svg className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3 h-3 text-[#8B92A9]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                  <svg className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3 h-3 text-[#7D7296]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
                   <input value={search} onChange={e => { setSearch(e.target.value); setPage(1); }} placeholder="Search…"
-                    className="pl-7 pr-3 py-1.5 rounded-lg border border-[#E4E7EF] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E] text-[13px] sm:text-[14px] text-[#0F1117] dark:text-white placeholder:text-[#8B92A9] focus:outline-none focus:border-[#2563EB] w-full sm:w-36 transition" />
+                    className="pl-7 pr-3 py-1.5 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] bg-[#FAF7FF] dark:bg-[#120B22] text-[13px] sm:text-[14px] text-[#170B29] dark:text-white placeholder:text-[#7D7296] focus:outline-none focus:border-[#7E14FF] w-full sm:w-36 transition" />
                 </div>
-                <select value={sortBy} onChange={e => { setSortBy(e.target.value); setPage(1); }} className="px-2 py-1.5 rounded-lg border border-[#E4E7EF] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E] text-[13px] sm:text-[14px] text-[#0F1117] dark:text-white focus:outline-none">
+                <select value={sortBy} onChange={e => { setSortBy(e.target.value); setPage(1); }} className="px-2 py-1.5 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] bg-[#FAF7FF] dark:bg-[#120B22] text-[13px] sm:text-[14px] text-[#170B29] dark:text-white focus:outline-none">
                   <option value="date_desc">Newest</option><option value="date_asc">Oldest</option><option value="name_asc">Name A–Z</option><option value="status">By Status</option>
                 </select>
                 {/* Project filter */}
                 {projects.length > 0 && (
                   <select value={projectFilter} onChange={e => { setProjectFilter(e.target.value); setPage(1); }}
-                    className="px-2 py-1.5 rounded-lg border border-[#E4E7EF] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E] text-[13px] sm:text-[14px] text-[#0F1117] dark:text-white focus:outline-none">
+                    className="px-2 py-1.5 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] bg-[#FAF7FF] dark:bg-[#120B22] text-[13px] sm:text-[14px] text-[#170B29] dark:text-white focus:outline-none">
                     <option value="All">All Projects</option>
                     {projects.map(p => <option key={p._id} value={p._id}>{p.name}</option>)}
                   </select>
                 )}
                 {(search || filterSt !== "All" || filterTemp !== "All" || projectFilter !== "All") && (
-                  <button onClick={() => { setSearch(""); setFilterSt("All"); setFilterTemp("All"); setProjectFilter("All"); setPage(1); }} className="px-2 py-1.5 rounded-lg border border-[#E4E7EF] dark:border-[#262A38] text-[13px] sm:text-[14px] text-[#8B92A9] hover:text-red-500 hover:border-red-300 transition font-semibold">✕ Clear</button>
+                  <button onClick={() => { setSearch(""); setFilterSt("All"); setFilterTemp("All"); setProjectFilter("All"); setPage(1); }} className="px-2 py-1.5 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] text-[13px] sm:text-[14px] text-[#7D7296] hover:text-red-500 hover:border-red-300 transition font-semibold">✕ Clear</button>
                 )}
               </div>
             )}
@@ -2646,32 +2654,32 @@ export default function UserDashboard() {
           {activeTab === "leads" && (
             <>
               {loading ? (
-                <div className="flex items-center justify-center py-16 gap-3 text-[#8B92A9]">
+                <div className="flex items-center justify-center py-16 gap-3 text-[#7D7296]">
                   <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/></svg>
                   <span className="text-[14px]">Loading your leads…</span>
                 </div>
               ) : paged.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-16 gap-3 px-4 text-center">
-                  <p className="text-[16px] sm:text-[18px] font-semibold text-[#0F1117] dark:text-white">{leads.length === 0 ? "No leads yet" : "No leads match your filters"}</p>
-                  <p className="text-[13px] sm:text-[14px] text-[#8B92A9]">{leads.length === 0 ? "Add your first lead to get started." : "Try adjusting your search or filters."}</p>
-                  {leads.length === 0 && <button onClick={() => setShowAddModal(true)} className="mt-2 px-4 py-2 rounded-xl bg-[#2563EB] text-white text-[14px] font-semibold hover:bg-blue-700 transition">+ Add First Lead</button>}
+                  <p className="text-[16px] sm:text-[18px] font-semibold text-[#170B29] dark:text-white">{leads.length === 0 ? "No leads yet" : "No leads match your filters"}</p>
+                  <p className="text-[13px] sm:text-[14px] text-[#7D7296]">{leads.length === 0 ? "Add your first lead to get started." : "Try adjusting your search or filters."}</p>
+                  {leads.length === 0 && <button onClick={() => setShowAddModal(true)} className="mt-2 px-4 py-2 rounded-xl bg-gradient-to-br from-[#863BFF] to-[#7E14FF] text-white shadow-[0_6px_18px_-6px_rgba(126,20,255,0.55)] text-[14px] font-semibold hover:from-[#7E14FF] hover:to-[#6300D6] transition">+ Add First Lead</button>}
                 </div>
               ) : (
                 <>
                 {/* ── Mobile card list (< md) ── */}
-                <div className="md:hidden divide-y divide-[#F1F4FF] dark:divide-[#1E2130]">
+                <div className="md:hidden divide-y divide-[#F3EBFF] dark:divide-[#1D1333]">
                   {paged.map(l => {
                     const sc = STATUS_CONFIG[l.status] || STATUS_CONFIG["New"];
                     return (
-                      <div key={l.id} className="p-4 active:bg-[#F8F9FC] dark:active:bg-[#13161E] transition" onClick={() => setSelected(l)}>
+                      <div key={l.id} className="p-4 active:bg-[#FAF7FF] dark:active:bg-[#120B22] transition" onClick={() => setSelected(l)}>
                         <div className="flex items-start justify-between gap-2">
                           <div className="flex items-center gap-2.5 min-w-0">
                             <div className="w-9 h-9 rounded-full flex items-center justify-center text-[11px] font-black shrink-0" style={{ background: sc.dot + "20", color: sc.dot }}>
                               {l.name.split(" ").map(n => n[0]).join("").slice(0,2).toUpperCase()}
                             </div>
                             <div className="min-w-0">
-                              <p className="font-semibold text-[13px] text-[#0F1117] dark:text-white truncate">{l.name}{l.reassignCount > 0 && <span className="ml-1.5 text-[11px] font-bold text-purple-500">↻{l.reassignCount}</span>}</p>
-                              <p className="text-[11px] font-mono text-[#4B5168] dark:text-[#E5E7EB]">{l.phone ? maskPhone(l.phone) : "—"}</p>
+                              <p className="font-semibold text-[13px] text-[#170B29] dark:text-white truncate">{l.name}{l.reassignCount > 0 && <span className="ml-1.5 text-[11px] font-bold text-violet-500">↻{l.reassignCount}</span>}</p>
+                              <p className="text-[11px] font-mono text-[#4A3F66] dark:text-[#E3DAF3]">{l.phone ? maskPhone(l.phone) : "—"}</p>
                             </div>
                           </div>
                           <div className="flex flex-col items-end gap-1 shrink-0">
@@ -2682,7 +2690,7 @@ export default function UserDashboard() {
                         <div className="flex items-center justify-between gap-2 mt-2.5 flex-wrap">
                           <div className="flex items-center gap-1.5 flex-wrap min-w-0">
                             <TempBadge temp={l.Quality} />
-                            <span className="text-[10px] text-[#8B92A9] truncate">{l.campaign !== "—" ? l.campaign : l.source} · {l.date}</span>
+                            <span className="text-[10px] text-[#7D7296] truncate">{l.campaign !== "—" ? l.campaign : l.source} · {l.date}</span>
                           </div>
                         </div>
                         {Array.isArray(l.projects) && l.projects.length > 0 && (
@@ -2691,19 +2699,19 @@ export default function UserDashboard() {
                               const proj = projects.find(pr => String(pr._id) === String(p?._id || p));
                               if (!proj) return null;
                               return (
-                                <span key={String(proj._id)} className="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-semibold text-white" style={{ background: proj.color || "#2563EB" }}>{proj.name}</span>
+                                <span key={String(proj._id)} className="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-semibold text-white" style={{ background: proj.color || "#7E14FF" }}>{proj.name}</span>
                               );
                             })}
                           </div>
                         )}
                         <div className="flex items-center gap-2 mt-3">
-                          <button onClick={e => { e.stopPropagation(); setSelected(l); }} className="flex-1 py-1.5 rounded-lg border border-[#E4E7EF] dark:border-[#262A38] flex items-center justify-center text-[#8B92A9] text-[11px] font-semibold gap-1 active:bg-[#EEF3FF] dark:active:bg-[#1A2540] transition">
+                          <button onClick={e => { e.stopPropagation(); setSelected(l); }} className="flex-1 py-1.5 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-center text-[#7D7296] text-[11px] font-semibold gap-1 active:bg-[#F3EBFF] dark:active:bg-[#271449] transition">
                             <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"/></svg> View
                           </button>
-                          <button onClick={e => { e.stopPropagation(); setEditLead(l); }} className="flex-1 py-1.5 rounded-lg border border-[#E4E7EF] dark:border-[#262A38] flex items-center justify-center text-[#8B92A9] text-[11px] font-semibold gap-1 active:bg-[#EEF3FF] dark:active:bg-[#1A2540] transition">
+                          <button onClick={e => { e.stopPropagation(); setEditLead(l); }} className="flex-1 py-1.5 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-center text-[#7D7296] text-[11px] font-semibold gap-1 active:bg-[#F3EBFF] dark:active:bg-[#271449] transition">
                             <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg> Edit
                           </button>
-                          <button onClick={e => { e.stopPropagation(); setPhoneLead(l); }} className="flex-1 py-1.5 rounded-lg border border-[#E4E7EF] dark:border-[#262A38] flex items-center justify-center text-[#8B92A9] text-[11px] font-semibold gap-1 active:bg-emerald-50 dark:active:bg-emerald-950/20 transition">
+                          <button onClick={e => { e.stopPropagation(); setPhoneLead(l); }} className="flex-1 py-1.5 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-center text-[#7D7296] text-[11px] font-semibold gap-1 active:bg-emerald-50 dark:active:bg-emerald-950/20 transition">
                             <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg> Phone
                           </button>
                         </div>
@@ -2716,34 +2724,34 @@ export default function UserDashboard() {
                 <div className="hidden md:block overflow-x-auto">
                   <table className="w-full text-[14px]">
                     <thead>
-                      <tr className="bg-[#F8F9FC] dark:bg-[#13161E] border-b border-[#E4E7EF] dark:border-[#262A38]">
+                      <tr className="bg-[#FAF7FF] dark:bg-[#120B22] border-b border-[#E7DCFA] dark:border-[#2B1E48]">
                         {["Lead","Phone","Campaign / Source","Date","Status","Lead Quality","Projects",""].map(h => (
-                          <th key={h} className="px-4 py-3 text-left text-[14px] font-bold text-[#8B92A9] dark:text-[#D1D5DB] uppercase tracking-widest whitespace-nowrap">{h}</th>
+                          <th key={h} className="px-4 py-3 text-left text-[13px] font-semibold text-[#7D7296] dark:text-[#C6BBDC] tracking-normal whitespace-nowrap">{h}</th>
                         ))}
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-white dark:divide-[#1E2130]">
+                    <tbody className="divide-y divide-white dark:divide-[#1D1333]">
                       {paged.map(l => {
                         const sc = STATUS_CONFIG[l.status] || STATUS_CONFIG["New"];
                         return (
-                          <tr key={l.id} className="hover:bg-[#F8F9FC] dark:hover:bg-[#13161E] transition cursor-pointer group" onClick={() => setSelected(l)}>
+                          <tr key={l.id} className="hover:bg-[#FAF7FF] dark:hover:bg-[#120B22] transition cursor-pointer group" onClick={() => setSelected(l)}>
                             <td className="px-4 py-3">
                               <div className="flex items-center gap-2.5">
                                 <div className="w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-black shrink-0" style={{ background: sc.dot + "20", color: sc.dot }}>
                                   {l.name.split(" ").map(n => n[0]).join("").slice(0,2).toUpperCase()}
                                 </div>
                                 <div>
-                                  <span className="font-semibold text-[#0F1117] dark:text-white whitespace-nowrap">{l.name}</span>
-                                  {l.reassignCount > 0 && <span className="ml-1.5 text-[14px] font-bold text-purple-500">{l.reassignCount}</span>}
+                                  <span className="font-semibold text-[#170B29] dark:text-white whitespace-nowrap">{l.name}</span>
+                                  {l.reassignCount > 0 && <span className="ml-1.5 text-[14px] font-bold text-violet-500">{l.reassignCount}</span>}
                                 </div>
                               </div>
                             </td>
-                            <td className="px-4 py-3 font-mono text-[#4B5168] dark:text-[#E5E7EB]">{l.phone ? maskPhone(l.phone) : "—"}</td>
+                            <td className="px-4 py-3 font-mono text-[#4A3F66] dark:text-[#E3DAF3]">{l.phone ? maskPhone(l.phone) : "—"}</td>
                             <td className="px-4 py-3">
-                              <p className="text-[#0F1117] dark:text-white font-medium truncate max-w-[120px]">{l.campaign !== "—" ? l.campaign : l.source}</p>
-                              {l.campaign !== "—" && <p className="text-[14px] text-[#8B92A9]">{l.source}</p>}
+                              <p className="text-[#170B29] dark:text-white font-medium truncate max-w-[120px]">{l.campaign !== "—" ? l.campaign : l.source}</p>
+                              {l.campaign !== "—" && <p className="text-[14px] text-[#7D7296]">{l.source}</p>}
                             </td>
-                            <td className="px-4 py-3 text-[#8B92A9] dark:text-white whitespace-nowrap">
+                            <td className="px-4 py-3 text-[#7D7296] dark:text-white whitespace-nowrap">
                               <p>{l.date}</p>
                               {isToday(l.date) && <span className="text-[14px] font-bold text-emerald-500">TODAY</span>}
                             </td>
@@ -2759,24 +2767,24 @@ export default function UserDashboard() {
                                       return (
                                         <span key={String(proj._id)}
                                           className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold text-white whitespace-nowrap"
-                                          style={{ background: proj.color || "#2563EB" }}>
+                                          style={{ background: proj.color || "#7E14FF" }}>
                                           {proj.name}
                                         </span>
                                       );
                                     })
-                                  : <span className="text-[11px] text-[#C4C9D9] dark:text-[#3E4257]">—</span>
+                                  : <span className="text-[11px] text-[#CBBDE4] dark:text-[#3B295E]">—</span>
                                 }
                               </div>
                             </td>
                             <td className="px-4 py-3">
                               <div className="flex items-center gap-1">
-                                <button onClick={e => { e.stopPropagation(); setSelected(l); }} className="w-7 h-7 rounded-lg border border-[#E4E7EF] dark:border-[#262A38] flex items-center justify-center text-[#8B92A9] hover:text-[#2563EB] hover:border-[#2563EB] hover:bg-[#EEF3FF] dark:hover:bg-[#1A2540] transition" title="View details">
+                                <button onClick={e => { e.stopPropagation(); setSelected(l); }} className="w-7 h-7 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-center text-[#7D7296] hover:text-[#7E14FF] hover:border-[#7E14FF] hover:bg-[#F3EBFF] dark:hover:bg-[#271449] transition" title="View details">
                                   <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"/></svg>
                                 </button>
-                                <button onClick={e => { e.stopPropagation(); setEditLead(l); }} className="w-7 h-7 rounded-lg border border-[#E4E7EF] dark:border-[#262A38] flex items-center justify-center text-[#8B92A9] hover:text-[#2563EB] hover:border-[#2563EB] hover:bg-[#EEF3FF] dark:hover:bg-[#1A2540] transition" title="Edit lead">
+                                <button onClick={e => { e.stopPropagation(); setEditLead(l); }} className="w-7 h-7 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-center text-[#7D7296] hover:text-[#7E14FF] hover:border-[#7E14FF] hover:bg-[#F3EBFF] dark:hover:bg-[#271449] transition" title="Edit lead">
                                   <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
                                 </button>
-                                <button onClick={e => { e.stopPropagation(); setPhoneLead(l); }} className="w-7 h-7 rounded-lg border border-[#E4E7EF] dark:border-[#262A38] flex items-center justify-center text-[#8B92A9] hover:text-[#059669] hover:border-[#059669] hover:bg-emerald-50 dark:hover:bg-emerald-950/20 transition" title={l.secondaryPhone ? "Manage phone numbers" : "Add secondary number"}>
+                                <button onClick={e => { e.stopPropagation(); setPhoneLead(l); }} className="w-7 h-7 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-center text-[#7D7296] hover:text-[#059669] hover:border-[#059669] hover:bg-emerald-50 dark:hover:bg-emerald-950/20 transition" title={l.secondaryPhone ? "Manage phone numbers" : "Add secondary number"}>
                                   <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
                                 </button>
                               </div>
@@ -2790,17 +2798,17 @@ export default function UserDashboard() {
                 </>
               )}
               {totalPages > 1 && (
-                <div className="px-3 sm:px-5 py-3 border-t border-[#E4E7EF] dark:border-[#262A38] flex items-center justify-between gap-2 flex-wrap bg-[#F8F9FC] dark:bg-[#13161E]">
-                  <span className="text-[12px] sm:text-[14px] text-[#8B92A9]">Showing {((page-1)*PER_PAGE)+1}–{Math.min(page*PER_PAGE, displayed.length)} of {displayed.length} leads</span>
+                <div className="px-3 sm:px-5 py-3 border-t border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-between gap-2 flex-wrap bg-[#FAF7FF] dark:bg-[#120B22]">
+                  <span className="text-[12px] sm:text-[14px] text-[#7D7296]">Showing {((page-1)*PER_PAGE)+1}–{Math.min(page*PER_PAGE, displayed.length)} of {displayed.length} leads</span>
                   <div className="flex items-center gap-1 flex-wrap">
-                    <button onClick={() => setPage(p => Math.max(1, p-1))} disabled={page===1} className="w-7 h-7 rounded-lg border border-[#E4E7EF] dark:border-[#262A38] flex items-center justify-center text-[#8B92A9] hover:bg-white dark:hover:bg-[#1A1D27] disabled:opacity-40 transition">
+                    <button onClick={() => setPage(p => Math.max(1, p-1))} disabled={page===1} className="w-7 h-7 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-center text-[#7D7296] hover:bg-white dark:hover:bg-[#181029] disabled:opacity-40 transition">
                       <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7"/></svg>
                     </button>
                     {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
                       const n = Math.max(1, Math.min(totalPages - 4, page - 2)) + i;
-                      return <button key={n} onClick={() => setPage(n)} className={"w-7 h-7 rounded-lg text-[14px] font-semibold transition " + (page===n ? "bg-[#2563EB] text-white" : "border border-[#E4E7EF] dark:border-[#262A38] text-[#8B92A9] hover:bg-white dark:hover:bg-[#1A1D27]")}>{n}</button>;
+                      return <button key={n} onClick={() => setPage(n)} className={"w-7 h-7 rounded-lg text-[14px] font-semibold transition " + (page===n ? "bg-gradient-to-br from-[#863BFF] to-[#7E14FF] text-white shadow-[0_6px_18px_-6px_rgba(126,20,255,0.55)]" : "border border-[#E7DCFA] dark:border-[#2B1E48] text-[#7D7296] hover:bg-white dark:hover:bg-[#181029]")}>{n}</button>;
                     })}
-                    <button onClick={() => setPage(p => Math.min(totalPages, p+1))} disabled={page===totalPages} className="w-7 h-7 rounded-lg border border-[#E4E7EF] dark:border-[#262A38] flex items-center justify-center text-[#8B92A9] hover:bg-white dark:hover:bg-[#1A1D27] disabled:opacity-40 transition">
+                    <button onClick={() => setPage(p => Math.min(totalPages, p+1))} disabled={page===totalPages} className="w-7 h-7 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-center text-[#7D7296] hover:bg-white dark:hover:bg-[#181029] disabled:opacity-40 transition">
                       <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"/></svg>
                     </button>
                   </div>
@@ -2812,15 +2820,15 @@ export default function UserDashboard() {
           {activeTab === "activity" && (
             <div className="p-4 sm:p-5">
               {loading ? (
-                <div className="flex items-center justify-center py-12 gap-3 text-[#8B92A9]">
+                <div className="flex items-center justify-center py-12 gap-3 text-[#7D7296]">
                   <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/></svg>
                   Loading activity…
                 </div>
               ) : recentActivity.length === 0 ? (
-                <div className="text-center py-12"><p className="text-[14px] text-[#8B92A9]">No recent activity yet.</p></div>
+                <div className="text-center py-12"><p className="text-[14px] text-[#7D7296]">No recent activity yet.</p></div>
               ) : (
                 <div>
-                  <p className="text-[13px] sm:text-[14px] font-bold text-[#8B92A9] uppercase tracking-wide mb-4">Latest 8 lead interactions</p>
+                  <p className="text-[17px] sm:text-[18px] font-semibold text-[#170B29] dark:text-white font-display tracking-tight mb-4">Latest 8 lead interactions</p>
                   {recentActivity.map((lead, i) => <ActivityItem key={lead.id} lead={lead} isLast={i === recentActivity.length - 1} />)}
                 </div>
               )}
@@ -2830,16 +2838,16 @@ export default function UserDashboard() {
 
         {/* Motivational banner */}
         {!loading && kpi.total > 0 && (
-          <div className="rounded-2xl p-4 flex items-center gap-4 bg-white dark:bg-[#1A1D27] border border-[#E4E7EF] dark:border-[#262A38] flex-wrap">
+          <div className="rounded-2xl p-4 flex items-center gap-4 bg-white dark:bg-[#181029] border border-[#E7DCFA] dark:border-[#2B1E48] flex-wrap">
             <span className="text-[28px]">{kpi.convRate >= 50 ? "" : kpi.convRate >= 30 ? "" : kpi.convRate >= 15 ? "" : ""}</span>
             <div className="min-w-0 flex-1">
-              <p className="text-[13px] sm:text-[14px] font-bold text-[#0F1117] dark:text-white">
+              <p className="text-[13px] sm:text-[14px] font-bold text-[#170B29] dark:text-white">
                 {kpi.convRate >= 50 ? "Outstanding performance! You're a top converter!" :
                  kpi.convRate >= 30 ? "Great work! Your conversion rate is above average." :
                  kpi.convRate >= 15 ? "Good progress! Keep following up on hot leads." :
                  "Every lead counts — focus on your hot leads today!"}
               </p>
-              <p className="text-[12px] sm:text-[14px] text-[#8B92A9] mt-0.5">
+              <p className="text-[12px] sm:text-[14px] text-[#7D7296] mt-0.5">
                 {kpi.hot > 0 ? `You have ${kpi.hot} hot lead${kpi.hot > 1 ? "s" : ""} waiting for a call.` : "Classify leads by Quality to prioritize your calls."}
               </p>
             </div>
@@ -2873,14 +2881,14 @@ export default function UserDashboard() {
       )}
       {/* {deleteConfirm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-          <div className="bg-white dark:bg-[#1A1D27] border border-[#E4E7EF] dark:border-[#262A38] rounded-2xl p-6 w-full max-w-sm shadow-2xl">
+          <div className="bg-white dark:bg-[#181029] border border-[#E7DCFA] dark:border-[#2B1E48] rounded-2xl ld-card p-6 w-full max-w-sm shadow-2xl">
             <div className="w-12 h-12 rounded-2xl bg-red-50 dark:bg-red-950/40 flex items-center justify-center mx-auto mb-4">
               <svg className="w-6 h-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
             </div>
-            <h2 className="text-[16px] font-bold text-[#0F1117] dark:text-white text-center mb-2">Delete Lead?</h2>
-            <p className="text-[12px] text-[#8B92A9] text-center mb-5">This will permanently remove <strong className="text-[#0F1117] dark:text-white">{deleteConfirm.name}</strong> from your list.</p>
+            <h2 className="text-[16px] font-bold text-[#170B29] dark:text-white text-center mb-2">Delete Lead?</h2>
+            <p className="text-[12px] text-[#7D7296] text-center mb-5">This will permanently remove <strong className="text-[#170B29] dark:text-white">{deleteConfirm.name}</strong> from your list.</p>
             <div className="flex gap-2">
-              <button onClick={() => setDeleteConfirm(null)} className="flex-1 py-2.5 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] text-[13px] font-semibold text-[#4B5168] dark:text-[#E5E7EB] hover:bg-[#F1F4FF] dark:hover:bg-[#262A38] transition">Cancel</button>
+              <button onClick={() => setDeleteConfirm(null)} className="flex-1 py-2.5 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] text-[13px] font-semibold text-[#4A3F66] dark:text-[#E3DAF3] hover:bg-[#F3EBFF] dark:hover:bg-[#2B1E48] transition">Cancel</button>
               <button onClick={() => handleDeleteLead(deleteConfirm.id)} className="flex-1 py-2.5 rounded-xl bg-red-600 text-white text-[13px] font-semibold hover:bg-red-700 transition">Delete</button>
             </div>
           </div>
