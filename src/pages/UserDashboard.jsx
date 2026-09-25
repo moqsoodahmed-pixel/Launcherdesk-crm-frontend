@@ -581,6 +581,47 @@ function KpiCard({ label, value, sub, color, icon, trend, trendUp }) {
   );
 }
 
+function TargetRow({ value, max, color, label, icon }) {
+  // One block per unit of the target, so progress is countable at a glance:
+  // "10 leads" is ten blocks that fill in as the day goes on.
+  const filled = Math.min(value, max);
+  const done   = max > 0 && value >= max;
+  return (
+    <div className="rounded-2xl p-3 border border-[#EFE7FD] dark:border-[#2B1E48] bg-[#FCFAFF] dark:bg-[#120B22]">
+      <div className="flex items-center gap-3">
+        <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 text-white shadow-sm" style={{ background: color }}>
+          {icon}
+        </div>
+        <div className="flex-1 min-w-0">
+          <p className="text-[13px] font-semibold text-[#170B29] dark:text-white leading-tight">{label}</p>
+          <p className="text-[11px] text-[#7D7296] dark:text-[#C6BBDC]">/ {max} target</p>
+        </div>
+        <div className="text-right shrink-0">
+          {done ? (
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-bold text-white" style={{ background: color }}>
+              <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
+              {value}
+            </span>
+          ) : (
+            <p className="font-display leading-none">
+              <span className="text-[26px] font-bold" style={{ color }}>{value}</span>
+            </p>
+          )}
+        </div>
+      </div>
+      <div className="flex gap-1 mt-3" role="progressbar" aria-label={label} aria-valuenow={value} aria-valuemin={0} aria-valuemax={max}>
+        {Array.from({ length: max }, (_, i) => (
+          <span
+            key={i}
+            className="h-2 flex-1 rounded-full transition-colors duration-500"
+            style={{ background: i < filled ? color : color + "22" }}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function RadialProgress({ value, max, color, label, size = 88 }) {
   const r = size / 2 - 9;
   const circ = 2 * Math.PI * r;
@@ -2562,12 +2603,15 @@ export default function UserDashboard() {
           {/* Daily Targets */}
           <div className="bg-white dark:bg-[#181029] border border-[#E7DCFA] dark:border-[#2B1E48] rounded-2xl ld-card p-4 sm:p-5">
             <p className="text-[17px] sm:text-[18px] font-semibold text-[#170B29] dark:text-white font-display tracking-tight mb-4"> My Daily Targets</p>
-            <div className="flex items-center justify-around flex-wrap gap-3">
-              <RadialProgress value={kpi.todayLeads} max={10} color="#7E14FF" label="Leads" size={80} />
-              <RadialProgress value={leads.filter(l => isToday(l.date) && l.status==="Converted").length} max={5} color="#059669" label="Convert" size={80} />
-              <RadialProgress value={leads.filter(l => isToday(l.date) && l.status==="In Progress").length} max={8} color="#D97706" label="Active" size={80} />
+            <div className="flex flex-col gap-2.5">
+              <TargetRow value={kpi.todayLeads} max={10} color="#7E14FF" label="Leads"
+                icon={<svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a4 4 0 00-5-3.87M9 20H2v-2a4 4 0 015-3.87m6-4.13a4 4 0 11-8 0 4 4 0 018 0zm6 2a3 3 0 11-6 0 3 3 0 016 0z"/></svg>} />
+              <TargetRow value={leads.filter(l => isToday(l.date) && l.status==="Converted").length} max={5} color="#059669" label="Convert"
+                icon={<svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>} />
+              <TargetRow value={leads.filter(l => isToday(l.date) && l.status==="In Progress").length} max={8} color="#D97706" label="Active"
+                icon={<svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>} />
             </div>
-            <p className="text-[9px] text-center text-[#7D7296] dark:text-[#C6BBDC] mt-3 font-medium ">Targets: 10 leads · 5 conversions · 8 follow-ups</p>
+            <p className="text-[11px] text-center text-[#7D7296] dark:text-[#C6BBDC] mt-3 font-medium">Targets: 10 leads · 5 conversions · 8 follow-ups</p>
           </div>
 
           {/* Lead Quality */}
