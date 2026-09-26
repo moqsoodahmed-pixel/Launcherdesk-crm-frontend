@@ -11,8 +11,8 @@ import api from "../data/axiosConfig";
 const TYPES = [
   { key: "revenue", label: "Revenue", color: "#059669", cls: "bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400" },
   { key: "cost",    label: "Cost",    color: "#DC2626", cls: "bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-400"           },
-  { key: "profit",  label: "Profit",  color: "#2563EB", cls: "bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-400"           },
-  { key: "other",   label: "Other",   color: "#64748B", cls: "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400"         },
+  { key: "profit",  label: "Profit",  color: "#7E14FF", cls: "bg-violet-50 dark:bg-violet-950/40 text-violet-700 dark:text-violet-300"           },
+  { key: "other",   label: "Other",   color: "#6E6386", cls: "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400"         },
 ];
 const typeMeta = (k) => TYPES.find(t => t.key === k) || TYPES[3];
 
@@ -21,7 +21,7 @@ const pctTxt = (n) => (n === null || n === undefined ? "—" : `${n > 0 ? "+" : 
 const today  = () => new Date().toISOString().slice(0, 10);
 const emptyField = () => ({ name: "", value: "", type: "other", note: "" });
 
-const INP = "px-3 py-2 rounded-xl border border-[#E2E8F0] dark:border-[#262A38] bg-white dark:bg-[#13161E] text-xs text-[#0F1117] dark:text-[#F0F2FA] focus:outline-none focus:border-[#2563EB] w-full";
+const INP = "px-3 py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-white dark:bg-[#120B22] text-xs text-[#170B29] dark:text-[#F4EEFF] focus:outline-none focus:border-[#7E14FF] w-full";
 
 function getCurrentCompany() {
   let user = null;
@@ -192,10 +192,10 @@ export default function CustomReports() {
 
   if (!companyId) {
     return (
-      <div className="min-h-screen bg-[#F8F9FC] dark:bg-[#0D0F14]">
+      <div className="min-h-screen bg-[#FAF7FF] dark:bg-[#0B0715]">
         <div className="p-4 md:p-6 max-w-5xl mx-auto">
-          <h1 className="text-lg font-bold text-[#0F1117] dark:text-[#F0F2FA] mb-2">Custom Reports</h1>
-          <div className="rounded-xl border border-dashed border-[#E2E8F0] dark:border-[#1E2130] p-8 text-center text-sm text-[#64748B] dark:text-[#8B92A9]">
+          <h1 className="text-lg font-bold text-[#170B29] dark:text-[#F4EEFF] mb-2">Custom Reports</h1>
+          <div className="rounded-xl border border-dashed border-[#E7DCFA] dark:border-[#1D1333] p-8 text-center text-sm text-[#6E6386] dark:text-[#7D7296]">
             No company is associated with your account, so reports can't be shown.
           </div>
         </div>
@@ -206,18 +206,18 @@ export default function CustomReports() {
   const a = selected?.analytics || {};
 
   return (
-    <div className="min-h-screen bg-[#F8F9FC] dark:bg-[#0D0F14]">
+    <div className="min-h-screen ld-canvas">
       <style>{`@media print { body * { visibility: hidden; } .print-area, .print-area * { visibility: visible; } .print-area { position: absolute; left: 0; top: 0; width: 100%; } .no-print { display: none !important; } }`}</style>
       <div className="p-4 md:p-6 max-w-5xl mx-auto">
 
         {/* Page header */}
-        <div className="flex items-center justify-between mb-5 gap-3 flex-wrap no-print">
+        <div className="ld-hero rounded-3xl px-5 sm:px-7 py-5 sm:py-6 text-white flex items-center justify-between mb-5 gap-3 flex-wrap no-print">
           <div>
-            <h1 className="text-lg font-bold text-[#0F1117] dark:text-[#F0F2FA]">Custom Reports</h1>
-            <p className="text-xs text-[#64748B] dark:text-[#8B92A9]">{company.name ? `${company.name} · ` : ""}Financial fields with analytics and AI insights.</p>
+            <h1 className="font-display text-xl font-bold tracking-tight text-white">Custom Reports</h1>
+            <p className="text-xs text-white/75">{company.name ? `${company.name} · ` : ""}Financial fields with analytics and AI insights.</p>
           </div>
           {!selected && (
-            <button onClick={startCreate} className="px-3 py-2 rounded-xl bg-[#2563EB] hover:bg-[#1D4ED8] text-white text-xs font-bold transition">+ New report</button>
+            <button onClick={startCreate} className="px-3 py-2 rounded-xl bg-white text-[#6300D6] hover:bg-[#F3EBFF] text-xs font-bold shadow-[0_6px_16px_-6px_rgba(20,0,60,0.5)] transition">+ New report</button>
           )}
         </div>
 
@@ -226,29 +226,29 @@ export default function CustomReports() {
         {/* ── Report list ────────────────────────────────────────────────── */}
         {!selected && (
           <div className="space-y-2">
-            {loading && <p className="text-xs text-[#64748B] dark:text-[#8B92A9]">Loading…</p>}
+            {loading && <p className="text-xs text-[#6E6386] dark:text-[#7D7296]">Loading…</p>}
             {!loading && reports.length === 0 && (
-              <div className="rounded-2xl border border-dashed border-[#E2E8F0] dark:border-[#1E2133] bg-white dark:bg-[#11131C] p-10 text-center">
-                <p className="text-[14px] font-semibold text-[#0F1117] dark:text-[#DDE1F5] mb-1">No reports yet</p>
-                <p className="text-xs text-[#64748B] dark:text-[#8B92A9] mb-4">Create your first financial report to see analytics and AI insights.</p>
-                <button onClick={startCreate} className="px-4 py-2 rounded-xl bg-[#2563EB] hover:bg-[#1D4ED8] text-white text-xs font-bold transition">+ New report</button>
+              <div className="rounded-2xl border border-dashed border-[#E7DCFA] dark:border-[#2B1E48] bg-white dark:bg-[#181029] ld-card p-10 text-center">
+                <p className="font-display text-[17px] font-bold text-[#170B29] dark:text-white mb-1">No reports yet</p>
+                <p className="text-xs text-[#6E6386] dark:text-[#7D7296] mb-4">Create your first financial report to see analytics and AI insights.</p>
+                <button onClick={startCreate} className="px-4 py-2 rounded-xl bg-white text-[#6300D6] hover:bg-[#F3EBFF] text-xs font-bold shadow-[0_6px_16px_-6px_rgba(20,0,60,0.5)] transition">+ New report</button>
               </div>
             )}
             {reports.map(r => {
               const ra = r.analytics || {};
               return (
-                <div key={r._id} className="bg-white dark:bg-[#11131C] rounded-2xl border border-[#E2E8F0] dark:border-[#1E2133] p-4 flex items-center justify-between gap-3 hover:border-[#2563EB] dark:hover:border-[#2563EB] transition">
+                <div key={r._id} className="bg-white dark:bg-[#181029] rounded-2xl border border-[#E7DCFA] dark:border-[#2B1E48] ld-card p-4 flex items-center justify-between gap-3 hover:border-[#7E14FF] dark:hover:border-[#7E14FF] transition">
                   <button onClick={() => openReport(r._id)} className="text-left flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="font-bold text-sm text-[#0F1117] dark:text-[#DDE1F5]">{r.title}</span>
+                      <span className="font-bold text-sm text-[#170B29] dark:text-[#F4EEFF]">{r.title}</span>
                       {verdictBadge(ra.verdict)}
                     </div>
-                    <div className="text-xs text-[#64748B] dark:text-[#8B92A9] mt-0.5">
+                    <div className="text-xs text-[#6E6386] dark:text-[#7D7296] mt-0.5">
                       {(r.periodStart || "").slice(0, 10)} → {(r.periodEnd || "").slice(0, 10)} · Net {money(r.currency, ra.netProfit)} · {r.fields?.length || 0} fields
                     </div>
                   </button>
                   <div className="flex items-center gap-2 shrink-0">
-                    <button onClick={() => startEdit(r)} className="text-xs px-2 py-1 rounded-lg border border-[#E2E8F0] dark:border-[#1E2133] text-[#475569] dark:text-[#94A3B8] hover:border-indigo-400 dark:hover:border-indigo-600 transition">Edit</button>
+                    <button onClick={() => startEdit(r)} className="text-xs px-2 py-1 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] text-[#564C70] dark:text-[#9A8DB6] hover:border-indigo-400 dark:hover:border-indigo-600 transition">Edit</button>
                     <button onClick={() => deleteReport(r._id)} className="text-xs px-2 py-1 rounded-lg border border-rose-200 dark:border-rose-800/50 text-rose-500 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition">Delete</button>
                   </div>
                 </div>
@@ -263,21 +263,21 @@ export default function CustomReports() {
 
             {/* Back + actions */}
             <div className="flex items-center justify-between gap-2 flex-wrap no-print">
-              <button onClick={() => { setSelected(null); setTrends(null); }} className="text-xs text-[#2563EB] font-medium hover:underline">← Back to list</button>
+              <button onClick={() => { setSelected(null); setTrends(null); }} className="text-xs text-[#7E14FF] font-medium hover:underline">← Back to list</button>
               <div className="flex items-center gap-2">
-                <button onClick={exportCSV} className="text-xs px-3 py-1.5 rounded-lg border border-[#E2E8F0] dark:border-[#1E2133] text-[#475569] dark:text-[#94A3B8] hover:border-indigo-400 dark:hover:border-indigo-600 transition">Export CSV</button>
-                <button onClick={exportPDF} className="text-xs px-3 py-1.5 rounded-lg border border-[#E2E8F0] dark:border-[#1E2133] text-[#475569] dark:text-[#94A3B8] hover:border-indigo-400 dark:hover:border-indigo-600 transition">Export PDF</button>
-                <button onClick={() => startEdit(selected)} className="text-xs px-3 py-1.5 rounded-lg bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-bold transition">Edit</button>
+                <button onClick={exportCSV} className="text-xs px-3 py-1.5 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] text-[#564C70] dark:text-[#9A8DB6] hover:border-indigo-400 dark:hover:border-indigo-600 transition">Export CSV</button>
+                <button onClick={exportPDF} className="text-xs px-3 py-1.5 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] text-[#564C70] dark:text-[#9A8DB6] hover:border-indigo-400 dark:hover:border-indigo-600 transition">Export PDF</button>
+                <button onClick={() => startEdit(selected)} className="text-xs px-3 py-1.5 rounded-lg bg-[#7E14FF] hover:bg-[#6300D6] text-white font-bold transition">Edit</button>
               </div>
             </div>
 
             {/* Title + verdict */}
             <div>
               <div className="flex items-center gap-3 flex-wrap">
-                <h2 className="text-base font-bold text-[#0F1117] dark:text-[#DDE1F5]">{selected.title}</h2>
+                <h2 className="text-base font-bold text-[#170B29] dark:text-[#F4EEFF]">{selected.title}</h2>
                 {verdictBadge(a.verdict)}
               </div>
-              <p className="text-xs text-[#64748B] dark:text-[#8B92A9]">{(selected.periodStart || "").slice(0, 10)} → {(selected.periodEnd || "").slice(0, 10)}</p>
+              <p className="text-xs text-[#6E6386] dark:text-[#7D7296]">{(selected.periodStart || "").slice(0, 10)} → {(selected.periodEnd || "").slice(0, 10)}</p>
             </div>
 
             {/* Summary stat cards */}
@@ -286,20 +286,20 @@ export default function CustomReports() {
                 { label: "Revenue",    value: money(selected.currency, a.totalRevenue), color: "#059669" },
                 { label: "Cost",       value: money(selected.currency, a.totalCost),    color: "#DC2626" },
                 { label: "Net Profit", value: money(selected.currency, a.netProfit),    color: a.netProfit >= 0 ? "#059669" : "#DC2626" },
-                { label: "Margin",     value: a.marginPct === null ? "—" : `${a.marginPct}%`, color: "#2563EB" },
-                { label: "ROI",        value: a.roiPct    === null ? "—" : `${a.roiPct}%`,    color: "#2563EB" },
+                { label: "Margin",     value: a.marginPct === null ? "—" : `${a.marginPct}%`, color: "#7E14FF" },
+                { label: "ROI",        value: a.roiPct    === null ? "—" : `${a.roiPct}%`,    color: "#7E14FF" },
               ].map(c => (
-                <div key={c.label} className="p-3 rounded-xl bg-white dark:bg-[#11131C] border border-[#E2E8F0] dark:border-[#1E2133]">
-                  <div className="text-[10px] uppercase tracking-wide text-[#64748B] dark:text-[#8B92A9]">{c.label}</div>
+                <div key={c.label} className="p-3 rounded-xl bg-white dark:bg-[#181029] border border-[#E7DCFA] dark:border-[#2B1E48] ld-card">
+                  <div className="text-[10px] uppercase tracking-wide text-[#6E6386] dark:text-[#7D7296]">{c.label}</div>
                   <div className="text-sm font-bold mt-0.5" style={{ color: c.color }}>{c.value}</div>
                 </div>
               ))}
             </div>
 
             {/* Fields breakdown */}
-            <div className="bg-white dark:bg-[#11131C] rounded-xl border border-[#E2E8F0] dark:border-[#1E2133] overflow-hidden">
-              <div className="px-4 py-2.5 bg-[#F8F9FC] dark:bg-[#0D0F14] border-b border-[#E2E8F0] dark:border-[#1E2133] text-[11px] font-bold uppercase tracking-wide text-[#64748B] dark:text-[#8B92A9]">Fields</div>
-              <div className="divide-y divide-[#E2E8F0] dark:divide-[#1E2133]">
+            <div className="bg-white dark:bg-[#181029] rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] ld-card overflow-hidden">
+              <div className="px-4 py-2.5 bg-[#FAF7FF] dark:bg-[#0B0715] border-b border-[#E7DCFA] dark:border-[#2B1E48] text-[11px] font-bold uppercase tracking-wide text-[#6E6386] dark:text-[#7D7296]">Fields</div>
+              <div className="divide-y divide-[#E7DCFA] dark:divide-[#2B1E48]">
                 {(a.breakdown || []).map((b, i) => {
                   const tm     = typeMeta(b.type);
                   const change = trends?.fieldChanges?.find(fc => fc.name === b.name);
@@ -307,16 +307,16 @@ export default function CustomReports() {
                     <div key={`${b.name}-${i}`} className="px-4 py-2.5 flex items-center justify-between gap-3">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
-                          <span className="text-sm text-[#0F1117] dark:text-[#DDE1F5] truncate">{b.name}</span>
+                          <span className="text-sm text-[#170B29] dark:text-[#F4EEFF] truncate">{b.name}</span>
                           <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded ${tm.cls}`}>{tm.label}</span>
                         </div>
-                        <div className="h-1.5 mt-1 rounded-full bg-[#EEF2F7] dark:bg-[#1E2133] overflow-hidden">
+                        <div className="h-1.5 mt-1 rounded-full bg-[#F4EEFF] dark:bg-[#2B1E48] overflow-hidden">
                           <div className="h-full rounded-full" style={{ width: `${Math.min(100, b.sharePct)}%`, background: tm.color }} />
                         </div>
                       </div>
                       <div className="text-right shrink-0">
-                        <div className="text-sm font-bold text-[#0F1117] dark:text-[#DDE1F5]">{money(selected.currency, b.value)}</div>
-                        <div className="text-[11px] text-[#64748B] dark:text-[#8B92A9]">
+                        <div className="text-sm font-bold text-[#170B29] dark:text-[#F4EEFF]">{money(selected.currency, b.value)}</div>
+                        <div className="text-[11px] text-[#6E6386] dark:text-[#7D7296]">
                           {b.sharePct}%
                           {change && change.changePct !== null && (
                             <span className={change.changePct >= 0 ? " text-emerald-600 dark:text-emerald-400" : " text-rose-500 dark:text-rose-400"}> · {pctTxt(change.changePct)}</span>
@@ -331,22 +331,22 @@ export default function CustomReports() {
 
             {/* Trend chart */}
             {trends?.series?.length > 1 && (
-              <div className="bg-white dark:bg-[#11131C] rounded-xl border border-[#E2E8F0] dark:border-[#1E2133] p-4">
-                <div className="text-xs font-bold text-[#0F1117] dark:text-[#DDE1F5] mb-3">Total over time</div>
+              <div className="bg-white dark:bg-[#181029] rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] ld-card p-4">
+                <div className="text-xs font-bold text-[#170B29] dark:text-[#F4EEFF] mb-3">Total over time</div>
                 <div className="flex items-end gap-2 h-32">
                   {trends.series.map(s => (
                     <div key={s.id} className="flex-1 flex flex-col items-center justify-end gap-1">
                       <div
-                        className={`w-full rounded-t ${s.id === selected._id ? "bg-[#2563EB]" : "bg-[#93C5FD] dark:bg-[#1D4ED8]"}`}
+                        className={`w-full rounded-t ${s.id === selected._id ? "bg-[#7E14FF]" : "bg-[#C39BFF] dark:bg-[#6300D6]"}`}
                         style={{ height: `${maxSeriesTotal > 0 ? Math.max(4, (Math.abs(s.total) / maxSeriesTotal) * 100) : 4}%` }}
                         title={`${s.title}: ${money(selected.currency, s.total)}`}
                       />
-                      <div className="text-[9px] text-[#64748B] dark:text-[#8B92A9] truncate w-full text-center">{(s.periodEnd || "").slice(0, 7)}</div>
+                      <div className="text-[9px] text-[#6E6386] dark:text-[#7D7296] truncate w-full text-center">{(s.periodEnd || "").slice(0, 7)}</div>
                     </div>
                   ))}
                 </div>
                 {trends.totalChangePct !== null && (
-                  <div className="text-xs text-[#64748B] dark:text-[#8B92A9] mt-2">
+                  <div className="text-xs text-[#6E6386] dark:text-[#7D7296] mt-2">
                     vs previous: <span className={trends.totalChangePct >= 0 ? "text-emerald-600 dark:text-emerald-400 font-bold" : "text-rose-500 dark:text-rose-400 font-bold"}>{pctTxt(trends.totalChangePct)}</span>
                   </div>
                 )}
@@ -354,37 +354,37 @@ export default function CustomReports() {
             )}
 
             {/* AI Insights */}
-            <div className="bg-white dark:bg-[#11131C] rounded-xl border border-[#E2E8F0] dark:border-[#1E2133] p-4">
+            <div className="bg-white dark:bg-[#181029] rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] ld-card p-4">
               <div className="flex items-center justify-between mb-2 no-print">
-                <div className="text-xs font-bold text-[#0F1117] dark:text-[#DDE1F5]">AI Insights</div>
+                <div className="text-xs font-bold text-[#170B29] dark:text-[#F4EEFF]">AI Insights</div>
                 <button onClick={runAI} disabled={aiLoading}
-                  className="text-xs px-3 py-1.5 rounded-lg bg-[#0F1117] dark:bg-[#F0F2FA] text-white dark:text-[#0F1117] font-bold disabled:opacity-50 transition">
+                  className="text-xs px-3 py-1.5 rounded-lg bg-[#170B29] dark:bg-[#F4EEFF] text-white dark:text-[#170B29] font-bold disabled:opacity-50 transition">
                   {aiLoading ? "Generating…" : (selected.ai?.summary ? "Re-generate AI Report" : "Generate AI Report")}
                 </button>
               </div>
               {aiError && <p className="text-xs text-amber-600 dark:text-amber-400">{aiError}</p>}
               {!aiError && selected.ai?.verdict && (
-                <p className="text-sm font-semibold text-[#0F1117] dark:text-[#DDE1F5] mb-1">{selected.ai.verdict}</p>
+                <p className="text-sm font-semibold text-[#170B29] dark:text-[#F4EEFF] mb-1">{selected.ai.verdict}</p>
               )}
               {!aiError && selected.ai?.summary && (
                 <>
-                  <p className="text-sm text-[#334155] dark:text-[#CBD5E1] leading-relaxed">{selected.ai.summary}</p>
+                  <p className="text-sm text-[#4A3F66] dark:text-[#D5BDFF] leading-relaxed">{selected.ai.summary}</p>
                   {selected.ai.suggestions?.length > 0 && (
                     <ul className="mt-3 space-y-1.5">
                       {selected.ai.suggestions.map((s, i) => (
-                        <li key={i} className="text-sm text-[#334155] dark:text-[#CBD5E1] flex gap-2">
-                          <span className="text-[#2563EB] font-bold">→</span><span>{s}</span>
+                        <li key={i} className="text-sm text-[#4A3F66] dark:text-[#D5BDFF] flex gap-2">
+                          <span className="text-[#7E14FF] font-bold">→</span><span>{s}</span>
                         </li>
                       ))}
                     </ul>
                   )}
                   {selected.ai.generatedAt && (
-                    <p className="text-[10px] text-[#94A3B8] dark:text-[#565C75] mt-2">Generated {new Date(selected.ai.generatedAt).toLocaleString()}</p>
+                    <p className="text-[10px] text-[#9A8DB6] dark:text-[#564C70] mt-2">Generated {new Date(selected.ai.generatedAt).toLocaleString()}</p>
                   )}
                 </>
               )}
               {!aiError && !selected.ai?.summary && !aiLoading && (
-                <p className="text-xs text-[#64748B] dark:text-[#8B92A9]">No analysis yet. Click Generate for an AI verdict and improvement suggestions.</p>
+                <p className="text-xs text-[#6E6386] dark:text-[#7D7296]">No analysis yet. Click Generate for an AI verdict and improvement suggestions.</p>
               )}
             </div>
           </div>
@@ -393,33 +393,33 @@ export default function CustomReports() {
         {/* ── Create / edit modal ────────────────────────────────────────── */}
         {showForm && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 no-print">
-            <div className="bg-white dark:bg-[#1A1D27] border border-[#E2E8F0] dark:border-[#262A38] rounded-2xl p-5 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="bg-white dark:bg-[#181029] border border-[#E7DCFA] dark:border-[#2B1E48] rounded-2xl p-5 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-sm font-bold text-[#0F1117] dark:text-[#F0F2FA]">{editingId ? "Edit report" : "New report"}</h2>
-                <button onClick={() => setShowForm(false)} className="text-[#8B92A9] hover:text-[#0F1117] dark:hover:text-white text-lg leading-none transition">×</button>
+                <h2 className="text-sm font-bold text-[#170B29] dark:text-[#F4EEFF]">{editingId ? "Edit report" : "New report"}</h2>
+                <button onClick={() => setShowForm(false)} className="text-[#7D7296] hover:text-[#170B29] dark:hover:text-white text-lg leading-none transition">×</button>
               </div>
               <div className="space-y-3">
                 <div className="flex flex-col gap-1">
-                  <label className="text-[10px] font-semibold text-[#64748B] dark:text-[#8B92A9] uppercase tracking-wide">Title</label>
+                  <label className="text-[10px] font-semibold text-[#6E6386] dark:text-[#7D7296] uppercase tracking-wide">Title</label>
                   <input value={title} onChange={e => setTitle(e.target.value)} placeholder="e.g. Q2 financials" className={INP} />
                 </div>
                 <div className="grid grid-cols-3 gap-2">
                   <div className="flex flex-col gap-1">
-                    <label className="text-[10px] font-semibold text-[#64748B] dark:text-[#8B92A9] uppercase tracking-wide">From</label>
+                    <label className="text-[10px] font-semibold text-[#6E6386] dark:text-[#7D7296] uppercase tracking-wide">From</label>
                     <input type="date" value={periodStart} onChange={e => setPeriodStart(e.target.value)} className={INP} />
                   </div>
                   <div className="flex flex-col gap-1">
-                    <label className="text-[10px] font-semibold text-[#64748B] dark:text-[#8B92A9] uppercase tracking-wide">To</label>
+                    <label className="text-[10px] font-semibold text-[#6E6386] dark:text-[#7D7296] uppercase tracking-wide">To</label>
                     <input type="date" value={periodEnd} onChange={e => setPeriodEnd(e.target.value)} className={INP} />
                   </div>
                   <div className="flex flex-col gap-1">
-                    <label className="text-[10px] font-semibold text-[#64748B] dark:text-[#8B92A9] uppercase tracking-wide">Currency</label>
+                    <label className="text-[10px] font-semibold text-[#6E6386] dark:text-[#7D7296] uppercase tracking-wide">Currency</label>
                     <input value={currency} onChange={e => setCurrency(e.target.value)} placeholder="₹" className={INP} />
                   </div>
                 </div>
                 <div>
-                  <label className="text-[10px] font-semibold text-[#64748B] dark:text-[#8B92A9] uppercase tracking-wide">Fields</label>
-                  <p className="text-[10px] text-[#94A3B8] dark:text-[#565C75] mb-1">Tag each as Revenue / Cost / Profit so margin &amp; ROI compute automatically.</p>
+                  <label className="text-[10px] font-semibold text-[#6E6386] dark:text-[#7D7296] uppercase tracking-wide">Fields</label>
+                  <p className="text-[10px] text-[#9A8DB6] dark:text-[#564C70] mb-1">Tag each as Revenue / Cost / Profit so margin &amp; ROI compute automatically.</p>
                   <div className="space-y-2">
                     {fields.map((f, i) => (
                       <div key={i} className="flex gap-2 items-start">
@@ -428,16 +428,16 @@ export default function CustomReports() {
                           {TYPES.map(t => <option key={t.key} value={t.key}>{t.label}</option>)}
                         </select>
                         <input value={f.value} onChange={e => setField(i, "value", e.target.value)} placeholder="Value" inputMode="decimal" className={`w-24 ${INP}`} />
-                        <button onClick={() => removeField(i)} disabled={fields.length === 1} className="px-2 py-2 text-[#94A3B8] dark:text-[#565C75] disabled:opacity-30 hover:text-rose-500 transition">×</button>
+                        <button onClick={() => removeField(i)} disabled={fields.length === 1} className="px-2 py-2 text-[#9A8DB6] dark:text-[#564C70] disabled:opacity-30 hover:text-rose-500 transition">×</button>
                       </div>
                     ))}
                   </div>
-                  <button onClick={addField} className="mt-2 text-xs text-[#2563EB] font-medium hover:underline">+ Add field</button>
+                  <button onClick={addField} className="mt-2 text-xs text-[#7E14FF] font-medium hover:underline">+ Add field</button>
                 </div>
                 {error && <p className="text-xs text-rose-500 dark:text-rose-400">{error}</p>}
                 <div className="flex justify-end gap-2 pt-1">
-                  <button onClick={() => setShowForm(false)} className="px-3 py-2 rounded-xl border border-[#E2E8F0] dark:border-[#262A38] text-xs text-[#475569] dark:text-[#94A3B8] hover:bg-[#F8F9FC] dark:hover:bg-[#13161E] transition">Cancel</button>
-                  <button onClick={saveReport} disabled={saving} className="px-4 py-2 rounded-xl bg-[#2563EB] hover:bg-[#1D4ED8] text-white text-xs font-bold disabled:opacity-50 transition">{saving ? "Saving…" : (editingId ? "Save changes" : "Create report")}</button>
+                  <button onClick={() => setShowForm(false)} className="px-3 py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] text-xs text-[#564C70] dark:text-[#9A8DB6] hover:bg-[#FAF7FF] dark:hover:bg-[#120B22] transition">Cancel</button>
+                  <button onClick={saveReport} disabled={saving} className="px-4 py-2 rounded-xl bg-[#7E14FF] hover:bg-[#6300D6] text-white text-xs font-bold disabled:opacity-50 transition">{saving ? "Saving…" : (editingId ? "Save changes" : "Create report")}</button>
                 </div>
               </div>
             </div>
@@ -448,4 +448,3 @@ export default function CustomReports() {
     </div>
   );
 }
-
