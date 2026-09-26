@@ -467,8 +467,8 @@ function AdminLeadRevealList({ leads, onBack, adminName, maskFn, revealIcon: Rev
       )}
 
       <div className="flex items-center justify-between px-3 pb-2 mb-1 border-b border-slate-100 dark:border-white/[0.06]">
-        <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-400">Lead</span>
-        <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-400">Reveals</span>
+        <span className="text-[11px] font-extrabold uppercase tracking-wide text-[#4A3F66] dark:text-[#C6BBDC]">Lead</span>
+        <span className="text-[11px] font-extrabold uppercase tracking-wide text-[#4A3F66] dark:text-[#C6BBDC]">Reveals</span>
       </div>
 
       {filtered.length === 0 ? (
@@ -574,8 +574,8 @@ function RevealModal({
         ) : (
           <div className="space-y-2">
             <div className="flex items-center justify-between px-3 pb-2 mb-1 border-b border-slate-100 dark:border-white/[0.06]">
-              <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-400">Admin</span>
-              <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-400">Reveals</span>
+              <span className="text-[11px] font-extrabold uppercase tracking-wide text-[#4A3F66] dark:text-[#C6BBDC]">Admin</span>
+              <span className="text-[11px] font-extrabold uppercase tracking-wide text-[#4A3F66] dark:text-[#C6BBDC]">Reveals</span>
             </div>
             {adminList
               .slice()
@@ -659,8 +659,8 @@ function RevealModal({
       ) : (
         <div className="space-y-2">
           <div className="flex items-center justify-between px-3 pb-1 mb-1 border-b border-slate-100 dark:border-white/[0.06]">
-            <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-400">Lead</span>
-            <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-400">Views</span>
+            <span className="text-[12px] font-extrabold uppercase tracking-wide text-[#4A3F66] dark:text-[#C6BBDC]">Lead</span>
+            <span className="text-[12px] font-extrabold uppercase tracking-wide text-[#4A3F66] dark:text-[#C6BBDC]">Views</span>
           </div>
           {topRevealed.map((item, i) => {
             const heat = heatFor(item.count);
@@ -871,7 +871,7 @@ function KpiCard({ label, value, sub, up, IconComponent, variant = "blue", onCli
     >
       <span className={`absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r ${s.bar} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
       <div className="flex items-start justify-between mb-3 sm:mb-4">
-        <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider leading-tight pr-2">
+        <span className="text-[11px] sm:text-[12px] font-extrabold text-[#4A3F66] dark:text-[#C6BBDC] uppercase tracking-wide leading-tight pr-2">
           {label}
         </span>
         <div className="flex items-center gap-1.5 shrink-0">
@@ -883,7 +883,7 @@ function KpiCard({ label, value, sub, up, IconComponent, variant = "blue", onCli
           </span>
         </div>
       </div>
-      <div className="text-[26px] sm:text-[32px] font-extrabold text-slate-900 dark:text-white leading-none mb-2 tabular-nums tracking-tight">
+      <div className="font-display text-[28px] sm:text-[34px] font-bold text-slate-900 dark:text-white leading-none mb-2 tabular-nums tracking-tight">
         {value}
       </div>
       {sub && (
