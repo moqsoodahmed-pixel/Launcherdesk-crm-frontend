@@ -32,7 +32,7 @@ const SUMMARY_ITEMS = [
   { key: "present",  label: "Present",  color: "emerald" },
   { key: "absent",   label: "Absent",   color: "red"     },
   { key: "late",     label: "Late",     color: "amber"   },
-  { key: "half_day", label: "Half-Day", color: "blue"    },
+  { key: "half_day", label: "Half-Day", color: "violet"  },
   { key: "leave",    label: "Leave",    color: "purple"  },
 ];
 
@@ -65,7 +65,7 @@ function Toggle({ enabled, onToggle, label, description }) {
   );
 }
 
-function PanelHeader({ icon: Icon, title, subtitle, onClose, iconColor = "text-indigo-500", iconBg = "bg-indigo-50 dark:bg-indigo-500/10" }) {
+function PanelHeader({ icon: Icon, title, subtitle, onClose, iconColor = "text-violet-500", iconBg = "bg-violet-50 dark:bg-violet-500/10" }) {
   return (
     <div className="flex items-center gap-3 px-5 pt-4 pb-3.5 border-b border-[#F0F2FA] dark:border-[#262A38]">
       <div className={`w-8 h-8 rounded-xl ${iconBg} flex items-center justify-center shrink-0`}>
@@ -101,7 +101,7 @@ function SaveButton({ saving, onClick, disabled, label = "Save Changes" }) {
     <button
       onClick={onClick}
       disabled={saving || disabled}
-      className="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed text-white text-[13px] font-semibold transition flex items-center justify-center gap-2"
+      className="w-full py-2.5 rounded-xl bg-violet-600 hover:bg-violet-700 disabled:opacity-50 disabled:cursor-not-allowed text-white text-[13px] font-semibold transition flex items-center justify-center gap-2"
     >
       {saving ? <Loader2 size={15} className="animate-spin" /> : <Save size={15} />}
       {saving ? "Saving…" : label}
@@ -184,8 +184,8 @@ function ClockInLocationSettings() {
         title="Clock-In Location Settings"
         className={`flex items-center gap-2 px-3.5 py-2 rounded-xl border text-[12px] font-semibold transition-all ${
           open
-            ? "bg-indigo-50 dark:bg-indigo-500/15 border-indigo-300 dark:border-indigo-700 text-indigo-700 dark:text-indigo-300"
-            : "border-[#E4E7EF] dark:border-[#262A38] bg-white dark:bg-[#1A1D27] text-[#4B5168] dark:text-[#9DA3BB] hover:border-indigo-300 dark:hover:border-indigo-700 hover:text-indigo-700 dark:hover:text-indigo-300"
+            ? "bg-violet-50 dark:bg-violet-500/15 border-violet-300 dark:border-violet-700 text-violet-700 dark:text-violet-300"
+            : "border-white/30 bg-white/15 text-white hover:bg-white/25"
         }`}
       >
         <MapPin size={15} className="shrink-0" />
@@ -226,7 +226,7 @@ function ClockInLocationSettings() {
                   <button
                     onClick={detectLocation}
                     disabled={detecting}
-                    className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 text-[11px] font-semibold hover:bg-indigo-100 dark:hover:bg-indigo-500/20 transition disabled:opacity-60"
+                    className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-violet-50 dark:bg-violet-500/10 text-violet-600 dark:text-violet-400 text-[11px] font-semibold hover:bg-violet-100 dark:hover:bg-violet-500/20 transition disabled:opacity-60"
                   >
                     {detecting ? <Loader2 size={12} className="animate-spin" /> : <LocateFixed size={12} />}
                     {detecting ? "Detecting…" : "Use my location"}
@@ -242,7 +242,7 @@ function ClockInLocationSettings() {
                       <label className="block text-[10px] font-semibold text-[#8B92A9] mb-1.5">{label}</label>
                       <input
                         type="number" step="0.0000001" value={val} onChange={e => set(e.target.value)} placeholder={ph}
-                        className="w-full px-3 py-2 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E] text-[12px] text-[#0F1117] dark:text-[#F0F2FA] placeholder:text-[#8B92A9] font-mono focus:outline-none focus:border-indigo-400 transition"
+                        className="w-full px-3 py-2 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E] text-[12px] text-[#0F1117] dark:text-[#F0F2FA] placeholder:text-[#8B92A9] font-mono focus:outline-none focus:border-violet-400 transition"
                       />
                     </div>
                   ))}
@@ -252,7 +252,7 @@ function ClockInLocationSettings() {
                 <div>
                   <div className="flex items-center justify-between mb-1.5">
                     <label className="text-[11px] font-semibold text-[#8B92A9] uppercase tracking-wide">Radius</label>
-                    <span className="text-[12px] font-bold text-indigo-600 dark:text-indigo-400 font-mono bg-indigo-50 dark:bg-indigo-500/10 px-2 py-0.5 rounded-lg">100m</span>
+                    <span className="text-[12px] font-bold text-violet-600 dark:text-violet-400 font-mono bg-violet-50 dark:bg-violet-500/10 px-2 py-0.5 rounded-lg">100m</span>
                   </div>
                   <p className="text-[10px] text-[#8B92A9]">Employees must clock in within 100 metres of the office. This radius is fixed.</p>
                 </div>
@@ -260,7 +260,7 @@ function ClockInLocationSettings() {
                 {/* Map link */}
                 {mapUrl && (
                   <a href={mapUrl} target="_blank" rel="noreferrer"
-                    className="flex items-center gap-1.5 text-[11px] text-indigo-600 dark:text-indigo-400 hover:underline font-semibold w-fit"
+                    className="flex items-center gap-1.5 text-[11px] text-violet-600 dark:text-violet-400 hover:underline font-semibold w-fit"
                   >
                     <ExternalLink size={12} />
                     Verify on Google Maps
@@ -367,7 +367,7 @@ function AttendanceSettings() {
     { n: 4, label: "Thu" }, { n: 5, label: "Fri" }, { n: 6, label: "Sat" }, { n: 0, label: "Sun" },
   ];
 
-  const TimeField = ({ label, h, m, onH, onM, accent = "indigo" }) => (
+  const TimeField = ({ label, h, m, onH, onM, accent = "violet" }) => (
     <div>
       <label className="block text-[11px] font-semibold text-[#8B92A9] uppercase tracking-wide mb-1.5">{label}</label>
       <div className="flex items-center gap-1.5">
@@ -388,7 +388,7 @@ function AttendanceSettings() {
         className={`flex items-center gap-2 px-3.5 py-2 rounded-xl border text-[12px] font-semibold transition-all ${
           open
             ? "bg-amber-50 dark:bg-amber-500/15 border-amber-300 dark:border-amber-700 text-amber-700 dark:text-amber-300"
-            : "border-[#E4E7EF] dark:border-[#262A38] bg-white dark:bg-[#1A1D27] text-[#4B5168] dark:text-[#9DA3BB] hover:border-amber-300 dark:hover:border-amber-700 hover:text-amber-700 dark:hover:text-amber-300"
+            : "border-white/30 bg-white/15 text-white hover:bg-white/25"
         }`}
       >
         <Clock size={15} className="shrink-0" />
@@ -575,7 +575,7 @@ function CallLogSyncSettings({ companyId }) {
         className={`flex items-center gap-2 px-3.5 py-2 rounded-xl border text-[12px] font-semibold transition-all ${
           open
             ? "bg-cyan-50 dark:bg-cyan-500/15 border-cyan-300 dark:border-cyan-700 text-cyan-700 dark:text-cyan-300"
-            : "border-[#E4E7EF] dark:border-[#262A38] bg-white dark:bg-[#1A1D27] text-[#4B5168] dark:text-[#9DA3BB] hover:border-cyan-300 dark:hover:border-cyan-700 hover:text-cyan-700 dark:hover:text-cyan-300"
+            : "border-white/30 bg-white/15 text-white hover:bg-white/25"
         }`}
       >
         <PhoneCall size={15} className="shrink-0" />
@@ -684,7 +684,7 @@ function MeetingTrackingSettings() {
         className={`flex items-center gap-2 px-3.5 py-2 rounded-xl border text-[12px] font-semibold transition-all ${
           open
             ? "bg-emerald-50 dark:bg-emerald-500/15 border-emerald-300 dark:border-emerald-700 text-emerald-700 dark:text-emerald-300"
-            : "border-[#E4E7EF] dark:border-[#262A38] bg-white dark:bg-[#1A1D27] text-[#4B5168] dark:text-[#9DA3BB] hover:border-emerald-300 dark:hover:border-emerald-700 hover:text-emerald-700 dark:hover:text-emerald-300"
+            : "border-white/30 bg-white/15 text-white hover:bg-white/25"
         }`}
       >
         <Navigation size={15} className="shrink-0" />
@@ -795,8 +795,8 @@ function LiveLocationsPanel({ open, onClose }) {
 
         {/* Header */}
         <div className="flex items-center gap-3 px-5 py-4 border-b border-[#F0F2FA] dark:border-[#262A38]">
-          <div className="w-9 h-9 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center shrink-0">
-            <MapPinned size={17} className="text-indigo-500" />
+          <div className="w-9 h-9 rounded-xl bg-violet-50 dark:bg-violet-500/10 flex items-center justify-center shrink-0">
+            <MapPinned size={17} className="text-violet-500" />
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-[15px] font-bold text-[#0F1117] dark:text-[#F0F2FA]">Live Client Locations</p>
@@ -822,7 +822,7 @@ function LiveLocationsPanel({ open, onClose }) {
           <input
             type="text" placeholder="Filter by employee name…"
             value={filter} onChange={e => setFilter(e.target.value)}
-            className="w-full px-3 py-2 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E] text-[13px] text-[#0F1117] dark:text-[#F0F2FA] placeholder:text-[#8B92A9] focus:outline-none focus:border-indigo-400 transition"
+            className="w-full px-3 py-2 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E] text-[13px] text-[#0F1117] dark:text-[#F0F2FA] placeholder:text-[#8B92A9] focus:outline-none focus:border-violet-400 transition"
           />
         </div>
 
@@ -847,7 +847,7 @@ function LiveLocationsPanel({ open, onClose }) {
               <div key={user?._id || user} className="border-b border-[#F0F2FA] dark:border-[#262A38] last:border-0">
                 {/* Employee row */}
                 <div className="flex items-center gap-3 px-5 py-3 bg-[#F8F9FC] dark:bg-[#13161E]">
-                  <div className="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-500/20 flex items-center justify-center text-[11px] font-bold text-indigo-700 dark:text-indigo-400 shrink-0">
+                  <div className="w-8 h-8 rounded-full bg-violet-100 dark:bg-violet-500/20 flex items-center justify-center text-[11px] font-bold text-violet-700 dark:text-violet-400 shrink-0">
                     {(user?.name || "?").slice(0, 2).toUpperCase()}
                   </div>
                   <div className="flex-1 min-w-0">
@@ -858,7 +858,7 @@ function LiveLocationsPanel({ open, onClose }) {
                     <a
                       href={mapUrl(empPings[0].latitude, empPings[0].longitude)}
                       target="_blank" rel="noreferrer"
-                      className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 text-[11px] font-semibold hover:bg-indigo-100 transition shrink-0"
+                      className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-violet-50 dark:bg-violet-500/10 text-violet-600 dark:text-violet-400 text-[11px] font-semibold hover:bg-violet-100 transition shrink-0"
                     >
                       <ExternalLink size={11} />
                       Latest
@@ -886,7 +886,7 @@ function LiveLocationsPanel({ open, onClose }) {
                         </p>
                       </div>
                       <a href={mapUrl(ping.latitude, ping.longitude)} target="_blank" rel="noreferrer"
-                        className="w-7 h-7 flex items-center justify-center rounded-lg text-[#8B92A9] hover:text-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 transition shrink-0"
+                        className="w-7 h-7 flex items-center justify-center rounded-lg text-[#8B92A9] hover:text-violet-500 hover:bg-violet-50 dark:hover:bg-violet-500/10 transition shrink-0"
                         title="Open in Maps"
                       >
                         <ExternalLink size={13} />
@@ -1018,7 +1018,7 @@ function LocationHistoryPanel({ open, onClose }) {
                       </p>
                     </div>
                     <a href={mapUrl(r.latitude, r.longitude)} target="_blank" rel="noreferrer"
-                      className="flex items-center gap-1 text-[11px] font-semibold text-indigo-600 dark:text-indigo-400 hover:underline shrink-0">
+                      className="flex items-center gap-1 text-[11px] font-semibold text-violet-600 dark:text-violet-400 hover:underline shrink-0">
                       <ExternalLink size={12} /> Map
                     </a>
                   </div>
@@ -1248,13 +1248,13 @@ export default function AttendancePage() {
   }, {});
 
   return (
-    <div className="p-4 sm:p-6 min-h-screen bg-gray-50 dark:bg-[#0D0F14] overflow-x-hidden">
+    <div className="p-4 sm:p-6 min-h-screen ld-canvas overflow-x-hidden">
 
       {/* ── Header ─────────────────────────────────────────────────────────── */}
-      <div className="flex items-start justify-between mb-5 flex-wrap gap-3">
+      <div className="ld-hero rounded-3xl px-5 sm:px-7 py-5 sm:py-6 flex items-start justify-between mb-5 flex-wrap gap-3">
         <div className="min-w-0">
-          <h1 className="text-[18px] sm:text-[20px] font-bold text-gray-800 dark:text-gray-100">Attendance Management</h1>
-          <p className="text-[12px] text-gray-400 mt-0.5">Track, filter and manage employee attendance</p>
+          <h1 className="font-display text-[20px] sm:text-[24px] font-bold tracking-tight text-white">Attendance Management</h1>
+          <p className="text-[13px] text-white/75 mt-0.5">Track, filter and manage employee attendance</p>
         </div>
 
         <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap justify-end">
@@ -1277,7 +1277,7 @@ export default function AttendancePage() {
           {/* Live locations viewer */}
           <button
             onClick={() => setShowLiveLocations(true)}
-            className="flex items-center gap-2 px-3.5 py-2 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-white dark:bg-[#1A1D27] text-[#4B5168] dark:text-[#9DA3BB] text-[12px] font-semibold hover:border-indigo-300 dark:hover:border-indigo-700 hover:text-indigo-700 dark:hover:text-indigo-300 transition-all"
+            className="flex items-center gap-2 px-3.5 py-2 rounded-xl border border-white/30 bg-white/15 text-white text-[12px] font-semibold hover:bg-white/25 transition-all"
             title="View live employee locations"
           >
             <Activity size={15} className="shrink-0" />
@@ -1287,7 +1287,7 @@ export default function AttendancePage() {
           {/* Permanent clock-in/out location history */}
           <button
             onClick={() => setShowLocationHistory(true)}
-            className="flex items-center gap-2 px-3.5 py-2 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-white dark:bg-[#1A1D27] text-[#4B5168] dark:text-[#9DA3BB] text-[12px] font-semibold hover:border-indigo-300 dark:hover:border-indigo-700 hover:text-indigo-700 dark:hover:text-indigo-300 transition-all"
+            className="flex items-center gap-2 px-3.5 py-2 rounded-xl border border-white/30 bg-white/15 text-white text-[12px] font-semibold hover:bg-white/25 transition-all"
             title="View permanent clock-in/out location history"
           >
             <MapPinned size={15} className="shrink-0" />
@@ -1331,7 +1331,7 @@ export default function AttendancePage() {
         </p>
         <button
           onClick={() => loadData()}
-          className="flex items-center gap-1.5 text-[12px] font-semibold text-indigo-500 hover:text-indigo-700 dark:hover:text-indigo-300 transition"
+          className="flex items-center gap-1.5 text-[12px] font-semibold text-violet-500 hover:text-violet-700 dark:hover:text-violet-300 transition"
         >
           <RefreshCw size={13} />
           Refresh
