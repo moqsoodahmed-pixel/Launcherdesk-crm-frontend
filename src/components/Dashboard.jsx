@@ -212,7 +212,7 @@ function LineChart({ data1, data2, labels }) {
           tooltip: {
             backgroundColor: dark ? "#141A28" : "#ffffff",
             titleColor: dark ? "#FFFFFF" : "#0F172A",
-            bodyColor: dark ? "#9DA3BB" : "#64748B",
+            bodyColor: dark ? "#9A8DB6" : "#64748B",
             borderColor: dark ? "rgba(255,255,255,0.08)" : "#E2E8F0",
             borderWidth: 1,
             padding: 12,
@@ -301,7 +301,7 @@ function DonutChart({ segments }) {
             enabled: !allZero,
             backgroundColor: dark ? "#141A28" : "#ffffff",
             titleColor: dark ? "#FFFFFF" : "#0F172A",
-            bodyColor: dark ? "#9DA3BB" : "#64748B",
+            bodyColor: dark ? "#9A8DB6" : "#64748B",
             borderColor: dark ? "rgba(255,255,255,0.08)" : "#E2E8F0",
             borderWidth: 1,
             padding: 12,
@@ -405,7 +405,7 @@ function Modal({ open, onClose, title, subtitle, children, accentColor = "#4F46E
 function heatFor(count) {
   if (count >= 10) return { bg: "bg-rose-50 dark:bg-rose-500/10", text: "text-rose-600 dark:text-rose-400", bar: "#E11D48", label: "High" };
   if (count >= 5) return { bg: "bg-amber-50 dark:bg-amber-500/10", text: "text-amber-600 dark:text-amber-400", bar: "#D97706", label: "Med" };
-  return { bg: "bg-indigo-50 dark:bg-indigo-500/10", text: "text-indigo-600 dark:text-indigo-400", bar: "#4F46E5", label: "Low" };
+  return { bg: "bg-violet-50 dark:bg-violet-500/10", text: "text-violet-600 dark:text-violet-400", bar: "#4F46E5", label: "Low" };
 }
 
 // ── Admin-level lead list (drill-down, shared by phone & email reveal modals) ─
@@ -455,11 +455,11 @@ function AdminLeadRevealList({ leads, onBack, adminName, maskFn, revealIcon: Rev
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full pl-9 pr-4 py-2.5 rounded-xl text-[13px]
-              bg-slate-50 dark:bg-[#141A28]
+              bg-[#FAF7FF] dark:bg-[#120B22]
               border border-slate-200 dark:border-white/10
               text-slate-900 dark:text-white
               placeholder:text-slate-400 dark:placeholder:text-slate-400
-              focus:outline-none focus:ring-2 focus:border-indigo-500
+              focus:outline-none focus:ring-2 focus:border-violet-500
               transition-colors"
             style={{ "--tw-ring-color": `${accentColor}66` }}
           />
@@ -487,7 +487,7 @@ function AdminLeadRevealList({ leads, onBack, adminName, maskFn, revealIcon: Rev
               <div
                 key={i}
                 className="flex items-center gap-3 px-3 py-3 rounded-xl
-                  bg-slate-50 dark:bg-[#141A28]
+                  bg-[#FAF7FF] dark:bg-[#120B22]
                   border border-slate-200 dark:border-white/10
                   transition-colors"
                 style={{ "--hover-border": accentColor }}
@@ -589,7 +589,7 @@ function RevealModal({
                     key={i}
                     onClick={() => setSelectedAdmin(admin)}
                     className="w-full text-left group flex items-center gap-3 sm:gap-4 px-3 py-3.5 rounded-xl
-                      bg-slate-50 dark:bg-[#141A28]
+                      bg-[#FAF7FF] dark:bg-[#120B22]
                       border border-slate-200 dark:border-white/10
                       hover:bg-white dark:hover:bg-white/[0.05]
                       transition-all duration-150 focus:outline-none focus-visible:ring-2"
@@ -666,7 +666,7 @@ function RevealModal({
             const heat = heatFor(item.count);
             const pct = Math.round((item.count / maxCount) * 100);
             return (
-              <div key={i} className="group flex items-center gap-3 sm:gap-4 px-3 py-3 rounded-xl hover:bg-slate-50 dark:hover:bg-[#141A28] transition-colors">
+              <div key={i} className="group flex items-center gap-3 sm:gap-4 px-3 py-3 rounded-xl hover:bg-[#FAF7FF] dark:hover:bg-[#1D1333] transition-colors">
                 <span className="w-5 sm:w-6 text-[12px] font-bold text-slate-400 dark:text-slate-400 shrink-0 tabular-nums text-center">{i + 1}</span>
                 <div className="flex-1 min-w-0">
                   <p className="text-[13px] font-semibold text-slate-900 dark:text-white truncate">{item.name}</p>
@@ -699,7 +699,7 @@ function PhoneRevealModal({ open, onClose, data, isSuperAdmin }) {
       data={data}
       isSuperAdmin={isSuperAdmin}
       title="Phone Reveals"
-      accentColor="#7C3AED"
+      accentColor="#7E14FF"
       RevealIcon={Eye}
       maskFn={maskPhone}
       totalLabel="total reveals"
@@ -746,7 +746,7 @@ function LeadsDetailModal({ open, onClose, title, leads, accentColor, TitleIcon 
     "Converted": { bg: "bg-emerald-50 dark:bg-emerald-950/40", text: "text-emerald-700 dark:text-emerald-400", dot: "#10B981" },
     "In Progress": { bg: "bg-amber-50 dark:bg-amber-950/40", text: "text-amber-700 dark:text-amber-400", dot: "#D97706" },
     "Not Interested": { bg: "bg-rose-50 dark:bg-rose-950/40", text: "text-rose-700 dark:text-rose-400", dot: "#E11D48" },
-    "New": { bg: "bg-indigo-50 dark:bg-indigo-950/30", text: "text-indigo-700 dark:text-indigo-400", dot: "#4F46E5" },
+    "New": { bg: "bg-violet-50 dark:bg-violet-950/30", text: "text-violet-700 dark:text-violet-300", dot: "#4F46E5" },
   };
 
   return (
@@ -766,11 +766,11 @@ function LeadsDetailModal({ open, onClose, title, leads, accentColor, TitleIcon 
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full pl-9 pr-4 py-2.5 rounded-xl text-[13px]
-              bg-slate-50 dark:bg-[#141A28]
+              bg-[#FAF7FF] dark:bg-[#120B22]
               border border-slate-200 dark:border-white/10
               text-slate-900 dark:text-white
               placeholder:text-slate-400 dark:placeholder:text-slate-400
-              focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500
+              focus:outline-none focus:ring-2 focus:ring-violet-500/40 focus:border-violet-500
               transition-colors"
           />
         </div>
@@ -791,9 +791,9 @@ function LeadsDetailModal({ open, onClose, title, leads, accentColor, TitleIcon 
               <div
                 key={lead.id || i}
                 className="flex items-center gap-3 px-3 sm:px-4 py-3 sm:py-3.5 rounded-xl
-                  bg-slate-50 dark:bg-[#141A28]
+                  bg-[#FAF7FF] dark:bg-[#120B22]
                   border border-slate-200 dark:border-white/10
-                  hover:border-indigo-300 dark:hover:border-indigo-800
+                  hover:border-violet-300 dark:hover:border-violet-800
                   transition-colors"
               >
                 <div
@@ -847,12 +847,12 @@ function LeadsDetailModal({ open, onClose, title, leads, accentColor, TitleIcon 
 
 // ── KPI card ──────────────────────────────────────────────────────────────────
 const KPI_STYLES = {
-  blue: { icon: "bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400", glow: "group-hover:shadow-glow-brand", bar: "from-indigo-500 to-violet-500" },
+  blue: { icon: "bg-violet-50 dark:bg-violet-500/10 text-violet-600 dark:text-violet-400", glow: "group-hover:shadow-glow-brand", bar: "from-violet-500 to-[#863BFF]" },
   green: { icon: "bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400", glow: "", bar: "from-emerald-500 to-teal-500" },
   amber: { icon: "bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400", glow: "", bar: "from-amber-500 to-orange-500" },
   red: { icon: "bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-400", glow: "", bar: "from-rose-500 to-rose-500" },
   purple: { icon: "bg-violet-50 dark:bg-violet-500/10 text-violet-600 dark:text-violet-400", glow: "", bar: "from-violet-500 to-purple-500" },
-  cyan: { icon: "bg-cyan-50 dark:bg-cyan-500/10 text-cyan-600 dark:text-cyan-400", glow: "", bar: "from-cyan-500 to-indigo-500" },
+  cyan: { icon: "bg-sky-50 dark:bg-sky-500/10 text-sky-600 dark:text-sky-400", glow: "", bar: "from-sky-400 to-violet-500" },
 };
 
 function KpiCard({ label, value, sub, up, IconComponent, variant = "blue", onClick, clickable }) {
@@ -908,7 +908,7 @@ function RangeToggle({ range, onChange }) {
         <button
           key={key}
           onClick={() => onChange(key)}
-          className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[11px] sm:text-[12px] font-semibold transition-all duration-200 ease-premium focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500
+          className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[11px] sm:text-[12px] font-semibold transition-all duration-200 ease-premium focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500
             ${range === key
               ? "bg-white dark:bg-[#141A28] text-slate-900 dark:text-white shadow-xs"
               : "text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
@@ -942,7 +942,7 @@ function ErrorBanner({ message, onRetry }) {
 // ── Skeleton ──────────────────────────────────────────────────────────────────
 function Skeleton() {
   return (
-    <div className="bg-slate-50 dark:bg-[#0B0F19] min-h-screen px-4 sm:px-6 py-6 sm:py-8">
+    <div className="ld-canvas min-h-screen px-4 sm:px-6 py-6 sm:py-8">
       <div className="skeleton h-28 sm:h-32 w-full rounded-3xl mb-6 sm:mb-8 skeleton-shimmer" />
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-5 sm:mb-6">
         {[...Array(4)].map((_, i) => (
@@ -960,7 +960,7 @@ function Skeleton() {
 // ── Source & pipeline colors ──────────────────────────────────────────────────
 const SOURCE_COLORS = {
   "Google Ads": "#4F46E5",
-  "Campaign": "#7C3AED",
+  "Campaign": "#7E14FF",
   "Facebook Ads": "#0891B2",
   "Web Form": "#10B981",
   "Referral": "#D97706",
@@ -1125,7 +1125,7 @@ export default function Dashboard() {
       return acc;
     }, {});
     const FALLBACK_COLORS = [
-      "#4F46E5", "#7C3AED", "#0891B2", "#10B981",
+      "#4F46E5", "#7E14FF", "#0891B2", "#10B981",
       "#D97706", "#E11D48", "#0D9488", "#9333EA",
     ];
     return Object.entries(counts)
@@ -1165,10 +1165,10 @@ export default function Dashboard() {
   if (loading) return <Skeleton />;
 
   return (
-    <div className="bg-slate-50 dark:bg-[#0B0F19] min-h-screen font-poppins px-4 sm:px-6 py-6 sm:py-8">
+    <div className="ld-canvas min-h-screen font-poppins px-4 sm:px-6 py-6 sm:py-8">
 
       {/* ── Welcome Hero ── */}
-      <div className="relative overflow-hidden rounded-3xl bg-brand-gradient bg-mesh-hero mb-6 sm:mb-8 shadow-glow-brand">
+      <div className="relative overflow-hidden rounded-3xl bg-brand-gradient mb-6 sm:mb-8 shadow-[0_18px_40px_-18px_rgba(99,0,214,0.65)]">
         <div className="absolute inset-0 bg-mesh-hero" />
         <div className="relative flex flex-wrap items-start sm:items-center justify-between gap-4 px-5 sm:px-8 py-6 sm:py-7">
           <div className="min-w-0">
@@ -1282,7 +1282,7 @@ export default function Dashboard() {
               <h2 className="text-[13px] sm:text-[14px] font-bold text-slate-900 dark:text-white">Leads over time</h2>
               <div className="flex items-center gap-3 sm:gap-4">
                 <span className="flex items-center gap-1.5 text-[11px] text-slate-500 dark:text-slate-400">
-                  <span className="w-3 h-1.5 rounded-full bg-indigo-600 inline-block shrink-0" />
+                  <span className="w-3 h-1.5 rounded-full bg-violet-600 inline-block shrink-0" />
                   New leads
                 </span>
                 <span className="flex items-center gap-1.5 text-[11px] text-slate-500 dark:text-slate-400">
@@ -1420,7 +1420,7 @@ export default function Dashboard() {
               { label: "Sources", value: uniqueSources },
               { label: "Campaigns", value: uniqueCampaigns },
             ].map((s) => (
-              <div key={s.label} className="bg-slate-50 dark:bg-[#0B0F19] rounded-xl px-2.5 sm:px-3 py-2 sm:py-2.5">
+              <div key={s.label} className="bg-[#FAF7FF] dark:bg-[#120B22] rounded-xl px-2.5 sm:px-3 py-2 sm:py-2.5">
                 <div className="text-[14px] sm:text-[16px] font-bold text-slate-900 dark:text-white tabular-nums">{s.value}</div>
                 <div className="text-[9px] sm:text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 truncate">{s.label}</div>
               </div>

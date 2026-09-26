@@ -202,7 +202,7 @@
 
     /* ── Surface primitives ────────────────────────────────────────────── */
     .surface-card {
-        @apply bg-white dark:bg-[#141A28] border border-slate-200/70 dark:border-white/[0.06] rounded-2xl shadow-soft;
+        @apply bg-white dark:bg-[#181029] border border-[#E7DCFA]/70 dark:border-white/[0.06] rounded-2xl ld-card;
     }
 
     .surface-card-hover {
@@ -210,7 +210,7 @@
     }
 
     .surface-panel {
-        @apply bg-white/70 dark:bg-[#141A28]/70 backdrop-blur-xl border border-slate-200/70 dark:border-white/[0.06];
+        @apply bg-white/70 dark:bg-[#181029]/70 backdrop-blur-xl border border-[#E7DCFA]/70 dark:border-white/[0.06];
     }
 
     /* ── Buttons ──────────────────────────────────────────────────────── */
