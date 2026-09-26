@@ -5,119 +5,22 @@ import toast from "react-hot-toast";
 import { Eye, EyeOff } from "lucide-react";
 
 // ── 6-box OTP input ────────────────────────────────────────────────────────────
-function OtpInput({ value, onChange, disabled }) {
-  const inputRefs = Array.from({ length: 6 }, () => useRef(null));
-  const digits = value.padEnd(6, " ").split("");
-
-  const handleChange = (i, e) => {
-    const digit = e.target.value.replace(/\D/g, "").slice(-1);
-    const next  = digits.slice();
-    next[i]     = digit || " ";
-    onChange(next.join(""));
-    if (digit && i < 5) inputRefs[i + 1].current?.focus();
-  };
-
-  const handleKeyDown = (i, e) => {
-    if (e.key === "Backspace") {
-      const next = digits.slice();
-      if (digits[i].trim()) {
-        next[i] = " ";
-        onChange(next.join(""));
-      } else if (i > 0) {
-        inputRefs[i - 1].current?.focus();
-      }
-    }
-    if (e.key === "ArrowLeft"  && i > 0) inputRefs[i - 1].current?.focus();
-    if (e.key === "ArrowRight" && i < 5) inputRefs[i + 1].current?.focus();
-  };
-
-  const handlePaste = (e) => {
-    e.preventDefault();
-    const pasted = e.clipboardData.getData("text").replace(/\D/g, "").slice(0, 6);
-    onChange(pasted.padEnd(6, " ").slice(0, 6));
-    inputRefs[Math.min(pasted.length, 5)].current?.focus();
-  };
-
-  return (
-    <div className="flex gap-2 justify-center" onPaste={handlePaste}>
-      {digits.map((d, i) => (
-        <input
-          key={i}
-          ref={inputRefs[i]}
-          type="text"
-          inputMode="numeric"
-          maxLength={1}
-          disabled={disabled}
-          value={d.trim()}
-          onChange={(e) => handleChange(i, e)}
-          onKeyDown={(e) => handleKeyDown(i, e)}
-          onFocus={(e) => e.target.select()}
-          className="w-11 h-[52px] text-center text-xl font-bold rounded-lg border bg-boxdark-2 text-white transition-all
-                     border-strokedark focus:border-warning focus:ring-2 focus:ring-warning/20 outline-none
-                     disabled:opacity-50"
-        />
-      ))}
-    </div>
-  );
-}
-
-// ── Main ───────────────────────────────────────────────────────────────────────
 export default function SuperAdminLogin() {
-  const [email,          setEmail]          = useState("");
-  const [password,       setPassword]       = useState("");
-  const [showPass,       setShowPass]       = useState(false);
-  const [step,           setStep]           = useState(1);       // 1 = credentials, 2 = OTP
-  const [pendingEmail,   setPendingEmail]   = useState("");
-  const [otp,            setOtp]            = useState("      "); // 6 spaces default
-  const [resendCooldown, setResendCooldown] = useState(0);
-  const [loading,        setLoading]        = useState(false);
-  const [error,          setError]          = useState("");
-  const [info,           setInfo]           = useState("");
+  const [email,    setEmail]    = useState("");
+  const [password, setPassword] = useState("");
+  const [showPass, setShowPass] = useState(false);
+  const [loading,  setLoading]  = useState(false);
+  const [error,    setError]    = useState("");
   const navigate = useNavigate();
 
-  // Countdown timer for resend button
-  useEffect(() => {
-    if (resendCooldown <= 0) return;
-    const t = setTimeout(() => setResendCooldown((c) => c - 1), 1000);
-    return () => clearTimeout(t);
-  }, [resendCooldown]);
 
-  // Auto-submit when all 6 digits filled
-  useEffect(() => {
-    if (step === 2 && otp.trim().length === 6) handleVerify();
-  }, [otp]);
-
-  // ── Step 1: validate credentials → send OTP ──────────────────────────────
+  // ── Sign in: email + password only, no OTP ─────────────────────────────────────────────
   const handleLogin = async (e) => {
     e.preventDefault();
     if (!email || !password) return setError("Please fill in all fields.");
-    setLoading(true); setError(""); setInfo("");
-    try {
-      const res = await api.post("/superadmin/login", { email, password });
-      setPendingEmail(res.data.email || email);
-      if (res.data.otp) {
-        setOtp(String(res.data.otp));
-      } else {
-        setOtp("      ");
-      }
-      setStep(2);
-      setInfo(`OTP sent to ${res.data.email || email}. Valid for ${res.data.expiresInMin ?? 10} minutes.`);
-      setResendCooldown(60);
-    } catch (err) {
-      setError(err.response?.data?.message || "Login failed. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // ── Step 2: verify OTP → get JWT ─────────────────────────────────────────
-  const handleVerify = async (e) => {
-    e?.preventDefault();
-    const cleanOtp = otp.trim();
-    if (cleanOtp.length !== 6) return setError("Please enter all 6 digits.");
     setLoading(true); setError("");
     try {
-      const res = await api.post("/superadmin/verify-otp", { email: pendingEmail, otp: cleanOtp });
+      const res = await api.post("/superadmin/login", { email, password });
 
       // Wipe any responses cached under a previous session on this tab before
       // storing the new token — otherwise this super admin can briefly see
@@ -126,14 +29,6 @@ export default function SuperAdminLogin() {
 
       localStorage.setItem("token", res.data.token);
 
-      // FIX: backend may return either flat companyId/companyName fields
-      // (preferred) or only a populated `company` object ({ _id, name, ... }).
-      // Previously this read res.data.companyId directly, which was always
-      // undefined when only `company` was returned — resulting in an empty
-      // companyId being stored. AdminChat's extractCompanyId() then resolved
-      // to '', so super_admin_join's `if (!adminId || !company) return;`
-      // guard silently aborted, leaving the chat panel with "0 online" and
-      // "No contacts yet" forever.
       const companyObj = res.data.company;
       const companyId =
         res.data.companyId ||
@@ -153,32 +48,11 @@ export default function SuperAdminLogin() {
         companyName,
         company:     companyId, // keep for legacy reads (matches AdminLogin.jsx convention)
       }));
-      // Notify same-tab listeners (window 'storage' event doesn't fire in the same tab)
       window.dispatchEvent(new Event("user_changed"));
       toast.success("Super Admin login successful! Welcome back.");
       navigate("/superadmin/dashboard");
     } catch (err) {
-      setError(err.response?.data?.message || "OTP verification failed.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // ── Resend OTP ────────────────────────────────────────────────────────────
-  const handleResend = async () => {
-    if (resendCooldown > 0) return;
-    setLoading(true); setError("");
-    try {
-      const res = await api.post("/superadmin/resend-otp", { email: pendingEmail });
-      if (res.data.otp) {
-        setOtp(String(res.data.otp));
-      } else {
-        setOtp("      ");
-      }
-      setInfo(res.data.message || "New OTP sent.");
-      setResendCooldown(60);
-    } catch (err) {
-      setError(err.response?.data?.message || "Failed to resend OTP.");
+      setError(err.response?.data?.message || "Login failed. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -216,7 +90,7 @@ export default function SuperAdminLogin() {
             </h2>
             <p className="text-sm text-white leading-relaxed">
               Cross-company oversight, billing and platform administration.
-              Two-factor verification is required for every sign-in.
+              Sign in with your email and password to continue.
             </p>
           </div>
 
@@ -237,15 +111,10 @@ export default function SuperAdminLogin() {
               <span className="px-3.5 py-1.5 rounded-full text-base font-bold uppercase tracking-widest bg-warning/10 border border-warning/20 text-warning">
                 Super Admin
               </span>
-              <div className="ml-auto flex items-center gap-1.5">
-                <div className={`w-2 h-2 rounded-full transition-colors ${step === 1 ? "bg-warning" : "bg-warning/40"}`}/>
-                <div className={`w-2 h-2 rounded-full transition-colors ${step === 2 ? "bg-warning" : "bg-strokedark"}`}/>
-              </div>
+              <span className="ml-auto text-xs text-bodydark">Email &amp; password</span>
             </div>
 
-            {/* ── Step 1: Credentials ─────────────────────────────────────────── */}
-            {step === 1 && (
-              <div className="slide-in">
+            <div className="slide-in">
                 <h1 className="text-[18px] font-bold text-white mb-1">Sign in</h1>
                 <p className="text-sm text-bodydark mb-7">Enter your credentials to continue</p>
 
@@ -282,48 +151,7 @@ export default function SuperAdminLogin() {
                   </button>
                 </form>
               </div>
-            )}
-
-            {/* ── Step 2: OTP verification ──────────────────────────────────── */}
-            {step === 2 && (
-              <div className="slide-in">
-                <h1 className="text-2xl font-bold text-white mb-1">Verify your email</h1>
-                <p className="text-sm text-bodydark mb-0.5">OTP sent to</p>
-                <p className="text-sm font-semibold text-warning mb-6 break-all">{pendingEmail}</p>
-
-                {error && <ErrorBanner msg={error} />}
-                {info && !error && (
-                  <div className="mb-5 px-4 py-3 rounded-lg bg-success/10 border border-success/20">
-                    <p className="text-sm text-success">{info}</p>
-                  </div>
-                )}
-
-                <form onSubmit={handleVerify} className="space-y-6">
-                  <div>
-                    <label className="block mb-4 font-medium text-white text-center">
-                      Enter 6-digit OTP
-                    </label>
-                    <OtpInput value={otp} onChange={setOtp} disabled={loading} />
-                  </div>
-
-                  <button type="submit" disabled={loading || otp.trim().length !== 6}
-                    className="ta-btn w-full py-3.5 rounded-lg bg-warning text-boxdark-2 font-semibold disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2">
-                    {loading ? <><Spinner /> Verifying…</> : "Verify & Sign In"}
-                  </button>
-                </form>
-
-                <div className="mt-6 flex flex-col items-center gap-3">
-                  <button onClick={handleResend} disabled={resendCooldown > 0 || loading}
-                    className="text-sm font-medium text-warning hover:text-warning/80 disabled:text-bodydark disabled:cursor-not-allowed transition">
-                    {resendCooldown > 0 ? `Resend OTP in ${resendCooldown}s` : "Didn't receive it? Resend OTP"}
-                  </button>
-                  <button onClick={() => { setStep(1); setError(""); setInfo(""); setOtp("      "); }}
-                    className="text-sm text-bodydark hover:text-white transition flex items-center gap-1">
-                    ← Back to login
-                  </button>
-                </div>
-              </div>
-            )}
+            
 
             {/* Footer links */}
             <div className="mt-7 pt-6 border-t border-strokedark text-center space-y-2.5">
