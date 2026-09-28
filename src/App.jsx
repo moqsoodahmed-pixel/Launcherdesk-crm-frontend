@@ -17,7 +17,7 @@ import DailyReportTelegramSettings from "./components/DailyReportTelegramSetting
 import SheetIntegrationAdminSettings from "./components/SheetIntegrationAdminSettings";
 import {
   Search, Command, Plus, ChevronDown, ChevronRight, Users, Megaphone,
-  MessageSquare, Calendar,
+  MessageSquare, Calendar, Globe, LifeBuoy,
 } from "lucide-react";
 
 // ── Lazy-loaded pages — each becomes its own chunk ────────────────────────────
@@ -449,8 +449,16 @@ function CompanyHeader() {
             className="h-6 w-auto max-w-[90px] object-contain shrink-0"
             onError={e => { e.currentTarget.src = "/launcherdesk_logo.svg"; }}
           />
-          <span className="text-[13px] font-bold text-slate-900 dark:text-white tracking-tight truncate max-w-[140px]">
-            {headerName}
+          <span className="leading-tight min-w-0">
+            <span className="block text-[13px] font-bold text-slate-900 dark:text-white tracking-tight truncate max-w-[160px]">
+              {headerName}
+            </span>
+            {/* Tagline only for the un-customized default brand — a company
+                that has set its own name/logo keeps a neutral label instead,
+                so dynamic tenant branding is never overridden. */}
+            <span className="block text-[10px] font-medium text-violet-500/80 dark:text-violet-300/70 truncate max-w-[160px] -mt-0.5">
+              {brand?.name ? "Admin workspace" : "Your Business HQ"}
+            </span>
           </span>
           <span className="w-px h-4 bg-slate-200 dark:bg-white/10 mx-1 shrink-0" />
         </div>
@@ -489,6 +497,27 @@ function CompanyHeader() {
         {(role === 'admin' || role === 'superadmin' || role === 'super_admin') && (
           <QuickCreateMenu role={role} />
         )}
+
+        {/* Website shortcut — opens the public LauncherDesk site in a new tab */}
+        <a
+          href="https://www.launcherdesk.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="icon-btn hidden sm:inline-flex"
+          title="Visit LauncherDesk website"
+        >
+          <Globe className="w-4 h-4" />
+        </a>
+        {/* Help / support — opens the public contact page in a new tab */}
+        <a
+          href="https://www.launcherdesk.com/company/contact"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="icon-btn"
+          title="Help & support"
+        >
+          <LifeBuoy className="w-4 h-4" />
+        </a>
 
         <span className="w-px h-6 bg-slate-200 dark:bg-white/10 mx-0.5 hidden sm:block" />
 

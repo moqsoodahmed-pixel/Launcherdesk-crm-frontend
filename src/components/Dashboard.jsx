@@ -1,9 +1,11 @@
 import { useState, useMemo, useEffect, useRef, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Users, CheckCircle, BarChart2, Clock, Building2, Eye,
   RefreshCw, AlertTriangle, X, Search, ChevronRight,
   Flame, Thermometer, Snowflake, TrendingUp, TrendingDown,
   Activity, Zap, ArrowUpRight, Mail, Sparkles, Calendar,
+  UserPlus, Megaphone,
 } from "lucide-react";
 import api from "../data/axiosConfig";
 import { fetchAll, getRole, getStoredUser } from "../data/dataService";
@@ -14,6 +16,11 @@ import AdminAttendanceView from "./AdminAttendanceView";
 import CompanyBrandSettings from "./CompanyBrandSettings";
 import SuperAdminFilter from "./SuperAdminFilter";
 import useEntitlements from "../hooks/useEntitlements";
+import AdminQuickActions from "./admin/AdminQuickActions";
+import AdminFollowUpIntelligence from "./admin/AdminFollowUpIntelligence";
+import AdminMarketingOverview from "./admin/AdminMarketingOverview";
+import AdminCommunicationsOverview from "./admin/AdminCommunicationsOverview";
+import AdminWorkspacePlan from "./admin/AdminWorkspacePlan";
 
 // ── Phone masking helper ──────────────────────────────────────────────────────
 function maskPhone(phone) {
@@ -1074,7 +1081,8 @@ export default function Dashboard() {
     return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
   }, []);
 
-  const { planId } = useEntitlements();
+  const { planId, hasFeature, readOnlyMode, subscriptionStatus } = useEntitlements();
+  const navigate = useNavigate();
 
   // ── Derived data ──────────────────────────────────────────────────────────
   const leads = useMemo(() => filterByRange(allLeads, range), [allLeads, range]);
@@ -1193,11 +1201,35 @@ export default function Dashboard() {
             </p>
           </div>
 
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="flex items-center gap-2 shrink-0 flex-wrap">
             <div className="hidden sm:flex flex-col items-end pr-4 mr-1 border-r border-white/15">
               <span className="text-[20px] font-extrabold text-white leading-none tabular-nums">{kpi.rate}</span>
               <span className="text-[10.5px] font-medium text-white/60 mt-1">conversion rate</span>
             </div>
+            <button
+              onClick={() => navigate("/leads")}
+              className="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-white text-[#6300D6] text-[12.5px] font-bold
+                shadow-[0_8px_20px_-6px_rgba(0,0,0,0.25)] hover:brightness-105 transition-all duration-200 ease-premium"
+            >
+              <UserPlus className="w-4 h-4" />
+              <span className="hidden sm:inline">Add Lead</span>
+            </button>
+            <button
+              onClick={() => navigate("/campaigns")}
+              className="hidden sm:inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15
+                text-white text-[12.5px] font-semibold backdrop-blur-sm transition-all duration-200 ease-premium"
+            >
+              <Megaphone className="w-4 h-4" />
+              Create Campaign
+            </button>
+            <button
+              onClick={() => navigate("/reportpage")}
+              className="hidden md:inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15
+                text-white text-[12.5px] font-semibold backdrop-blur-sm transition-all duration-200 ease-premium"
+            >
+              <BarChart2 className="w-4 h-4" />
+              View Reports
+            </button>
             <button
               onClick={() => { loadData(true); fetchDashStats(); }}
               disabled={refreshing}
@@ -1218,6 +1250,9 @@ export default function Dashboard() {
 
       {/* ── Error banner ── */}
       {error && <ErrorBanner message={error} onRetry={() => loadData()} />}
+
+      {/* ── Quick actions ── */}
+      <AdminQuickActions isSuperAdmin={isSuperAdmin} />
 
       {/* ── KPI row ── */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-5 sm:mb-6">
@@ -1336,6 +1371,23 @@ export default function Dashboard() {
               ))}
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* ── Follow-ups · Marketing · Communications · Workspace plan ── */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-5 sm:mb-6">
+        <div className="md:col-span-2">
+          <AdminFollowUpIntelligence leads={allLeads} />
+        </div>
+        <AdminMarketingOverview leads={allLeads} />
+        <div className="grid grid-rows-2 gap-3 sm:gap-4">
+          <AdminCommunicationsOverview hasFeature={hasFeature} />
+          <AdminWorkspacePlan
+            isSuperAdmin={isSuperAdmin}
+            plan={isSuperAdmin ? superAdminPlan : companyPlan}
+            readOnlyMode={readOnlyMode}
+            subscriptionStatus={subscriptionStatus}
+          />
         </div>
       </div>
 

@@ -6,7 +6,7 @@ import {
   LayoutGrid, Users, FileBarChart, Megaphone, MessageSquare, ClipboardList,
   Workflow, CalendarCheck2, BarChart3, Table2, Building2, CreditCard,
   SlidersHorizontal, Search, ChevronLeft, X, LogOut, Command,
-  CornerDownLeft, ArrowUp, ArrowDown,
+  CornerDownLeft, ArrowUp, ArrowDown, TrendingUp, Wallet,
 } from "lucide-react";
 
 // ── Nav items for ADMIN ───────────────────────────────────────────────────────
@@ -19,6 +19,9 @@ const ADMIN_NAV_ITEMS = [
   { to: "/leads", label: "Leads", icon: Users },
   { to: "/reportpage", label: "Report Page", featureKey: "basic-reports", icon: FileBarChart },
   { to: "/campaigns", label: "Campaigns", icon: Megaphone },
+  // Route already existed (App.jsx) but had no sidebar entry — linking it in,
+  // no new route/permission created.
+  { to: "/performance-marketing", label: "Performance Marketing", icon: TrendingUp },
   { to: "/communications", label: "Communications", featureKeyAny: ["sms-blast", "whatsapp-blast", "email-blast"], icon: MessageSquare },
   { to: "/daily-report", label: "Daily Report", featureKey: "daily-report", icon: ClipboardList },
   { to: "/nurture-sequence", label: "Lead Nurture", featureKey: "leadNurtureSequence", icon: Workflow },
@@ -28,6 +31,8 @@ const ADMIN_NAV_ITEMS = [
 // ── Extra nav items for SUPERADMIN only ───────────────────────────────────────
 const SUPERADMIN_EXTRA_ITEMS = [
   { to: "/custom-reports", label: "Custom Reports", icon: BarChart3 },
+  // Route already existed (SuperAdminRoute in App.jsx) but had no sidebar entry.
+  { to: "/upgrade-plan", label: "Manage Plan", icon: Wallet },
 ];
 
 // ── Nav items for USER role ───────────────────────────────────────────────────
@@ -53,9 +58,12 @@ const DEVELOPER_NAV_ITEMS = [
 const NAV_GROUPS = {
   admin: [
     { title: "Overview", routes: ["/dashboard"] },
-    { title: "Pipeline", routes: ["/leads", "/campaigns", "/nurture-sequence"] },
-    { title: "Insights", routes: ["/reportpage", "/custom-reports"] },
-    { title: "Operations", routes: ["/communications", "/daily-report", "/attendance"] },
+    { title: "Business", routes: ["/leads", "/campaigns"] },
+    { title: "Marketing", routes: ["/performance-marketing", "/nurture-sequence"] },
+    { title: "Communications", routes: ["/communications"] },
+    { title: "Operations", routes: ["/daily-report", "/attendance"] },
+    { title: "Analytics", routes: ["/reportpage", "/custom-reports"] },
+    { title: "Billing", routes: ["/upgrade-plan"] },
   ],
   user: [
     { title: "Overview", routes: ["/user/dashboard"] },
@@ -433,8 +441,13 @@ export function Sidebar() {
           </div>
           {!effMinimized && (
             <>
-              <span className="nav-label font-bold text-[14px] tracking-tight text-slate-900 dark:text-white truncate flex-1">
-                {companyName}
+              <span className="nav-label flex-1 min-w-0">
+                <span className="block font-bold text-[14px] tracking-tight text-slate-900 dark:text-white truncate">
+                  {companyName}
+                </span>
+                <span className="block text-[10px] font-medium text-violet-500/80 dark:text-violet-300/70 truncate -mt-0.5">
+                  Your Business HQ
+                </span>
               </span>
               {!isMobile && (
                 <button
