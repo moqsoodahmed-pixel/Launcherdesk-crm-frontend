@@ -34,23 +34,23 @@ function LineItem({ item, onRemove, onQtyChange }) {
   const unitPrice = item.type === "addon" ? Math.round(item.price / (item.quantity || 1)) : item.price;
 
   return (
-    <div className="flex items-start gap-3 py-3 border-b border-[#F0F2FA] dark:border-[#1E2133] last:border-0">
+    <div className="flex items-start gap-3 py-3 border-b border-white dark:border-white/10 last:border-0">
       {/* Icon */}
       <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${
         item.type === "plan"
-          ? "bg-indigo-100 dark:bg-indigo-950/40"
-          : "bg-[#F0F2FA] dark:bg-[#1E2133]"
+          ? "bg-violet-100 dark:bg-violet-950/40"
+          : "bg-white dark:bg-white/10"
       }`}>
         {item.type === "plan"
-          ? <Award className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
-          : <Zap className="w-4 h-4 text-[#8B92A9]" />}
+          ? <Award className="w-4 h-4 text-violet-600 dark:text-violet-400" />
+          : <Zap className="w-4 h-4 text-slate-400" />}
       </div>
 
       <div className="flex-1 min-w-0">
-        <p className="text-[13px] font-semibold text-[#0F1117] dark:text-[#DDE1F5] truncate">
+        <p className="text-[13px] font-semibold text-slate-900 dark:text-white truncate">
           {item.planName || item.addonName}
         </p>
-        <p className="text-[11px] text-[#8B92A9]">
+        <p className="text-[11px] text-slate-400">
           {item.type === "plan"
             ? `${item.billing === "yearly" ? "Annual" : "Monthly"} plan`
             : item.autoRenew ? "Monthly · auto-renews" : `${suffix ? suffix.replace("/", "") : "one-time"}`}
@@ -61,24 +61,24 @@ function LineItem({ item, onRemove, onQtyChange }) {
           <div className="flex items-center gap-2 mt-1.5">
             <button
               onClick={() => onQtyChange(Math.max(1, item.quantity - 1), unitPrice)}
-              className="w-5 h-5 rounded border border-[#E4E7EF] dark:border-[#1E2133] flex items-center justify-center text-[#8B92A9] hover:border-indigo-400 hover:text-indigo-600 transition"
+              className="w-5 h-5 rounded border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-400 hover:border-violet-400 hover:text-violet-600 transition"
             ><Minus className="w-2.5 h-2.5" /></button>
-            <span className="text-[12px] font-semibold text-[#0F1117] dark:text-[#DDE1F5] w-4 text-center">{item.quantity}</span>
+            <span className="text-[12px] font-semibold text-slate-900 dark:text-white w-4 text-center">{item.quantity}</span>
             <button
               onClick={() => onQtyChange(Math.min(item.maxQuantity, item.quantity + 1), unitPrice)}
-              className="w-5 h-5 rounded border border-[#E4E7EF] dark:border-[#1E2133] flex items-center justify-center text-[#8B92A9] hover:border-indigo-400 hover:text-indigo-600 transition"
+              className="w-5 h-5 rounded border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-400 hover:border-violet-400 hover:text-violet-600 transition"
             ><Plus className="w-2.5 h-2.5" /></button>
           </div>
         )}
       </div>
 
       <div className="flex flex-col items-end gap-1 shrink-0">
-        <p className="text-[13px] font-bold text-[#0F1117] dark:text-[#DDE1F5]">
+        <p className="text-[13px] font-bold text-slate-900 dark:text-white">
           {fmt(item.price)}{suffix}
         </p>
         <button
           onClick={onRemove}
-          className="text-[#C4C9DA] hover:text-rose-500 transition"
+          className="text-slate-300 hover:text-rose-500 transition"
           title="Remove"
         ><Trash2 className="w-3.5 h-3.5" /></button>
       </div>
@@ -126,7 +126,7 @@ export default function CartDrawer({ open, onClose }) {
         name:     "Launcherdesk CRM",
         description: `Cart: ${order.lineItems.map(l => l.planName || l.addonName).join(", ")}`,
         order_id: order.orderId,
-        theme:    { color: "#2563EB" },
+        theme:    { color: "#863BFF" },
         handler: async (resp) => {
           try {
             const { data: verify } = await api.post("/razorpay/cart/verify-payment", {
@@ -175,15 +175,15 @@ export default function CartDrawer({ open, onClose }) {
       />
 
       {/* Drawer */}
-      <div className="fixed right-0 top-0 bottom-0 z-50 w-full max-w-[400px] bg-white dark:bg-[#11131C] shadow-2xl flex flex-col">
+      <div className="fixed right-0 top-0 bottom-0 z-50 w-full max-w-[400px] bg-white dark:bg-[#181029] shadow-elevated flex flex-col">
 
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-[#E4E7EF] dark:border-[#1E2133]">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-slate-200 dark:border-white/10">
           <div className="flex items-center gap-2.5">
-            <ShoppingCart className="w-5 h-5 text-indigo-600" />
-            <h2 className="text-[15px] font-bold text-[#0F1117] dark:text-[#DDE1F5]">Your cart</h2>
+            <ShoppingCart className="w-5 h-5 text-violet-600" />
+            <h2 className="text-[15px] font-bold text-slate-900 dark:text-white">Your cart</h2>
             {!isEmpty && (
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-100 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400">
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-violet-100 dark:bg-violet-950/40 text-violet-600 dark:text-violet-400">
                 {items.length} item{items.length !== 1 ? "s" : ""}
               </span>
             )}
@@ -192,10 +192,10 @@ export default function CartDrawer({ open, onClose }) {
             {!isEmpty && (
               <button
                 onClick={clearCart}
-                className="text-[11px] text-[#8B92A9] hover:text-rose-500 transition font-medium"
+                className="text-[11px] text-slate-400 hover:text-rose-500 transition font-medium"
               >Clear all</button>
             )}
-            <button onClick={onClose} className="w-7 h-7 rounded-lg flex items-center justify-center text-[#8B92A9] hover:bg-[#F0F2FA] dark:hover:bg-[#1E2133] transition">
+            <button onClick={onClose} className="icon-btn w-7 h-7">
               <X className="w-4 h-4" />
             </button>
           </div>
@@ -218,16 +218,16 @@ export default function CartDrawer({ open, onClose }) {
 
           {isEmpty ? (
             <div className="flex flex-col items-center justify-center py-16 gap-3 text-center">
-              <ShoppingCart className="w-10 h-10 text-[#C4C9DA]" strokeWidth={1.5} />
-              <p className="text-[14px] font-semibold text-[#0F1117] dark:text-[#DDE1F5]">Your cart is empty</p>
-              <p className="text-[12px] text-[#8B92A9]">Add a plan or add-ons from the tabs above.</p>
+              <ShoppingCart className="w-10 h-10 text-slate-300" strokeWidth={1.5} />
+              <p className="text-[14px] font-semibold text-slate-900 dark:text-white">Your cart is empty</p>
+              <p className="text-[12px] text-slate-400">Add a plan or add-ons from the tabs above.</p>
             </div>
           ) : (
             <div>
               {/* Plan section */}
               {planItem && (
                 <div className="mb-1">
-                  <p className="text-[9px] font-bold uppercase tracking-wider text-[#8B92A9] mb-2">Plan</p>
+                  <p className="text-[9px] font-bold uppercase tracking-wider text-slate-400 mb-2">Plan</p>
                   <LineItem
                     item={planItem}
                     onRemove={clearPlan}
@@ -239,7 +239,7 @@ export default function CartDrawer({ open, onClose }) {
               {/* Add-ons section */}
               {addonItems.length > 0 && (
                 <div className="mt-3">
-                  <p className="text-[9px] font-bold uppercase tracking-wider text-[#8B92A9] mb-2">Add-ons</p>
+                  <p className="text-[9px] font-bold uppercase tracking-wider text-slate-400 mb-2">Add-ons</p>
                   {addonItems.map(a => (
                     <LineItem
                       key={a.addonType}
@@ -256,12 +256,12 @@ export default function CartDrawer({ open, onClose }) {
 
         {/* Footer — total + checkout */}
         {!isEmpty && (
-          <div className="px-5 py-4 border-t border-[#E4E7EF] dark:border-[#1E2133] bg-[#F8F9FC] dark:bg-[#0D0F14]">
+          <div className="px-5 py-4 border-t border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.02]">
 
             {/* Line-item subtotals */}
             <div className="space-y-1 mb-3">
               {items.map((item, i) => (
-                <div key={i} className="flex items-center justify-between text-[12px] text-[#8B92A9]">
+                <div key={i} className="flex items-center justify-between text-[12px] text-slate-400">
                   <span className="truncate max-w-[220px]">{item.planName || item.addonName}{item.quantity > 1 ? ` × ${item.quantity}` : ""}</span>
                   <span>{fmt(item.price)}</span>
                 </div>
@@ -269,16 +269,16 @@ export default function CartDrawer({ open, onClose }) {
             </div>
 
             {/* Total */}
-            <div className="flex items-baseline justify-between mb-4 pt-3 border-t border-[#E4E7EF] dark:border-[#1E2133]">
-              <span className="text-[13px] font-bold text-[#0F1117] dark:text-[#DDE1F5]">Total</span>
-              <span className="text-[20px] font-bold text-indigo-600 dark:text-indigo-400">{fmt(totalPrice)}</span>
+            <div className="flex items-baseline justify-between mb-4 pt-3 border-t border-slate-200 dark:border-white/10">
+              <span className="text-[13px] font-bold text-slate-900 dark:text-white">Total</span>
+              <span className="text-[20px] font-bold text-violet-600 dark:text-violet-400">{fmt(totalPrice)}</span>
             </div>
 
             {/* Auto-renew notice */}
             {items.some(i => i.autoRenew || i.billing === "monthly" || i.billing === "yearly") && (
-              <div className="flex items-center gap-2 mb-3 px-3 py-2 rounded-lg bg-indigo-50 dark:bg-indigo-950/20 border border-indigo-200 dark:border-indigo-800/40">
-                <RefreshCw className="w-3.5 h-3.5 text-indigo-500 shrink-0" />
-                <p className="text-[10px] text-indigo-700 dark:text-indigo-400 font-medium">
+              <div className="flex items-center gap-2 mb-3 px-3 py-2 rounded-lg bg-violet-50 dark:bg-violet-950/20 border border-violet-200 dark:border-violet-800/40">
+                <RefreshCw className="w-3.5 h-3.5 text-violet-500 shrink-0" />
+                <p className="text-[10px] text-violet-700 dark:text-violet-400 font-medium">
                   Recurring items renew automatically. Cancel anytime from Billing.
                 </p>
               </div>
@@ -287,7 +287,7 @@ export default function CartDrawer({ open, onClose }) {
             <button
               onClick={checkout}
               disabled={busy}
-              className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 disabled:opacity-60 text-white text-[14px] font-bold transition"
+              className="btn-primary btn-md w-full text-[14px] font-bold"
             >
               {busy
                 ? <Loader2 className="w-4 h-4 animate-spin" />
@@ -295,7 +295,7 @@ export default function CartDrawer({ open, onClose }) {
               {busy ? "Processing…" : `Pay ${fmt(totalPrice)} & activate`}
             </button>
 
-            <p className="text-[10px] text-[#C4C9DA] text-center mt-2">Secured by Razorpay · UPI, Cards, Net Banking</p>
+            <p className="text-[10px] text-slate-300 text-center mt-2">Secured by Razorpay · UPI, Cards, Net Banking</p>
           </div>
         )}
       </div>

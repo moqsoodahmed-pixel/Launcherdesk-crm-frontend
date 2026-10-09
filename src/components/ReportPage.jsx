@@ -136,6 +136,7 @@ function AgentSelect({ value, onChange, agents, className }) {
                 value={query}
                 onChange={e => setQuery(e.target.value)}
                 placeholder="Search agent…"
+                aria-label="Search agent"
                 className="w-full pl-7 pr-3 py-1.5 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] bg-[#FAF7FF] dark:bg-[#120B22] text-[12px] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#7D7296] focus:outline-none focus:border-[#7E14FF] transition"
               />
             </div>
@@ -367,6 +368,7 @@ function ManageProjectsModal({ projects, onClose, onProjectsChange }) {
                 type="text"
                 value={editName}
                 onChange={e => setEditName(e.target.value)}
+                aria-label="Project name"
                 className="w-full px-3 py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-white dark:bg-[#120B22] text-[13px] text-[#170B29] dark:text-[#F4EEFF] focus:outline-none focus:border-[#7E14FF] transition"
               />
             </div>
@@ -453,6 +455,7 @@ function ManageProjectsModal({ projects, onClose, onProjectsChange }) {
                   value={name}
                   onChange={e => { setName(e.target.value); setError(""); }}
                   onKeyDown={e => { if (e.key === "Enter") handleCreate(); }}
+                  aria-label="Project name"
                   className="flex-1 px-3 py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-white dark:bg-[#181029] text-[13px] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#7D7296] focus:outline-none focus:border-[#7E14FF] transition"
                 />
                 <button
@@ -703,12 +706,14 @@ function EditLeadModal({ lead, agents, projects = [], onClose, onSave }) {
             <div key={f.key} className="flex flex-col gap-1">
               <label className="text-[11px] font-medium text-[#7D7296] dark:text-[#564C70] uppercase tracking-wide">{f.label}</label>
               <input type="text" value={form[f.key] || ""} onChange={e => set(f.key, e.target.value)}
+                aria-label={f.label}
                 className="px-3 py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-white dark:bg-[#120B22] text-[13px] text-[#170B29] dark:text-[#F4EEFF] focus:outline-none focus:border-[#7E14FF]" />
             </div>
           ))}
           <div className="flex flex-col gap-1">
             <label className="text-[11px] font-medium text-[#7D7296] dark:text-[#564C70] uppercase tracking-wide">Date</label>
             <input type="text" value={form.date || "—"} readOnly
+              aria-label="Date"
               className="px-3 py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-[#FAF7FF] dark:bg-[#120B22] text-[13px] text-[#7D7296] dark:text-[#564C70] cursor-not-allowed" />
           </div>
           {[
@@ -719,6 +724,7 @@ function EditLeadModal({ lead, agents, projects = [], onClose, onSave }) {
             <div key={f.key} className="flex flex-col gap-1">
               <label className="text-[11px] font-medium text-[#7D7296] dark:text-[#564C70] uppercase tracking-wide">{f.label}</label>
               <select value={form[f.key]} onChange={e => set(f.key, e.target.value)}
+                aria-label={f.label}
                 className="px-3 py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-white dark:bg-[#120B22] text-[13px] text-[#4A3F66] dark:text-[#9A8DB6] focus:outline-none">
                 {f.options.map(o => <option key={o}>{o}</option>)}
               </select>
@@ -1386,6 +1392,7 @@ const [merging,   setMerging]   = useState(false);
                 value={newSecondary}
                 onChange={e => { setNewSecondary(e.target.value); setErrorMsg(""); }}
                 onKeyDown={e => { if (e.key === "Enter") handleAddSecondary(); }}
+                aria-label="Secondary phone number"
                 className="flex-1 px-3 py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-white dark:bg-[#120B22] text-[13px] text-[#170B29] dark:text-[#F4EEFF] placeholder-[#7D7296] focus:outline-none focus:border-[#7E14FF] transition"
               />
               <button
@@ -1839,6 +1846,7 @@ function LeadReportPage() {
             </h2>
             <div className="flex items-center gap-2">
               <select value={timeFilter} onChange={e => { setTimeFilter(e.target.value); setPage(1); }}
+                aria-label="Filter by time period"
                 className="px-3 py-1.5 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-white dark:bg-[#120B22] text-[12px] text-[#4A3F66] dark:text-[#9A8DB6] focus:outline-none">
                 <option value="All">Time: All</option>
                 <option value="Daily">Time: Daily</option>
@@ -1847,6 +1855,7 @@ function LeadReportPage() {
                 <option value="Quarterly">Time: Quarterly</option>
               </select>
               <select value={sortBy} onChange={e => { setSortBy(e.target.value); setPage(1); }}
+                aria-label="Sort by"
                 className="px-3 py-1.5 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-white dark:bg-[#120B22] text-[12px] text-[#4A3F66] dark:text-[#9A8DB6] focus:outline-none">
                 <option value="date">Sort: Latest</option>
                 <option value="name">Sort: Name A–Z</option>
@@ -1856,6 +1865,7 @@ function LeadReportPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/>
                 </svg>
                 <input type="text" placeholder="Search..." value={search} onChange={e => { setSearch(e.target.value); setPage(1); }}
+                  aria-label="Search"
                   className="pl-8 pr-3 py-1.5 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-white dark:bg-[#120B22] text-[12px] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#7D7296] focus:outline-none focus:border-[#7E14FF] w-36 sm:w-44" />
               </div>
             </div>

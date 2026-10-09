@@ -6,7 +6,7 @@ import {
   LayoutGrid, Users, FileBarChart, Megaphone, MessageSquare, ClipboardList,
   Workflow, CalendarCheck2, BarChart3, Table2, Building2, CreditCard,
   SlidersHorizontal, Search, ChevronLeft, X, LogOut, Command,
-  CornerDownLeft, ArrowUp, ArrowDown, TrendingUp, Wallet,
+  CornerDownLeft, ArrowUp, ArrowDown, TrendingUp, Wallet, Kanban, Palette,
 } from "lucide-react";
 
 // ── Nav items for ADMIN ───────────────────────────────────────────────────────
@@ -17,6 +17,7 @@ import {
 const ADMIN_NAV_ITEMS = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutGrid },
   { to: "/leads", label: "Leads", icon: Users },
+  { to: "/pipeline", label: "Pipeline", icon: Kanban },
   { to: "/reportpage", label: "Report Page", featureKey: "basic-reports", icon: FileBarChart },
   { to: "/campaigns", label: "Campaigns", icon: Megaphone },
   // Route already existed (App.jsx) but had no sidebar entry — linking it in,
@@ -33,6 +34,7 @@ const SUPERADMIN_EXTRA_ITEMS = [
   { to: "/custom-reports", label: "Custom Reports", icon: BarChart3 },
   // Route already existed (SuperAdminRoute in App.jsx) but had no sidebar entry.
   { to: "/upgrade-plan", label: "Manage Plan", icon: Wallet },
+  { to: "/brand-settings", label: "Brand Settings", icon: Palette },
 ];
 
 // ── Nav items for USER role ───────────────────────────────────────────────────
@@ -58,11 +60,12 @@ const DEVELOPER_NAV_ITEMS = [
 const NAV_GROUPS = {
   admin: [
     { title: "Overview", routes: ["/dashboard"] },
-    { title: "Business", routes: ["/leads", "/campaigns"] },
+    { title: "Business", routes: ["/leads", "/pipeline", "/campaigns"] },
     { title: "Marketing", routes: ["/performance-marketing", "/nurture-sequence"] },
     { title: "Communications", routes: ["/communications"] },
     { title: "Operations", routes: ["/daily-report", "/attendance"] },
     { title: "Analytics", routes: ["/reportpage", "/custom-reports"] },
+    { title: "Workspace", routes: ["/brand-settings"] },
     { title: "Billing", routes: ["/upgrade-plan"] },
   ],
   user: [

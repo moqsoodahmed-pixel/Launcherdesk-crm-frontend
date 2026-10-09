@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { exportReportCSV, exportReportPDF } from "../utils/reportExport";
 import { getRole } from "../data/dataService";
+import { Pill } from "./ui/Primitives";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Source Performance Report (Google Ads / Website) — admin
@@ -77,13 +78,13 @@ const STAT_BG = [
 
 function StatCard({ label, value, icon: Icon, accent, bg }) {
   return (
-    <div className="bg-white dark:bg-[#11131C] border border-[#E4E7EF] dark:border-[#1E2133] rounded-2xl p-4 flex flex-col gap-3">
+    <div className="surface-card p-4 flex flex-col gap-3">
       <div className={`w-8 h-8 rounded-xl ${bg} flex items-center justify-center shrink-0`}>
         <Icon className={`w-4 h-4 ${accent}`} />
       </div>
       <div>
-        <p className="text-[10px] font-bold uppercase tracking-wider text-[#8B92A9] mb-0.5">{label}</p>
-        <p className="text-[18px] font-bold text-[#0F1117] dark:text-[#DDE1F5] leading-none">{value}</p>
+        <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-0.5">{label}</p>
+        <p className="text-[18px] font-bold text-slate-900 dark:text-white leading-none">{value}</p>
       </div>
     </div>
   );
@@ -228,31 +229,33 @@ export default function SourcePerformanceReport({
       <style>{`@media print { body * { visibility: hidden; } .print-area, .print-area * { visibility: visible; } .print-area { position: absolute; left: 0; top: 0; width: 100%; background: white; } .no-print { display: none !important; } }`}</style>
 
       {/* ── Page header ─────────────────────────────────────────────────── */}
-      <div className="px-4 md:px-8 pt-6 pb-4 border-b border-[#E4E7EF] dark:border-[#1E2133] bg-white dark:bg-[#11131C] no-print">
+      <div className="px-4 md:px-8 pt-6 pb-4 border-b border-slate-200 dark:border-white/10 bg-white dark:bg-[#181029] no-print">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className={`w-10 h-10 rounded-2xl ${th.headerIcon} flex items-center justify-center`}>
               <HeaderIcon className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h1 className="text-[18px] font-bold text-[#0F1117] dark:text-[#DDE1F5]">{title}</h1>
-              <p className="text-[12px] text-[#8B92A9]">{subtitle}</p>
+              <h1 className="text-[18px] font-bold text-slate-900 dark:text-white">{title}</h1>
+              <p className="text-[12px] text-slate-400">{subtitle}</p>
             </div>
           </div>
 
           {/* Controls row */}
           <div className="flex flex-wrap items-center gap-2 no-print">
-            <div className="flex items-center gap-2 bg-[#F8F9FC] dark:bg-[#0D0F14] border border-[#E4E7EF] dark:border-[#1E2133] rounded-xl px-3 py-2">
+            <div className="flex items-center gap-2 bg-slate-50 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 rounded-xl px-3 py-2">
               <div>
-                <label className="block text-[9px] font-bold uppercase tracking-wider text-[#8B92A9] mb-0.5">From</label>
+                <label className="block text-[9px] font-bold uppercase tracking-wider text-slate-400 mb-0.5">From</label>
                 <input type="date" value={from} onChange={(e) => setFrom(e.target.value)}
-                  className="text-[12px] font-semibold bg-transparent text-[#0F1117] dark:text-[#DDE1F5] focus:outline-none cursor-pointer" />
+                  aria-label="From date"
+                  className="text-[12px] font-semibold bg-transparent text-slate-900 dark:text-white focus:outline-none cursor-pointer" />
               </div>
-              <span className="text-[#C4C9DA] text-sm">→</span>
+              <span className="text-slate-300 dark:text-slate-600 text-sm">→</span>
               <div>
-                <label className="block text-[9px] font-bold uppercase tracking-wider text-[#8B92A9] mb-0.5">To</label>
+                <label className="block text-[9px] font-bold uppercase tracking-wider text-slate-400 mb-0.5">To</label>
                 <input type="date" value={to} onChange={(e) => setTo(e.target.value)}
-                  className="text-[12px] font-semibold bg-transparent text-[#0F1117] dark:text-[#DDE1F5] focus:outline-none cursor-pointer" />
+                  aria-label="To date"
+                  className="text-[12px] font-semibold bg-transparent text-slate-900 dark:text-white focus:outline-none cursor-pointer" />
               </div>
               {loading && <Loader2 className={`w-3.5 h-3.5 ${th.spin} animate-spin ml-1`} />}
             </div>
@@ -266,12 +269,12 @@ export default function SourcePerformanceReport({
             {isSuperAdmin && (
               <>
                 <button onClick={exportCSV} disabled={!data}
-                  className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border border-[#E4E7EF] dark:border-[#1E2133] bg-white dark:bg-[#11131C] text-[#4B5168] dark:text-[#9DA3BB] text-[12px] font-semibold ${th.borderHover} disabled:opacity-40 transition`}>
+                  className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#181029] text-slate-600 dark:text-slate-300 text-[12px] font-semibold ${th.borderHover} disabled:opacity-40 transition`}>
                   <FileSpreadsheet className="w-3.5 h-3.5" /> Export CSV
                 </button>
 
                 <button onClick={exportPDF} disabled={!data}
-                  className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border border-[#E4E7EF] dark:border-[#1E2133] bg-white dark:bg-[#11131C] text-[#4B5168] dark:text-[#9DA3BB] text-[12px] font-semibold ${th.borderHover} disabled:opacity-40 transition`}>
+                  className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#181029] text-slate-600 dark:text-slate-300 text-[12px] font-semibold ${th.borderHover} disabled:opacity-40 transition`}>
                   <FileDown className="w-3.5 h-3.5" /> Export PDF
                 </button>
               </>
@@ -293,7 +296,7 @@ export default function SourcePerformanceReport({
         {loading && !t && (
           <div className={`grid ${gridCols} gap-3`}>
             {Array.from({ length: withCost ? 12 : 4 }).map((_, i) => (
-              <div key={i} className="bg-white dark:bg-[#11131C] border border-[#E4E7EF] dark:border-[#1E2133] rounded-2xl p-4 h-24 animate-pulse" />
+              <div key={i} className="skeleton h-24" />
             ))}
           </div>
         )}
@@ -309,22 +312,22 @@ export default function SourcePerformanceReport({
 
         {/* ── AI analysis panel ───────────────────────────────────────────── */}
         {data && (
-          <div className="bg-white dark:bg-[#11131C] border border-[#E4E7EF] dark:border-[#1E2133] rounded-2xl overflow-hidden">
-            <div className={`flex items-center gap-2.5 px-5 py-4 border-b border-[#E4E7EF] dark:border-[#1E2133] bg-gradient-to-r ${th.aiBar}`}>
+          <div className="surface-card overflow-hidden">
+            <div className={`flex items-center gap-2.5 px-5 py-4 border-b border-slate-200 dark:border-white/10 bg-gradient-to-r ${th.aiBar}`}>
               <div className={`w-7 h-7 rounded-lg ${th.solid} flex items-center justify-center shrink-0`}>
                 <Sparkles className="w-3.5 h-3.5 text-white" />
               </div>
-              <span className="text-[13px] font-bold text-[#0F1117] dark:text-[#DDE1F5]">AI Performance Analysis & Suggestions</span>
+              <span className="text-[13px] font-bold text-slate-900 dark:text-white">AI Performance Analysis & Suggestions</span>
               {data.aiFromCache && (
-                <span className={`ml-auto text-[10px] font-semibold px-2 py-0.5 rounded-full ${th.aiBadge}`}>Cached</span>
+                <Pill tone="slate" className="ml-auto">Cached</Pill>
               )}
             </div>
             <div className="p-5">
               {!data.aiAnalysis && !data.aiAnalysisError ? (
                 <div className="flex flex-col items-center justify-center py-8 gap-2 text-center">
-                  <Sparkles className="w-7 h-7 text-[#C4C9DA]" />
-                  <p className="text-[13px] text-[#8B92A9]">No AI analysis yet.</p>
-                  <p className="text-[12px] text-[#C4C9DA]">Click "Generate AI Report" above to run it.</p>
+                  <Sparkles className="w-7 h-7 text-slate-300 dark:text-slate-600" />
+                  <p className="text-[13px] text-slate-400">No AI analysis yet.</p>
+                  <p className="text-[12px] text-slate-300 dark:text-slate-600">Click "Generate AI Report" above to run it.</p>
                 </div>
               ) : data.aiAnalysisError ? (
                 <div className="flex items-center gap-2 text-[13px] text-amber-600 dark:text-amber-400">
@@ -333,7 +336,7 @@ export default function SourcePerformanceReport({
               ) : (
                 <div className="space-y-4">
                   {data.aiAnalysis.summary && (
-                    <p className={`text-[13px] text-[#4B5168] dark:text-[#9DA3BB] leading-relaxed border-l-2 ${th.barL} pl-3`}>
+                    <p className={`text-[13px] text-slate-600 dark:text-slate-300 leading-relaxed border-l-2 ${th.barL} pl-3`}>
                       {data.aiAnalysis.summary}
                     </p>
                   )}
@@ -346,8 +349,8 @@ export default function SourcePerformanceReport({
                         </div>
                         <ul className="space-y-2">
                           {data.aiAnalysis.topPerformers.map((p, i) => (
-                            <li key={i} className="text-[12px] text-[#334155] dark:text-[#CBD5E1]">
-                              <span className="font-semibold text-[#0F1117] dark:text-[#DDE1F5]">{p.campaign}:</span> {p.why}
+                            <li key={i} className="text-[12px] text-slate-600 dark:text-slate-300">
+                              <span className="font-semibold text-slate-900 dark:text-white">{p.campaign}:</span> {p.why}
                             </li>
                           ))}
                         </ul>
@@ -361,8 +364,8 @@ export default function SourcePerformanceReport({
                         </div>
                         <ul className="space-y-2">
                           {data.aiAnalysis.underperformers.map((p, i) => (
-                            <li key={i} className="text-[12px] text-[#334155] dark:text-[#CBD5E1]">
-                              <span className="font-semibold text-[#0F1117] dark:text-[#DDE1F5]">{p.campaign}:</span> {p.issue}
+                            <li key={i} className="text-[12px] text-slate-600 dark:text-slate-300">
+                              <span className="font-semibold text-slate-900 dark:text-white">{p.campaign}:</span> {p.issue}
                             </li>
                           ))}
                         </ul>
@@ -370,14 +373,14 @@ export default function SourcePerformanceReport({
                     )}
                   </div>
                   {Array.isArray(data.aiAnalysis.suggestions) && data.aiAnalysis.suggestions.length > 0 && (
-                    <div className="bg-[#F8F9FC] dark:bg-[#0D0F14] border border-[#E4E7EF] dark:border-[#1E2133] rounded-xl p-4">
+                    <div className="bg-slate-50 dark:bg-white/[0.03] border border-slate-200 dark:border-white/10 rounded-xl p-4">
                       <div className="flex items-center gap-1.5 mb-3">
                         <Lightbulb className="w-3.5 h-3.5 text-amber-500" />
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-[#8B92A9]">Improvement Suggestions</span>
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Improvement Suggestions</span>
                       </div>
                       <ul className="space-y-2">
                         {data.aiAnalysis.suggestions.map((s, i) => (
-                          <li key={i} className="flex items-start gap-2.5 text-[12px] text-[#4B5168] dark:text-[#9DA3BB]">
+                          <li key={i} className="flex items-start gap-2.5 text-[12px] text-slate-600 dark:text-slate-300">
                             <span className={`w-5 h-5 rounded-full ${th.numChip} text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5`}>{i + 1}</span>
                             {s}
                           </li>
@@ -394,7 +397,7 @@ export default function SourcePerformanceReport({
         {/* ── Per-campaign cards ──────────────────────────────────────────── */}
         {data?.campaigns?.length > 0 && (
           <div>
-            <h2 className="text-[10px] font-bold uppercase tracking-wider text-[#8B92A9] mb-3">
+            <h2 className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-3">
               {withCost ? "Campaign Breakdown" : "Source Breakdown"}
             </h2>
             <div className="space-y-3">
@@ -418,49 +421,45 @@ export default function SourcePerformanceReport({
                   ["Conv Rate", pct(c.conversionRatePct)],
                 ];
                 return (
-                  <div key={c.configId} className="bg-white dark:bg-[#11131C] border border-[#E4E7EF] dark:border-[#1E2133] rounded-2xl overflow-hidden">
+                  <div key={c.configId} className="surface-card overflow-hidden">
                     {/* Card header */}
-                    <div className="flex items-center justify-between px-5 py-3.5 border-b border-[#E4E7EF] dark:border-[#1E2133]">
+                    <div className="flex items-center justify-between px-5 py-3.5 border-b border-slate-200 dark:border-white/10">
                       <div className="flex items-center gap-3 min-w-0">
                         <div className={`w-8 h-8 rounded-xl ${th.cardIcon} flex items-center justify-center shrink-0`}>
                           <BarChart3 className={`w-4 h-4 ${th.cardIconText}`} />
                         </div>
                         <div className="min-w-0">
-                          <p className="text-[13px] font-bold text-[#0F1117] dark:text-[#DDE1F5] truncate">{c.campaignName}</p>
-                          {!c.configured && <p className="text-[11px] text-[#8B92A9]">Leads tagged to this name (no matching config)</p>}
+                          <p className="text-[13px] font-bold text-slate-900 dark:text-white truncate">{c.campaignName}</p>
+                          {!c.configured && <p className="text-[11px] text-slate-400">Leads tagged to this name (no matching config)</p>}
                         </div>
                       </div>
                       {!c.active && (
-                        <span className="flex items-center gap-1 text-[10px] font-semibold px-2.5 py-1 rounded-full bg-[#F0F2FA] dark:bg-[#1E2133] text-[#8B92A9]">
-                          <PauseCircle className="w-3 h-3" /> Paused
-                        </span>
+                        <Pill tone="slate" icon={PauseCircle}>Paused</Pill>
                       )}
                     </div>
 
                     {/* Metrics row */}
-                    <div className={`grid grid-cols-3 ${withCost ? "sm:grid-cols-6" : "sm:grid-cols-3"} bg-[#F8F9FC] dark:bg-[#0D0F14]`}>
+                    <div className={`grid grid-cols-3 ${withCost ? "sm:grid-cols-6" : "sm:grid-cols-3"} bg-slate-50 dark:bg-white/[0.03]`}>
                       {metrics.map(([k, v]) => (
-                        <div key={k} className="flex flex-col px-4 py-3 border-r border-b sm:border-b-0 border-[#E4E7EF] dark:border-[#1E2133] last:border-r-0">
-                          <span className="text-[9px] font-bold uppercase tracking-wider text-[#8B92A9] mb-1">{k}</span>
-                          <span className="text-[12px] font-bold text-[#0F1117] dark:text-[#DDE1F5]">{v}</span>
+                        <div key={k} className="flex flex-col px-4 py-3 border-r border-b sm:border-b-0 border-slate-200 dark:border-white/10 last:border-r-0">
+                          <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400 mb-1">{k}</span>
+                          <span className="text-[12px] font-bold text-slate-900 dark:text-white">{v}</span>
                         </div>
                       ))}
                     </div>
 
                     {/* Status breakdown chips */}
                     {statusEntries.length > 0 && (
-                      <div className="flex flex-wrap gap-1.5 px-5 py-3 border-t border-[#E4E7EF] dark:border-[#1E2133]">
+                      <div className="flex flex-wrap gap-1.5 px-5 py-3 border-t border-slate-200 dark:border-white/10">
                         {statusEntries.map(([st, n]) => (
-                          <span key={st} className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[#F0F2FA] dark:bg-[#1E2133] text-[#4B5168] dark:text-[#9DA3BB]">
-                            {st}: {n}
-                          </span>
+                          <Pill key={st} tone="slate">{st}: {n}</Pill>
                         ))}
                       </div>
                     )}
 
                     {/* Issues */}
                     {(c.issues || []).length > 0 && (
-                      <div className="px-5 py-3 space-y-2 border-t border-[#E4E7EF] dark:border-[#1E2133]">
+                      <div className="px-5 py-3 space-y-2 border-t border-slate-200 dark:border-white/10">
                         {c.issues.map((iss, idx) => {
                           const st = ISSUE_STYLE[iss.level] || ISSUE_STYLE.info;
                           const Icon = st.icon;
@@ -476,10 +475,10 @@ export default function SourcePerformanceReport({
 
                     {/* Per-campaign AI suggestion */}
                     {c.aiSuggestion && (
-                      <div className="px-5 pb-4 pt-2 border-t border-[#E4E7EF] dark:border-[#1E2133]">
+                      <div className="px-5 pb-4 pt-2 border-t border-slate-200 dark:border-white/10">
                         <div className="flex items-start gap-2.5 p-3 rounded-xl bg-violet-50 dark:bg-violet-950/20 border border-violet-200 dark:border-violet-800/40 mt-2">
                           <Sparkles className="w-3.5 h-3.5 text-violet-500 mt-0.5 shrink-0" />
-                          <div className="text-[12px] text-[#4B5168] dark:text-[#9DA3BB] leading-relaxed">
+                          <div className="text-[12px] text-slate-600 dark:text-slate-300 leading-relaxed">
                             {c.aiVerdict && (
                               <span className={`inline-block mr-2 px-2 py-0.5 rounded-full text-[10px] font-bold ${VERDICT_STYLE[c.aiVerdict] || VERDICT_STYLE.Watch}`}>
                                 {c.aiVerdict}
@@ -499,10 +498,10 @@ export default function SourcePerformanceReport({
 
         {/* Empty state */}
         {data && !loading && (!data.campaigns || data.campaigns.length === 0) && (
-          <div className="flex flex-col items-center justify-center py-16 gap-3 bg-white dark:bg-[#11131C] border border-[#E4E7EF] dark:border-[#1E2133] rounded-2xl">
-            <BarChart3 className="w-9 h-9 text-[#C4C9DA]" strokeWidth={1.5} />
-            <p className="text-[14px] font-semibold text-[#0F1117] dark:text-[#DDE1F5]">No data in this period</p>
-            <p className="text-[12px] text-[#8B92A9]">
+          <div className="flex flex-col items-center justify-center py-16 gap-3 surface-card">
+            <BarChart3 className="w-9 h-9 text-slate-300 dark:text-slate-600" strokeWidth={1.5} />
+            <p className="text-[14px] font-semibold text-slate-900 dark:text-white">No data in this period</p>
+            <p className="text-[12px] text-slate-400">
               {withCost
                 ? "No Google Ads leads or campaigns were found for the selected dates."
                 : "No website leads or sources were found for the selected dates."}

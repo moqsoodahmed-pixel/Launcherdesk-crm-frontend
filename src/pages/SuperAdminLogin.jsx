@@ -50,7 +50,14 @@ export default function SuperAdminLogin() {
       }));
       window.dispatchEvent(new Event("user_changed"));
       toast.success("Super Admin login successful! Welcome back.");
-      navigate("/superadmin/dashboard");
+      // BUGFIX: "/superadmin/dashboard" is not a defined route (only "/dashboard"
+      // is) — it was falling through to the catch-all route, bouncing to
+      // "/login", then immediately back to "/dashboard" via LoginGuard's
+      // already-authenticated redirect. That double-bounce is a real race that
+      // can commit as a full page reload under real-world network/timing
+      // conditions instead of resolving silently. Navigate straight to the
+      // actual route.
+      navigate("/dashboard");
     } catch (err) {
       setError(err.response?.data?.message || "Login failed. Please try again.");
     } finally {
@@ -139,6 +146,7 @@ export default function SuperAdminLogin() {
                         className="ta-input w-full rounded-lg border border-strokedark bg-boxdark-2 py-3.5 px-5 pr-11 text-white placeholder:text-[#5D6675] transition"
                       />
                       <button type="button" onClick={() => setShowPass(!showPass)}
+                        aria-label={showPass ? "Hide password" : "Show password"}
                         className="absolute right-4 top-1/2 -translate-y-1/2 text-bodydark hover:text-warning transition">
                         {showPass ? <EyeOff className="w-4.5 h-4.5" /> : <Eye className="w-4.5 h-4.5" />}
                       </button>

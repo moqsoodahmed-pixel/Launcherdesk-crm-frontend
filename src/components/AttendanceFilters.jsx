@@ -76,21 +76,19 @@ export default function AttendanceFilters({ filters, onChange }) {
     { label: "Year",  key: "year"  },
   ];
 
-  const inputCls =
-    "text-[12px] border border-gray-200 dark:border-white/10 bg-white dark:bg-[#0D0F14] rounded-lg px-3 py-1.5 text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-400/50";
+  const inputCls = "input-field w-auto px-3 py-1.5 text-[12px]";
 
   return (
-    <div className="bg-white dark:bg-[#1A1D27] border border-[#E4E7EF] dark:border-[#262A38] rounded-2xl p-4 mb-4">
+    <div className="surface-card p-4 mb-4">
       {/* Quick range buttons */}
       <div className="flex flex-wrap gap-2 mb-3">
         {QUICK_BTNS.map(({ label, key }) => (
           <button
             key={key}
             onClick={() => applyQuick(key)}
-            className={`px-3 py-1.5 rounded-lg text-[12px] font-semibold transition
-              ${filters.quick === key
-                ? "bg-indigo-600 text-white shadow"
-                : "bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 hover:bg-indigo-50 dark:hover:bg-indigo-950/30 hover:text-indigo-600"
+            className={`btn btn-sm ${filters.quick === key
+                ? "bg-brand-gradient text-white shadow-glow-brand"
+                : "bg-slate-100 dark:bg-white/[0.06] text-slate-600 dark:text-slate-300 hover:bg-violet-50 dark:hover:bg-violet-500/10 hover:text-violet-600 dark:hover:text-violet-300"
               }`}
           >
             {label}
@@ -101,33 +99,36 @@ export default function AttendanceFilters({ filters, onChange }) {
       {/* Filter row */}
       <div className="flex flex-wrap gap-3 items-end">
         <div className="flex flex-col gap-1">
-          <label className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">From</label>
+          <label className="text-[10px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider">From</label>
           <input
             type="date"
             value={filters.startDate}
             max={filters.endDate || new Date().toISOString().slice(0, 10)}
             onChange={e => set("startDate", e.target.value)}
+            aria-label="From date"
             className={inputCls}
           />
         </div>
 
         <div className="flex flex-col gap-1">
-          <label className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">To</label>
+          <label className="text-[10px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider">To</label>
           <input
             type="date"
             value={filters.endDate}
             min={filters.startDate}
             max={new Date().toISOString().slice(0, 10)}
             onChange={e => set("endDate", e.target.value)}
+            aria-label="To date"
             className={inputCls}
           />
         </div>
 
         <div className="flex flex-col gap-1">
-          <label className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Employee</label>
+          <label className="text-[10px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Employee</label>
           <select
             value={filters.userId || ""}
             onChange={e => set("userId", e.target.value)}
+            aria-label="Filter by employee"
             className={inputCls}
           >
             <option value="">All Employees</option>
@@ -138,10 +139,11 @@ export default function AttendanceFilters({ filters, onChange }) {
         </div>
 
         <div className="flex flex-col gap-1">
-          <label className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Status</label>
+          <label className="text-[10px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Status</label>
           <select
             value={filters.crmStatus || ""}
             onChange={e => set("crmStatus", e.target.value)}
+            aria-label="Filter by status"
             className={inputCls}
           >
             {STATUS_OPTIONS.map(o => (
@@ -152,7 +154,7 @@ export default function AttendanceFilters({ filters, onChange }) {
 
         <button
           onClick={reset}
-          className="px-3 py-1.5 rounded-lg text-[12px] font-semibold bg-gray-100 dark:bg-white/5 text-gray-500 dark:text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/20 transition"
+          className="btn btn-sm btn-ghost hover:!text-rose-500 hover:!bg-rose-50 dark:hover:!bg-rose-500/10"
         >
           Reset
         </button>
@@ -160,7 +162,7 @@ export default function AttendanceFilters({ filters, onChange }) {
 
       {/* Active range display */}
       {(filters.startDate || filters.endDate) && (
-        <p className="mt-2 text-[11px] text-indigo-500 font-medium">
+        <p className="mt-2 text-[11px] text-violet-600 dark:text-violet-400 font-medium">
           Showing: {filters.startDate} → {filters.endDate}
         </p>
       )}

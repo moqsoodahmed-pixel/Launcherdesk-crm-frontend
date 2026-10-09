@@ -3,9 +3,9 @@ import { Mic, Phone, ChevronDown, Loader2, AlertCircle } from 'lucide-react';
 import { useVoicebot, LEAD_TEMP } from '../hooks/useVoicebot'; // adjust path as needed
 
 const TEMP_STYLE = {
-  Hot:  { bg: 'bg-[#FEF2F2] dark:bg-[#2D0A0A]', text: 'text-[#DC2626] dark:text-[#F87171]', icon: '' },
-  Warm: { bg: 'bg-[#FFFBEB] dark:bg-[#2D1F00]', text: 'text-[#D97706] dark:text-[#FCD34D]', icon: '' },
-  Cold: { bg: 'bg-[#EEF3FF] dark:bg-[#1A2540]',  text: 'text-[#2563EB] dark:text-[#4F8EF7]', icon: '' },
+  Hot:  { bg: 'bg-rose-50 dark:bg-rose-950/30', text: 'text-rose-600 dark:text-rose-400', icon: '' },
+  Warm: { bg: 'bg-amber-50 dark:bg-amber-950/30', text: 'text-amber-600 dark:text-amber-300', icon: '' },
+  Cold: { bg: 'bg-violet-50 dark:bg-violet-500/10',  text: 'text-violet-600 dark:text-violet-400', icon: '' },
 };
 
 export default function VoiceBotPanel({ leads = [], campaignName = '' }) {
@@ -27,29 +27,29 @@ export default function VoiceBotPanel({ leads = [], campaignName = '' }) {
   const warmCount = results.filter((r) => r.Quality === LEAD_TEMP.WARM).length;
 
   return (
-    <div className="mt-4 border border-[#E4E7EF] dark:border-[#262A38] rounded-2xl overflow-hidden">
+    <div className="surface-card mt-4 overflow-hidden">
       {/* Header */}
       <div
-        className="flex items-center justify-between px-4 py-3 bg-[#F8F9FC] dark:bg-[#13161E] cursor-pointer select-none"
+        className="flex items-center justify-between px-4 py-3 bg-slate-50 dark:bg-white/[0.04] cursor-pointer select-none"
         onClick={() => setExpanded((v) => !v)}
       >
         <div className="flex items-center gap-2">
-          <Mic className="w-3.5 h-3.5 text-[#2563EB] dark:text-[#4F8EF7]" />
-          <span className="text-[13px] font-bold text-[#0F1117] dark:text-[#F0F2FA]">Voice Bot</span>
+          <Mic className="w-3.5 h-3.5 text-violet-600 dark:text-violet-400" />
+          <span className="text-[13px] font-bold text-slate-900 dark:text-white">Voice Bot</span>
           {results.length > 0 && (
-            <span className="text-[11px] text-[#8B92A9] dark:text-[#565C75]">
+            <span className="text-[11px] text-slate-400 dark:text-slate-500">
               {results.length}/{leads.length} called · {hotCount}  · {warmCount} 
             </span>
           )}
           {isRunning && (
-            <span className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#ECFDF5] dark:bg-[#052E1C] text-[#059669] dark:text-[#34D399] text-[10px] font-semibold">
+            <span className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400 text-[10px] font-semibold">
               <Loader2 className="w-3 h-3 animate-spin" />
               Running
             </span>
           )}
         </div>
         <ChevronDown
-          className={`w-4 h-4 text-[#8B92A9] transition-transform ${expanded ? 'rotate-180' : ''}`}
+          className={`w-4 h-4 text-slate-400 transition-transform ${expanded ? 'rotate-180' : ''}`}
         />
       </div>
 
@@ -57,17 +57,17 @@ export default function VoiceBotPanel({ leads = [], campaignName = '' }) {
         <div className="px-4 py-4 space-y-4">
           {/* Current call status */}
           {currentCall && (
-            <div className="flex items-center gap-2 px-3 py-2 bg-[#EEF3FF] dark:bg-[#1A2540] rounded-xl text-[12px] text-[#2563EB] dark:text-[#4F8EF7] font-medium">
+            <div className="flex items-center gap-2 px-3 py-2 bg-violet-50 dark:bg-violet-500/10 rounded-xl text-[12px] text-violet-600 dark:text-violet-400 font-medium">
               <Phone className="w-3.5 h-3.5 animate-pulse" />
               Calling {currentCall.lead?.name || 'lead'} — {currentCall.status}
               {currentCall.callId && (
-                <span className="text-[10px] text-[#8B92A9] ml-1">#{currentCall.callId}</span>
+                <span className="text-[10px] text-slate-400 ml-1">#{currentCall.callId}</span>
               )}
             </div>
           )}
 
           {error && (
-            <div className="flex items-center gap-1.5 px-3 py-2 bg-[#FEF2F2] dark:bg-[#2D0A0A] border border-[#FECACA] dark:border-[#7F1D1D] rounded-xl text-[12px] text-[#DC2626] dark:text-[#F87171]">
+            <div className="flex items-center gap-1.5 px-3 py-2 bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800/40 rounded-xl text-[12px] text-rose-600 dark:text-rose-400">
               <AlertCircle className="w-3.5 h-3.5 shrink-0" /> {error}
             </div>
           )}
@@ -78,14 +78,14 @@ export default function VoiceBotPanel({ leads = [], campaignName = '' }) {
               <button
                 onClick={() => runQueue(leads)}
                 disabled={leads.length === 0}
-                className="flex-1 py-2 rounded-xl bg-[#2563EB] text-white text-[12px] font-semibold hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed transition"
+                className="btn-primary btn-sm flex-1"
               >
                  Auto-call all {leads.length} leads
               </button>
             ) : (
               <button
                 onClick={stopQueue}
-                className="flex-1 py-2 rounded-xl bg-[#FEF2F2] dark:bg-[#2D0A0A] text-[#DC2626] dark:text-[#F87171] text-[12px] font-semibold border border-[#FECACA] dark:border-[#7F1D1D] hover:bg-[#fee2e2] transition"
+                className="btn-danger btn-sm flex-1 !bg-rose-50 dark:!bg-rose-950/30 !text-rose-600 dark:!text-rose-400 !shadow-none border border-rose-200 dark:border-rose-800/40 hover:!bg-rose-100"
               >
                  Stop queue
               </button>
@@ -95,22 +95,22 @@ export default function VoiceBotPanel({ leads = [], campaignName = '' }) {
           {/* Queue progress */}
           {callQueue.length > 0 && (
             <div className="space-y-1.5">
-              <p className="text-[11px] font-bold text-[#8B92A9] dark:text-[#565C75] uppercase tracking-wider">Queue</p>
+              <p className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Queue</p>
               <div className="space-y-1 max-h-48 overflow-y-auto pr-1">
                 {callQueue.map((item, i) => {
                   const statusColors = {
-                    pending:    'text-[#8B92A9]',
-                    calling:    'text-[#2563EB] animate-pulse',
-                    done:       'text-[#059669]',
-                    failed:     'text-[#DC2626]',
+                    pending:    'text-slate-400',
+                    calling:    'text-violet-600 animate-pulse',
+                    done:       'text-emerald-600',
+                    failed:     'text-rose-600',
                   };
                   const icons = { pending: '', calling: '', done: '', failed: '' };
                   return (
-                    <div key={i} className="flex items-center justify-between px-3 py-1.5 rounded-lg bg-[#F8F9FC] dark:bg-[#13161E] text-[11px]">
-                      <span className={`font-medium ${statusColors[item.queueStatus] || 'text-[#8B92A9]'}`}>
+                    <div key={i} className="flex items-center justify-between px-3 py-1.5 rounded-lg bg-slate-50 dark:bg-white/[0.04] text-[11px]">
+                      <span className={`font-medium ${statusColors[item.queueStatus] || 'text-slate-400'}`}>
                         {icons[item.queueStatus] || ''} {item.name || 'Lead'}
                       </span>
-                      <span className="text-[#8B92A9] dark:text-[#565C75]">{item.phone || item.mobile || ''}</span>
+                      <span className="text-slate-400 dark:text-slate-500">{item.phone || item.mobile || ''}</span>
                     </div>
                   );
                 })}
@@ -121,14 +121,14 @@ export default function VoiceBotPanel({ leads = [], campaignName = '' }) {
           {/* Results */}
           {results.length > 0 && (
             <div className="space-y-1.5">
-              <p className="text-[11px] font-bold text-[#8B92A9] dark:text-[#565C75] uppercase tracking-wider">Results</p>
+              <p className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Results</p>
               <div className="space-y-2 max-h-64 overflow-y-auto pr-1">
                 {results.map((r, i) => {
                   const ts = TEMP_STYLE[r.Quality] || TEMP_STYLE.Cold;
                   return (
-                    <div key={i} className="px-3 py-2.5 rounded-xl bg-[#F8F9FC] dark:bg-[#13161E] border border-[#E4E7EF] dark:border-[#262A38]">
+                    <div key={i} className="px-3 py-2.5 rounded-xl bg-slate-50 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10">
                       <div className="flex items-center justify-between mb-1">
-                        <span className="text-[12px] font-semibold text-[#0F1117] dark:text-[#F0F2FA]">
+                        <span className="text-[12px] font-semibold text-slate-900 dark:text-white">
                           {r.lead?.name || 'Lead'}
                         </span>
                         <span className={`px-2 py-0.5 rounded-full text-[10px] font-semibold ${ts.bg} ${ts.text}`}>
@@ -136,20 +136,20 @@ export default function VoiceBotPanel({ leads = [], campaignName = '' }) {
                         </span>
                       </div>
                       {r.summary && (
-                        <p className="text-[11px] text-[#8B92A9] dark:text-[#565C75] italic leading-relaxed">{r.summary}</p>
+                        <p className="text-[11px] text-slate-400 dark:text-slate-500 italic leading-relaxed">{r.summary}</p>
                       )}
-                      <div className="flex items-center gap-3 mt-1 text-[10px] text-[#8B92A9]">
+                      <div className="flex items-center gap-3 mt-1 text-[10px] text-slate-400">
                         <span>Score: {r.score ?? '—'}</span>
                         {r.duration > 0 && <span>Duration: {r.duration}s</span>}
                         {r.status && <span className="capitalize">{r.status}</span>}
-                        {r.errorMsg && <span className="text-[#DC2626]"> {r.errorMsg}</span>}
+                        {r.errorMsg && <span className="text-rose-600"> {r.errorMsg}</span>}
                       </div>
                       {r.recordingUrl && (
                         
                      <a  href={r.recordingUrl}
                         target="_blank"
                           rel="noreferrer"
-                          className="inline-flex items-center gap-1 mt-1.5 text-[10px] text-[#2563EB] dark:text-[#4F8EF7] hover:underline"
+                          className="inline-flex items-center gap-1 mt-1.5 text-[10px] text-violet-600 dark:text-violet-400 hover:underline"
                         >
                            Listen to recording
                         </a>

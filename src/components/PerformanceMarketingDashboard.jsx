@@ -13,11 +13,13 @@ import {
 // Real CRM data: leads, statuses, campaigns, employees, follow-ups
 // ─────────────────────────────────────────────────────────────────────────────
 
-const CARD = "bg-white dark:bg-[#11131C] border border-[#E4E7EF] dark:border-[#1E2133] rounded-2xl";
+const CARD = "surface-card";
 const num  = (v) => (v == null ? "—" : Number(v).toLocaleString("en-IN"));
 const pct  = (v) => (v == null ? "—" : `${Number(v).toFixed(1)}%`);
 const isoDaysAgo = (n) => { const d = new Date(); d.setDate(d.getDate() - n); return d.toISOString().slice(0, 10); };
 
+// Status/category color maps — data-visualization colors for chart dots,
+// KPI tints and SVG strokes/fills, not UI chrome, so kept as literal hex.
 const STATUS_COLOR = {
   "New":            { bg: "#EFF6FF", text: "#2563EB", dot: "#2563EB" },
   "In Progress":    { bg: "#FFFBEB", text: "#D97706", dot: "#F59E0B" },
@@ -67,9 +69,9 @@ function KpiCard({ icon: Icon, label, value, tint, trend, sparkData }) {
           </span>
         )}
       </div>
-      <p className="text-[20px] font-extrabold text-[#0F1117] dark:text-[#F0F2FA] leading-none mb-1">{value}</p>
+      <p className="text-[20px] font-extrabold text-slate-900 dark:text-white leading-none mb-1">{value}</p>
       <div className="flex items-center justify-between">
-        <p className="text-[10px] font-semibold uppercase tracking-wider text-[#8B92A9]">{label}</p>
+        <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">{label}</p>
         <Sparkline data={sparkData} color={tint} />
       </div>
     </div>
@@ -79,7 +81,7 @@ function KpiCard({ icon: Icon, label, value, tint, trend, sparkData }) {
 // ── Funnel chart (SVG trapezoids) ─────────────────────────────────────────────
 function FunnelChart({ stages }) {
   const data = (stages || []).filter((s) => s.count > 0);
-  if (!data.length) return <p className="text-center text-[12px] text-[#8B92A9] py-8">No data</p>;
+  if (!data.length) return <p className="text-center text-[12px] text-slate-400 py-8">No data</p>;
   const max = data[0].count;
   return (
     <div className="space-y-1.5">
@@ -95,7 +97,7 @@ function FunnelChart({ stages }) {
                 </div>
               </div>
               <div className="w-32 shrink-0">
-                <p className="text-[11px] font-semibold text-[#0F1117] dark:text-[#DDE1F5]">{s.stage}</p>
+                <p className="text-[11px] font-semibold text-slate-900 dark:text-white">{s.stage}</p>
                 {drop != null && <p className="text-[10px] text-rose-500">▼ {drop}% drop</p>}
               </div>
             </div>
@@ -111,7 +113,7 @@ function AreaChart({ series, points, height = 180 }) {
   const [hover, setHover] = useState(null);
   const svgRef = useRef(null);
   const n = points.length;
-  if (!n) return <div className="text-center text-[12px] text-[#8B92A9] py-10">No data</div>;
+  if (!n) return <div className="text-center text-[12px] text-slate-400 py-10">No data</div>;
   const w = 640, h = height, pL = 36, pR = 8, pT = 10, pB = 22;
   const allMax = Math.max(1, ...series.flatMap((s) => s.data));
   const x = (i) => pL + (i / Math.max(1, n - 1)) * (w - pL - pR);
@@ -130,24 +132,24 @@ function AreaChart({ series, points, height = 180 }) {
             <stop offset="0%" stopColor={s.color} stopOpacity="0.22" /><stop offset="100%" stopColor={s.color} stopOpacity="0" />
           </linearGradient>
         ))}</defs>
-        {[0,1,2,3,4].map((t) => { const gy = pT + (t / 4) * (h - pT - pB); return <line key={t} x1={pL} y1={gy} x2={w - pR} y2={gy} stroke="currentColor" className="text-[#EEF0F6] dark:text-[#1A1D2A]" strokeWidth="1" />; })}
+        {[0,1,2,3,4].map((t) => { const gy = pT + (t / 4) * (h - pT - pB); return <line key={t} x1={pL} y1={gy} x2={w - pR} y2={gy} stroke="currentColor" className="text-slate-100 dark:text-white/10" strokeWidth="1" />; })}
         {series.map((s) => {
           const line = s.data.map((v, i) => `${x(i)},${y(v)}`).join(" ");
           const area = `${x(0)},${h - pB} ${line} ${x(n - 1)},${h - pB}`;
           return (<g key={s.key}><polygon points={area} fill={`url(#g${s.key})`} /><polyline fill="none" stroke={s.color} strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" points={line} /></g>);
         })}
-        {points.map((p, i) => (i % Math.ceil(n / 7) === 0 || i === n - 1) ? <text key={i} x={x(i)} y={h - 5} textAnchor="middle" className="fill-[#B4B9C9]" style={{ fontSize: 8 }}>{p.slice(5)}</text> : null)}
+        {points.map((p, i) => (i % Math.ceil(n / 7) === 0 || i === n - 1) ? <text key={i} x={x(i)} y={h - 5} textAnchor="middle" className="fill-slate-400" style={{ fontSize: 8 }}>{p.slice(5)}</text> : null)}
         {hover != null && (<g><line x1={x(hover)} y1={pT} x2={x(hover)} y2={h - pB} stroke="#94A3B8" strokeWidth="1" strokeDasharray="3 2" />{series.map((s) => <circle key={s.key} cx={x(hover)} cy={y(s.data[hover] || 0)} r="3" fill="#fff" stroke={s.color} strokeWidth="2" />)}</g>)}
       </svg>
       {hover != null && (
-        <div className="absolute top-1 px-2 py-1.5 rounded-lg bg-[#0F1117] text-white text-[10px] shadow-xl pointer-events-none z-10"
+        <div className="absolute top-1 px-2 py-1.5 rounded-lg bg-slate-900 text-white text-[10px] shadow-xl pointer-events-none z-10"
           style={{ left: `${(x(hover) / w) * 100}%`, transform: hover > n / 2 ? "translateX(-110%)" : "translateX(8%)" }}>
           <p className="font-bold mb-0.5">{points[hover]}</p>
           {series.map((s) => <p key={s.key} className="flex items-center gap-1.5 whitespace-nowrap"><span className="w-2 h-2 rounded-full" style={{ background: s.color }} />{s.label}: <b className="ml-auto">{num(s.data[hover] || 0)}</b></p>)}
         </div>
       )}
       <div className="flex flex-wrap gap-3 justify-center mt-1">
-        {series.map((s) => <span key={s.key} className="inline-flex items-center gap-1.5 text-[11px] text-[#4B5168] dark:text-[#9DA3BB]"><span className="w-2.5 h-2.5 rounded-full" style={{ background: s.color }} />{s.label}</span>)}
+        {series.map((s) => <span key={s.key} className="inline-flex items-center gap-1.5 text-[11px] text-slate-600 dark:text-slate-300"><span className="w-2.5 h-2.5 rounded-full" style={{ background: s.color }} />{s.label}</span>)}
       </div>
     </div>
   );
@@ -160,13 +162,13 @@ function DonutChart({ data, onSliceClick }) {
   let acc = 0;
   const R = 54, C = 2 * Math.PI * R;
   const [hov, setHov] = useState(null);
-  if (!rows.length) return <div className="text-center text-[12px] text-[#8B92A9] py-8">No data</div>;
+  if (!rows.length) return <div className="text-center text-[12px] text-slate-400 py-8">No data</div>;
   return (
     <div className="flex items-center gap-5 flex-wrap">
       <div className="relative w-[130px] h-[130px] shrink-0">
         <svg viewBox="0 0 140 140" className="w-full h-full">
           <g transform="translate(70,70) rotate(-90)">
-            <circle r={R} fill="none" stroke="currentColor" className="text-[#F1F3F9] dark:text-white/5" strokeWidth="16" />
+            <circle r={R} fill="none" stroke="currentColor" className="text-slate-100 dark:text-white/5" strokeWidth="16" />
             {rows.map((d, i) => {
               const frac = d.count / total;
               const el = <circle key={d.stage} r={R} fill="none" stroke={d.color} strokeWidth={hov === i ? 20 : 16}
@@ -179,17 +181,17 @@ function DonutChart({ data, onSliceClick }) {
           </g>
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-          <span className="text-[9px] text-[#8B92A9] uppercase tracking-wide">Total</span>
-          <span className="text-[16px] font-extrabold text-[#0F1117] dark:text-[#DDE1F5]">{num(total)}</span>
+          <span className="text-[9px] text-slate-400 uppercase tracking-wide">Total</span>
+          <span className="text-[16px] font-extrabold text-slate-900 dark:text-white">{num(total)}</span>
         </div>
       </div>
       <div className="flex-1 min-w-0 space-y-1.5">
         {rows.map((d, i) => (
           <div key={d.stage} className="flex items-center gap-2 cursor-pointer hover:opacity-80" onClick={() => onSliceClick && onSliceClick(d.stage)}>
             <span className="w-2.5 h-2.5 rounded-sm shrink-0" style={{ background: d.color }} />
-            <span className="flex-1 text-[11px] text-[#4B5168] dark:text-[#9DA3BB]">{d.stage}</span>
-            <span className="text-[11px] font-bold text-[#0F1117] dark:text-[#DDE1F5]">{num(d.count)}</span>
-            <span className="text-[10px] text-[#8B92A9] w-10 text-right">{Math.round((d.count / total) * 100)}%</span>
+            <span className="flex-1 text-[11px] text-slate-600 dark:text-slate-300">{d.stage}</span>
+            <span className="text-[11px] font-bold text-slate-900 dark:text-white">{num(d.count)}</span>
+            <span className="text-[10px] text-slate-400 w-10 text-right">{Math.round((d.count / total) * 100)}%</span>
           </div>
         ))}
       </div>
@@ -201,7 +203,7 @@ function DonutChart({ data, onSliceClick }) {
 function RankBars({ rows, valueKey, labelKey, format }) {
   const data = (rows || []).slice(0, 8);
   const max = Math.max(1, ...data.map((d) => Number(d[valueKey]) || 0));
-  if (!data.length) return <div className="text-center text-[12px] text-[#8B92A9] py-6">No data</div>;
+  if (!data.length) return <div className="text-center text-[12px] text-slate-400 py-6">No data</div>;
   return (
     <div className="space-y-2.5">
       {data.map((d, i) => (
@@ -209,10 +211,10 @@ function RankBars({ rows, valueKey, labelKey, format }) {
           <span className="w-5 h-5 rounded-lg text-[10px] font-bold text-white flex items-center justify-center shrink-0" style={{ background: COLORS[i % COLORS.length] }}>{i + 1}</span>
           <div className="flex-1 min-w-0">
             <div className="flex items-center justify-between mb-0.5">
-              <span className="text-[11px] font-medium text-[#4B5168] dark:text-[#9DA3BB] truncate">{d[labelKey] || "—"}</span>
-              <span className="text-[11px] font-bold text-[#0F1117] dark:text-[#DDE1F5] ml-2">{format ? format(d[valueKey]) : num(d[valueKey])}</span>
+              <span className="text-[11px] font-medium text-slate-600 dark:text-slate-300 truncate">{d[labelKey] || "—"}</span>
+              <span className="text-[11px] font-bold text-slate-900 dark:text-white ml-2">{format ? format(d[valueKey]) : num(d[valueKey])}</span>
             </div>
-            <div className="h-2 rounded-full bg-[#F1F3F9] dark:bg-white/5 overflow-hidden">
+            <div className="h-2 rounded-full bg-slate-100 dark:bg-white/10 overflow-hidden">
               <div className="h-full rounded-full" style={{ width: `${((Number(d[valueKey]) || 0) / max) * 100}%`, background: `linear-gradient(90deg, ${COLORS[i % COLORS.length]}CC, ${COLORS[i % COLORS.length]})` }} />
             </div>
           </div>
@@ -250,35 +252,36 @@ function SortableTable({ columns, rows, initialSort }) {
     <div className="space-y-2">
       <div className="flex items-center gap-2">
         <div className="relative flex-1 max-w-xs">
-          <Search className="w-3.5 h-3.5 text-[#8B92A9] absolute left-2.5 top-1/2 -translate-y-1/2" />
+          <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
           <input value={search} onChange={(e) => { setSearch(e.target.value); setPage(1); }} placeholder="Search…"
-            className="w-full text-[12px] pl-7 pr-3 py-1.5 rounded-lg border border-[#E4E7EF] dark:border-[#1E2133] bg-white dark:bg-[#11131C] focus:outline-none text-[#0F1117] dark:text-[#DDE1F5]" />
+            aria-label="Search table"
+            className="w-full text-[12px] pl-7 pr-3 py-1.5 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-[#181029] focus:outline-none text-slate-900 dark:text-white" />
         </div>
-        <span className="text-[11px] text-[#8B92A9] ml-auto">{sorted.length} rows</span>
+        <span className="text-[11px] text-slate-400 ml-auto">{sorted.length} rows</span>
       </div>
       <div className={`${CARD} overflow-x-auto`}>
         <table className="w-full border-collapse">
-          <thead><tr className="border-b border-[#E4E7EF] dark:border-[#1E2133] bg-[#F8F9FC] dark:bg-[#0D0F14]">
+          <thead><tr className="border-b border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.03]">
             {columns.map((c) => (
-              <th key={c.key} onClick={() => toggle(c.key)} className={`text-[10px] font-bold uppercase tracking-wider text-[#8B92A9] px-3 py-2.5 cursor-pointer whitespace-nowrap select-none hover:text-[#4B5168] ${c.align === "right" ? "text-right" : "text-left"}`}>
+              <th key={c.key} onClick={() => toggle(c.key)} className={`text-[10px] font-bold uppercase tracking-wider text-slate-400 px-3 py-2.5 cursor-pointer whitespace-nowrap select-none hover:text-slate-600 dark:hover:text-slate-300 ${c.align === "right" ? "text-right" : "text-left"}`}>
                 <span className="inline-flex items-center gap-1">{c.label}{sort.key === c.key ? (sort.dir === "asc" ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />) : <ArrowUpDown className="w-3 h-3 opacity-30" />}</span>
               </th>
             ))}
           </tr></thead>
           <tbody>
             {paged.map((r, i) => (
-              <tr key={i} className="border-b border-[#F1F3F9] dark:border-white/5 last:border-0 hover:bg-[#F8F9FC] dark:hover:bg-white/[0.02] transition-colors">
-                {columns.map((c) => <td key={c.key} className={`px-3 py-2.5 text-[12px] text-[#222733] dark:text-[#C9CEE0] whitespace-nowrap ${c.align === "right" ? "text-right tabular-nums" : ""}`}>{c.render ? c.render(r) : r[c.key]}</td>)}
+              <tr key={i} className="border-b border-slate-100 dark:border-white/5 last:border-0 hover:bg-slate-50 dark:hover:bg-white/[0.03] transition-colors">
+                {columns.map((c) => <td key={c.key} className={`px-3 py-2.5 text-[12px] text-slate-900 dark:text-white whitespace-nowrap ${c.align === "right" ? "text-right tabular-nums" : ""}`}>{c.render ? c.render(r) : r[c.key]}</td>)}
               </tr>
             ))}
-            {!paged.length && <tr><td colSpan={columns.length} className="px-3 py-8 text-center text-[12px] text-[#8B92A9]">No rows</td></tr>}
+            {!paged.length && <tr><td colSpan={columns.length} className="px-3 py-8 text-center text-[12px] text-slate-400">No rows</td></tr>}
           </tbody>
         </table>
       </div>
       {pages > 1 && (
         <div className="flex justify-center gap-1">
           {Array.from({ length: Math.min(pages, 7) }, (_, i) => i + 1).map((p) => (
-            <button key={p} onClick={() => setPage(p)} className={`w-7 h-7 rounded-lg text-[11px] font-semibold ${page === p ? "bg-indigo-600 text-white" : "bg-[#F1F3F9] dark:bg-white/5 text-[#4B5168] dark:text-[#9DA3BB] hover:bg-indigo-50"}`}>{p}</button>
+            <button key={p} onClick={() => setPage(p)} className={`w-7 h-7 rounded-lg text-[11px] font-semibold ${page === p ? "bg-indigo-600 text-white" : "bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-300 hover:bg-indigo-50"}`}>{p}</button>
           ))}
         </div>
       )}
@@ -290,8 +293,8 @@ function Panel({ title, icon: Icon, children, className = "" }) {
   return (
     <div className={`${CARD} p-4 ${className}`}>
       <div className="flex items-center gap-2 mb-3">
-        {Icon && <Icon className="w-4 h-4 text-[#8B92A9]" />}
-        <p className="text-[13px] font-bold text-[#0F1117] dark:text-[#DDE1F5]">{title}</p>
+        {Icon && <Icon className="w-4 h-4 text-slate-400" />}
+        <p className="text-[13px] font-bold text-slate-900 dark:text-white">{title}</p>
       </div>
       {children}
     </div>
@@ -355,29 +358,29 @@ export default function PerformanceMarketingDashboard() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#F8F9FC] dark:bg-[#0D0F14] p-4 md:p-6 space-y-4">
+    <div className="ld-canvas min-h-screen p-4 md:p-6 space-y-4">
       {/* ── Header ─────────────────────────────────────────────────────────── */}
       <div className="flex items-center gap-3 flex-wrap">
         <div className="flex items-center gap-2.5">
-          <span className="w-10 h-10 rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center shrink-0">
+          <span className="w-10 h-10 rounded-2xl bg-brand-gradient shadow-glow-brand flex items-center justify-center shrink-0">
             <Activity className="w-5 h-5 text-white" />
           </span>
           <div>
-            <h1 className="text-[18px] font-extrabold text-[#0F1117] dark:text-[#F0F2FA] leading-tight">Performance Marketing</h1>
-            <p className="text-[11px] text-[#8B92A9]">Ad performance · Lead funnel · Conversion analytics</p>
+            <h1 className="text-[18px] font-extrabold text-slate-900 dark:text-white leading-tight">Performance Marketing</h1>
+            <p className="text-[11px] text-slate-400">Ad performance · Lead funnel · Conversion analytics</p>
           </div>
         </div>
         <div className="ml-auto flex items-center gap-2 flex-wrap">
           {/* Auto-refresh */}
           <select value={refresh || ""} onChange={(e) => setRefresh(e.target.value ? Number(e.target.value) : null)}
-            className="text-[11px] font-semibold bg-white dark:bg-[#11131C] border border-[#E4E7EF] dark:border-[#1E2133] rounded-lg px-2.5 py-2 focus:outline-none text-[#4B5168] dark:text-[#9DA3BB]">
+            aria-label="Auto-refresh interval"
+            className="input-field w-auto px-2.5 py-2 text-[11px] font-semibold">
             <option value="">Manual refresh</option>
             <option value="5">Auto · 5 min</option>
             <option value="15">Auto · 15 min</option>
             <option value="30">Auto · 30 min</option>
           </select>
-          <button onClick={load} disabled={loading}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white text-[11px] font-bold">
+          <button onClick={load} disabled={loading} className="btn-primary btn-sm">
             {loading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <RefreshCw className="w-3.5 h-3.5" />} Refresh
           </button>
         </div>
@@ -390,7 +393,7 @@ export default function PerformanceMarketingDashboard() {
           <div className="flex gap-1 flex-wrap">
             {DATE_PRESETS.filter((p) => p.label !== "Custom").map((p) => (
               <button key={p.label} onClick={() => applyPreset(p)}
-                className={`px-2.5 py-1.5 rounded-lg text-[11px] font-semibold transition-colors ${preset === p.label ? "bg-indigo-600 text-white" : "bg-[#F1F3F9] dark:bg-white/5 text-[#4B5168] dark:text-[#9DA3BB] hover:bg-indigo-50"}`}>
+                className={`px-2.5 py-1.5 rounded-lg text-[11px] font-semibold transition-colors ${preset === p.label ? "bg-indigo-600 text-white" : "bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-300 hover:bg-indigo-50 dark:hover:bg-indigo-500/10"}`}>
                 {p.label}
               </button>
             ))}
@@ -398,26 +401,30 @@ export default function PerformanceMarketingDashboard() {
           {/* Custom dates */}
           <div className="flex items-center gap-1.5">
             <input type="date" value={from} onChange={(e) => { setFrom(e.target.value); setPreset("Custom"); }}
-              className="text-[11px] font-semibold px-2 py-1.5 rounded-lg border border-[#E4E7EF] dark:border-[#1E2133] bg-white dark:bg-[#11131C] focus:outline-none text-[#0F1117] dark:text-[#DDE1F5]" />
-            <span className="text-[#8B92A9] text-[11px]">→</span>
+              aria-label="From date"
+              className="input-field w-auto px-2 py-1.5 text-[11px] font-semibold" />
+            <span className="text-slate-400 text-[11px]">→</span>
             <input type="date" value={to} onChange={(e) => { setTo(e.target.value); setPreset("Custom"); }}
-              className="text-[11px] font-semibold px-2 py-1.5 rounded-lg border border-[#E4E7EF] dark:border-[#1E2133] bg-white dark:bg-[#11131C] focus:outline-none text-[#0F1117] dark:text-[#DDE1F5]" />
+              aria-label="To date"
+              className="input-field w-auto px-2 py-1.5 text-[11px] font-semibold" />
           </div>
           {/* More filters */}
           <div className="ml-auto flex items-center gap-2">
             <select value={source} onChange={(e) => setSource(e.target.value)}
-              className="text-[11px] bg-white dark:bg-[#11131C] border border-[#E4E7EF] dark:border-[#1E2133] rounded-lg px-2.5 py-1.5 focus:outline-none text-[#4B5168] dark:text-[#9DA3BB]">
+              aria-label="Filter by source"
+              className="input-field w-auto px-2.5 py-1.5 text-[11px]">
               <option value="">All sources</option>
               {(data?.filters?.sources || []).map((s) => <option key={s} value={s}>{s}</option>)}
             </select>
             <select value={campaign} onChange={(e) => setCampaign(e.target.value)}
-              className="text-[11px] bg-white dark:bg-[#11131C] border border-[#E4E7EF] dark:border-[#1E2133] rounded-lg px-2.5 py-1.5 focus:outline-none text-[#4B5168] dark:text-[#9DA3BB]">
+              aria-label="Filter by campaign"
+              className="input-field w-auto px-2.5 py-1.5 text-[11px]">
               <option value="">All campaigns</option>
               {(data?.filters?.campaigns || []).map((c) => <option key={c} value={c}>{c}</option>)}
             </select>
             {(source || campaign) && (
               <button onClick={() => { setSource(""); setCampaign(""); }}
-                className="text-[#8B92A9] hover:text-rose-500 transition-colors p-1">
+                className="text-slate-400 hover:text-rose-500 transition-colors p-1">
                 <X className="w-3.5 h-3.5" />
               </button>
             )}
@@ -426,11 +433,11 @@ export default function PerformanceMarketingDashboard() {
       </div>
 
       {error && (
-        <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-600 text-[13px]">
+        <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800/50 text-rose-600 dark:text-rose-400 text-[13px] font-semibold">
           <AlertTriangle className="w-4 h-4 shrink-0" /> {error}
         </div>
       )}
-      {loading && !data && <div className={`${CARD} p-12 flex justify-center`}><Loader2 className="w-6 h-6 animate-spin text-[#8B92A9]" /></div>}
+      {loading && !data && <div className={`${CARD} p-12 flex justify-center`}><Loader2 className="w-6 h-6 animate-spin text-slate-400" /></div>}
 
       {data && (
         <>
@@ -449,7 +456,7 @@ export default function PerformanceMarketingDashboard() {
           </div>
 
           {/* ── Summary strip ──────────────────────────────────────────────── */}
-          <div className="rounded-2xl p-4 bg-gradient-to-br from-indigo-600 via-violet-600 to-purple-700 text-white shadow-md">
+          <div className="rounded-2xl p-4 bg-brand-gradient text-white shadow-soft">
             <p className="text-[11px] font-bold uppercase tracking-wider opacity-80 mb-1.5">Period Summary · {data.range?.from} → {data.range?.to}</p>
             <p className="text-[13px] leading-relaxed">
               <b>{num(k.totalLeads)}</b> leads generated — <b>{num(k.converted)}</b> converted (<b>{pct(k.conversionRate)}</b>),{" "}
@@ -503,7 +510,7 @@ export default function PerformanceMarketingDashboard() {
                 { key: "newLeads",   label: "New",        align: "right", render: (r) => num(r.newLeads) },
                 { key: "inProgress", label: "In Progress",align: "right", render: (r) => num(r.inProgress) },
                 { key: "converted",  label: "Converted",  align: "right", render: (r) => <span className="text-emerald-600 font-semibold">{num(r.converted)}</span> },
-                { key: "convRate",   label: "Conv %",     align: "right", render: (r) => <span className={`font-semibold ${r.convRate >= 10 ? "text-emerald-600" : r.convRate >= 5 ? "text-amber-600" : "text-[#8B92A9]"}`}>{pct(r.convRate)}</span> },
+                { key: "convRate",   label: "Conv %",     align: "right", render: (r) => <span className={`font-semibold ${r.convRate >= 10 ? "text-emerald-600" : r.convRate >= 5 ? "text-amber-600" : "text-slate-400"}`}>{pct(r.convRate)}</span> },
                 { key: "notInt",     label: "Not Int.",   align: "right", render: (r) => <span className="text-rose-500">{num(r.notInt)}</span> },
               ]}
             />
@@ -560,8 +567,8 @@ export default function PerformanceMarketingDashboard() {
                 <div className="w-8 h-8 rounded-xl flex items-center justify-center mb-2" style={{ background: `${f.color}22` }}>
                   <f.icon className="w-4 h-4" style={{ color: f.color }} />
                 </div>
-                <p className="text-[22px] font-extrabold text-[#0F1117] dark:text-[#F0F2FA] leading-none mb-0.5">{num(f.count)}</p>
-                <p className="text-[10px] font-semibold uppercase tracking-wider text-[#8B92A9]">{f.label}</p>
+                <p className="text-[22px] font-extrabold text-slate-900 dark:text-white leading-none mb-0.5">{num(f.count)}</p>
+                <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">{f.label}</p>
               </div>
             ))}
           </div>

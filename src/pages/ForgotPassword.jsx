@@ -161,49 +161,73 @@ export default function ForgotPassword() {
   };
 
   // ── Shared styles ─────────────────────────────────────────────────────────
-  const inputCls = "w-full px-4 py-3 rounded-xl border border-[#E4E7EF] dark:border-[#1E2130] bg-white dark:bg-[#0D0F14] text-[13px] text-[#0F1117] dark:text-[#F0F2FA] placeholder:text-[#C4C9D9] dark:placeholder:text-[#3A3F52] focus:outline-none focus:border-[#2563EB] dark:focus:border-[#3B82F6] transition";
-  const btnCls   = "w-full py-3 rounded-xl bg-[#2563EB] hover:bg-blue-700 text-white text-[14px] font-semibold mt-2 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2 transition";
+  const inputCls = "input-field px-4 py-3";
+  const btnCls   = "btn-primary w-full py-3 mt-2";
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#F5F7FF] dark:bg-[#0D0F14] px-4">
-      <div className="w-full max-w-md bg-white dark:bg-[#13161E] rounded-3xl shadow-xl border border-[#E4E7EF] dark:border-[#1E2130] p-8">
+    <div className="min-h-screen flex w-full bg-white dark:bg-[#0B0D14]">
+      {/* ── Left brand panel — mirrors the login screen's split layout ── */}
+      <div className="hidden w-full lg:flex lg:w-1/2 relative overflow-hidden flex-col justify-between px-14 py-12 bg-brand-gradient">
+        <div className="absolute -top-24 -right-24 w-80 h-80 rounded-full bg-white/10 blur-3xl" />
+        <div className="absolute bottom-0 -left-16 w-72 h-72 rounded-full bg-launcher-900/30 blur-3xl" />
 
-        {/* ── Logo / Title ── */}
-        <div className="mb-8 text-center">
-          <div className="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-950/40 flex items-center justify-center mx-auto mb-4">
-            <svg className="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/>
-            </svg>
-          </div>
-          <h1 className="text-[22px] font-bold text-[#0F1117] dark:text-[#F0F2FA]">Forgot Password</h1>
-          <p className="text-[13px] text-[#8B92A9] dark:text-[#565C75] mt-1">
-            {step === 1 && "Enter your registered email to receive an OTP."}
-            {step === 2 && `Enter the 6-digit OTP sent to ${email}`}
-            {step === 3 && "Set your new password."}
+        <div className="relative flex items-center gap-3">
+          <img src="/launcherdesk_logo.svg" alt="LauncherDesk" className="w-10 h-10 rounded-lg bg-white p-1" />
+          <span className="text-lg font-semibold text-white">LauncherDesk CRM</span>
+        </div>
+
+        <div className="relative max-w-md">
+          <h2 className="text-3xl font-bold text-white leading-tight mb-3">
+            Reset your password
+          </h2>
+          <p className="text-sm text-white/80 leading-relaxed">
+            Verify your email, confirm the OTP, and set a new password —
+            you'll be back in your account in just a few steps.
           </p>
         </div>
 
-        {/* ── Step indicator ── */}
-        <div className="flex items-center gap-2 mb-8">
-          {[1, 2, 3].map(s => (
-            <div key={s} className="flex-1 flex items-center gap-2">
-              <div className={`w-full h-1.5 rounded-full transition-all ${s <= step ? "bg-blue-500" : "bg-[#E4E7EF] dark:bg-[#1E2130]"}`} />
-            </div>
-          ))}
-        </div>
+        <p className="relative text-[13px] text-white/60">© {new Date().getFullYear()} LauncherDesk Solutions Pvt Ltd</p>
+      </div>
 
-        {/* ── Error message ── */}
-        {error && (
-          <div className="mb-4 px-4 py-3 rounded-xl bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-800 text-[12px] text-red-600 dark:text-red-400">
-            {error}
+      {/* ── Right form panel ── */}
+      <div className="flex w-full lg:w-1/2 items-center justify-center px-6 py-12">
+        <div className="w-full max-w-md">
+          <div className="mb-8 flex items-center gap-2 lg:hidden">
+            <img src="/launcherdesk_logo.svg" alt="LauncherDesk" className="w-9 h-9 rounded-lg" />
+            <span className="text-base font-semibold text-slate-900 dark:text-white">LauncherDesk CRM</span>
           </div>
-        )}
 
-        {/* ─────────── STEP 1: Email ─────────────────────────────────────────── */}
-        {step === 1 && (
+          {/* ── Title ── */}
+          <div className="mb-8">
+            <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-1">Forgot Password</h1>
+            <p className="text-[13px] text-slate-500 dark:text-slate-400">
+              {step === 1 && "Enter your registered email to receive an OTP."}
+              {step === 2 && `Enter the 6-digit OTP sent to ${email}`}
+              {step === 3 && "Set your new password."}
+            </p>
+          </div>
+
+          {/* ── Step indicator ── */}
+          <div className="flex items-center gap-2 mb-8">
+            {[1, 2, 3].map(s => (
+              <div key={s} className="flex-1 flex items-center gap-2">
+                <div className={`w-full h-1.5 rounded-full transition-all ${s <= step ? "bg-launcher-500" : "bg-slate-200 dark:bg-white/10"}`} />
+              </div>
+            ))}
+          </div>
+
+          {/* ── Error message ── */}
+          {error && (
+            <div className="mb-4 px-4 py-3 rounded-xl bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 text-[12px] text-rose-600 dark:text-rose-400">
+              {error}
+            </div>
+          )}
+
+          {/* ─────────── STEP 1: Email ─────────────────────────────────────────── */}
+          {step === 1 && (
           <form onSubmit={handleRequestOtp} className="space-y-4">
             <div>
-              <label className="block text-[11px] font-semibold text-[#8B92A9] dark:text-[#565C75] uppercase tracking-wide mb-1.5">
+              <label className="block text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-1.5">
                 Email Address
               </label>
               <input
@@ -230,7 +254,7 @@ export default function ForgotPassword() {
         {step === 2 && (
           <form onSubmit={handleVerifyOtp} className="space-y-6">
             <div>
-              <label className="block text-[11px] font-semibold text-[#8B92A9] dark:text-[#565C75] uppercase tracking-wide mb-3 text-center">
+              <label className="block text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-3 text-center">
                 Enter 6-digit OTP
               </label>
               <div className="flex gap-2 justify-center" onPaste={handleOtpPaste}>
@@ -244,7 +268,7 @@ export default function ForgotPassword() {
                     value={digit}
                     onChange={e => handleOtpChange(e.target.value, idx)}
                     onKeyDown={e => handleOtpKeyDown(e, idx)}
-                    className="w-11 h-13 text-center text-[18px] font-bold rounded-xl border border-[#E4E7EF] dark:border-[#1E2130] bg-white dark:bg-[#0D0F14] text-[#0F1117] dark:text-[#F0F2FA] focus:outline-none focus:border-[#2563EB] dark:focus:border-[#3B82F6] transition py-3"
+                    className="w-11 h-13 text-center text-[18px] font-bold rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.04] text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-launcher-500/40 focus:border-launcher-500 transition py-3"
                     style={{ width: "44px" }}
                     autoFocus={idx === 0}
                   />
@@ -264,7 +288,7 @@ export default function ForgotPassword() {
                 type="button"
                 onClick={handleResend}
                 disabled={resendCountdown > 0 || loading}
-                className="text-[12px] text-[#8B92A9] hover:text-blue-600 dark:hover:text-blue-400 disabled:opacity-50 disabled:cursor-not-allowed transition"
+                className="text-[12px] text-slate-500 dark:text-slate-400 hover:text-launcher-600 dark:hover:text-launcher-400 disabled:opacity-50 disabled:cursor-not-allowed transition"
               >
                 {resendCountdown > 0 ? `Resend OTP in ${resendCountdown}s` : "Resend OTP"}
               </button>
@@ -277,7 +301,7 @@ export default function ForgotPassword() {
           <form onSubmit={handleResetPassword} className="space-y-4">
             {/* New Password */}
             <div>
-              <label className="block text-[11px] font-semibold text-[#8B92A9] dark:text-[#565C75] uppercase tracking-wide mb-1.5">
+              <label className="block text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-1.5">
                 New Password
               </label>
               <div className="relative">
@@ -291,7 +315,8 @@ export default function ForgotPassword() {
                   autoComplete="new-password"
                 />
                 <button type="button" onClick={() => setShowNew(v => !v)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8B92A9] hover:text-[#0F1117] dark:hover:text-[#F0F2FA] transition">
+                  aria-label={showNew ? "Hide password" : "Show password"}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-900 dark:hover:text-white transition">
                   {showNew
                     ? <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/></svg>
                     : <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
@@ -301,18 +326,18 @@ export default function ForgotPassword() {
               {/* Strength bar */}
               {newPassword && (
                 <div className="mt-2 flex items-center gap-2">
-                  <div className="flex-1 h-1 rounded-full bg-[#E4E7EF] dark:bg-[#1E2130] overflow-hidden">
+                  <div className="flex-1 h-1 rounded-full bg-slate-200 dark:bg-white/10 overflow-hidden">
                     <div className={`h-full rounded-full transition-all ${pwStrength.color}`}
                       style={{ width: `${pwStrength.score * 25}%` }} />
                   </div>
-                  <span className="text-[10px] font-semibold text-[#8B92A9]">{pwStrength.label}</span>
+                  <span className="text-[10px] font-semibold text-slate-400">{pwStrength.label}</span>
                 </div>
               )}
             </div>
 
             {/* Confirm Password */}
             <div>
-              <label className="block text-[11px] font-semibold text-[#8B92A9] dark:text-[#565C75] uppercase tracking-wide mb-1.5">
+              <label className="block text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-1.5">
                 Confirm Password
               </label>
               <div className="relative">
@@ -320,7 +345,7 @@ export default function ForgotPassword() {
                   type={showConfirm ? "text" : "password"}
                   className={`${inputCls} pr-11 ${
                     confirmPassword && confirmPassword !== newPassword
-                      ? "border-red-400 focus:border-red-500"
+                      ? "border-rose-400 focus:border-rose-500"
                       : confirmPassword && confirmPassword === newPassword
                       ? "border-emerald-400 focus:border-emerald-500"
                       : ""
@@ -331,7 +356,8 @@ export default function ForgotPassword() {
                   autoComplete="new-password"
                 />
                 <button type="button" onClick={() => setShowConfirm(v => !v)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8B92A9] hover:text-[#0F1117] dark:hover:text-[#F0F2FA] transition">
+                  aria-label={showConfirm ? "Hide password" : "Show password"}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-900 dark:hover:text-white transition">
                   {showConfirm
                     ? <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/></svg>
                     : <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
@@ -339,7 +365,7 @@ export default function ForgotPassword() {
                 </button>
               </div>
               {confirmPassword && (
-                <p className={`text-[10px] mt-1 flex items-center gap-1 ${confirmPassword === newPassword ? "text-emerald-600 dark:text-emerald-400" : "text-red-500 dark:text-red-400"}`}>
+                <p className={`text-[10px] mt-1 flex items-center gap-1 ${confirmPassword === newPassword ? "text-emerald-600 dark:text-emerald-400" : "text-rose-500 dark:text-rose-400"}`}>
                   {confirmPassword === newPassword
                     ? <><svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>Passwords match</>
                     : <><svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>Passwords do not match</>
@@ -358,11 +384,12 @@ export default function ForgotPassword() {
         )}
 
         {/* ── Back to login ── */}
-        <div className="mt-6 pt-5 border-t border-[#E4E7EF] dark:border-[#1E2130] text-center">
-          <Link to="/login" className="text-[12px] text-[#8B92A9] hover:text-blue-600 dark:hover:text-blue-400 transition">
+        <div className="mt-6 pt-5 border-t border-slate-200 dark:border-white/10 text-center">
+          <Link to="/login" className="text-[12px] text-slate-400 hover:text-launcher-600 dark:hover:text-launcher-400 transition">
             ← Back to login
           </Link>
         </div>
+      </div>
       </div>
     </div>
   );

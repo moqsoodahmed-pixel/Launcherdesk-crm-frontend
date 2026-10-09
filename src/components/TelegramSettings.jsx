@@ -31,6 +31,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { createPortal } from "react-dom";
 import api from "../data/axiosConfig";
 import { getRole } from "../data/dataService";
+import { Pill } from "./ui/Primitives";
 import {
   Send,
   X,
@@ -83,10 +84,10 @@ function Feedback({ msg }) {
   if (!msg?.text) return null;
   return (
     <div
-      className={`flex items-center gap-1.5 px-2.5 py-2 rounded-xl text-[11px] font-medium
+      className={`flex items-center gap-1.5 px-2.5 py-2 rounded-xl text-[11px] font-medium border
         ${msg.type === "ok"
-          ? "bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800"
-          : "bg-red-50 dark:bg-red-950/30 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800"
+          ? "bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-500/20"
+          : "bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-500/20"
         }`}
     >
       {msg.type === "ok"
@@ -168,7 +169,7 @@ function CompanyGroupTab({ isSuperAdmin }) {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-8">
-        <Loader2 className="w-5 h-5 animate-spin text-[#8B92A9]" />
+        <Loader2 className="w-5 h-5 animate-spin text-slate-400" />
       </div>
     );
   }
@@ -200,31 +201,31 @@ function CompanyGroupTab({ isSuperAdmin }) {
         className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl border transition-colors
           ${draftEnabled
             ? "border-emerald-200 dark:border-emerald-500/30 bg-emerald-50 dark:bg-emerald-500/10"
-            : "border-[#E4E7EF] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E]"
+            : "border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.04]"
           }`}
       >
         <div className="text-left">
-          <p className={`text-[12px] font-semibold ${draftEnabled ? "text-emerald-700 dark:text-emerald-400" : "text-[#0F1117] dark:text-[#F0F2FA]"}`}>
+          <p className={`text-[12px] font-semibold ${draftEnabled ? "text-emerald-700 dark:text-emerald-400" : "text-slate-900 dark:text-white"}`}>
             {draftEnabled ? "Notifications enabled" : "Notifications paused"}
           </p>
-          <p className="text-[10px] text-[#8B92A9]">
+          <p className="text-[10px] text-slate-400">
             {draftEnabled ? "Campaign leads will be sent to Telegram" : "No messages will be sent"}
           </p>
         </div>
         {draftEnabled
           ? <ToggleRight className="w-5 h-5 text-emerald-500 shrink-0" />
-          : <ToggleLeft  className="w-5 h-5 text-[#C4C9D9] dark:text-[#3E4257] shrink-0" />
+          : <ToggleLeft  className="w-5 h-5 text-slate-300 dark:text-slate-600 shrink-0" />
         }
       </button>
 
       {/* Bot Token — super_admin only */}
       {isSuperAdmin ? (
         <div>
-          <label className="block text-[11px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] mb-1">
+          <label className="flex items-center gap-1.5 text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1">
             Bot Token
             {hasToken
-              ? <span className="ml-1.5 text-[10px] font-normal text-emerald-500">● set — leave blank to keep</span>
-              : <span className="ml-1.5 text-[10px] font-normal text-amber-500">● not set</span>
+              ? <Pill tone="emerald" className="!text-[10px] !py-0.5">set — leave blank to keep</Pill>
+              : <Pill tone="amber" className="!text-[10px] !py-0.5">not set</Pill>
             }
           </label>
           <div className="relative">
@@ -234,19 +235,17 @@ function CompanyGroupTab({ isSuperAdmin }) {
               value={draftToken}
               onChange={(e) => setDraftToken(e.target.value)}
               placeholder={hasToken ? "Enter new token to replace…" : "7123456789:AAHxxxxxxxx"}
-              className="w-full px-3 py-2 pr-8 rounded-xl border border-[#E4E7EF] dark:border-[#262A38]
-                bg-[#F8F9FC] dark:bg-[#13161E] text-[11px] text-[#0F1117] dark:text-[#F0F2FA]
-                placeholder:text-[#8B92A9] focus:outline-none focus:border-[#2563EB] font-mono transition"
+              className="input-field px-3 py-2 pr-8 text-[11px] font-mono"
             />
             <button
               type="button"
               onClick={() => setShowToken(v => !v)}
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#8B92A9] hover:text-[#2563EB] transition"
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-indigo-500 transition"
             >
               {showToken ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
             </button>
           </div>
-          <p className="text-[10px] text-[#8B92A9] mt-1">
+          <p className="text-[10px] text-slate-400 mt-1">
             Create via <span className="font-mono font-semibold">@BotFather</span> on Telegram. Shared by all admins.
           </p>
         </div>
@@ -259,9 +258,9 @@ function CompanyGroupTab({ isSuperAdmin }) {
 
       {/* Group Chat ID */}
       <div>
-        <label className="block text-[11px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] mb-1">
+        <label className="flex items-center gap-1.5 text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1">
           Group Chat ID
-          {chatId && <span className="ml-1.5 text-[10px] font-normal text-emerald-500">● connected</span>}
+          {chatId && <Pill tone="emerald" className="!text-[10px] !py-0.5">connected</Pill>}
         </label>
         <input
           type="text"
@@ -269,11 +268,9 @@ function CompanyGroupTab({ isSuperAdmin }) {
           onChange={(e) => setDraftChat(e.target.value)}
           onKeyDown={(e) => { if (e.key === "Enter") handleSave(); }}
           placeholder="-1001234567890"
-          className="w-full px-3 py-2 rounded-xl border border-[#E4E7EF] dark:border-[#262A38]
-            bg-[#F8F9FC] dark:bg-[#13161E] text-[11px] text-[#0F1117] dark:text-[#F0F2FA]
-            placeholder:text-[#8B92A9] focus:outline-none focus:border-[#2563EB] font-mono transition"
+          className="input-field px-3 py-2 text-[11px] font-mono"
         />
-        <p className="text-[10px] text-[#8B92A9] mt-1">
+        <p className="text-[10px] text-slate-400 mt-1">
           Add bot to group → get ID via <span className="font-mono font-semibold">@userinfobot</span>
         </p>
       </div>
@@ -285,8 +282,7 @@ function CompanyGroupTab({ isSuperAdmin }) {
         <button
           onClick={handleSave}
           disabled={saving || !hasChanges}
-          className="flex-1 py-2 rounded-xl bg-[#2563EB] hover:bg-blue-700 disabled:opacity-50
-            text-white text-[12px] font-semibold transition flex items-center justify-center gap-1.5"
+          className="btn-primary btn-sm flex-1"
         >
           {saving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Save className="w-3.5 h-3.5" />}
           {saving ? "Saving…" : "Save"}
@@ -295,10 +291,7 @@ function CompanyGroupTab({ isSuperAdmin }) {
           onClick={handleTest}
           disabled={testing || !isConfigured}
           title={!isConfigured ? "Save bot token and chat ID first" : "Send a test message to the group"}
-          className="px-3 py-2 rounded-xl border border-[#E4E7EF] dark:border-[#262A38]
-            text-[11px] font-semibold text-[#4B5168] dark:text-[#9DA3BB]
-            hover:border-sky-400 hover:text-sky-600 dark:hover:text-sky-400
-            disabled:opacity-40 disabled:cursor-not-allowed transition flex items-center gap-1.5"
+          className="btn-secondary btn-sm"
         >
           {testing ? <Loader2 className="w-3 h-3 animate-spin" /> : <Send className="w-3 h-3" />}
           Test
@@ -306,7 +299,7 @@ function CompanyGroupTab({ isSuperAdmin }) {
       </div>
 
       {!isConfigured && (
-        <p className="flex items-center gap-1.5 text-[10px] text-[#8B92A9] justify-center pb-0.5">
+        <p className="flex items-center gap-1.5 text-[10px] text-slate-400 justify-center pb-0.5">
           <Lock className="w-3 h-3" />
           Add bot token + chat ID, then save to activate
         </p>
@@ -389,7 +382,7 @@ function AdminAlertsTab() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-8">
-        <Loader2 className="w-5 h-5 animate-spin text-[#8B92A9]" />
+        <Loader2 className="w-5 h-5 animate-spin text-slate-400" />
       </div>
     );
   }
@@ -406,7 +399,7 @@ function AdminAlertsTab() {
       </div>
 
       {admins.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-6 gap-2 text-[#8B92A9]">
+        <div className="flex flex-col items-center justify-center py-6 gap-2 text-slate-400">
           <Users className="w-7 h-7 opacity-30" />
           <p className="text-[12px]">No admins found for this company.</p>
         </div>
@@ -423,7 +416,7 @@ function AdminAlertsTab() {
             const isReady   = !!saved;
 
             return (
-              <div key={admin._id} className="bg-[#F8F9FC] dark:bg-[#13161E] border border-[#E4E7EF] dark:border-[#262A38] rounded-2xl p-3.5 space-y-2.5">
+              <div key={admin._id} className="bg-slate-50 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 rounded-2xl p-3.5 space-y-2.5">
 
                 {/* Admin header row */}
                 <div className="flex items-center justify-between gap-2">
@@ -432,18 +425,14 @@ function AdminAlertsTab() {
                       {(admin.name || "?").slice(0, 2).toUpperCase()}
                     </div>
                     <div className="min-w-0">
-                      <p className="text-[12px] font-semibold text-[#0F1117] dark:text-[#F0F2FA] truncate">{admin.name}</p>
-                      <p className="text-[10px] text-[#8B92A9] truncate font-mono">{admin.email}</p>
+                      <p className="text-[12px] font-semibold text-slate-900 dark:text-white truncate">{admin.name}</p>
+                      <p className="text-[10px] text-slate-400 truncate font-mono">{admin.email}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
-                    <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full ${
-                      admin.role === "super_admin"
-                        ? "bg-violet-100 dark:bg-violet-950/40 text-violet-700 dark:text-violet-400"
-                        : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400"
-                    }`}>
+                    <Pill tone={admin.role === "super_admin" ? "violet" : "slate"} className="!text-[9px]">
                       {admin.role === "super_admin" ? "Super Admin" : "Admin"}
-                    </span>
+                    </Pill>
                     <button
                       onClick={() => setDraft(admin._id, "enabled", !draft.enabled)}
                       title={draft.enabled ? "Disable notifications for this admin" : "Enable notifications for this admin"}
@@ -451,7 +440,7 @@ function AdminAlertsTab() {
                     >
                       {draft.enabled
                         ? <ToggleRight className="w-5 h-5 text-emerald-500" />
-                        : <ToggleLeft  className="w-5 h-5 text-[#C4C9D9] dark:text-[#3E4257]" />
+                        : <ToggleLeft  className="w-5 h-5 text-slate-300 dark:text-slate-600" />
                       }
                     </button>
                   </div>
@@ -459,9 +448,9 @@ function AdminAlertsTab() {
 
                 {/* Personal Chat ID input */}
                 <div>
-                  <label className="block text-[10px] font-semibold text-[#8B92A9] uppercase tracking-wide mb-1">
+                  <label className="flex items-center gap-1.5 text-[10px] font-semibold text-slate-400 uppercase tracking-wide mb-1">
                     Personal Chat ID
-                    {isReady && <span className="ml-1.5 text-[9px] font-normal text-emerald-500">● connected</span>}
+                    {isReady && <Pill tone="emerald" className="!text-[9px] !py-0 normal-case tracking-normal">connected</Pill>}
                   </label>
                   <input
                     type="text"
@@ -469,11 +458,9 @@ function AdminAlertsTab() {
                     onChange={e => setDraft(admin._id, "chatId", e.target.value)}
                     onKeyDown={e => { if (e.key === "Enter") handleSave(admin._id); }}
                     placeholder="e.g. 987654321"
-                    className="w-full px-3 py-1.5 rounded-xl border border-[#E4E7EF] dark:border-[#262A38]
-                      bg-white dark:bg-[#1A1D27] text-[11px] text-[#0F1117] dark:text-[#F0F2FA]
-                      placeholder:text-[#8B92A9] focus:outline-none focus:border-indigo-400 font-mono transition"
+                    className="input-field px-3 py-1.5 text-[11px] font-mono"
                   />
-                  <p className="text-[9px] text-[#8B92A9] mt-0.5">
+                  <p className="text-[9px] text-slate-400 mt-0.5">
                     Admin gets this via <span className="font-mono">@userinfobot</span> on Telegram
                   </p>
                 </div>
@@ -485,8 +472,7 @@ function AdminAlertsTab() {
                   <button
                     onClick={() => handleSave(admin._id)}
                     disabled={isSaving || !isDirty}
-                    className="flex-1 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50
-                      text-white text-[11px] font-semibold transition flex items-center justify-center gap-1.5"
+                    className="btn-primary btn-sm flex-1"
                   >
                     {isSaving ? <Loader2 className="w-3 h-3 animate-spin" /> : <Save className="w-3 h-3" />}
                     {isSaving ? "Saving…" : "Save"}
@@ -495,10 +481,7 @@ function AdminAlertsTab() {
                     onClick={() => handleTest(admin._id)}
                     disabled={isTesting || !isReady}
                     title={!isReady ? "Save a chat ID first" : "Send test to this admin"}
-                    className="px-3 py-1.5 rounded-xl border border-[#E4E7EF] dark:border-[#262A38]
-                      text-[10px] font-semibold text-[#4B5168] dark:text-[#9DA3BB]
-                      hover:border-sky-400 hover:text-sky-600 dark:hover:text-sky-400
-                      disabled:opacity-40 disabled:cursor-not-allowed transition flex items-center gap-1"
+                    className="btn-secondary btn-sm"
                   >
                     {isTesting ? <Loader2 className="w-3 h-3 animate-spin" /> : <Send className="w-3 h-3" />}
                     Test
@@ -585,7 +568,7 @@ export default function TelegramSettings() {
     <div
       ref={panelRef}
       style={{ ...panelStyle, animation: "tgSlide 0.15s ease both" }}
-      className="bg-white dark:bg-[#1A1D27] border border-[#E4E7EF] dark:border-[#262A38] rounded-2xl shadow-xl overflow-hidden"
+      className="surface-card shadow-popover overflow-hidden"
     >
       <style>{`
         @keyframes tgSlide {
@@ -595,17 +578,17 @@ export default function TelegramSettings() {
       `}</style>
 
       {/* Header */}
-      <div className="flex items-center gap-2.5 px-4 pt-4 pb-3 border-b border-[#F3F4F6] dark:border-[#262A38]">
+      <div className="flex items-center gap-2.5 px-4 pt-4 pb-3 border-b border-slate-100 dark:border-white/10">
         <div className="w-8 h-8 rounded-xl bg-sky-50 dark:bg-sky-500/10 flex items-center justify-center shrink-0">
           <Send className="w-4 h-4 text-sky-500" />
         </div>
         <div className="flex-1 min-w-0">
-          <p className="text-[13px] font-bold text-[#0F1117] dark:text-[#F0F2FA]">Telegram Notifications</p>
-          <p className="text-[10px] text-[#8B92A9]">Campaign leads only · company-isolated</p>
+          <p className="text-[13px] font-bold text-slate-900 dark:text-white">Telegram Notifications</p>
+          <p className="text-[10px] text-slate-400">Campaign leads only · company-isolated</p>
         </div>
         <button
           onClick={() => setOpen(false)}
-          className="w-6 h-6 flex items-center justify-center rounded-lg text-[#8B92A9] hover:text-[#0F1117] dark:hover:text-white hover:bg-gray-100 dark:hover:bg-[#262A38] transition"
+          className="icon-btn w-6 h-6"
         >
           <X className="w-3.5 h-3.5" />
         </button>
@@ -624,7 +607,7 @@ export default function TelegramSettings() {
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[11px] font-semibold border transition flex-1 justify-center
                   ${active
                     ? "border-sky-300 dark:border-sky-700 bg-sky-50 dark:bg-sky-500/10 text-sky-700 dark:text-sky-300"
-                    : "border-[#E4E7EF] dark:border-[#262A38] text-[#8B92A9] hover:border-[#CBD5E1] dark:hover:border-[#3E4257] hover:text-[#4B5168] dark:hover:text-[#9DA3BB]"
+                    : "border-slate-200 dark:border-white/10 text-slate-400 hover:border-slate-300 dark:hover:border-white/20 hover:text-slate-600 dark:hover:text-slate-300"
                   }`}
               >
                 <Icon className="w-3.5 h-3.5" />
@@ -652,15 +635,11 @@ export default function TelegramSettings() {
         ref={btnRef}
         onClick={() => setOpen(v => !v)}
         title="Telegram Notifications"
-        className={`relative w-9 h-9 flex items-center justify-center rounded-xl border transition-all duration-150 focus:outline-none
-          ${open
-            ? "bg-sky-50 dark:bg-sky-500/15 border-sky-300 dark:border-sky-700 text-sky-600 dark:text-sky-400"
-            : "border-[#E5E7EB] dark:border-[#262A38] bg-white dark:bg-[#1A1D27] text-[#6B7280] hover:text-sky-500 hover:border-sky-300 dark:hover:border-sky-700 dark:hover:text-sky-400"
-          }`}
+        className={`icon-btn relative ${open ? "bg-sky-50 dark:bg-sky-500/15 text-sky-600 dark:text-sky-400" : ""}`}
       >
         <Send className="w-3.5 h-3.5" />
         {dotData.configured && (
-          <span className={`absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full border-2 border-white dark:border-[#1A1D27]
+          <span className={`absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full border-2 border-white dark:border-[#181029]
             ${dotData.enabled ? "bg-emerald-500" : "bg-amber-400"}`}
           />
         )}

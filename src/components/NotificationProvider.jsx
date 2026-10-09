@@ -648,13 +648,13 @@ export function NotificationBell() {
     <div
       ref={panelRef}
       style={{ ...panelStyle, maxHeight: '480px' }}
-      className="bg-white dark:bg-[#1A1D27] border border-[#E4E7EF] dark:border-[#262A38] rounded-2xl shadow-2xl overflow-hidden"
+      className="surface-card shadow-popover overflow-hidden"
     >
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-[#F0F2FA] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E]">
+      <div className="flex items-center justify-between px-4 py-3 border-b border-slate-100 dark:border-white/10 bg-slate-50 dark:bg-white/[0.04]">
         <div className="flex items-center gap-2">
-          <BellIcon className="w-3.5 h-3.5 text-[#2563EB]" />
-          <span className="text-[13px] font-bold text-[#0F1117] dark:text-white">Notifications</span>
+          <BellIcon className="w-3.5 h-3.5 text-violet-600" />
+          <span className="text-[13px] font-bold text-slate-900 dark:text-white">Notifications</span>
           {unreadCount > 0 && (
             <span className="text-[10px] font-bold bg-red-500 text-white px-1.5 py-0.5 rounded-full">
               {unreadCount}
@@ -664,7 +664,7 @@ export function NotificationBell() {
         {notifications.length > 0 && (
           <button
             onClick={clearAll}
-            className="text-[11px] text-[#8B92A9] hover:text-red-500 dark:hover:text-red-400 transition font-semibold"
+            className="text-[11px] text-slate-400 hover:text-red-500 dark:hover:text-red-400 transition font-semibold"
           >
             Clear all
           </button>
@@ -675,16 +675,16 @@ export function NotificationBell() {
       <div className="overflow-y-auto" style={{ maxHeight: '400px' }}>
         {notifications.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-10 gap-3">
-            <div className="w-12 h-12 rounded-full bg-[#F1F4FF] dark:bg-[#262A38] flex items-center justify-center">
-              <BellIcon className="w-5 h-5 text-[#C4C9D9] dark:text-[#3E4257]" />
+            <div className="w-12 h-12 rounded-full bg-violet-50 dark:bg-white/10 flex items-center justify-center">
+              <BellIcon className="w-5 h-5 text-slate-300 dark:text-slate-600" />
             </div>
             <div className="text-center">
-              <p className="text-[13px] font-semibold text-[#4B5168] dark:text-[#9DA3BB]">All caught up!</p>
-              <p className="text-[11px] text-[#8B92A9] dark:text-[#565C75] mt-0.5">No new notifications</p>
+              <p className="text-[13px] font-semibold text-slate-500 dark:text-slate-400">All caught up!</p>
+              <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-0.5">No new notifications</p>
             </div>
           </div>
         ) : (
-          <div className="divide-y divide-[#F0F2FA] dark:divide-[#262A38]">
+          <div className="divide-y divide-white dark:divide-white/10">
             {notifications.map((n) => (
               <NotificationItem key={n.id} notif={n} onOpen={openNotif} />
             ))}
@@ -699,7 +699,7 @@ export function NotificationBell() {
       <button
         ref={buttonRef}
         onClick={handleOpen}
-        className="relative w-9 h-9 flex items-center justify-center rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-white dark:bg-[#1A1D27] text-[#6B7280] dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 transition"
+        className="icon-btn relative w-9 h-9 border border-slate-200 dark:border-white/10"
         title="Notifications"
       >
         <BellIcon className="w-3.5 h-3.5" />
@@ -724,11 +724,11 @@ function NotificationItem({ notif, onOpen }) {
     ? 'bg-red-50 dark:bg-red-950/20 hover:bg-red-100 dark:hover:bg-red-950/30'
     : notif.type === 'subscription_expiry'
       ? 'bg-amber-50 dark:bg-amber-950/15 hover:bg-amber-100 dark:hover:bg-amber-950/25'
-      : 'hover:bg-[#F8F9FC] dark:hover:bg-[#13161E]';
+      : 'hover:bg-slate-50 dark:hover:bg-white/[0.04]';
   const dotColor =
     notif.type === 'subscription_expiry' && notif.critical > 0 ? 'bg-red-500'    :
     notif.type === 'subscription_expiry' && notif.warning  > 0 ? 'bg-amber-400'  :
-    notif.type === 'subscription_expiry'                        ? 'bg-indigo-400' :
+    notif.type === 'subscription_expiry'                        ? 'bg-violet-400' :
     notif.type === 'reassignment'                               ? 'bg-blue-500'   :
     notif.urgent                                                ? 'bg-red-500'    :
     notif.subType === 'overdue'                                 ? 'bg-red-500'    :
@@ -766,16 +766,16 @@ function NotificationItem({ notif, onOpen }) {
           })()}
         </span>
         <div className="flex-1 min-w-0">
-          <p className="text-[12px] font-semibold text-[#0F1117] dark:text-[#F0F2FA] leading-snug">
+          <p className="text-[12px] font-semibold text-slate-900 dark:text-white leading-snug">
             {notif.title}
           </p>
-          <p className="text-[11px] text-[#4B5168] dark:text-[#9DA3BB] mt-0.5 leading-snug line-clamp-2">
+          <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 leading-snug line-clamp-2">
             {notif.body}
           </p>
 
           {notif.mapsUrl && (
             <a href={notif.mapsUrl} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()}
-              className="inline-flex items-center gap-1 mt-1 text-[11px] font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">
+              className="inline-flex items-center gap-1 mt-1 text-[11px] font-semibold text-violet-600 dark:text-violet-400 hover:underline">
               View on map
             </a>
           )}
@@ -787,7 +787,7 @@ function NotificationItem({ notif, onOpen }) {
                 const chipColor =
                   days <= 1 ? 'bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400'
                   : days <= 3 ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400'
-                  : 'bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400';
+                  : 'bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400';
                 return (
                   <span key={i} className={`text-[10px] px-1.5 py-0.5 rounded-full font-medium ${chipColor}`}>
                     {c.name}{days !== 99 ? ` · ${days}d` : ''}
@@ -795,7 +795,7 @@ function NotificationItem({ notif, onOpen }) {
                 );
               })}
               {notif.companies.length > 3 && (
-                <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-[#F1F4FF] dark:bg-[#262A38] text-[#8B92A9] font-medium">
+                <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-violet-50 dark:bg-white/10 text-slate-400 font-medium">
                   +{notif.companies.length - 3} more
                 </span>
               )}
@@ -805,19 +805,19 @@ function NotificationItem({ notif, onOpen }) {
           {showLeads && (
             <div className="flex flex-wrap gap-1 mt-1">
               {notif.leads.slice(0, 3).map((l, i) => (
-                <span key={i} className="text-[10px] px-1.5 py-0.5 rounded-full bg-[#F1F4FF] dark:bg-[#262A38] text-[#8B92A9] font-medium">
+                <span key={i} className="text-[10px] px-1.5 py-0.5 rounded-full bg-violet-50 dark:bg-white/10 text-slate-400 font-medium">
                   {l.leadName}
                 </span>
               ))}
               {notif.leads.length > 3 && (
-                <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-[#F1F4FF] dark:bg-[#262A38] text-[#8B92A9] font-medium">
+                <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-violet-50 dark:bg-white/10 text-slate-400 font-medium">
                   +{notif.leads.length - 3} more
                 </span>
               )}
             </div>
           )}
 
-          <p className="text-[10px] text-[#8B92A9] dark:text-[#565C75] mt-1">
+          <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-1">
             {timeLabel(notif.timestamp)}
           </p>
         </div>

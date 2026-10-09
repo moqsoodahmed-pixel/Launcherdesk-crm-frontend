@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo, useCallback } from "react";
 import api from "../data/axiosConfig";
 import { fetchAll, getRole } from "../data/dataService";
 import { STATUS_CONFIG } from "../utils/statusConfig";
-import { LayoutGrid, RefreshCw, AlertTriangle, Clock, GripVertical } from "lucide-react";
+import { Kanban, RefreshCw, AlertTriangle, Clock, GripVertical } from "lucide-react";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Pipeline / Bottleneck Board  (pain points #34 real-time pipeline, #44 bottlenecks)
@@ -30,9 +30,9 @@ function daysSince(dateStr) {
 }
 
 function ageColor(days) {
-  if (days > AGE_WARN) return { dot: "#DC2626", text: "text-rose-600", label: "stalled" };
-  if (days > AGE_OK)   return { dot: "#D97706", text: "text-amber-600", label: "aging" };
-  return { dot: "#059669", text: "text-emerald-600", label: "fresh" };
+  if (days > AGE_WARN) return { dot: "#E11D48", text: "text-rose-600 dark:text-rose-400", label: "stalled" };
+  if (days > AGE_OK)   return { dot: "#D97706", text: "text-amber-600 dark:text-amber-400", label: "aging" };
+  return { dot: "#059669", text: "text-emerald-600 dark:text-emerald-400", label: "fresh" };
 }
 
 export default function PipelineBoard() {
@@ -107,90 +107,101 @@ export default function PipelineBoard() {
   };
 
   return (
-    <div className="p-4 md:p-6">
-      <div className="flex items-center justify-between mb-1">
-        <div className="flex items-center gap-2">
-          <LayoutGrid className="w-5 h-5 text-[#6366F1]" />
-          <h1 className="text-xl font-bold text-[#0F1117] dark:text-[#F0F2FA]">Pipeline Board</h1>
-        </div>
-        <button onClick={load} disabled={loading}
-          className="px-3 py-2 rounded-lg border border-[#E2E8F0] dark:border-[#1E2130] text-sm flex items-center gap-2 text-[#64748B]">
-          <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} /> Refresh
-        </button>
-      </div>
-      <p className="text-sm text-[#64748B] mb-4">
-        Drag a lead to change its stage. Card colour shows how long it has been stuck — amber = aging, red = stalled.
-      </p>
+    <div className="min-h-screen ld-canvas">
+      <div className="p-4 md:p-6">
 
-      {error && (
-        <div className="flex items-center gap-2 p-3 mb-4 rounded-lg bg-rose-50 dark:bg-rose-950/30 text-rose-600 text-sm">
-          <AlertTriangle className="w-4 h-4" /> {error}
+        {/* Page header */}
+        <div className="ld-hero rounded-3xl px-5 sm:px-7 py-5 sm:py-6 text-white flex items-center justify-between mb-5 gap-3 flex-wrap">
+          <div className="flex items-center gap-3">
+            <div className="w-11 h-11 rounded-2xl bg-white/15 flex items-center justify-center shrink-0">
+              <Kanban className="w-5 h-5 text-white" />
+            </div>
+            <div>
+              <h1 className="font-display text-xl font-bold tracking-tight text-white">Pipeline Board</h1>
+              <p className="text-xs text-white/75">Drag a lead to change its stage. Card colour shows how long it has been stuck.</p>
+            </div>
+          </div>
+          <button
+            onClick={load}
+            disabled={loading}
+            className="btn-secondary btn-sm !bg-white/15 !text-white !border-white/20 hover:!bg-white/25"
+          >
+            <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`} /> Refresh
+          </button>
         </div>
-      )}
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
-        {STAGES.map((stage) => {
-          const cfg = STATUS_CONFIG[stage] || STATUS_CONFIG.New;
-          const items = byStage[stage] || [];
-          const stalled = items.filter((l) => daysSince(l.updatedAt || l.date) > AGE_WARN).length;
-          return (
-            <div
-              key={stage}
-              onDragOver={(e) => e.preventDefault()}
-              onDrop={() => onDrop(stage)}
-              className="rounded-xl bg-[#F8FAFC] dark:bg-[#0D0F14] border border-[#E2E8F0] dark:border-[#1E2130] p-2 min-h-[200px]"
-            >
-              {/* Column header */}
-              <div className="flex items-center justify-between px-2 py-2 mb-2 sticky top-0">
-                <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full" style={{ background: cfg.dot }} />
-                  <span className="text-sm font-bold text-[#0F1117] dark:text-[#F0F2FA]">{stage}</span>
-                  <span className="text-xs text-[#64748B]">({items.length})</span>
+        {error && (
+          <div className="flex items-center gap-2 p-3 mb-4 rounded-xl bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 text-rose-600 dark:text-rose-400 text-[13px]">
+            <AlertTriangle className="w-4 h-4 shrink-0" /> {error}
+          </div>
+        )}
+
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          {STAGES.map((stage) => {
+            const cfg = STATUS_CONFIG[stage] || STATUS_CONFIG.New;
+            const items = byStage[stage] || [];
+            const stalled = items.filter((l) => daysSince(l.updatedAt || l.date) > AGE_WARN).length;
+            return (
+              <div
+                key={stage}
+                onDragOver={(e) => e.preventDefault()}
+                onDrop={() => onDrop(stage)}
+                className="surface-card p-2.5 min-h-[220px]"
+              >
+                {/* Column header */}
+                <div className="flex items-center justify-between px-2 py-2 mb-1 sticky top-0">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: cfg.dot }} />
+                    <span className="text-[13px] font-bold text-slate-900 dark:text-white">{stage}</span>
+                    <span className="text-[11px] text-slate-400">({items.length})</span>
+                  </div>
+                  {stalled > 0 && (
+                    <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-rose-100 dark:bg-rose-500/15 text-rose-600 dark:text-rose-400">
+                      {stalled} stalled
+                    </span>
+                  )}
                 </div>
-                {stalled > 0 && (
-                  <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-rose-100 dark:bg-rose-950/40 text-rose-600 font-semibold">
-                    {stalled} stalled
-                  </span>
-                )}
-              </div>
 
-              {/* Cards */}
-              <div className="space-y-2">
-                {items.map((l) => {
-                  const id = l._id || l.id;
-                  const age = daysSince(l.updatedAt || l.date);
-                  const ac = ageColor(age);
-                  return (
-                    <div
-                      key={id}
-                      draggable
-                      onDragStart={() => onDragStart(id)}
-                      onDragEnd={onDragEnd}
-                      className={`group rounded-lg bg-white dark:bg-[#12141C] border border-[#E2E8F0] dark:border-[#1E2130] p-3 cursor-grab active:cursor-grabbing shadow-sm ${dragId === id ? "opacity-50" : ""} ${savingId === id ? "ring-2 ring-[#6366F1]" : ""}`}
-                    >
-                      <div className="flex items-start gap-2">
-                        <GripVertical className="w-4 h-4 text-[#CBD5E1] dark:text-[#334155] mt-0.5 shrink-0" />
-                        <div className="min-w-0 flex-1">
-                          <div className="text-sm font-semibold text-[#0F1117] dark:text-[#F0F2FA] truncate">{l.name || "Unknown"}</div>
-                          <div className="text-xs text-[#64748B] truncate">{l.campaign || l.source || "—"}</div>
-                          <div className="flex items-center gap-1.5 mt-1.5">
-                            <Clock className="w-3 h-3" style={{ color: ac.dot }} />
-                            <span className={`text-[11px] font-semibold ${ac.text}`}>
-                              {age === 0 ? "today" : `${age}d in stage`}
-                            </span>
+                {/* Cards */}
+                <div className="space-y-2 px-0.5 pb-0.5">
+                  {items.map((l) => {
+                    const id = l._id || l.id;
+                    const age = daysSince(l.updatedAt || l.date);
+                    const ac = ageColor(age);
+                    return (
+                      <div
+                        key={id}
+                        draggable
+                        onDragStart={() => onDragStart(id)}
+                        onDragEnd={onDragEnd}
+                        className={`group surface-card surface-card-hover !rounded-xl p-3 cursor-grab active:cursor-grabbing transition-opacity
+                          ${dragId === id ? "opacity-50" : ""}
+                          ${savingId === id ? "ring-2 ring-violet-400" : ""}`}
+                      >
+                        <div className="flex items-start gap-2">
+                          <GripVertical className="w-4 h-4 text-slate-300 dark:text-slate-600 mt-0.5 shrink-0" />
+                          <div className="min-w-0 flex-1">
+                            <div className="text-[13px] font-semibold text-slate-900 dark:text-white truncate">{l.name || "Unknown"}</div>
+                            <div className="text-[11.5px] text-slate-400 truncate">{l.campaign || l.source || "—"}</div>
+                            <div className="flex items-center gap-1.5 mt-1.5">
+                              <Clock className="w-3 h-3" style={{ color: ac.dot }} />
+                              <span className={`text-[11px] font-semibold ${ac.text}`}>
+                                {age === 0 ? "today" : `${age}d in stage`}
+                              </span>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  );
-                })}
-                {items.length === 0 && (
-                  <div className="text-center text-xs text-[#94A3B8] py-6">No leads</div>
-                )}
+                    );
+                  })}
+                  {items.length === 0 && (
+                    <div className="text-center text-[12px] text-slate-400 py-8">No leads</div>
+                  )}
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </div>
   );

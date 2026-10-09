@@ -34,7 +34,7 @@ const PRESET_LABELS = [
 ];
 
 const num = (v) => v == null ? "—" : Number(v).toLocaleString("en-IN");
-const CARD = "bg-white dark:bg-[#11131C] border border-[#E4E7EF] dark:border-[#1E2133] rounded-2xl";
+const CARD = "surface-card";
 
 const fmtVal = (v, f) => {
   if (v == null) return "—";
@@ -43,13 +43,16 @@ const fmtVal = (v, f) => {
   return Number(v).toLocaleString("en-IN");
 };
 
+// Categorical palette for chart series/segments (SVG stroke & fill values —
+// these are data-visualization colors, not UI chrome, so they stay as literal
+// hex rather than Tailwind utility classes).
 const DONUT_COLORS = ["#6366F1", "#10B981", "#F59E0B", "#EF4444", "#0EA5E9", "#8B5CF6", "#EC4899", "#14B8A6", "#F97316", "#64748B"];
 
 // ── Tiny SVG multi-line chart ─────────────────────────────────────────────────
 function LineChart({ series, height = 160 }) {
   // series: [{ key, label, color, data: number[] }], all same length
   const n = series[0]?.data?.length || 0;
-  if (!n) return <div className="text-[12px] text-[#8B92A9] py-8 text-center">No data</div>;
+  if (!n) return <div className="text-[12px] text-slate-400 py-8 text-center">No data</div>;
   const w = 560, h = height, pad = 8;
   const allMax = Math.max(1, ...series.flatMap((s) => s.data));
   const x = (i) => pad + (i * (w - 2 * pad)) / Math.max(1, n - 1);
@@ -86,8 +89,8 @@ function Donut({ data }) {
         {data.slice(0, 6).map((d, i) => (
           <div key={i} className="flex items-center gap-2 text-[11px]">
             <span className="w-2.5 h-2.5 rounded-sm shrink-0" style={{ background: DONUT_COLORS[i % DONUT_COLORS.length] }} />
-            <span className="truncate text-[#4B5168] dark:text-[#9DA3BB]">{d.label}</span>
-            <span className="ml-auto font-semibold text-[#0F1117] dark:text-[#DDE1F5]">{Math.round((d.value / total) * 100)}%</span>
+            <span className="truncate text-slate-600 dark:text-slate-300">{d.label}</span>
+            <span className="ml-auto font-semibold text-slate-900 dark:text-white">{Math.round((d.value / total) * 100)}%</span>
           </div>
         ))}
       </div>
@@ -111,21 +114,21 @@ function SortableTable({ columns, rows, initialSort }) {
   return (
     <div className={`${CARD} overflow-x-auto`}>
       <table className="w-full border-collapse">
-        <thead><tr className="border-b border-[#E4E7EF] dark:border-[#1E2133] bg-[#F8F9FC] dark:bg-[#0D0F14]">
+        <thead><tr className="border-b border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.03]">
           {columns.map((c) => (
             <th key={c.key} onClick={() => toggle(c.key)}
-              className={`text-[10px] font-bold uppercase tracking-wider text-[#8B92A9] px-3 py-2.5 cursor-pointer whitespace-nowrap ${c.align === "right" ? "text-right" : "text-left"}`}>
+              className={`text-[10px] font-bold uppercase tracking-wider text-slate-400 px-3 py-2.5 cursor-pointer whitespace-nowrap ${c.align === "right" ? "text-right" : "text-left"}`}>
               <span className="inline-flex items-center gap-1">{c.label}{sort.key === c.key ? (sort.dir === "asc" ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />) : <ArrowUpDown className="w-3 h-3 opacity-30" />}</span>
             </th>
           ))}
         </tr></thead>
         <tbody>
           {sorted.map((r, i) => (
-            <tr key={i} className="border-b border-[#F0F2FA] dark:border-[#1A1D2A] last:border-0 hover:bg-[#F8F9FC] dark:hover:bg-[#0D0F14]">
-              {columns.map((c) => <td key={c.key} className={`text-[12px] text-[#0F1117] dark:text-[#DDE1F5] px-3 py-2.5 whitespace-nowrap ${c.align === "right" ? "text-right" : "text-left"}`}>{c.render ? c.render(r) : (r[c.key] ?? "—")}</td>)}
+            <tr key={i} className="border-b border-slate-100 dark:border-white/5 last:border-0 hover:bg-slate-50 dark:hover:bg-white/[0.03]">
+              {columns.map((c) => <td key={c.key} className={`text-[12px] text-slate-900 dark:text-white px-3 py-2.5 whitespace-nowrap ${c.align === "right" ? "text-right" : "text-left"}`}>{c.render ? c.render(r) : (r[c.key] ?? "—")}</td>)}
             </tr>
           ))}
-          {sorted.length === 0 && <tr><td colSpan={columns.length} className="text-center text-[12px] text-[#8B92A9] py-8">No data</td></tr>}
+          {sorted.length === 0 && <tr><td colSpan={columns.length} className="text-center text-[12px] text-slate-400 py-8">No data</td></tr>}
         </tbody>
       </table>
     </div>
@@ -226,7 +229,7 @@ export default function WebsiteAnalyticsDashboard() {
 
   // ── Render states ───────────────────────────────────────────────────────────
   if (statusLoading) {
-    return <div className="flex items-center justify-center py-20"><Loader2 className="w-6 h-6 animate-spin text-[#8B92A9]" /></div>;
+    return <div className="flex items-center justify-center py-20"><Loader2 className="w-6 h-6 animate-spin text-slate-400" /></div>;
   }
 
   // Server OAuth not configured — let the admin add credentials inline.
@@ -234,11 +237,11 @@ export default function WebsiteAnalyticsDashboard() {
     return (
       <div className="max-w-lg mx-auto px-4 py-10">
         <div className="text-center mb-6">
-          <div className="w-14 h-14 rounded-2xl bg-emerald-50 dark:bg-emerald-950/30 flex items-center justify-center mx-auto mb-3">
-            <Globe className="w-7 h-7 text-emerald-600" />
+          <div className="w-14 h-14 rounded-2xl bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center mx-auto mb-3">
+            <Globe className="w-7 h-7 text-indigo-600 dark:text-indigo-400" />
           </div>
-          <h2 className="text-[16px] font-bold text-[#0F1117] dark:text-[#DDE1F5]">Set up Google Analytics</h2>
-          <p className="text-[13px] text-[#8B92A9] mt-2">Add your Google OAuth credentials below to connect GA4 — no developer or server changes required.</p>
+          <h2 className="text-[16px] font-bold text-slate-900 dark:text-white">Set up Google Analytics</h2>
+          <p className="text-[13px] text-slate-400 mt-2">Add your Google OAuth credentials below to connect GA4 — no developer or server changes required.</p>
         </div>
         <div className={`${CARD} p-5`}>
           <GoogleOAuthSetupForm onSaved={loadStatus} />
@@ -251,14 +254,13 @@ export default function WebsiteAnalyticsDashboard() {
   if (!status?.connected) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-16 text-center">
-        <div className="w-14 h-14 rounded-2xl bg-emerald-50 dark:bg-emerald-950/30 flex items-center justify-center mx-auto mb-4">
-          <Globe className="w-7 h-7 text-emerald-600" />
+        <div className="w-14 h-14 rounded-2xl bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center mx-auto mb-4">
+          <Globe className="w-7 h-7 text-indigo-600 dark:text-indigo-400" />
         </div>
-        <h2 className="text-[18px] font-bold text-[#0F1117] dark:text-[#DDE1F5]">Connect Google Analytics</h2>
-        <p className="text-[13px] text-[#8B92A9] mt-2 mb-5">Connect your Google Analytics 4 account to see website users, traffic sources, landing pages, conversions and AI insights — right inside the CRM.</p>
-        {error && <p className="text-[12px] text-rose-600 mb-3">{error}</p>}
-        <button onClick={connect} disabled={connecting}
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white text-[13px] font-semibold">
+        <h2 className="text-[18px] font-bold text-slate-900 dark:text-white">Connect Google Analytics</h2>
+        <p className="text-[13px] text-slate-400 mt-2 mb-5">Connect your Google Analytics 4 account to see website users, traffic sources, landing pages, conversions and AI insights — right inside the CRM.</p>
+        {error && <p className="text-[12px] text-rose-600 dark:text-rose-400 mb-3">{error}</p>}
+        <button onClick={connect} disabled={connecting} className="btn-primary btn-md">
           {connecting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Link2 className="w-4 h-4" />} Connect Google Analytics
         </button>
       </div>
@@ -271,26 +273,26 @@ export default function WebsiteAnalyticsDashboard() {
       <div className="max-w-2xl mx-auto px-4 py-14">
         <div className="text-center mb-6">
           <CheckCircle2 className="w-8 h-8 text-emerald-500 mx-auto mb-2" />
-          <h2 className="text-[16px] font-bold text-[#0F1117] dark:text-[#DDE1F5]">Connected as {status.connectedEmail || "your account"}</h2>
-          <p className="text-[13px] text-[#8B92A9] mt-1">Choose the GA4 property to track:</p>
+          <h2 className="text-[16px] font-bold text-slate-900 dark:text-white">Connected as {status.connectedEmail || "your account"}</h2>
+          <p className="text-[13px] text-slate-400 mt-1">Choose the GA4 property to track:</p>
         </div>
-        {error && <p className="text-[12px] text-rose-600 mb-3 text-center">{error}</p>}
+        {error && <p className="text-[12px] text-rose-600 dark:text-rose-400 mb-3 text-center">{error}</p>}
         {properties == null ? (
-          <div className="flex justify-center py-6"><Loader2 className="w-5 h-5 animate-spin text-[#8B92A9]" /></div>
+          <div className="flex justify-center py-6"><Loader2 className="w-5 h-5 animate-spin text-slate-400" /></div>
         ) : properties.length === 0 ? (
-          <p className="text-[13px] text-[#8B92A9] text-center">No GA4 properties found on this account.</p>
+          <p className="text-[13px] text-slate-400 text-center">No GA4 properties found on this account.</p>
         ) : (
           <div className="space-y-2">
             {properties.map((p) => (
               <button key={p.propertyId} onClick={() => chooseProperty(p)} disabled={savingProp}
-                className={`w-full flex items-center justify-between px-4 py-3 rounded-xl border ${CARD} hover:border-emerald-400 text-left disabled:opacity-50`}>
-                <div><p className="text-[13px] font-semibold text-[#0F1117] dark:text-[#DDE1F5]">{p.propertyName}</p><p className="text-[11px] text-[#8B92A9]">{p.account} · ID {p.propertyId}</p></div>
-                {savingProp ? <Loader2 className="w-4 h-4 animate-spin" /> : <ChevronDown className="w-4 h-4 -rotate-90 text-[#8B92A9]" />}
+                className="surface-card surface-card-hover w-full flex items-center justify-between px-4 py-3 text-left disabled:opacity-50">
+                <div><p className="text-[13px] font-semibold text-slate-900 dark:text-white">{p.propertyName}</p><p className="text-[11px] text-slate-400">{p.account} · ID {p.propertyId}</p></div>
+                {savingProp ? <Loader2 className="w-4 h-4 animate-spin" /> : <ChevronDown className="w-4 h-4 -rotate-90 text-slate-400" />}
               </button>
             ))}
           </div>
         )}
-        <button onClick={disconnect} className="mt-5 mx-auto block text-[12px] text-[#8B92A9] hover:text-rose-600">Disconnect</button>
+        <button onClick={disconnect} className="btn-ghost btn-sm mx-auto mt-5 block">Disconnect</button>
       </div>
     );
   }
@@ -304,52 +306,54 @@ export default function WebsiteAnalyticsDashboard() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-emerald-600 flex items-center justify-center"><Globe className="w-5 h-5 text-white" /></div>
+          <div className="w-10 h-10 rounded-2xl bg-brand-gradient shadow-glow-brand flex items-center justify-center"><Globe className="w-5 h-5 text-white" /></div>
           <div>
-            <h1 className="text-[18px] font-bold text-[#0F1117] dark:text-[#DDE1F5]">Website Performance</h1>
-            <p className="text-[12px] text-[#8B92A9]">{data?.property?.name || status.propertyName} · {status.connectedEmail}</p>
+            <h1 className="text-[18px] font-bold text-slate-900 dark:text-white">Website Performance</h1>
+            <p className="text-[12px] text-slate-400">{data?.property?.name || status.propertyName} · {status.connectedEmail}</p>
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <button onClick={() => loadDashboard(true)} disabled={aiLoading || loading} className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white text-[12px] font-semibold">
+          <button onClick={() => loadDashboard(true)} disabled={aiLoading || loading} className="btn-primary btn-md">
             {aiLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Sparkles className="w-3.5 h-3.5" />}{aiLoading ? "Analyzing…" : "Generate AI Report"}
           </button>
-          <button onClick={() => loadDashboard(false)} disabled={loading} title="Refresh" className="p-2.5 rounded-xl border border-[#E4E7EF] dark:border-[#1E2133] text-[#4B5168] dark:text-[#9DA3BB]"><RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} /></button>
-          <button onClick={disconnect} className="px-3 py-2.5 rounded-xl border border-[#E4E7EF] dark:border-[#1E2133] text-[11px] text-[#8B92A9] hover:text-rose-600">Disconnect</button>
+          <button onClick={() => loadDashboard(false)} disabled={loading} title="Refresh" className="icon-btn">
+            <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
+          </button>
+          <button onClick={disconnect} className="px-3 py-2.5 rounded-xl border border-slate-200 dark:border-white/10 text-[11px] text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:border-rose-200 dark:hover:border-rose-800/50 transition">Disconnect</button>
         </div>
       </div>
 
       {/* Date presets */}
       <div className="flex flex-wrap items-center gap-1.5">
         {PRESET_LABELS.map(([k, l]) => (
-          <button key={k} onClick={() => applyPreset(k)} className={`px-3 py-1.5 rounded-lg text-[12px] font-semibold border ${preset === k ? "bg-emerald-600 text-white border-emerald-600" : "border-[#E4E7EF] dark:border-[#1E2133] text-[#4B5168] dark:text-[#9DA3BB] bg-white dark:bg-[#11131C]"}`}>{l}</button>
+          <button key={k} onClick={() => applyPreset(k)} className={`px-3 py-1.5 rounded-lg text-[12px] font-semibold border transition ${preset === k ? "bg-indigo-600 text-white border-indigo-600" : "border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 bg-white dark:bg-[#181029]"}`}>{l}</button>
         ))}
         {preset === "custom" && (
           <span className="flex items-center gap-1.5 ml-1">
-            <input type="date" value={from} onChange={(e) => setFrom(e.target.value)} className="px-2 py-1.5 rounded-lg border border-[#E4E7EF] dark:border-[#1E2133] bg-white dark:bg-[#11131C] text-[12px]" />
-            <span className="text-[#C4C9DA]">→</span>
-            <input type="date" value={to} onChange={(e) => setTo(e.target.value)} className="px-2 py-1.5 rounded-lg border border-[#E4E7EF] dark:border-[#1E2133] bg-white dark:bg-[#11131C] text-[12px]" />
+            <input type="date" value={from} onChange={(e) => setFrom(e.target.value)} aria-label="From date" className="input-field w-auto px-2 py-1.5 text-[12px]" />
+            <span className="text-slate-300 dark:text-slate-600">→</span>
+            <input type="date" value={to} onChange={(e) => setTo(e.target.value)} aria-label="To date" className="input-field w-auto px-2 py-1.5 text-[12px]" />
           </span>
         )}
-        {loading && <Loader2 className="w-4 h-4 animate-spin text-emerald-500 ml-1" />}
+        {loading && <Loader2 className="w-4 h-4 animate-spin text-indigo-500 ml-1" />}
       </div>
 
-      {error && <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 text-rose-600 text-[13px] font-semibold"><AlertTriangle className="w-4 h-4" /> {error}</div>}
+      {error && <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800/50 text-rose-600 dark:text-rose-400 text-[13px] font-semibold"><AlertTriangle className="w-4 h-4" /> {error}</div>}
 
       {/* SECTION 1 — Overview KPIs */}
-      {ov.__error ? <p className="text-[12px] text-amber-600">Overview unavailable: {ov.__error}</p> : (
+      {ov.__error ? <p className="text-[12px] text-amber-600 dark:text-amber-400">Overview unavailable: {ov.__error}</p> : (
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
           {ov.map((k) => {
             const Icon = /rate|bounce|engage/i.test(k.label) ? Target : /user/i.test(k.label) ? Users : /session/i.test(k.label) ? MousePointerClick : /time|duration/i.test(k.label) ? Timer : TrendingUp;
             const TrendIcon = k.deltaPct > 0 ? TrendingUp : k.deltaPct < 0 ? TrendingDown : Minus;
-            const col = k.color === "green" ? "text-emerald-600 bg-emerald-50 dark:bg-emerald-950/30" : k.color === "red" ? "text-rose-600 bg-rose-50 dark:bg-rose-950/30" : "text-amber-600 bg-amber-50 dark:bg-amber-950/30";
+            const col = k.color === "green" ? "text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/30" : k.color === "red" ? "text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/30" : "text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/30";
             return (
               <div key={k.label} className={`${CARD} p-4 flex flex-col gap-2.5`}>
                 <div className="flex items-center justify-between">
-                  <div className="w-8 h-8 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 flex items-center justify-center"><Icon className="w-4 h-4 text-emerald-600" /></div>
+                  <div className="w-8 h-8 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center"><Icon className="w-4 h-4 text-indigo-600 dark:text-indigo-400" /></div>
                   {k.deltaPct != null && <span className={`inline-flex items-center gap-0.5 text-[10px] font-bold px-1.5 py-0.5 rounded-full ${col}`}><TrendIcon className="w-3 h-3" />{Math.abs(k.deltaPct)}%</span>}
                 </div>
-                <div><p className="text-[10px] font-bold uppercase tracking-wider text-[#8B92A9] mb-0.5">{k.label}</p><p className="text-[17px] font-bold text-[#0F1117] dark:text-[#DDE1F5] leading-none">{fmtVal(k.value, k.format)}</p></div>
+                <div><p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-0.5">{k.label}</p><p className="text-[17px] font-bold text-slate-900 dark:text-white leading-none">{fmtVal(k.value, k.format)}</p></div>
               </div>
             );
           })}
@@ -369,15 +373,15 @@ export default function WebsiteAnalyticsDashboard() {
       {ts.length > 0 && (
         <div className="grid md:grid-cols-2 gap-4">
           <div className={`${CARD} p-4`}>
-            <p className="text-[11px] font-bold uppercase tracking-wider text-[#8B92A9] mb-2">Users &amp; Sessions</p>
+            <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2">Users &amp; Sessions</p>
             <LineChart series={[
               { key: "users", label: "Users", color: "#6366F1", data: ts.map((d) => d.users) },
               { key: "sessions", label: "Sessions", color: "#10B981", data: ts.map((d) => d.sessions) },
             ]} />
-            <div className="flex gap-4 mt-1 text-[10px] text-[#8B92A9]"><span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full" style={{ background: "#6366F1" }} />Users</span><span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full" style={{ background: "#10B981" }} />Sessions</span></div>
+            <div className="flex gap-4 mt-1 text-[10px] text-slate-400"><span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full" style={{ background: "#6366F1" }} />Users</span><span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full" style={{ background: "#10B981" }} />Sessions</span></div>
           </div>
           <div className={`${CARD} p-4`}>
-            <p className="text-[11px] font-bold uppercase tracking-wider text-[#8B92A9] mb-2">Conversions Over Time</p>
+            <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2">Conversions Over Time</p>
             <LineChart series={[{ key: "conv", label: "Conversions", color: "#F59E0B", data: ts.map((d) => d.conversions) }]} />
           </div>
         </div>
@@ -386,18 +390,18 @@ export default function WebsiteAnalyticsDashboard() {
       {/* SECTION 2 + 5 — Traffic sources donut + device donut */}
       <div className="grid md:grid-cols-2 gap-4">
         {Array.isArray(data?.trafficSources) && data.trafficSources.length > 0 && (
-          <div className={`${CARD} p-4`}><p className="text-[11px] font-bold uppercase tracking-wider text-[#8B92A9] mb-3">Traffic Sources</p>
+          <div className={`${CARD} p-4`}><p className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-3">Traffic Sources</p>
             <Donut data={data.trafficSources.map((s) => ({ label: `${s.source}/${s.medium}`, value: s.sessions }))} /></div>
         )}
         {Array.isArray(data?.devices) && data.devices.length > 0 && (
-          <div className={`${CARD} p-4`}><p className="text-[11px] font-bold uppercase tracking-wider text-[#8B92A9] mb-3">Device Distribution</p>
+          <div className={`${CARD} p-4`}><p className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-3">Device Distribution</p>
             <Donut data={data.devices.map((d) => ({ label: d.device, value: d.users }))} /></div>
         )}
       </div>
 
       {/* SECTION 2 table */}
       {Array.isArray(data?.trafficSources) && (
-        <div><h2 className="text-[13px] font-bold text-[#0F1117] dark:text-[#DDE1F5] mb-3">Traffic Sources</h2>
+        <div><h2 className="text-[13px] font-bold text-slate-900 dark:text-white mb-3">Traffic Sources</h2>
           <SortableTable initialSort={{ key: "sessions", dir: "desc" }} rows={data.trafficSources} columns={[
             { key: "source", label: "Source", render: (r) => <span className="font-semibold">{r.source}</span> },
             { key: "medium", label: "Medium" },
@@ -411,7 +415,7 @@ export default function WebsiteAnalyticsDashboard() {
 
       {/* SECTION — Google Ads ad groups (only when GA4 is linked to Google Ads) */}
       {Array.isArray(data?.adGroups) && data.adGroups.length > 0 && (
-        <div><h2 className="text-[13px] font-bold text-[#0F1117] dark:text-[#DDE1F5] mb-3">Ad Group Performance <span className="text-[11px] font-normal text-[#8B92A9]">(Google Ads)</span></h2>
+        <div><h2 className="text-[13px] font-bold text-slate-900 dark:text-white mb-3">Ad Group Performance <span className="text-[11px] font-normal text-slate-400">(Google Ads)</span></h2>
           <SortableTable initialSort={{ key: "sessions", dir: "desc" }} rows={data.adGroups} columns={[
             { key: "adGroup", label: "Ad Group", render: (r) => <span className="font-semibold">{r.adGroup}</span> },
             { key: "campaign", label: "Campaign" },
@@ -426,21 +430,21 @@ export default function WebsiteAnalyticsDashboard() {
 
       {/* SECTION 3 — Landing pages */}
       {Array.isArray(data?.landingPages) && (
-        <div><h2 className="text-[13px] font-bold text-[#0F1117] dark:text-[#DDE1F5] mb-3">Landing Page Performance</h2>
+        <div><h2 className="text-[13px] font-bold text-slate-900 dark:text-white mb-3">Landing Page Performance</h2>
           <SortableTable initialSort={{ key: "sessions", dir: "desc" }} rows={data.landingPages} columns={[
             { key: "page", label: "Landing Page", render: (r) => <span className="font-mono text-[11px] truncate inline-block max-w-[220px] align-middle">{r.page}</span> },
             { key: "views", label: "Views", align: "right", render: (r) => num(r.views) },
             { key: "users", label: "Users", align: "right", render: (r) => num(r.users) },
             { key: "sessions", label: "Sessions", align: "right", render: (r) => num(r.sessions) },
             { key: "avgEngagementTime", label: "Avg Eng.", align: "right", render: (r) => `${r.avgEngagementTime}s` },
-            { key: "bounceRate", label: "Bounce", align: "right", render: (r) => <span className={r.bounceRate >= 70 ? "text-rose-600 font-semibold" : ""}>{r.bounceRate}%</span> },
-            { key: "conversionRate", label: "Conv %", align: "right", render: (r) => <span className={r.conversionRate > 0 ? "text-emerald-600 font-semibold" : ""}>{r.conversionRate}%</span> },
+            { key: "bounceRate", label: "Bounce", align: "right", render: (r) => <span className={r.bounceRate >= 70 ? "text-rose-600 dark:text-rose-400 font-semibold" : ""}>{r.bounceRate}%</span> },
+            { key: "conversionRate", label: "Conv %", align: "right", render: (r) => <span className={r.conversionRate > 0 ? "text-emerald-600 dark:text-emerald-400 font-semibold" : ""}>{r.conversionRate}%</span> },
           ]} /></div>
       )}
 
       {/* SECTION 4 — Events */}
       {Array.isArray(data?.events) && (
-        <div><h2 className="text-[13px] font-bold text-[#0F1117] dark:text-[#DDE1F5] mb-3">Event Tracking</h2>
+        <div><h2 className="text-[13px] font-bold text-slate-900 dark:text-white mb-3">Event Tracking</h2>
           <SortableTable initialSort={{ key: "count", dir: "desc" }} rows={data.events} columns={[
             { key: "event", label: "Event", render: (r) => <span className="font-semibold">{r.event}</span> },
             { key: "count", label: "Count", align: "right", render: (r) => num(r.count) },
@@ -451,16 +455,16 @@ export default function WebsiteAnalyticsDashboard() {
 
       {/* SECTION 5 — Device cards */}
       {Array.isArray(data?.devices) && data.devices.length > 0 && (
-        <div><h2 className="text-[13px] font-bold text-[#0F1117] dark:text-[#DDE1F5] mb-3">Device Performance</h2>
+        <div><h2 className="text-[13px] font-bold text-slate-900 dark:text-white mb-3">Device Performance</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {data.devices.map((d) => (
               <div key={d.device} className={`${CARD} p-4`}>
-                <div className="flex items-center gap-2 mb-3 text-emerald-600"><DeviceIcon d={d.device} /><span className="text-[13px] font-bold capitalize text-[#0F1117] dark:text-[#DDE1F5]">{d.device}</span></div>
+                <div className="flex items-center gap-2 mb-3 text-indigo-600 dark:text-indigo-400"><DeviceIcon d={d.device} /><span className="text-[13px] font-bold capitalize text-slate-900 dark:text-white">{d.device}</span></div>
                 <div className="grid grid-cols-2 gap-2 text-[12px]">
-                  <div><p className="text-[#8B92A9] text-[10px] uppercase">Users</p><p className="font-bold">{num(d.users)}</p></div>
-                  <div><p className="text-[#8B92A9] text-[10px] uppercase">Sessions</p><p className="font-bold">{num(d.sessions)}</p></div>
-                  <div><p className="text-[#8B92A9] text-[10px] uppercase">Bounce</p><p className="font-bold">{d.bounceRate}%</p></div>
-                  <div><p className="text-[#8B92A9] text-[10px] uppercase">Conv.</p><p className="font-bold">{num(d.conversions)}</p></div>
+                  <div><p className="text-slate-400 text-[10px] uppercase">Users</p><p className="font-bold text-slate-900 dark:text-white">{num(d.users)}</p></div>
+                  <div><p className="text-slate-400 text-[10px] uppercase">Sessions</p><p className="font-bold text-slate-900 dark:text-white">{num(d.sessions)}</p></div>
+                  <div><p className="text-slate-400 text-[10px] uppercase">Bounce</p><p className="font-bold text-slate-900 dark:text-white">{d.bounceRate}%</p></div>
+                  <div><p className="text-slate-400 text-[10px] uppercase">Conv.</p><p className="font-bold text-slate-900 dark:text-white">{num(d.conversions)}</p></div>
                 </div>
               </div>
             ))}
@@ -470,7 +474,7 @@ export default function WebsiteAnalyticsDashboard() {
 
       {/* SECTION 6 — Geo */}
       {Array.isArray(data?.geo) && (
-        <div><h2 className="text-[13px] font-bold text-[#0F1117] dark:text-[#DDE1F5] mb-3">Geographic Performance</h2>
+        <div><h2 className="text-[13px] font-bold text-slate-900 dark:text-white mb-3">Geographic Performance</h2>
           <SortableTable initialSort={{ key: "users", dir: "desc" }} rows={data.geo} columns={[
             { key: "country", label: "Country" }, { key: "state", label: "State" }, { key: "city", label: "City", render: (r) => <span className="font-semibold">{r.city || "—"}</span> },
             { key: "users", label: "Users", align: "right", render: (r) => num(r.users) },
@@ -482,7 +486,7 @@ export default function WebsiteAnalyticsDashboard() {
 
       {/* SECTION 7 — Browser & Platform */}
       {Array.isArray(data?.browserOs) && (
-        <div><h2 className="text-[13px] font-bold text-[#0F1117] dark:text-[#DDE1F5] mb-3">Browser &amp; Platform</h2>
+        <div><h2 className="text-[13px] font-bold text-slate-900 dark:text-white mb-3">Browser &amp; Platform</h2>
           <SortableTable initialSort={{ key: "users", dir: "desc" }} rows={data.browserOs} columns={[
             { key: "browser", label: "Browser", render: (r) => <span className="font-semibold">{r.browser}</span> },
             { key: "os", label: "OS" }, { key: "device", label: "Device" },
@@ -492,7 +496,7 @@ export default function WebsiteAnalyticsDashboard() {
           ]} /></div>
       )}
 
-      <p className="text-[11px] text-[#8B92A9] border-t border-[#E4E7EF] dark:border-[#1E2133] pt-4">Data from Google Analytics 4 · {data?.range?.from} → {data?.range?.to}. Trends compare against the previous period.</p>
+      <p className="text-[11px] text-slate-400 border-t border-slate-200 dark:border-white/10 pt-4">Data from Google Analytics 4 · {data?.range?.from} → {data?.range?.to}. Trends compare against the previous period.</p>
     </div>
   );
 }

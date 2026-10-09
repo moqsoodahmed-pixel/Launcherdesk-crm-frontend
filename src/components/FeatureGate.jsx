@@ -10,7 +10,7 @@
 import useEntitlements from "../hooks/useEntitlements";
 import { useNavigate } from "react-router-dom";
 
-function LockIcon({ className = "w-10 h-10 text-[#8B92A9]" }) {
+function LockIcon({ className = "w-10 h-10 text-violet-500" }) {
   return (
     <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
       <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
@@ -70,23 +70,23 @@ function ReadOnlyGate({ status, onGoToPlans }) {
 
   const info = messages[status] || messages.expired;
   const colorMap = {
-    red:    { bg: "bg-red-50 dark:bg-red-500/10",    border: "border-red-200 dark:border-red-500/20",    icon: "bg-red-100 dark:bg-red-500/20",    btn: "bg-red-600 hover:bg-red-700" },
-    amber:  { bg: "bg-amber-50 dark:bg-amber-500/10", border: "border-amber-200 dark:border-amber-500/20", icon: "bg-amber-100 dark:bg-amber-500/20", btn: "bg-amber-600 hover:bg-amber-700" },
-    orange: { bg: "bg-orange-50 dark:bg-orange-500/10", border: "border-orange-200 dark:border-orange-500/20", icon: "bg-orange-100 dark:bg-orange-500/20", btn: "bg-orange-600 hover:bg-orange-700" },
+    red:    { bg: "bg-rose-50 dark:bg-rose-500/10",    border: "border-rose-200 dark:border-rose-500/20",    icon: "bg-rose-100 dark:bg-rose-500/20" },
+    amber:  { bg: "bg-amber-50 dark:bg-amber-500/10", border: "border-amber-200 dark:border-amber-500/20", icon: "bg-amber-100 dark:bg-amber-500/20" },
+    orange: { bg: "bg-orange-50 dark:bg-orange-500/10", border: "border-orange-200 dark:border-orange-500/20", icon: "bg-orange-100 dark:bg-orange-500/20" },
   };
   const c = colorMap[info.color] || colorMap.red;
 
   return (
     <div className={`mx-4 mt-4 rounded-2xl border ${c.bg} ${c.border} p-6 flex flex-col items-center text-center`}>
       <div className={`w-16 h-16 rounded-2xl ${c.icon} flex items-center justify-center mb-4`}>
-        {status === "paused" ? <PauseIcon /> : <LockIcon className="w-8 h-8 text-red-400" />}
+        {status === "paused" ? <PauseIcon /> : <LockIcon className="w-8 h-8 text-rose-400" />}
       </div>
-      <h3 className="text-[16px] font-bold text-[#0F1117] dark:text-[#DDE1F5] mb-1">{info.title}</h3>
-      <p className="text-[13px] text-[#8B92A9] max-w-sm mb-4 leading-relaxed">{info.body}</p>
+      <h3 className="text-[16px] font-bold text-slate-900 dark:text-slate-50 mb-1">{info.title}</h3>
+      <p className="text-[13px] text-slate-500 dark:text-slate-400 max-w-sm mb-4 leading-relaxed">{info.body}</p>
       {onGoToPlans && status !== "paused" && status !== "suspended" && status !== "cancelled" && (
         <button
           onClick={onGoToPlans}
-          className={`px-6 py-2.5 rounded-xl ${c.btn} text-white text-[13px] font-semibold transition`}
+          className="btn-primary px-6 py-2.5"
         >
           View Plans
         </button>
@@ -102,13 +102,13 @@ function LimitReachedGate({ resource, current, limit, onGoToPlans }) {
       <div className="w-16 h-16 rounded-2xl bg-orange-100 dark:bg-orange-500/20 flex items-center justify-center mb-4">
         <LimitIcon />
       </div>
-      <h3 className="text-[16px] font-bold text-[#0F1117] dark:text-[#DDE1F5] mb-1">Limit Reached</h3>
-      <p className="text-[13px] text-[#8B92A9] max-w-sm mb-4 leading-relaxed">
+      <h3 className="text-[16px] font-bold text-slate-900 dark:text-slate-50 mb-1">Limit Reached</h3>
+      <p className="text-[13px] text-slate-500 dark:text-slate-400 max-w-sm mb-4 leading-relaxed">
         You've reached your {resource} limit ({current}/{limit}). Upgrade your plan or purchase an addon to add more.
       </p>
       <button
         onClick={onGoToPlans}
-        className="px-6 py-2.5 rounded-xl bg-orange-600 hover:bg-orange-700 text-white text-[13px] font-semibold transition"
+        className="btn-primary px-6 py-2.5"
       >
         Upgrade Plan
       </button>
@@ -131,13 +131,13 @@ function AICreditsExhaustedGate({ creditType, onGoToPlans }) {
       <div className="w-16 h-16 rounded-2xl bg-violet-100 dark:bg-violet-500/20 flex items-center justify-center mb-4">
         <AICreditsIcon />
       </div>
-      <h3 className="text-[16px] font-bold text-[#0F1117] dark:text-[#DDE1F5] mb-1">AI Minutes Exhausted</h3>
-      <p className="text-[13px] text-[#8B92A9] max-w-sm mb-4 leading-relaxed">
+      <h3 className="text-[16px] font-bold text-slate-900 dark:text-slate-50 mb-1">AI Minutes Exhausted</h3>
+      <p className="text-[13px] text-slate-500 dark:text-slate-400 max-w-sm mb-4 leading-relaxed">
         Your monthly {label} minutes have been used up. Upgrade your plan or purchase an add-on to get more minutes.
       </p>
       <button
         onClick={onGoToPlans}
-        className="px-6 py-2.5 rounded-xl bg-violet-600 hover:bg-violet-700 text-white text-[13px] font-semibold transition"
+        className="btn-primary px-6 py-2.5"
       >
         Get More Minutes
       </button>
@@ -208,18 +208,18 @@ export default function FeatureGate({
   if (Array.isArray(anyOf) && anyOf.length && !anyOf.some((k) => hasFeature(k))) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] px-6 text-center">
-        <div className="w-20 h-20 rounded-2xl bg-[#F1F4FF] dark:bg-[#1A1D27] flex items-center justify-center mb-5">
+        <div className="w-20 h-20 rounded-2xl bg-violet-50 dark:bg-violet-500/10 flex items-center justify-center mb-5">
           <LockIcon />
         </div>
-        <h2 className="text-[20px] font-bold text-[#0F1117] dark:text-[#DDE1F5] mb-2">
+        <h2 className="text-[20px] font-bold text-slate-900 dark:text-slate-50 mb-2">
           Feature not available
         </h2>
-        <p className="text-[13px] text-[#8B92A9] max-w-sm mb-6">
+        <p className="text-[13px] text-slate-500 dark:text-slate-400 max-w-sm mb-6">
           This feature is not included in your current plan. Upgrade your plan to unlock it.
         </p>
         <button
           onClick={handleGoToPlans}
-          className="px-6 py-2.5 rounded-xl bg-[#2563EB] text-white text-[13px] font-semibold hover:bg-[#1D4ED8] transition"
+          className="btn-primary px-6 py-2.5"
         >
           View Plans
         </button>
@@ -231,18 +231,18 @@ export default function FeatureGate({
   if (featureKey && !hasFeature(featureKey)) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] px-6 text-center">
-        <div className="w-20 h-20 rounded-2xl bg-[#F1F4FF] dark:bg-[#1A1D27] flex items-center justify-center mb-5">
+        <div className="w-20 h-20 rounded-2xl bg-violet-50 dark:bg-violet-500/10 flex items-center justify-center mb-5">
           <LockIcon />
         </div>
-        <h2 className="text-[20px] font-bold text-[#0F1117] dark:text-[#DDE1F5] mb-2">
+        <h2 className="text-[20px] font-bold text-slate-900 dark:text-slate-50 mb-2">
           Feature not available
         </h2>
-        <p className="text-[13px] text-[#8B92A9] max-w-sm mb-6">
+        <p className="text-[13px] text-slate-500 dark:text-slate-400 max-w-sm mb-6">
           This feature is not included in your current plan. Upgrade your plan to unlock it.
         </p>
         <button
           onClick={handleGoToPlans}
-          className="px-6 py-2.5 rounded-xl bg-[#2563EB] text-white text-[13px] font-semibold hover:bg-[#1D4ED8] transition"
+          className="btn-primary px-6 py-2.5"
         >
           View Plans
         </button>

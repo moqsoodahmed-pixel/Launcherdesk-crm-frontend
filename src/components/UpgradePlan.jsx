@@ -46,6 +46,7 @@ import AddonStore from "./AddonStore";
 import CartDrawer from "./CartDrawer";
 import TermsViewerModal from "./TermsViewerModal";
 import { useCart } from "../context/CartContext";
+import { Pill } from "./ui/Primitives";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Constants
@@ -128,14 +129,22 @@ const ADDON_LABELS = {
   transcription_summary_1000mins: "1000 Min Transcription & Summary (legacy)",
 };
 
-const STATUS_STYLE = {
-  active:    { bg: "#ECFDF5", fg: "#059669", label: "Active" },
-  trial:     { bg: "#EFF6FF", fg: "#2563EB", label: "Trial" },
-  expired:   { bg: "#FEF2F2", fg: "#DC2626", label: "Expired" },
-  cancelled: { bg: "#FEF2F2", fg: "#DC2626", label: "Cancelled" },
-  suspended: { bg: "#FFF7ED", fg: "#D97706", label: "Suspended" },
-  paused:    { bg: "#FFF7ED", fg: "#D97706", label: "Paused" },
+const STATUS_META = {
+  active:    { tone: "emerald", dot: "bg-emerald-500", label: "Active" },
+  trial:     { tone: "cyan",    dot: "bg-cyan-500",    label: "Trial" },
+  expired:   { tone: "rose",    dot: "bg-rose-500",    label: "Expired" },
+  cancelled: { tone: "rose",    dot: "bg-rose-500",    label: "Cancelled" },
+  suspended: { tone: "amber",   dot: "bg-amber-500",   label: "Suspended" },
+  paused:    { tone: "amber",   dot: "bg-amber-500",   label: "Paused" },
 };
+
+// Invoice status → Pill tone (covers whatever the payment gateway reports).
+const INVOICE_STATUS_TONE = {
+  paid: "emerald", success: "emerald", completed: "emerald", captured: "emerald",
+  pending: "amber", processing: "amber", created: "amber",
+  failed: "rose", cancelled: "rose", canceled: "rose", refunded: "rose", overdue: "rose",
+};
+const invoiceTone = (status) => INVOICE_STATUS_TONE[String(status || "").toLowerCase()] || "slate";
 
 const PLAN_COLORS = {
   basic:      "#6B7280",
@@ -406,7 +415,7 @@ function useRazorpay() {
 function Spinner() {
   return (
     <div className="flex items-center justify-center py-16">
-      <Loader2 className="animate-spin w-7 h-7 text-[#2563EB]" />
+      <Loader2 className="animate-spin w-7 h-7 text-violet-500" />
     </div>
   );
 }
@@ -422,7 +431,7 @@ function CheckMark({ color }) {
 }
 
 function LockMark() {
-  return <Lock className="w-3.5 h-3.5 shrink-0 text-[#C4C9D9]" strokeWidth={2} />;
+  return <Lock className="w-3.5 h-3.5 shrink-0 text-slate-300 dark:text-slate-600" strokeWidth={2} />;
 }
 
 function Chip({ color, children }) {
@@ -436,39 +445,34 @@ function Chip({ color, children }) {
   );
 }
 
-function SectionHeader({ icon: Icon, iconBg, iconColor, title, subtitle }) {
+function SectionHeader({ icon: Icon, iconBg, iconColorClass, title, subtitle }) {
   return (
     <div className="flex items-start gap-3 mb-6">
       <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 mt-0.5 ${iconBg}`}>
-        <Icon className="w-5 h-5" style={{ color: iconColor }} strokeWidth={2} />
+        <Icon className={`w-5 h-5 ${iconColorClass}`} strokeWidth={2} />
       </div>
       <div>
-        <h2 className="text-[20px] font-bold text-[#0F1117] dark:text-white">{title}</h2>
-        <p className="text-[13px] text-[#8B92A9] mt-0.5">{subtitle}</p>
+        <h2 className="text-[20px] font-bold text-slate-900 dark:text-white">{title}</h2>
+        <p className="text-[13px] text-slate-500 dark:text-slate-400 mt-0.5">{subtitle}</p>
       </div>
     </div>
   );
 }
 
 function StatusBadge({ status }) {
-  const st = STATUS_STYLE[status] || { bg: "#F1F5F9", fg: "#475569", label: status };
+  const st = STATUS_META[status] || { tone: "slate", dot: "bg-slate-400", label: status };
   return (
-    <span
-      className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold"
-      style={{ background: st.bg, color: st.fg }}
-    >
-      <span className="w-1.5 h-1.5 rounded-full" style={{ background: st.fg }} />
+    <Pill tone={st.tone} dot={st.dot}>
       {st.label}
-    </span>
+    </Pill>
   );
 }
 
 function ActiveBadge() {
   return (
-    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-[#ECFDF5] text-[#059669]">
-      <span className="w-1.5 h-1.5 rounded-full bg-[#059669]" />
+    <Pill tone="emerald" dot="bg-emerald-500">
       Active
-    </span>
+    </Pill>
   );
 }
 
@@ -534,16 +538,16 @@ function PlanCard({ plan, billing, selected, onUpgrade }) {
   const ctaBg = ctaFilled ? plan.color : isSel ? plan.color : hovered ? plan.color + "25" : plan.color + "15";
   const ctaFg = ctaFilled || isSel ? "#fff" : plan.color;
 
-  const cardBorder = plan.popular ? "#2563EB" : plan.id === "basic" ? "#E4E7EF" : plan.color;
+  const cardBorder = plan.popular ? plan.color : plan.id === "basic" ? "#E4E7EF" : plan.color;
   const cardShadow = hovered
     ? `0 20px 48px ${plan.color}28`
-    : plan.popular ? "0 8px 32px rgba(37,99,235,0.14)" : "none";
+    : plan.popular ? `0 8px 32px ${plan.color}24` : "none";
 
   return (
     <div
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className="relative flex flex-col bg-white dark:bg-[#11131C] rounded-2xl overflow-hidden transition-all duration-200"
+      className="relative flex flex-col bg-white dark:bg-[#181029] rounded-2xl overflow-hidden transition-all duration-200"
       style={{
         border:    `2px solid ${cardBorder}`,
         boxShadow: cardShadow,
@@ -556,7 +560,10 @@ function PlanCard({ plan, billing, selected, onUpgrade }) {
       {/* Badges */}
       {plan.popular && !plan.current && (
         <div className="absolute top-4 ps-2 z-10">
-          <span className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#2563EB] text-white text-[10px] font-bold tracking-wide">
+          <span
+            className="flex items-center gap-1 px-2.5 py-1 rounded-full text-white text-[10px] font-bold tracking-wide"
+            style={{ background: plan.color }}
+          >
             <Star className="w-3 h-3 fill-current" strokeWidth={0} />
             MOST POPULAR
           </span>
@@ -564,42 +571,38 @@ function PlanCard({ plan, billing, selected, onUpgrade }) {
       )}
       {plan.current && !plan.popular && (
         <div className="absolute top-4 right-4 z-10">
-          <span className="px-2.5 py-1 rounded-full bg-[#EEF3FF] dark:bg-[#1A2040] text-[#2563EB] text-[10px] font-bold">
-            Current plan
-          </span>
+          <Pill tone="violet">Current plan</Pill>
         </div>
       )}
       {plan.isDowngrade && !plan.current && (
         <div className="absolute top-4 right-4 z-10">
-          <span className="px-2.5 py-1 rounded-full bg-amber-100 dark:bg-amber-900/40 text-amber-700 text-[10px] font-bold">
-            Downgrade
-          </span>
+          <Pill tone="amber">Downgrade</Pill>
         </div>
       )}
 
       {/* Header */}
       <div className="px-6 pt-5 pb-4">
-        <h3 className="text-[18px] font-bold text-[#0F1117] dark:text-white mt-3">{plan.name}</h3>
-        <p className="text-[12px] text-[#8B92A9] mt-0.5 mb-4">{plan.desc}</p>
+        <h3 className="text-[18px] font-bold text-slate-900 dark:text-white mt-3">{plan.name}</h3>
+        <p className="text-[12px] text-slate-500 dark:text-slate-400 mt-0.5 mb-4">{plan.desc}</p>
 
         {/* Price */}
         {plan.custom ? (
           <div className="mb-5">
-            <span className="text-[30px] font-bold text-[#0F1117] dark:text-white leading-none">Custom</span>
-            <p className="text-[11px] text-[#8B92A9] mt-1">Pricing tailored for you</p>
+            <span className="text-[30px] font-bold text-slate-900 dark:text-white leading-none">Custom</span>
+            <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1">Pricing tailored for you</p>
           </div>
         ) : (
           <div className="mb-5">
             <div className="flex items-end gap-1">
-              <span className="text-[30px] font-bold text-[#0F1117] dark:text-white leading-none">
+              <span className="text-[30px] font-bold text-slate-900 dark:text-white leading-none">
                 ₹{price.toLocaleString()}
               </span>
-              <span className="text-[12px] text-[#8B92A9] mb-0.5">
+              <span className="text-[12px] text-slate-500 dark:text-slate-400 mb-0.5">
                 {billing === "yearly" ? "/yr" : "/mo"}
               </span>
             </div>
             {billing === "yearly" && (
-              <p className="text-[11px] text-[#8B92A9] mt-0.5">
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
                 Total for 1 year · ₹{Math.round(price / 12).toLocaleString()}/mo equivalent
               </p>
             )}
@@ -616,7 +619,7 @@ function PlanCard({ plan, billing, selected, onUpgrade }) {
           ))}
         </div>
 
-        <div className="h-px bg-[#F0F2FA] dark:bg-[#1E2133] mb-4" />
+        <div className="h-px bg-slate-100 dark:bg-white/10 mb-4" />
 
         {/* Feature list */}
         <div className="space-y-2">
@@ -625,7 +628,7 @@ function PlanCard({ plan, billing, selected, onUpgrade }) {
             return (
               <div key={f.key} className="flex items-center gap-2">
                 <CheckMark color={plan.color} />
-                <span className="text-[12px] text-[#4B5168] dark:text-[#9DA3BB] flex-1">{f.label}</span>
+                <span className="text-[12px] text-slate-600 dark:text-slate-300 flex-1">{f.label}</span>
                 {lim && (
                   <span
                     className="text-[10px] font-semibold px-1.5 py-0.5 rounded-md whitespace-nowrap"
@@ -641,7 +644,7 @@ function PlanCard({ plan, billing, selected, onUpgrade }) {
           {locked.slice(0, 3).map((f) => (
             <div key={f.key} className="flex items-center gap-2 opacity-40">
               <LockMark />
-              <span className="text-[12px] text-[#8B92A9] line-through">{f.label}</span>
+              <span className="text-[12px] text-slate-500 dark:text-slate-400 line-through">{f.label}</span>
             </div>
           ))}
         </div>
@@ -697,8 +700,8 @@ function MobileCRMSection() {
     <section className="mt-16">
       <SectionHeader
         icon={Smartphone}
-        iconBg="bg-[#EEF3FF] dark:bg-[#1A2040]"
-        iconColor="#2563EB"
+        iconBg="bg-blue-50 dark:bg-blue-500/10"
+        iconColorClass="text-blue-600 dark:text-blue-400"
         title="Mobile CRM Application"
         subtitle="Manage leads, calls, meetings, attendance and follow-ups from anywhere."
       />
@@ -706,19 +709,19 @@ function MobileCRMSection() {
         {MOBILE_SECTIONS.map(({ icon: Icon, title, items }) => (
           <div
             key={title}
-            className="bg-white dark:bg-[#11131C] border border-[#E4E7EF] dark:border-[#1E2133] rounded-2xl p-5 hover:border-[#2563EB] dark:hover:border-[#2563EB] transition-colors duration-150"
+            className="surface-card surface-card-hover p-5 hover:border-blue-300 dark:hover:border-blue-500/40"
           >
             <div className="flex items-center gap-2.5 mb-3">
-              <div className="w-8 h-8 rounded-lg bg-[#EEF3FF] dark:bg-[#1A2040] flex items-center justify-center shrink-0">
-                <Icon className="w-4 h-4 text-[#2563EB]" strokeWidth={2} />
+              <div className="w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center shrink-0">
+                <Icon className="w-4 h-4 text-blue-600 dark:text-blue-400" strokeWidth={2} />
               </div>
-              <h3 className="text-[13px] font-bold text-[#0F1117] dark:text-white">{title}</h3>
+              <h3 className="text-[13px] font-bold text-slate-900 dark:text-white">{title}</h3>
             </div>
             <div className="space-y-1.5">
               {items.map((item) => (
                 <div key={item} className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 rounded-full bg-[#2563EB] shrink-0" />
-                  <span className="text-[12px] text-[#4B5168] dark:text-[#9DA3BB]">{item}</span>
+                  <div className="w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0" />
+                  <span className="text-[12px] text-slate-600 dark:text-slate-300">{item}</span>
                 </div>
               ))}
             </div>
@@ -748,8 +751,8 @@ function WebCRMSection() {
     <section className="mt-14">
       <SectionHeader
         icon={Monitor}
-        iconBg="bg-[#F5F3FF] dark:bg-[#1E1040]"
-        iconColor="#7C3AED"
+        iconBg="bg-violet-50 dark:bg-violet-500/10"
+        iconColorClass="text-violet-600 dark:text-violet-400"
         title="Web CRM Features"
         subtitle="Full-featured CRM accessible from any browser."
       />
@@ -757,19 +760,19 @@ function WebCRMSection() {
         {WEB_SECTIONS.map(({ icon: Icon, title, items }) => (
           <div
             key={title}
-            className="bg-white dark:bg-[#11131C] border border-[#E4E7EF] dark:border-[#1E2133] rounded-2xl p-5 hover:border-[#7C3AED] dark:hover:border-[#7C3AED] transition-colors duration-150"
+            className="surface-card surface-card-hover p-5 hover:border-violet-300 dark:hover:border-violet-500/40"
           >
             <div className="flex items-center gap-2.5 mb-3">
-              <div className="w-8 h-8 rounded-lg bg-[#F5F3FF] dark:bg-[#1E1040] flex items-center justify-center shrink-0">
-                <Icon className="w-4 h-4 text-[#7C3AED]" strokeWidth={2} />
+              <div className="w-8 h-8 rounded-lg bg-violet-50 dark:bg-violet-500/10 flex items-center justify-center shrink-0">
+                <Icon className="w-4 h-4 text-violet-600 dark:text-violet-400" strokeWidth={2} />
               </div>
-              <h3 className="text-[13px] font-bold text-[#0F1117] dark:text-white">{title}</h3>
+              <h3 className="text-[13px] font-bold text-slate-900 dark:text-white">{title}</h3>
             </div>
             <div className="space-y-1.5">
               {items.map((item) => (
                 <div key={item} className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 rounded-full bg-[#7C3AED] shrink-0" />
-                  <span className="text-[12px] text-[#4B5168] dark:text-[#9DA3BB]">{item}</span>
+                  <div className="w-1.5 h-1.5 rounded-full bg-violet-500 shrink-0" />
+                  <span className="text-[12px] text-slate-600 dark:text-slate-300">{item}</span>
                 </div>
               ))}
             </div>
@@ -791,13 +794,13 @@ function ComparisonTable({ rows }) {
     if (val === true)
       return (
         <span className="flex justify-center">
-          <CheckCircle2 className="w-4 h-4 text-[#059669]" strokeWidth={2} />
+          <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" strokeWidth={2} />
         </span>
       );
     if (val === false)
       return (
         <span className="flex justify-center">
-          <XCircle className="w-4 h-4 text-[#DC2626]" strokeWidth={2} />
+          <XCircle className="w-4 h-4 text-rose-500 dark:text-rose-400" strokeWidth={2} />
         </span>
       );
     return (
@@ -811,11 +814,11 @@ function ComparisonTable({ rows }) {
   };
 
   return (
-    <div className="overflow-x-auto rounded-2xl border border-[#E4E7EF] dark:border-[#1E2133] mt-6">
-      <table className="w-full text-[13px] bg-white dark:bg-[#11131C]">
+    <div className="overflow-x-auto rounded-2xl border border-slate-200 dark:border-white/10 mt-6">
+      <table className="w-full text-[13px] bg-white dark:bg-[#181029]">
         <thead>
-          <tr className="border-b border-[#E4E7EF] dark:border-[#1E2133] bg-[#F8F9FC] dark:bg-[#0D0F17]">
-            <th className="text-left px-6 py-3 text-[11px] font-semibold text-[#8B92A9] uppercase tracking-wide w-[36%]">
+          <tr className="border-b border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.03]">
+            <th className="text-left px-6 py-3 text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide w-[36%]">
               Feature
             </th>
             {PLANS_LIST.map((p) => (
@@ -833,17 +836,17 @@ function ComparisonTable({ rows }) {
           {rows.map((row, i) => (
             <tr
               key={row.label}
-              className={`border-b border-[#F0F2FA] dark:border-[#1F2333] last:border-0 ${
-                i % 2 !== 0 ? "bg-[#FAFBFF] dark:bg-[#0F111A]" : "dark:bg-[#11131C]"
+              className={`border-b border-slate-100 dark:border-white/5 last:border-0 ${
+                i % 2 !== 0 ? "bg-slate-50/60 dark:bg-white/[0.02]" : ""
               }`}
             >
-              <td className="px-6 py-3.5 font-medium text-[#4B5168] dark:text-[#9DA3BB]">
+              <td className="px-6 py-3.5 font-medium text-slate-600 dark:text-slate-300">
                 <div className="flex items-center gap-2">
                   {row.label}
                   {row.tooltip && (
                     <span className="group relative inline-block">
-                      <Info className="w-3.5 h-3.5 text-[#C4C9D9] cursor-help" strokeWidth={2} />
-                      <span className="hidden group-hover:block absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 w-60 text-[11px] bg-[#0F1117] text-white rounded-lg px-3 py-2 z-20 shadow-xl leading-relaxed pointer-events-none">
+                      <Info className="w-3.5 h-3.5 text-slate-300 dark:text-slate-600 cursor-help" strokeWidth={2} />
+                      <span className="hidden group-hover:block absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 w-60 text-[11px] bg-slate-900 text-white rounded-lg px-3 py-2 z-20 shadow-xl leading-relaxed pointer-events-none">
                         {row.tooltip}
                       </span>
                     </span>
@@ -902,7 +905,7 @@ const ENTERPRISE_FEATURES = [
 function EnterpriseCTASection() {
   return (
     <section className="mt-14">
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#0037ca]/60 via-[#0037ca]/80 to-[#0037ca]/100 p-8 md:p-12">
+      <div className="relative overflow-hidden rounded-2xl bg-brand-gradient p-8 md:p-12 shadow-glow-brand">
         {/* Dot grid texture */}
         <div
           className="absolute inset-0 opacity-10"
@@ -914,22 +917,22 @@ function EnterpriseCTASection() {
         <div className="relative z-10 flex flex-col lg:flex-row items-start gap-8">
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-3">
-              <Building2 className="w-5 h-5 text-blue-200" strokeWidth={2} />
-              <span className="text-blue-200 text-[12px] font-bold tracking-widest uppercase">
+              <Building2 className="w-5 h-5 text-white/70" strokeWidth={2} />
+              <span className="text-white/70 text-[12px] font-bold tracking-widest uppercase">
                 Enterprise Solutions
               </span>
             </div>
             <h2 className="text-[24px] md:text-[28px] font-bold text-white mb-2 leading-tight">
               Need higher limits or a custom CRM configuration?
             </h2>
-            <p className="text-blue-100 text-[14px] mb-6 max-w-lg">
+            <p className="text-white/80 text-[14px] mb-6 max-w-lg">
               Our Enterprise plan is built around your business. Get unlimited scale,
               dedicated support, and a CRM set up exactly the way you need it.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {ENTERPRISE_FEATURES.map((feat) => (
                 <div key={feat} className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-blue-300 shrink-0" strokeWidth={2} />
+                  <CheckCircle2 className="w-4 h-4 text-white/70 shrink-0" strokeWidth={2} />
                   <span className="text-white text-[13px]">{feat}</span>
                 </div>
               ))}
@@ -938,21 +941,21 @@ function EnterpriseCTASection() {
           <div className="w-full lg:w-auto flex-shrink-0 flex flex-col items-start lg:items-center gap-3 lg:pt-10">
             <a
               href="mailto:contact@launcherdesk.com?subject=Enterprise%20Plan%20Enquiry"
-              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-white text-[#0037ca] font-bold text-[14px] hover:bg-blue-50 transition-colors shadow-lg"
+              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-white text-violet-700 font-bold text-[14px] hover:bg-violet-50 transition-colors shadow-lg"
             >
               <Mail className="w-4 h-4" strokeWidth={2} />
               Contact Us
             </a>
             <a
               href="mailto:contact@launcherdesk.com"
-              className="inline-flex items-center gap-1.5 text-blue-200 text-[11px] hover:text-white transition-colors"
+              className="inline-flex items-center gap-1.5 text-white/70 text-[11px] hover:text-white transition-colors"
             >
               <Mail className="w-3 h-3" strokeWidth={2} />
               contact@launcherdesk.com
             </a>
             <a
               href="tel:8867867775"
-              className="inline-flex items-center gap-1.5 text-blue-200 text-[11px] hover:text-white transition-colors"
+              className="inline-flex items-center gap-1.5 text-white/70 text-[11px] hover:text-white transition-colors"
             >
               <Phone className="w-3 h-3" strokeWidth={2} />
               8867867775
@@ -976,12 +979,12 @@ const USAGE_METRICS = [
 function UsageMeter({ usage }) {
   if (!usage?.limits) return null;
   return (
-    <div className="bg-white dark:bg-[#11131C] border border-[#E4E7EF] dark:border-[#1E2133] rounded-2xl overflow-hidden">
-      <div className="px-6 py-4 border-b border-[#E4E7EF] dark:border-[#1E2133]">
-        <h2 className="text-[14px] font-bold text-[#0F1117] dark:text-[#DDE1F5]">Usage this month</h2>
-        <p className="text-[12px] text-[#8B92A9] mt-1">AI minutes consumed against your plan limits.</p>
+    <div className="surface-card overflow-hidden">
+      <div className="px-6 py-4 border-b border-slate-200 dark:border-white/10">
+        <h2 className="text-[14px] font-bold text-slate-900 dark:text-white">Usage this month</h2>
+        <p className="text-[12px] text-slate-500 dark:text-slate-400 mt-1">AI minutes consumed against your plan limits.</p>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-[#E4E7EF] dark:bg-[#1F2333]">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-slate-200 dark:bg-white/10">
         {USAGE_METRICS.map(({ k, label, icon: Icon }) => {
           const lim       = usage.limits[k];
           const used      = usage.used?.[k] ?? 0;
@@ -990,19 +993,19 @@ function UsageMeter({ usage }) {
           const barColor  = pct >= 90 ? "#DC2626" : pct >= 70 ? "#D97706" : "#059669";
 
           return (
-            <div key={k} className="bg-white dark:bg-[#11131C] px-6 py-4">
+            <div key={k} className="bg-white dark:bg-[#181029] px-6 py-4">
               <div className="flex items-center gap-2 mb-1">
-                <Icon className="w-4 h-4 text-[#8B92A9]" strokeWidth={2} />
-                <p className="text-[12px] text-[#8B92A9]">{label}</p>
+                <Icon className="w-4 h-4 text-slate-400" strokeWidth={2} />
+                <p className="text-[12px] text-slate-500 dark:text-slate-400">{label}</p>
               </div>
-              <p className="text-[18px] font-bold text-[#0F1117] dark:text-white">
+              <p className="text-[18px] font-bold text-slate-900 dark:text-white">
                 {used}
-                <span className="text-[13px] font-medium text-[#8B92A9]">
+                <span className="text-[13px] font-medium text-slate-500 dark:text-slate-400">
                   {" "}/ {unlimited ? "Unlimited" : lim} min
                 </span>
               </p>
               {!unlimited && (
-                <div className="mt-2 h-1.5 rounded-full bg-[#EEF1F6] dark:bg-[#1F2333] overflow-hidden">
+                <div className="mt-2 h-1.5 rounded-full bg-slate-100 dark:bg-white/10 overflow-hidden">
                   <div
                     className="h-full rounded-full transition-all"
                     style={{ width: `${pct}%`, background: barColor }}
@@ -1294,14 +1297,14 @@ export default function UpgradePlan({
   // ── Render ─────────────────────────────────────────────────────────────────
 
   return (
-    <div className="bg-[#F8F9FC] dark:bg-[#0B0D14] min-h-screen font-poppins px-4 sm:px-6 lg:px-8 py-8">
+    <div className="bg-slate-50 dark:bg-[#0B0D14] min-h-screen font-poppins px-4 sm:px-6 lg:px-8 py-8">
 
       {/* Checkout overlay */}
       {paying && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-          <div className="bg-white dark:bg-[#11131C] rounded-2xl px-10 py-8 flex flex-col items-center gap-4 shadow-2xl">
-            <Loader2 className="animate-spin w-10 h-10 text-[#2563EB]" />
-            <p className="text-[14px] font-semibold text-[#0F1117] dark:text-white">Preparing checkout…</p>
+          <div className="surface-card px-10 py-8 flex flex-col items-center gap-4 shadow-2xl">
+            <Loader2 className="animate-spin w-10 h-10 text-violet-600 dark:text-violet-400" />
+            <p className="text-[14px] font-semibold text-slate-900 dark:text-white">Preparing checkout…</p>
           </div>
         </div>
       )}
@@ -1334,7 +1337,7 @@ export default function UpgradePlan({
 
       {/* Error banner */}
       {error && (
-        <div className="mb-5 flex items-center justify-between px-4 py-3 rounded-xl bg-[#FEF2F2] border border-[#FCA5A5] text-[#DC2626] text-[12px] font-semibold">
+        <div className="mb-5 flex items-center justify-between px-4 py-3 rounded-xl bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/30 text-rose-600 dark:text-rose-400 text-[12px] font-semibold">
           {error}
           <button onClick={() => setError(null)} className="ml-4 text-[16px] leading-none">×</button>
         </div>
@@ -1349,8 +1352,8 @@ export default function UpgradePlan({
       {/* ── Page header ── */}
       <div className="mb-8 flex items-start justify-between gap-4">
         <div>
-        <h1 className="text-[24px] font-bold text-[#0F1117] dark:text-[#DDE1F5]">Billing & Plans</h1>
-        <p className="text-[13px] text-[#8B92A9] mt-0.5">
+        <h1 className="text-[24px] font-bold text-slate-900 dark:text-white">Billing & Plans</h1>
+        <p className="text-[13px] text-slate-500 dark:text-slate-400 mt-0.5">
           {currentPlan ? (
             <>
               You are on the{" "}
@@ -1368,26 +1371,26 @@ export default function UpgradePlan({
         {/* Cart button */}
         <button
           onClick={() => setCartOpen(true)}
-          className="relative flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white dark:bg-[#11131C] border border-[#E4E7EF] dark:border-[#1E2133] text-[13px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] hover:border-indigo-400 dark:hover:border-indigo-600 transition shrink-0"
+          className="btn btn-md btn-secondary relative shrink-0"
         >
           <ShoppingCart className="w-4 h-4" />
           Cart
           {totalItems > 0 && (
-            <span className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-indigo-600 text-white text-[10px] font-bold flex items-center justify-center">{totalItems}</span>
+            <span className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-violet-600 text-white text-[10px] font-bold flex items-center justify-center">{totalItems}</span>
           )}
         </button>
       </div>
 
       {/* ── Tabs ── */}
-      <div className="flex items-center gap-1 bg-white dark:bg-[#11131C] border border-[#E4E7EF] dark:border-[#1E2133] rounded-xl p-1 mb-8 w-fit overflow-x-auto">
+      <div className="flex items-center gap-1 surface-card p-1 mb-8 w-fit overflow-x-auto">
         {TABS.map(({ k, l, icon: Icon }) => (
           <button
             key={k}
             onClick={() => setTab(k)}
             className={`flex items-center gap-2 px-4 py-2 rounded-lg text-[12px] font-semibold transition whitespace-nowrap ${
               tab === k
-                ? "bg-[#2563EB] text-white"
-                : "text-[#4B5168] dark:text-[#7B829E] hover:bg-[#F1F4FF] dark:hover:bg-[#181B27]"
+                ? "bg-violet-600 text-white"
+                : "text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/5"
             }`}
           >
             <Icon className="w-3.5 h-3.5" strokeWidth={2} />
@@ -1406,7 +1409,7 @@ export default function UpgradePlan({
             <button
               onClick={() => setBilling("monthly")}
               className={`text-[13px] font-semibold transition ${
-                billing === "monthly" ? "text-[#0F1117] dark:text-[#DDE1F5]" : "text-[#8B92A9]"
+                billing === "monthly" ? "text-slate-900 dark:text-white" : "text-slate-500 dark:text-slate-400"
               }`}
             >
               Monthly
@@ -1414,7 +1417,7 @@ export default function UpgradePlan({
             <button
               onClick={() => setBilling((b) => (b === "monthly" ? "yearly" : "monthly"))}
               className={`relative w-12 h-6 rounded-full transition-colors ${
-                billing === "yearly" ? "bg-[#2563EB]" : "bg-[#E4E7EF] dark:bg-[#2A2D3E]"
+                billing === "yearly" ? "bg-violet-600" : "bg-slate-200 dark:bg-white/10"
               }`}
             >
               <span
@@ -1426,11 +1429,11 @@ export default function UpgradePlan({
             <button
               onClick={() => setBilling("yearly")}
               className={`text-[13px] font-semibold transition ${
-                billing === "yearly" ? "text-[#0F1117] dark:text-[#DDE1F5]" : "text-[#8B92A9]"
+                billing === "yearly" ? "text-slate-900 dark:text-white" : "text-slate-500 dark:text-slate-400"
               }`}
             >
               Yearly{" "}
-              <span className="ml-1.5 px-1.5 py-0.5 rounded-full bg-[#ECFDF5] dark:bg-[#052E1C] text-[#059669] text-[10px] font-bold">
+              <span className="ml-1.5 px-1.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 text-[10px] font-bold">
                 Save {savingsPct}%
               </span>
             </button>
@@ -1456,8 +1459,8 @@ export default function UpgradePlan({
           <section className="mt-14">
             <SectionHeader
               icon={MessageSquare}
-              iconBg="bg-[#ECFDF5] dark:bg-[#052E1C]"
-              iconColor="#059669"
+              iconBg="bg-emerald-50 dark:bg-emerald-500/10"
+              iconColorClass="text-emerald-600 dark:text-emerald-400"
               title="Communication Features"
               subtitle="Reach your leads across every channel."
             />
@@ -1467,8 +1470,8 @@ export default function UpgradePlan({
           <section className="mt-14">
             <SectionHeader
               icon={Sparkles}
-              iconBg="bg-[#FFF7ED] dark:bg-[#2D1F00]"
-              iconColor="#D97706"
+              iconBg="bg-amber-50 dark:bg-amber-500/10"
+              iconColorClass="text-amber-600 dark:text-amber-400"
               title="AI Features"
               subtitle="Intelligent automation to save time and surface insights."
             />
@@ -1478,8 +1481,8 @@ export default function UpgradePlan({
           <section className="mt-14">
             <SectionHeader
               icon={TrendingUp}
-              iconBg="bg-[#FEF3C7] dark:bg-[#2D1F00]"
-              iconColor="#D97706"
+              iconBg="bg-amber-50 dark:bg-amber-500/10"
+              iconColorClass="text-amber-600 dark:text-amber-400"
               title="Marketing & Campaign Features"
               subtitle="Connect your ad accounts and track performance end-to-end."
             />
@@ -1490,12 +1493,12 @@ export default function UpgradePlan({
 
           {/* Terms & Conditions link */}
           <div className="mt-8 text-center">
-            <p className="text-[12px] text-[#8B92A9]">
+            <p className="text-[12px] text-slate-500 dark:text-slate-400">
               By subscribing, you agree to our{" "}
               <button
                 type="button"
                 onClick={() => setShowTerms(true)}
-                className="font-semibold text-[#2563EB] hover:underline"
+                className="font-semibold text-violet-600 dark:text-violet-400 hover:underline"
               >
                 Terms &amp; Conditions
               </button>
@@ -1519,26 +1522,26 @@ export default function UpgradePlan({
         <div className="space-y-5">
 
           {/* Plan summary card */}
-          <div className="bg-white dark:bg-[#11131C] border border-[#E4E7EF] dark:border-[#1E2133] rounded-2xl p-6">
+          <div className="surface-card p-6">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
               <div>
-                <p className="text-[12px] text-[#8B92A9] mb-1">Your current plan</p>
+                <p className="text-[12px] text-slate-500 dark:text-slate-400 mb-1">Your current plan</p>
                 <div className="flex items-center gap-2.5">
-                  <h2 className="text-[22px] font-bold text-[#0F1117] dark:text-white capitalize">
+                  <h2 className="text-[22px] font-bold text-slate-900 dark:text-white capitalize">
                     {planSummary?.key || currentPlanId || "—"}
                   </h2>
                   {planSummary?.status && <StatusBadge status={planSummary.status} />}
                 </div>
               </div>
               <div className="sm:text-right">
-                <p className="text-[12px] text-[#8B92A9] mb-1">
+                <p className="text-[12px] text-slate-500 dark:text-slate-400 mb-1">
                   {planSummary?.status === "trial" ? "Trial ends" : "Renews / expires"}
                 </p>
-                <p className="text-[15px] font-semibold text-[#0F1117] dark:text-[#DDE1F5]">
+                <p className="text-[15px] font-semibold text-slate-900 dark:text-white">
                   {fmtDateLong(planSummary?.expiresAt)}
                 </p>
                 {planSummary?.daysRemaining != null && planSummary.daysRemaining >= 0 && (
-                  <p className={`text-[11px] mt-0.5 ${planSummary.expiringSoon ? "text-[#D97706] font-semibold" : "text-[#8B92A9]"}`}>
+                  <p className={`text-[11px] mt-0.5 ${planSummary.expiringSoon ? "text-amber-600 dark:text-amber-400 font-semibold" : "text-slate-500 dark:text-slate-400"}`}>
                     {planSummary.daysRemaining} day{planSummary.daysRemaining === 1 ? "" : "s"} remaining
                     {planSummary.expiringSoon ? " · renew soon" : ""}
                   </p>
@@ -1548,30 +1551,30 @@ export default function UpgradePlan({
           </div>
 
           {/* Active add-ons */}
-          <div className="bg-white dark:bg-[#11131C] border border-[#E4E7EF] dark:border-[#1E2133] rounded-2xl overflow-hidden">
-            <div className="px-6 py-4 border-b border-[#E4E7EF] dark:border-[#1E2133]">
-              <h2 className="text-[14px] font-bold text-[#0F1117] dark:text-[#DDE1F5]">Active add-ons</h2>
-              <p className="text-[12px] text-[#8B92A9] mt-1">Extras currently enabled on top of your plan.</p>
+          <div className="surface-card overflow-hidden">
+            <div className="px-6 py-4 border-b border-slate-200 dark:border-white/10">
+              <h2 className="text-[14px] font-bold text-slate-900 dark:text-white">Active add-ons</h2>
+              <p className="text-[12px] text-slate-500 dark:text-slate-400 mt-1">Extras currently enabled on top of your plan.</p>
             </div>
             {myAddons.length === 0 ? (
               <div className="px-6 py-8 text-center">
-                <p className="text-[13px] text-[#8B92A9]">
+                <p className="text-[13px] text-slate-500 dark:text-slate-400">
                   No active add-ons. Visit the{" "}
-                  <button onClick={() => setTab("addons")} className="text-blue-600 font-semibold hover:underline">
+                  <button onClick={() => setTab("addons")} className="text-violet-600 dark:text-violet-400 font-semibold hover:underline">
                     Add-ons
                   </button>{" "}
                   tab to add more capacity or features.
                 </p>
               </div>
             ) : (
-              <div className="divide-y divide-[#E4E7EF] dark:divide-[#1F2333]">
+              <div className="divide-y divide-slate-100 dark:divide-white/5">
                 {myAddons.map((a, i) => (
                   <div key={a.addonType + i} className="flex items-center justify-between px-6 py-3.5">
                     <div>
-                      <span className="text-[13px] font-semibold text-[#0F1117] dark:text-[#DDE1F5]">
+                      <span className="text-[13px] font-semibold text-slate-900 dark:text-white">
                         {addonLabel(a.addonType)}{a.quantity > 1 ? ` × ${a.quantity}` : ""}
                       </span>
-                      <p className="text-[11px] text-[#8B92A9] mt-0.5">
+                      <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
                         Since {fmtDateLong(a.startDate)}
                         {a.expiryDate ? ` · expires ${fmtDateLong(a.expiryDate)}` : " · no expiry"}
                       </p>
@@ -1587,29 +1590,24 @@ export default function UpgradePlan({
           <UsageMeter usage={usage} />
 
           {/* Features list */}
-          <div className="bg-white dark:bg-[#11131C] border border-[#E4E7EF] dark:border-[#1E2133] rounded-2xl overflow-hidden">
-            <div className="px-6 py-4 border-b border-[#E4E7EF] dark:border-[#1E2133]">
-              <h2 className="text-[14px] font-bold text-[#0F1117] dark:text-[#DDE1F5]">Features on your plan</h2>
-              <p className="text-[12px] text-[#8B92A9] mt-1">Features enabled for your company by your service provider.</p>
+          <div className="surface-card overflow-hidden">
+            <div className="px-6 py-4 border-b border-slate-200 dark:border-white/10">
+              <h2 className="text-[14px] font-bold text-slate-900 dark:text-white">Features on your plan</h2>
+              <p className="text-[12px] text-slate-500 dark:text-slate-400 mt-1">Features enabled for your company by your service provider.</p>
             </div>
             {!myFeatures ? (
               <Spinner />
             ) : (
-              <div className="divide-y divide-[#E4E7EF] dark:divide-[#1F2333]">
+              <div className="divide-y divide-slate-100 dark:divide-white/5">
                 {myFeatures.filter((f) => !HIDDEN_FEATURE_KEYS.has(f.key)).map((feat) => (
                   <div key={feat.key} className="flex items-center justify-between px-6 py-3.5">
-                    <span className="text-[13px] font-medium text-[#4B5168] dark:text-[#7B829E]">{feat.label}</span>
-                    <span
-                      className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold ${
-                        (feat.enabled || ALWAYS_UNLOCKED_KEYS.has(feat.key)) ? "bg-[#ECFDF5] text-[#059669]" : "bg-[#FEF2F2] text-[#DC2626]"
-                      }`}
+                    <span className="text-[13px] font-medium text-slate-600 dark:text-slate-300">{feat.label}</span>
+                    <Pill
+                      tone={(feat.enabled || ALWAYS_UNLOCKED_KEYS.has(feat.key)) ? "emerald" : "rose"}
+                      dot={(feat.enabled || ALWAYS_UNLOCKED_KEYS.has(feat.key)) ? "bg-emerald-500" : "bg-rose-500"}
                     >
-                      <span
-                        className="w-1.5 h-1.5 rounded-full"
-                        style={{ background: (feat.enabled || ALWAYS_UNLOCKED_KEYS.has(feat.key)) ? "#059669" : "#DC2626" }}
-                      />
                       {(feat.enabled || ALWAYS_UNLOCKED_KEYS.has(feat.key)) ? "Enabled" : "Disabled"}
-                    </span>
+                    </Pill>
                   </div>
                 ))}
               </div>
@@ -1622,43 +1620,41 @@ export default function UpgradePlan({
       {/* INVOICES TAB                                                          */}
       {/* ══════════════════════════════════════════════════════════════════════ */}
       {tab === "invoices" && (
-        <div className="bg-white dark:bg-[#11131C] border border-[#E4E7EF] dark:border-[#1E2133] rounded-2xl overflow-hidden">
+        <div className="surface-card overflow-hidden">
           {loadingInvoices ? (
             <Spinner />
           ) : (
             <>
-              <div className="px-6 py-4 border-b border-[#E4E7EF] dark:border-[#1E2133]">
-                <h2 className="text-[14px] font-bold text-[#0F1117] dark:text-[#DDE1F5]">Invoice history</h2>
+              <div className="px-6 py-4 border-b border-slate-200 dark:border-white/10">
+                <h2 className="text-[14px] font-bold text-slate-900 dark:text-white">Invoice history</h2>
               </div>
 
-              <div className="divide-y divide-[#E4E7EF] dark:divide-[#1F2333]">
+              <div className="divide-y divide-slate-100 dark:divide-white/5">
                 {invoices.length === 0 ? (
                   <div className="px-6 py-12 text-center">
-                    <p className="text-[13px] text-[#8B92A9]">No invoices yet.</p>
+                    <p className="text-[13px] text-slate-500 dark:text-slate-400">No invoices yet.</p>
                   </div>
                 ) : (
                   invoices.map((inv, i) => (
                     <div
                       key={i}
-                      className="flex items-center justify-between px-6 py-4 hover:bg-[#F8F9FC] dark:hover:bg-[#181B27] transition"
+                      className="flex items-center justify-between px-6 py-4 hover:bg-slate-50 dark:hover:bg-white/[0.03] transition"
                     >
                       <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-xl bg-[#EEF3FF] dark:bg-[#1A2040] flex items-center justify-center shrink-0">
-                          <FileText className="w-4 h-4 text-[#2563EB]" strokeWidth={2} />
+                        <div className="w-9 h-9 rounded-xl bg-violet-50 dark:bg-violet-500/10 flex items-center justify-center shrink-0">
+                          <FileText className="w-4 h-4 text-violet-600 dark:text-violet-400" strokeWidth={2} />
                         </div>
                         <div>
-                          <div className="text-[13px] font-semibold text-[#0F1117] dark:text-[#DDE1F5]">{inv.id}</div>
-                          <div className="text-[11px] text-[#8B92A9]">{inv.date}</div>
+                          <div className="text-[13px] font-semibold text-slate-900 dark:text-white">{inv.id}</div>
+                          <div className="text-[11px] text-slate-500 dark:text-slate-400">{inv.date}</div>
                         </div>
                       </div>
                       <div className="flex items-center gap-4">
-                        <span className="text-[13px] font-bold text-[#0F1117] dark:text-[#DDE1F5]">{inv.amount}</span>
-                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#ECFDF5] text-[#059669]">
-                          {inv.status}
-                        </span>
+                        <span className="text-[13px] font-bold text-slate-900 dark:text-white">{inv.amount}</span>
+                        <Pill tone={invoiceTone(inv.status)}>{inv.status}</Pill>
                         <button
                           onClick={() => setViewingInvoice(inv)}
-                          className="flex items-center gap-1.5 text-[11px] font-semibold text-[#7C3AED] hover:underline"
+                          className="flex items-center gap-1.5 text-[11px] font-semibold text-violet-600 dark:text-violet-400 hover:underline"
                         >
                           <Eye className="w-3.5 h-3.5" strokeWidth={2} />
                           View
@@ -1670,18 +1666,18 @@ export default function UpgradePlan({
               </div>
 
               {subscription && (
-                <div className="px-6 py-4 border-t border-[#E4E7EF] dark:border-[#1E2133] flex items-center justify-between">
-                  <span className="text-[12px] text-[#8B92A9]">Total paid: {subscription.totalPaid}</span>
+                <div className="px-6 py-4 border-t border-slate-200 dark:border-white/10 flex items-center justify-between">
+                  <span className="text-[12px] text-slate-500 dark:text-slate-400">Total paid: {subscription.totalPaid}</span>
                   <div className="flex items-center gap-3">
                     <div className="text-right">
-                      <div className="text-[11px] text-[#8B92A9]">Payment method</div>
-                      <div className="text-[12px] font-semibold text-[#0F1117] dark:text-[#DDE1F5]">
+                      <div className="text-[11px] text-slate-500 dark:text-slate-400">Payment method</div>
+                      <div className="text-[12px] font-semibold text-slate-900 dark:text-white">
                         {subscription.paymentMethod}
                       </div>
                     </div>
                     <button
                       onClick={() => setShowUpdatePayment(true)}
-                      className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-[#E4E7EF] dark:border-[#1E2133] text-[11px] font-semibold text-[#4B5168] hover:border-[#2563EB] hover:text-[#2563EB] transition"
+                      className="btn btn-sm btn-secondary"
                     >
                       <CreditCard className="w-3.5 h-3.5" strokeWidth={2} />
                       Update card

@@ -7,16 +7,24 @@
 //   • Maximum Score = number of questions × 100.
 //   • Percentage = (leadScore / maxScore) × 100.
 import { Flame, Thermometer, Snowflake } from "lucide-react";
+import { Pill } from "./ui/Primitives";
 
+// Hot/Warm/Cold mapped onto the shared Pill tone palette (rose/amber/cyan) so
+// qualification badges read consistently with the rest of the app.
+const CAT_TONE = {
+  Hot:  "rose",
+  Warm: "amber",
+  Cold: "cyan",
+};
 const CAT_COLOR = {
-  Hot:  "#DC2626",
-  Warm: "#D97706",
-  Cold: "#2563EB",
+  Hot:  "#E11D48", // rose-600
+  Warm: "#D97706", // amber-600
+  Cold: "#0891B2", // cyan-600
 };
 const CAT_BG = {
-  Hot:  "bg-rose-50 dark:bg-rose-950/30 border-rose-200 dark:border-rose-800/50",
-  Warm: "bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-800/50",
-  Cold: "bg-sky-50 dark:bg-sky-950/30 border-sky-200 dark:border-sky-800/50",
+  Hot:  "bg-rose-50 dark:bg-rose-500/10 border-rose-200 dark:border-rose-500/20",
+  Warm: "bg-amber-50 dark:bg-amber-500/10 border-amber-200 dark:border-amber-500/20",
+  Cold: "bg-cyan-50 dark:bg-cyan-500/10 border-cyan-200 dark:border-cyan-500/20",
 };
 const CAT_ICON = { Hot: Flame, Warm: Thermometer, Cold: Snowflake };
 
@@ -74,7 +82,7 @@ export default function QualificationScore({
   const q = deriveQualification(lead);
   if (!q) return null;
 
-  const color  = CAT_COLOR[q.category] || "#2563EB";
+  const color  = CAT_COLOR[q.category] || "#7E14FF";
   const Icon   = CAT_ICON[q.category];
   const numCls = size === "md" ? "text-[13px]" : "text-[11px]";
   const lblCls = size === "md" ? "text-[11px]" : "text-[10px]";
@@ -106,17 +114,17 @@ export default function QualificationScore({
   // Default inline variant
   return (
     <div className="inline-flex items-center flex-wrap gap-x-2.5 gap-y-1">
-      <span className={`${lblCls} text-[#8B92A9]`}>
+      <span className={`${lblCls} text-slate-400`}>
         Score:{" "}
         <span className={`${numCls} font-bold`} style={{ color }}>
           {q.leadScore}
         </span>
         {q.maxScore != null && (
-          <span className={`${lblCls} text-[#8B92A9] font-medium`}> / {q.maxScore}</span>
+          <span className={`${lblCls} text-slate-400 font-medium`}> / {q.maxScore}</span>
         )}
       </span>
       {q.percentage != null && (
-        <span className={`${lblCls} text-[#8B92A9]`}>
+        <span className={`${lblCls} text-slate-400`}>
           (
           <span className={`${numCls} font-bold`} style={{ color }}>
             {q.percentage}%
@@ -125,13 +133,9 @@ export default function QualificationScore({
         </span>
       )}
       {showCategory && q.category && (
-        <span
-          className={`${lblCls} font-semibold inline-flex items-center gap-1`}
-          style={{ color }}
-        >
-          {Icon ? <Icon className="w-3 h-3" /> : null}
+        <Pill tone={CAT_TONE[q.category] || "slate"} icon={Icon} className={lblCls}>
           {q.category} Lead
-        </span>
+        </Pill>
       )}
     </div>
   );

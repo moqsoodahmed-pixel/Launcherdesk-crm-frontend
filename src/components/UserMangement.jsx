@@ -5,6 +5,7 @@ import { EmployeeLanguages } from "./LanguageControls";
 import { getRole, getStoredUser } from "../data/dataService";
 import { BarChart3, Plus, Trash2, ToggleLeft, ToggleRight, Eye, EyeOff, Loader2, Copy, Check } from "lucide-react";
 import useEntitlements from "../hooks/useEntitlements";
+import { Pill, Avatar } from "./ui/Primitives";
 
 
 const PLANS = {
@@ -29,13 +30,6 @@ export function normalizePlanId(planNameOrId) {
 
 function usernameFromName(name) {
   return name.trim().toLowerCase().replace(/\s+/g, ".");
-}
-
-const AVATAR_HEX = ["#2563EB","#7C3AED","#0891B2","#059669","#D97706","#DC2626","#0F766E","#9333EA"];
-function avatarHex(str) {
-  let h = 0;
-  for (let i = 0; i < String(str).length; i++) h = String(str).charCodeAt(i) + ((h << 5) - h);
-  return AVATAR_HEX[Math.abs(h) % AVATAR_HEX.length];
 }
 
 function EyeIcon({ open }) {
@@ -74,8 +68,7 @@ function generatePassword(length = 14) {
 function DeleteConfirmModal({ member, onConfirm, onCancel }) {
   const [deleting, setDeleting] = useState(false);
   const isAdmin = member.role === "admin";
-  const initials = member.name.split(" ").map(n => n[0]).join("").slice(0, 2).toUpperCase();
-  const uid = member._id || member.id || member.email;
+  const isSuperAdmin = member.role === "super_admin" || member.role === "superadmin";
 
   const handleConfirm = async () => {
     setDeleting(true);
@@ -87,60 +80,43 @@ function DeleteConfirmModal({ member, onConfirm, onCancel }) {
   };
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
-      style={{ animation: "fadeIn 0.15s ease both" }}
-    >
-      <div
-        className="bg-white dark:bg-[#1A1D27] border border-[#E4E7EF] dark:border-[#262A38]
-          rounded-2xl w-full max-w-sm shadow-2xl overflow-hidden"
-        style={{ animation: "slideUp 0.2s cubic-bezier(0.4,0,0.2,1) both" }}
-      >
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4 animate-fade-in">
+      <div className="surface-card !rounded-2xl w-full max-w-sm shadow-popover overflow-hidden animate-scale-in">
         {/* Red accent bar */}
-        <div className="h-1 w-full bg-red-500" />
+        <div className="h-1 w-full bg-rose-500" />
 
         <div className="p-6">
           {/* Icon */}
           <div className="flex justify-center mb-4">
-            <div className="w-14 h-14 rounded-2xl bg-red-50 dark:bg-red-950/40 border-2 border-red-100 dark:border-red-900/50 flex items-center justify-center">
-              <svg className="w-7 h-7 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <div className="w-14 h-14 rounded-2xl bg-rose-50 dark:bg-rose-500/10 border-2 border-rose-100 dark:border-rose-500/20 flex items-center justify-center">
+              <svg className="w-7 h-7 text-rose-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
               </svg>
             </div>
           </div>
 
           {/* Title */}
-          <h2 className="text-[15px] font-bold text-[#0F1117] dark:text-[#F0F2FA] text-center mb-1">
+          <h2 className="text-[15px] font-bold text-slate-900 dark:text-white text-center mb-1">
             Remove {isAdmin ? "Admin" : "Employee"}?
           </h2>
-          <p className="text-[12px] text-[#6B7280] dark:text-[#565C75] text-center mb-5 leading-relaxed">
+          <p className="text-[12px] text-slate-400 text-center mb-5 leading-relaxed">
             This action cannot be undone. The account will be permanently deleted.
           </p>
 
           {/* Member card */}
-          <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#F8F9FC] dark:bg-[#13161E] border border-[#E4E7EF] dark:border-[#262A38] mb-5">
-            <div
-              className="w-9 h-9 rounded-full flex items-center justify-center text-[11px] font-bold text-white shrink-0"
-              style={{ background: avatarHex(uid) }}
-            >
-              {initials}
-            </div>
+          <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-50 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 mb-5">
+            <Avatar name={member.name} size={9} />
             <div className="flex-1 min-w-0">
-              <p className="text-[13px] font-semibold text-[#0F1117] dark:text-[#F0F2FA] truncate">{member.name}</p>
-              <p className="text-[11px] text-[#8B92A9] dark:text-[#565C75] truncate">{member.email}</p>
+              <p className="text-[13px] font-semibold text-slate-900 dark:text-white truncate">{member.name}</p>
+              <p className="text-[11px] text-slate-400 truncate">{member.email}</p>
             </div>
-            <span className={`shrink-0 px-2 py-0.5 rounded-full text-[10px] font-semibold
-              ${isAdmin
-                ? "bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400"
-                : "bg-green-50 dark:bg-green-950/40 text-green-600 dark:text-green-400"
-              }`}
-            >
-              {member.role === "super_admin" || member.role === "superadmin" ? "Super Admin" : isAdmin ? "Admin" : "Employee"}
-            </span>
+            <Pill tone={isSuperAdmin ? "amber" : isAdmin ? "brand" : "emerald"} className="shrink-0">
+              {isSuperAdmin ? "Super Admin" : isAdmin ? "Admin" : "Employee"}
+            </Pill>
           </div>
 
           {/* Warning note */}
-          <div className="flex items-start gap-2 px-3 py-2.5 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 mb-5">
+          <div className="flex items-start gap-2 px-3 py-2.5 rounded-xl bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/20 mb-5">
             <svg className="w-3.5 h-3.5 text-amber-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
@@ -153,25 +129,10 @@ function DeleteConfirmModal({ member, onConfirm, onCancel }) {
 
           {/* Actions */}
           <div className="flex gap-2.5">
-            <button
-              onClick={onCancel}
-              disabled={deleting}
-              className="flex-1 py-2.5 rounded-xl border border-[#E4E7EF] dark:border-[#262A38]
-                text-[13px] font-semibold text-[#4B5168] dark:text-[#9DA3BB]
-                hover:bg-[#F1F4FF] dark:hover:bg-[#262A38]
-                disabled:opacity-50 disabled:cursor-not-allowed
-                transition-colors"
-            >
+            <button onClick={onCancel} disabled={deleting} className="btn-secondary btn-md flex-1">
               Cancel
             </button>
-            <button
-              onClick={handleConfirm}
-              disabled={deleting}
-              className="flex-1 py-2.5 rounded-xl bg-red-500 hover:bg-red-600
-                text-white text-[13px] font-semibold
-                disabled:opacity-60 disabled:cursor-not-allowed
-                transition-colors flex items-center justify-center gap-2"
-            >
+            <button onClick={handleConfirm} disabled={deleting} className="btn-danger btn-md flex-1">
               {deleting ? (
                 <>
                   <svg className="w-3.5 h-3.5 animate-spin" fill="none" viewBox="0 0 24 24">
@@ -192,11 +153,6 @@ function DeleteConfirmModal({ member, onConfirm, onCancel }) {
           </div>
         </div>
       </div>
-
-      <style>{`
-        @keyframes fadeIn  { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
-      `}</style>
     </div>
   );
 }
@@ -214,26 +170,26 @@ function CredentialsModal({ member, onClose, navigate }) {
     navigate("/login");
   };
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-      <div className="bg-white dark:bg-[#1A1D27] border border-[#E4E7EF] dark:border-[#262A38] rounded-2xl p-6 w-full max-w-sm mx-4 shadow-2xl">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm animate-fade-in">
+      <div className="surface-card !rounded-2xl p-6 w-full max-w-sm mx-4 shadow-popover animate-scale-in">
         <div className="flex flex-col items-center mb-5">
-          <div className="w-12 h-12 rounded-full bg-green-100 dark:bg-green-900/40 flex items-center justify-center mb-3">
-            <svg className="w-6 h-6 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
+          <div className="w-12 h-12 rounded-full bg-emerald-50 dark:bg-emerald-500/10 flex items-center justify-center mb-3">
+            <svg className="w-6 h-6 text-emerald-600 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
           </div>
-          <h2 className="text-sm font-bold text-[#0F1117] dark:text-[#F0F2FA]">Account Created</h2>
-          <p className="text-xs text-[#8B92A9] dark:text-[#565C75] mt-1 text-center">
-            Saved to database · <span className="font-semibold text-blue-600 dark:text-blue-400">{member.email}</span>
+          <h2 className="text-sm font-bold text-slate-900 dark:text-white">Account Created</h2>
+          <p className="text-xs text-slate-400 mt-1 text-center">
+            Saved to database · <span className="font-semibold text-indigo-600 dark:text-indigo-400">{member.email}</span>
           </p>
         </div>
         <div className="space-y-3 mb-5">
           {[{ label: "Email (Login)", value: member.email, key: "email" }, { label: "Password", value: member.password, key: "pass" }].map(({ label, value, key }) => (
-            <div key={key} className="bg-[#F8F9FC] dark:bg-[#13161E] border border-[#E4E7EF] dark:border-[#262A38] rounded-xl px-4 py-3">
-              <p className="text-[10px] font-semibold text-[#8B92A9] dark:text-[#565C75] uppercase tracking-wide mb-1">{label}</p>
+            <div key={key} className="bg-slate-50 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3">
+              <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wide mb-1">{label}</p>
               <div className="flex items-center justify-between gap-2">
-                <code className="text-xs font-mono font-bold text-[#0F1117] dark:text-[#F0F2FA] break-all">{value}</code>
-                <button onClick={() => copy(value, key)} className="shrink-0 w-7 h-7 rounded-lg border border-[#E4E7EF] dark:border-[#262A38] flex items-center justify-center text-[#8B92A9] hover:text-blue-600 hover:border-blue-400 transition">
+                <code className="text-xs font-mono font-bold text-slate-900 dark:text-white break-all">{value}</code>
+                <button onClick={() => copy(value, key)} className="icon-btn w-7 h-7">
                   {copied === key
-                    ? <svg className="w-3.5 h-3.5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
+                    ? <svg className="w-3.5 h-3.5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
                     : <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
                   }
                 </button>
@@ -241,11 +197,11 @@ function CredentialsModal({ member, onClose, navigate }) {
             </div>
           ))}
         </div>
-        <p className="text-[10px] text-[#8B92A9] dark:text-[#565C75] text-center mb-4">Share these credentials securely. Password can be changed later.</p>
+        <p className="text-[10px] text-slate-400 text-center mb-4">Share these credentials securely. Password can be changed later.</p>
         <div className="flex gap-2">
-          <button onClick={onClose} className="flex-1 py-2.5 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] text-xs font-semibold text-[#4B5168] dark:text-[#9DA3BB] hover:bg-[#F1F4FF] dark:hover:bg-[#262A38] transition">Done</button>
+          <button onClick={onClose} className="btn-secondary btn-md flex-1">Done</button>
           {isUser && (
-            <button onClick={handleLoginAsUser} className="flex-1 py-2.5 rounded-xl bg-[#2563EB] text-white text-xs font-semibold hover:bg-blue-700 transition flex items-center justify-center gap-1.5">
+            <button onClick={handleLoginAsUser} className="btn-primary btn-md flex-1">
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14"/></svg>
               Login as User
             </button>
@@ -303,31 +259,31 @@ function AddMemberModal({ role, onClose, onAdd, adminList = [], isSuperAdmin = f
     }
   };
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-      <div className="bg-white dark:bg-[#1A1D27] border border-[#E4E7EF] dark:border-[#262A38] rounded-2xl p-6 w-full max-w-sm mx-4 shadow-2xl max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm animate-fade-in">
+      <div className="surface-card !rounded-2xl p-6 w-full max-w-sm mx-4 shadow-popover max-h-[90vh] overflow-y-auto animate-scale-in">
         <div className="flex items-center justify-between mb-5">
           <div className="flex items-center gap-2.5">
-            <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${isAdmin ? "bg-blue-50 dark:bg-blue-950/40" : "bg-green-50 dark:bg-green-950/40"}`}>
+            <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${isAdmin ? "bg-indigo-50 dark:bg-indigo-500/10" : "bg-emerald-50 dark:bg-emerald-500/10"}`}>
               {isAdmin
-                ? <svg className="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-                : <svg className="w-4 h-4 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                ? <svg className="w-4 h-4 text-indigo-600 dark:text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                : <svg className="w-4 h-4 text-emerald-600 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
               }
             </div>
-            <h2 className="text-sm font-bold text-[#0F1117] dark:text-[#F0F2FA]">Add {isAdmin ? "Admin" : "Employee"}</h2>
+            <h2 className="text-sm font-bold text-slate-900 dark:text-white">Add {isAdmin ? "Admin" : "Employee"}</h2>
           </div>
-          <button onClick={onClose} className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-[#F1F4FF] dark:hover:bg-[#262A38] text-[#8B92A9] transition">
+          <button onClick={onClose} className="icon-btn w-7 h-7">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
           </button>
         </div>
         {name.trim() && (
-          <div className="mb-4 flex items-center gap-2 px-3 py-2 rounded-xl bg-[#F8F9FC] dark:bg-[#13161E] border border-[#E4E7EF] dark:border-[#262A38]">
-            <svg className="w-3.5 h-3.5 text-[#8B92A9] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-            <span className="text-[11px] text-[#8B92A9] dark:text-[#565C75]">Display name:</span>
-            <code className="text-[11px] font-mono font-bold text-blue-600 dark:text-blue-400">{usernameFromName(name)}</code>
+          <div className="mb-4 flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-50 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10">
+            <svg className="w-3.5 h-3.5 text-slate-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+            <span className="text-[11px] text-slate-400">Display name:</span>
+            <code className="text-[11px] font-mono font-bold text-indigo-600 dark:text-indigo-400">{usernameFromName(name)}</code>
           </div>
         )}
         {error && (
-          <p className="text-xs text-red-500 dark:text-red-400 mb-3 flex items-center gap-1.5">
+          <p className="text-xs text-rose-500 dark:text-rose-400 mb-3 flex items-center gap-1.5">
             <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
             {error}
           </p>
@@ -339,9 +295,9 @@ function AddMemberModal({ role, onClose, onAdd, adminList = [], isSuperAdmin = f
             { label: "Phone",       value: phone, set: setPhone, placeholder: "Mobile (optional)", type: "tel"   },
           ].map(f => (
             <div key={f.label} className="flex flex-col gap-1">
-              <label className="text-[10px] font-semibold text-[#8B92A9] dark:text-[#565C75] uppercase tracking-wide">{f.label}</label>
+              <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-wide">{f.label}</label>
               <input type={f.type} value={f.value} onChange={e => f.set(e.target.value)} placeholder={f.placeholder}
-                className="px-3 py-2 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-white dark:bg-[#13161E] text-xs text-[#0F1117] dark:text-[#F0F2FA] placeholder:text-[#8B92A9] dark:placeholder:text-[#565C75] focus:outline-none focus:border-[#2563EB] transition"
+                className="input-field px-3 py-2"
               />
             </div>
           ))}
@@ -350,15 +306,15 @@ function AddMemberModal({ role, onClose, onAdd, adminList = [], isSuperAdmin = f
               that Gmail). Optional. */}
           {!isAdmin && (
             <div className="flex flex-col gap-1">
-              <label className="text-[10px] font-semibold text-[#8B92A9] dark:text-[#565C75] uppercase tracking-wide">Contacts Email (Google account)</label>
+              <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-wide">Contacts Email (Google account)</label>
               <input
                 type="email"
                 value={contactAccountEmail}
                 onChange={e => setContactAccountEmail(e.target.value)}
                 placeholder="e.g. agent.contacts@gmail.com"
-                className="px-3 py-2 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-white dark:bg-[#13161E] text-xs text-[#0F1117] dark:text-[#F0F2FA] placeholder:text-[#8B92A9] dark:placeholder:text-[#565C75] focus:outline-none focus:border-[#2563EB] transition"
+                className="input-field px-3 py-2"
               />
-              <span className="text-[10px] text-[#8B92A9] dark:text-[#565C75] leading-snug">
+              <span className="text-[10px] text-slate-400 leading-snug">
                 Leads will auto-save to this Google account on the employee's phone.
                 The same account must be signed in on their device.
               </span>
@@ -367,11 +323,11 @@ function AddMemberModal({ role, onClose, onAdd, adminList = [], isSuperAdmin = f
           {/* Assign to Admin — super admin only, when adding an employee */}
           {!isAdmin && isSuperAdmin && (
             <div className="flex flex-col gap-1">
-              <label className="text-[10px] font-semibold text-[#8B92A9] dark:text-[#565C75] uppercase tracking-wide">Assign to Admin *</label>
+              <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-wide">Assign to Admin *</label>
               <select
                 value={assignedTo}
                 onChange={e => setAssignedTo(e.target.value)}
-                className="px-3 py-2 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-white dark:bg-[#13161E] text-xs text-[#0F1117] dark:text-[#F0F2FA] focus:outline-none focus:border-[#2563EB] transition"
+                className="input-field px-3 py-2"
               >
                 <option value="">— Select an admin —</option>
                 {adminList.filter(a => a.role !== "super_admin" && a.role !== "superadmin").map(a => (
@@ -382,57 +338,57 @@ function AddMemberModal({ role, onClose, onAdd, adminList = [], isSuperAdmin = f
           )}
         </div>
         <div className="my-4 flex items-center gap-2">
-          <div className="flex-1 h-px bg-[#E4E7EF] dark:bg-[#262A38]"/>
-          <span className="text-[10px] font-semibold text-[#8B92A9] dark:text-[#565C75] uppercase tracking-wide">Password</span>
-          <div className="flex-1 h-px bg-[#E4E7EF] dark:bg-[#262A38]"/>
+          <div className="flex-1 h-px bg-slate-200 dark:bg-white/10"/>
+          <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wide">Password</span>
+          <div className="flex-1 h-px bg-slate-200 dark:bg-white/10"/>
         </div>
-        <div className="mb-3 px-3 py-2.5 rounded-xl bg-[#F0F6FF] dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800">
+        <div className="mb-3 px-3 py-2.5 rounded-xl bg-indigo-50/60 dark:bg-indigo-500/10 border border-indigo-100 dark:border-indigo-500/20">
           <div className="flex items-center justify-between gap-2 mb-1.5">
             <div className="flex items-center gap-1.5">
-              <svg className="w-3.5 h-3.5 text-blue-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-              <span className="text-[11px] font-semibold text-blue-700 dark:text-blue-300">Auto-generate a strong password</span>
+              <svg className="w-3.5 h-3.5 text-indigo-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              <span className="text-[11px] font-semibold text-indigo-700 dark:text-indigo-300">Auto-generate a strong password</span>
             </div>
-            <button onClick={handleGenerate} className="px-2.5 py-1 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-[10px] font-bold transition">Generate</button>
+            <button onClick={handleGenerate} className="btn-primary btn-sm !px-2.5 !py-1 !text-[10px]">Generate</button>
           </div>
           {suggestedPwd ? (
-            <div className="flex items-center gap-2 mt-1.5 p-2 rounded-lg bg-white dark:bg-[#13161E] border border-[#E4E7EF] dark:border-[#262A38]">
+            <div className="flex items-center gap-2 mt-1.5 p-2 rounded-lg bg-white dark:bg-white/[0.04] border border-slate-200 dark:border-white/10">
               <code className="flex-1 text-[11px] font-mono font-bold text-emerald-600 dark:text-emerald-400 break-all">{suggestedPwd}</code>
               <button onClick={handleUseSuggestion} className="shrink-0 px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-[10px] font-bold transition">Use this</button>
             </div>
           ) : (
-            <p className="text-[10px] text-blue-600 dark:text-blue-400">Click Generate to get a secure password suggestion.</p>
+            <p className="text-[10px] text-indigo-600 dark:text-indigo-400">Click Generate to get a secure password suggestion.</p>
           )}
         </div>
         <div className="flex flex-col gap-1 mb-1">
-          <label className="text-[10px] font-semibold text-[#8B92A9] dark:text-[#565C75] uppercase tracking-wide">Password *</label>
+          <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-wide">Password *</label>
           <div className="relative">
             <input type={showPwd ? "text" : "password"} value={password} onChange={e => setPassword(e.target.value)} placeholder="Enter password"
-              className="w-full px-3 py-2 pr-9 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-white dark:bg-[#13161E] text-xs text-[#0F1117] dark:text-[#F0F2FA] placeholder:text-[#8B92A9] focus:outline-none focus:border-[#2563EB] transition font-mono"
+              className="input-field px-3 py-2 pr-9 font-mono"
             />
-            <button type="button" onClick={() => setShowPwd(v => !v)} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#8B92A9] hover:text-[#4B5168] transition"><EyeIcon open={showPwd}/></button>
+            <button type="button" onClick={() => setShowPwd(v => !v)} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition"><EyeIcon open={showPwd}/></button>
           </div>
           {strength && (
             <div className="mt-1.5 flex items-center gap-2">
-              <div className="flex-1 h-1.5 bg-[#E4E7EF] dark:bg-[#262A38] rounded-full overflow-hidden">
+              <div className="flex-1 h-1.5 bg-slate-200 dark:bg-white/10 rounded-full overflow-hidden">
                 <div className={`h-full rounded-full transition-all duration-300 ${strength.color} ${strength.width}`}/>
               </div>
-              <span className={`text-[10px] font-semibold ${strength.label==="Weak"?"text-red-500":strength.label==="Fair"?"text-amber-500":strength.label==="Good"?"text-blue-500":"text-emerald-600"}`}>{strength.label}</span>
+              <span className={`text-[10px] font-semibold ${strength.label==="Weak"?"text-rose-500":strength.label==="Fair"?"text-amber-500":strength.label==="Good"?"text-sky-500":"text-emerald-600"}`}>{strength.label}</span>
             </div>
           )}
         </div>
         <div className="flex flex-col gap-1 mt-3">
-          <label className="text-[10px] font-semibold text-[#8B92A9] dark:text-[#565C75] uppercase tracking-wide">Confirm Password *</label>
+          <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-wide">Confirm Password *</label>
           <div className="relative">
             <input type={showConfirm ? "text" : "password"} value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} placeholder="Re-enter password"
-              className={`w-full px-3 py-2 pr-9 rounded-xl border bg-white dark:bg-[#13161E] text-xs text-[#0F1117] dark:text-[#F0F2FA] placeholder:text-[#8B92A9] focus:outline-none transition font-mono ${
-                confirmPassword && confirmPassword !== password ? "border-red-400 focus:border-red-500"
-                : confirmPassword && confirmPassword === password ? "border-emerald-400 focus:border-emerald-500"
-                : "border-[#E4E7EF] dark:border-[#262A38] focus:border-[#2563EB]"}`}
+              className={`input-field px-3 py-2 pr-9 font-mono ${
+                confirmPassword && confirmPassword !== password ? "!border-rose-400 focus:!border-rose-500"
+                : confirmPassword && confirmPassword === password ? "!border-emerald-400 focus:!border-emerald-500"
+                : ""}`}
             />
-            <button type="button" onClick={() => setShowConfirm(v => !v)} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#8B92A9] hover:text-[#4B5168] transition"><EyeIcon open={showConfirm}/></button>
+            <button type="button" onClick={() => setShowConfirm(v => !v)} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition"><EyeIcon open={showConfirm}/></button>
           </div>
           {confirmPassword && (
-            <p className={`text-[10px] mt-1 flex items-center gap-1 ${confirmPassword === password ? "text-emerald-600 dark:text-emerald-400" : "text-red-500 dark:text-red-400"}`}>
+            <p className={`text-[10px] mt-1 flex items-center gap-1 ${confirmPassword === password ? "text-emerald-600 dark:text-emerald-400" : "text-rose-500 dark:text-rose-400"}`}>
               {confirmPassword === password
                 ? <><svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>Passwords match</>
                 : <><svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>Passwords do not match</>
@@ -440,13 +396,13 @@ function AddMemberModal({ role, onClose, onAdd, adminList = [], isSuperAdmin = f
             </p>
           )}
         </div>
-        <div className="mt-3 px-3 py-2.5 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 flex items-start gap-2">
+        <div className="mt-3 px-3 py-2.5 rounded-xl bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/20 flex items-start gap-2">
           <svg className="w-3.5 h-3.5 text-amber-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
           <p className="text-[11px] text-amber-700 dark:text-amber-400">Use 8+ characters with uppercase, numbers &amp; symbols.</p>
         </div>
         <div className="flex gap-2 mt-5">
-          <button onClick={onClose} className="flex-1 py-2 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] text-xs font-semibold text-[#4B5168] dark:text-[#9DA3BB] hover:bg-[#F1F4FF] dark:hover:bg-[#262A38] transition">Cancel</button>
-          <button onClick={handleAdd} disabled={loading} className={`flex-1 py-2 rounded-xl text-white text-xs font-semibold transition flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed ${isAdmin ? "bg-[#2563EB] hover:bg-blue-700" : "bg-[#059669] hover:bg-emerald-700"}`}>
+          <button onClick={onClose} className="btn-secondary btn-md flex-1">Cancel</button>
+          <button onClick={handleAdd} disabled={loading} className="btn-primary btn-md flex-1">
             {loading
               ? <><svg className="w-3.5 h-3.5 animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg>Creating...</>
               : "Create Account"
@@ -463,48 +419,36 @@ function SlotBar({ used, max, isAdmin }) {
   const pct = Math.min(Math.round((used / max) * 100), 100);
   return (
     <div className="flex items-center gap-2 mt-1.5">
-      <div className="w-28 h-1.5 bg-[#E4E7EF] dark:bg-[#262A38] rounded-full overflow-hidden">
-        <div className={`h-full rounded-full transition-all duration-500 ${isAdmin ? "bg-[#2563EB]" : "bg-[#059669]"}`} style={{ width: `${pct}%` }}/>
+      <div className="w-28 h-1.5 bg-slate-200 dark:bg-white/10 rounded-full overflow-hidden">
+        <div className={`h-full rounded-full transition-all duration-500 ${isAdmin ? "bg-indigo-600" : "bg-emerald-600"}`} style={{ width: `${pct}%` }}/>
       </div>
-      <span className="text-[11px] text-[#8B92A9] dark:text-[#565C75]">{used}/{max} slots</span>
+      <span className="text-[11px] text-slate-400">{used}/{max} slots</span>
     </div>
   );
 }
 
 // ── Member Row ────────────────────────────────────────────────────────────────
 function MemberRow({ member, onRequestRemove, onResetPassword, onReassign, onMeetingPermission }) {
-  const initials = member.name.split(" ").map(n => n[0]).join("").slice(0, 2).toUpperCase();
-  const uid = member._id || member.id || member.email;
   const isSuperAdmin = member.role === "super_admin" || member.role === "superadmin";
   const isAdmin = member.role === "admin" || isSuperAdmin;
 
-  const roleBadge = isSuperAdmin
-    ? { label: "Super Admin", cls: "bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400" }
-    : isAdmin
-    ? { label: "Admin", cls: "bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400" }
-    : { label: "Employee", cls: "bg-green-50 dark:bg-green-950/40 text-green-600 dark:text-green-400" };
+  const roleTone = isSuperAdmin ? "amber" : isAdmin ? "brand" : "emerald";
+  const roleLabel = isSuperAdmin ? "Super Admin" : isAdmin ? "Admin" : "Employee";
 
   const assignedAdminName = member.assignedTo?.name || null;
 
   return (
-    <div className="flex items-center gap-3 py-3 border-b border-[#E4E7EF] dark:border-[#262A38] last:border-0 group">
-      <div
-        className="w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-bold text-white shrink-0"
-        style={{ background: avatarHex(uid) }}
-      >
-        {initials}
-      </div>
+    <div className="flex items-center gap-3 py-3 border-b border-slate-100 dark:border-white/[0.06] last:border-0 group">
+      <Avatar name={member.name} size={8} />
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-1.5">
-          <p className="text-xs font-semibold text-[#0F1117] dark:text-[#F0F2FA] truncate">{member.name}</p>
-          <span className={`shrink-0 px-1.5 py-0.5 rounded-full text-[9px] font-semibold ${roleBadge.cls}`}>
-            {roleBadge.label}
-          </span>
+          <p className="text-xs font-semibold text-slate-900 dark:text-white truncate">{member.name}</p>
+          <Pill tone={roleTone} className="shrink-0 !text-[9px] !py-0">{roleLabel}</Pill>
         </div>
-        <p className="text-[11px] text-[#8B92A9] dark:text-[#565C75] truncate">{member.email}</p>
+        <p className="text-[11px] text-slate-400 truncate">{member.email}</p>
         {/* Show assigned admin for employee rows */}
         {!isAdmin && assignedAdminName && (
-          <p className="text-[10px] text-blue-500 dark:text-blue-400 truncate mt-0.5">
+          <p className="text-[10px] text-indigo-500 dark:text-indigo-400 truncate mt-0.5">
             Assigned: {assignedAdminName}
           </p>
         )}
@@ -525,7 +469,7 @@ function MemberRow({ member, onRequestRemove, onResetPassword, onReassign, onMee
         {onResetPassword && (
           <button
             onClick={() => onResetPassword(member)}
-            className="w-6 h-6 flex items-center justify-center rounded-lg border border-[#E4E7EF] dark:border-[#262A38] hover:border-blue-400 hover:text-blue-600 text-[#8B92A9] transition"
+            className="icon-btn w-6 h-6 hover:text-indigo-600 dark:hover:text-indigo-400"
             title="Reset password"
           >
             <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
@@ -535,7 +479,7 @@ function MemberRow({ member, onRequestRemove, onResetPassword, onReassign, onMee
         {onReassign && !isAdmin && (
           <button
             onClick={() => onReassign(member)}
-            className="w-6 h-6 flex items-center justify-center rounded-lg border border-[#E4E7EF] dark:border-[#262A38] hover:border-blue-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950/30 text-[#8B92A9] transition"
+            className="icon-btn w-6 h-6 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-500/10"
             title="Reassign admin"
           >
             <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -547,12 +491,12 @@ function MemberRow({ member, onRequestRemove, onResetPassword, onReassign, onMee
         {!isAdmin && onMeetingPermission && (
           <button
             onClick={() => onMeetingPermission(member)}
-            className={`relative w-6 h-6 flex items-center justify-center rounded-lg border transition ${
+            className={`relative w-6 h-6 flex items-center justify-center rounded-xl border transition ${
               member.meetingPermissionStatus === 'pending'
-                ? 'border-orange-400 text-orange-500 bg-orange-50 dark:bg-orange-950/30 animate-pulse'
+                ? 'border-orange-400 text-orange-500 bg-orange-50 dark:bg-orange-500/10 animate-pulse'
                 : member.clientMeetingPermission
-                ? 'border-emerald-400 text-emerald-500 bg-emerald-50 dark:bg-emerald-950/30'
-                : 'border-[#E4E7EF] dark:border-[#262A38] text-[#8B92A9] hover:border-emerald-400 hover:text-emerald-500 hover:bg-emerald-50 dark:hover:bg-emerald-950/30'
+                ? 'border-emerald-400 text-emerald-500 bg-emerald-50 dark:bg-emerald-500/10'
+                : 'border-transparent text-slate-400 hover:border-emerald-400 hover:text-emerald-500 hover:bg-emerald-50 dark:hover:bg-emerald-500/10'
             }`}
             title={
               member.meetingPermissionStatus === 'pending'
@@ -565,14 +509,14 @@ function MemberRow({ member, onRequestRemove, onResetPassword, onReassign, onMee
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
             </svg>
             {member.meetingPermissionStatus === 'pending' && (
-              <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-orange-500 border border-white dark:border-[#1A1D27]" />
+              <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-orange-500 border border-white dark:border-[#181029]" />
             )}
           </button>
         )}
         {onRequestRemove && !isSuperAdmin && (
           <button
             onClick={() => onRequestRemove(member)}
-            className="w-6 h-6 flex items-center justify-center rounded-lg border border-[#E4E7EF] dark:border-[#262A38] hover:border-red-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 text-[#8B92A9] transition"
+            className="icon-btn w-6 h-6 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-500/10"
             title="Remove"
           >
             <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -582,7 +526,7 @@ function MemberRow({ member, onRequestRemove, onResetPassword, onReassign, onMee
         )}
         {isSuperAdmin && (
           <span
-            className="w-6 h-6 flex items-center justify-center rounded-lg border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-950/30 text-amber-500"
+            className="w-6 h-6 flex items-center justify-center rounded-xl border border-amber-200 dark:border-amber-500/20 bg-amber-50 dark:bg-amber-500/10 text-amber-500"
             title="Super Admin cannot be deleted"
           >
             <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -591,7 +535,7 @@ function MemberRow({ member, onRequestRemove, onResetPassword, onReassign, onMee
           </span>
         )}
       </div>
-      <span className="text-[10px] text-[#8B92A9] dark:text-[#565C75] whitespace-nowrap shrink-0">
+      <span className="text-[10px] text-slate-400 whitespace-nowrap shrink-0">
         {member.addedOn || (member.createdAt ? new Date(member.createdAt).toLocaleDateString("en-GB", { day:"2-digit", month:"short", year:"numeric" }) : "—")}
       </span>
     </div>
@@ -621,41 +565,39 @@ function ReassignUserModal({ user, adminList, onClose, onReassign }) {
   const regularAdmins = adminList.filter(a => a.role !== "super_admin" && a.role !== "superadmin");
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-      <div className="bg-white dark:bg-[#1A1D27] border border-[#E4E7EF] dark:border-[#262A38] rounded-2xl w-full max-w-sm shadow-2xl overflow-hidden">
-        <div className="h-1 w-full bg-blue-500" />
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4 animate-fade-in">
+      <div className="surface-card !rounded-2xl w-full max-w-sm shadow-popover overflow-hidden animate-scale-in">
+        <div className="h-1 w-full bg-indigo-500" />
         <div className="p-6">
           <div className="flex items-center justify-between mb-5">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-xl bg-blue-50 dark:bg-blue-950/40 flex items-center justify-center">
-                <svg className="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <div className="w-8 h-8 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center">
+                <svg className="w-4 h-4 text-indigo-600 dark:text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
                 </svg>
               </div>
-              <h2 className="text-sm font-bold text-[#0F1117] dark:text-[#F0F2FA]">Reassign Employee</h2>
+              <h2 className="text-sm font-bold text-slate-900 dark:text-white">Reassign Employee</h2>
             </div>
-            <button onClick={onClose} className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-[#F1F4FF] dark:hover:bg-[#262A38] text-[#8B92A9] transition">
+            <button onClick={onClose} className="icon-btn w-7 h-7">
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
             </button>
           </div>
 
           {/* Employee info */}
-          <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-[#F8F9FC] dark:bg-[#13161E] border border-[#E4E7EF] dark:border-[#262A38] mb-4">
-            <div className="w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-bold text-white shrink-0" style={{ background: avatarHex(user._id || user.email) }}>
-              {user.name.split(" ").map(n => n[0]).join("").slice(0, 2).toUpperCase()}
-            </div>
+          <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-slate-50 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 mb-4">
+            <Avatar name={user.name} size={8} />
             <div className="flex-1 min-w-0">
-              <p className="text-xs font-semibold text-[#0F1117] dark:text-[#F0F2FA] truncate">{user.name}</p>
-              <p className="text-[11px] text-[#8B92A9] dark:text-[#565C75] truncate">{user.email}</p>
+              <p className="text-xs font-semibold text-slate-900 dark:text-white truncate">{user.name}</p>
+              <p className="text-[11px] text-slate-400 truncate">{user.email}</p>
             </div>
           </div>
 
           <div className="flex flex-col gap-1 mb-4">
-            <label className="text-[10px] font-semibold text-[#8B92A9] dark:text-[#565C75] uppercase tracking-wide">Assign to Admin</label>
+            <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-wide">Assign to Admin</label>
             <select
               value={selectedAdmin}
               onChange={e => setSelectedAdmin(e.target.value)}
-              className="px-3 py-2 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-white dark:bg-[#13161E] text-xs text-[#0F1117] dark:text-[#F0F2FA] focus:outline-none focus:border-[#2563EB] transition"
+              className="input-field px-3 py-2"
             >
               <option value="">— Select an admin —</option>
               {regularAdmins.map(a => (
@@ -665,15 +607,15 @@ function ReassignUserModal({ user, adminList, onClose, onReassign }) {
           </div>
 
           {error && (
-            <p className="text-xs text-red-500 mb-3 flex items-center gap-1.5">
+            <p className="text-xs text-rose-500 mb-3 flex items-center gap-1.5">
               <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
               {error}
             </p>
           )}
 
           <div className="flex gap-2">
-            <button onClick={onClose} disabled={loading} className="flex-1 py-2.5 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] text-xs font-semibold text-[#4B5168] dark:text-[#9DA3BB] hover:bg-[#F1F4FF] dark:hover:bg-[#262A38] transition disabled:opacity-50">Cancel</button>
-            <button onClick={handleSave} disabled={loading} className="flex-1 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold transition flex items-center justify-center gap-2 disabled:opacity-60">
+            <button onClick={onClose} disabled={loading} className="btn-secondary btn-md flex-1">Cancel</button>
+            <button onClick={handleSave} disabled={loading} className="btn-primary btn-md flex-1">
               {loading
                 ? <><svg className="w-3.5 h-3.5 animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg>Saving…</>
                 : "Save Assignment"
@@ -749,55 +691,54 @@ function MarketingPanelSection() {
   };
 
   return (
-    <div className="bg-white dark:bg-[#11131C] border border-[#E4E7EF] dark:border-[#1E2133] rounded-2xl overflow-hidden mt-6">
+    <div className="surface-card overflow-hidden mt-6">
       {/* Header */}
-      <div className="flex items-center gap-3 px-5 py-4 border-b border-[#E4E7EF] dark:border-[#1E2133] bg-gradient-to-r from-indigo-50 to-violet-50 dark:from-indigo-950/20 dark:to-violet-950/20">
-        <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center shrink-0">
+      <div className="flex items-center gap-3 px-5 py-4 border-b border-slate-100 dark:border-white/[0.06] bg-gradient-to-r from-indigo-50 to-violet-50 dark:from-indigo-500/10 dark:to-violet-500/10">
+        <div className="w-8 h-8 rounded-xl bg-brand-gradient flex items-center justify-center shrink-0">
           <BarChart3 className="w-4 h-4 text-white" />
         </div>
         <div className="flex-1 min-w-0">
-          <p className="text-[14px] font-bold text-[#0F1117] dark:text-[#F0F2FA]">Marketing Panel Access</p>
-          <p className="text-[11px] text-[#8B92A9]">Create logins for the Performance Marketing Dashboard · <span className="font-semibold text-indigo-600 dark:text-indigo-400">launcherdesk.com/marketing/login</span></p>
+          <p className="text-[14px] font-bold text-slate-900 dark:text-white">Marketing Panel Access</p>
+          <p className="text-[11px] text-slate-400">Create logins for the Performance Marketing Dashboard · <span className="font-semibold text-indigo-600 dark:text-indigo-400">launcherdesk.com/marketing/login</span></p>
         </div>
-        <button onClick={() => { setShowForm(!showForm); setError(""); }}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-[12px] font-bold transition-colors">
+        <button onClick={() => { setShowForm(!showForm); setError(""); }} className="btn-primary btn-sm">
           <Plus className="w-3.5 h-3.5" /> Add User
         </button>
       </div>
 
       <div className="p-5 space-y-4">
-        {error   && <p className="text-[12px] text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-800/30 rounded-xl px-3 py-2">{error}</p>}
-        {success && <p className="text-[12px] text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-800/30 rounded-xl px-3 py-2">{success}</p>}
+        {error   && <p className="text-[12px] text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 rounded-xl px-3 py-2">{error}</p>}
+        {success && <p className="text-[12px] text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 rounded-xl px-3 py-2">{success}</p>}
 
         {/* Create form */}
         {showForm && (
-          <div className="border border-indigo-200 dark:border-indigo-800/40 bg-indigo-50/50 dark:bg-indigo-950/10 rounded-2xl p-4 space-y-3">
-            <p className="text-[12px] font-bold text-[#0F1117] dark:text-[#DDE1F5]">New Marketing Panel User</p>
+          <div className="border border-indigo-200 dark:border-indigo-500/20 bg-indigo-50/50 dark:bg-indigo-500/5 rounded-2xl p-4 space-y-3">
+            <p className="text-[12px] font-bold text-slate-900 dark:text-white">New Marketing Panel User</p>
             <div className="grid sm:grid-cols-3 gap-3">
               <div>
-                <label className="block text-[10px] font-bold uppercase tracking-wider text-[#8B92A9] mb-1">Full Name</label>
+                <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Full Name</label>
                 <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="e.g. Marketing Manager"
-                  className="w-full text-[12px] px-3 py-2 rounded-xl border border-[#E4E7EF] dark:border-[#1E2133] bg-white dark:bg-[#11131C] focus:outline-none focus:border-indigo-400 text-[#0F1117] dark:text-[#DDE1F5]" />
+                  className="input-field px-3 py-2 text-[12px]" />
               </div>
               <div>
-                <label className="block text-[10px] font-bold uppercase tracking-wider text-[#8B92A9] mb-1">Email</label>
+                <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Email</label>
                 <input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="marketing@company.com"
-                  className="w-full text-[12px] px-3 py-2 rounded-xl border border-[#E4E7EF] dark:border-[#1E2133] bg-white dark:bg-[#11131C] focus:outline-none focus:border-indigo-400 text-[#0F1117] dark:text-[#DDE1F5]" />
+                  className="input-field px-3 py-2 text-[12px]" />
               </div>
               <div>
-                <label className="block text-[10px] font-bold uppercase tracking-wider text-[#8B92A9] mb-1">Password</label>
+                <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Password</label>
                 <div className="relative">
                   <input type={showPwd ? "text" : "password"} value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} placeholder="Min 8 characters"
-                    className="w-full text-[12px] px-3 py-2 pr-9 rounded-xl border border-[#E4E7EF] dark:border-[#1E2133] bg-white dark:bg-[#11131C] focus:outline-none focus:border-indigo-400 text-[#0F1117] dark:text-[#DDE1F5]" />
-                  <button type="button" onClick={() => setShowPwd(!showPwd)} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#8B92A9]">
+                    className="input-field px-3 py-2 pr-9 text-[12px]" />
+                  <button type="button" onClick={() => setShowPwd(!showPwd)} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400">
                     {showPwd ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
                   </button>
                 </div>
               </div>
             </div>
             <div className="flex gap-2 justify-end">
-              <button onClick={() => { setShowForm(false); setError(""); }} className="px-4 py-2 rounded-xl text-[12px] font-semibold text-[#8B92A9] hover:text-[#0F1117] dark:hover:text-[#DDE1F5]">Cancel</button>
-              <button onClick={create} disabled={saving} className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white text-[12px] font-bold">
+              <button onClick={() => { setShowForm(false); setError(""); }} className="btn-ghost btn-sm">Cancel</button>
+              <button onClick={create} disabled={saving} className="btn-primary btn-sm">
                 {saving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Plus className="w-3.5 h-3.5" />} Create
               </button>
             </div>
@@ -806,39 +747,37 @@ function MarketingPanelSection() {
 
         {/* List */}
         {loading ? (
-          <div className="flex justify-center py-6"><Loader2 className="w-5 h-5 animate-spin text-[#8B92A9]" /></div>
+          <div className="flex justify-center py-6"><Loader2 className="w-5 h-5 animate-spin text-slate-400" /></div>
         ) : users.length === 0 ? (
           <div className="text-center py-8">
-            <BarChart3 className="w-8 h-8 text-[#C4C9DA] mx-auto mb-2" strokeWidth={1.5} />
-            <p className="text-[13px] font-semibold text-[#0F1117] dark:text-[#DDE1F5]">No marketing panel users yet</p>
-            <p className="text-[12px] text-[#8B92A9] mt-0.5">Click "Add User" to create dashboard credentials.</p>
+            <BarChart3 className="w-8 h-8 text-slate-300 dark:text-slate-600 mx-auto mb-2" strokeWidth={1.5} />
+            <p className="text-[13px] font-semibold text-slate-900 dark:text-white">No marketing panel users yet</p>
+            <p className="text-[12px] text-slate-400 mt-0.5">Click "Add User" to create dashboard credentials.</p>
           </div>
         ) : (
           <div className="space-y-2">
             {users.map((u) => (
-              <div key={u._id} className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#F8F9FC] dark:bg-[#0D0F14] border border-[#E4E7EF] dark:border-[#1E2133]">
-                <div className="w-8 h-8 rounded-xl bg-indigo-100 dark:bg-indigo-950/40 flex items-center justify-center shrink-0 text-indigo-600 font-bold text-[12px]">
-                  {(u.name || "U").charAt(0).toUpperCase()}
-                </div>
+              <div key={u._id} className="flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-50 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10">
+                <Avatar name={u.name || "U"} size={8} />
                 <div className="flex-1 min-w-0">
-                  <p className="text-[13px] font-semibold text-[#0F1117] dark:text-[#DDE1F5] truncate">{u.name}</p>
+                  <p className="text-[13px] font-semibold text-slate-900 dark:text-white truncate">{u.name}</p>
                   <div className="flex items-center gap-1.5">
-                    <p className="text-[11px] text-[#8B92A9] truncate">{u.email}</p>
-                    <button onClick={() => copy(u.email, `e-${u._id}`)} className="text-[#C4C9DA] hover:text-indigo-500 shrink-0">
+                    <p className="text-[11px] text-slate-400 truncate">{u.email}</p>
+                    <button onClick={() => copy(u.email, `e-${u._id}`)} className="text-slate-300 dark:text-slate-600 hover:text-indigo-500 shrink-0">
                       {copied === `e-${u._id}` ? <Check className="w-3 h-3 text-emerald-500" /> : <Copy className="w-3 h-3" />}
                     </button>
                   </div>
                 </div>
-                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0 ${u.marketingAccess ? "bg-emerald-50 text-emerald-600 dark:bg-emerald-950/30 dark:text-emerald-400" : "bg-slate-100 text-slate-500 dark:bg-white/5"}`}>
+                <Pill tone={u.marketingAccess ? "emerald" : "slate"} className="shrink-0">
                   {u.marketingAccess ? "Active" : "Disabled"}
-                </span>
+                </Pill>
                 <button onClick={() => copy("https://launcherdesk.com/marketing/login", `url-${u._id}`)} className="text-[11px] font-semibold text-indigo-600 dark:text-indigo-400 hover:underline shrink-0 hidden sm:block">
                   {copied === `url-${u._id}` ? "Copied!" : "Copy login URL"}
                 </button>
-                <button onClick={() => toggle(u._id)} disabled={toggling === u._id} title={u.marketingAccess ? "Disable" : "Enable"} className="text-[#8B92A9] hover:text-indigo-600 shrink-0 disabled:opacity-50">
+                <button onClick={() => toggle(u._id)} disabled={toggling === u._id} title={u.marketingAccess ? "Disable" : "Enable"} className="text-slate-400 hover:text-indigo-600 shrink-0 disabled:opacity-50">
                   {toggling === u._id ? <Loader2 className="w-5 h-5 animate-spin" /> : u.marketingAccess ? <ToggleRight className="w-5 h-5 text-indigo-600" /> : <ToggleLeft className="w-5 h-5" />}
                 </button>
-                <button onClick={() => remove(u._id)} disabled={deleting === u._id} title="Remove" className="text-[#8B92A9] hover:text-rose-500 shrink-0 disabled:opacity-50">
+                <button onClick={() => remove(u._id)} disabled={deleting === u._id} title="Remove" className="text-slate-400 hover:text-rose-500 shrink-0 disabled:opacity-50">
                   {deleting === u._id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
                 </button>
               </div>
@@ -846,7 +785,7 @@ function MarketingPanelSection() {
           </div>
         )}
 
-        <p className="text-[11px] text-[#8B92A9]">
+        <p className="text-[11px] text-slate-400">
           These users can only log into the <strong>Performance Marketing Dashboard</strong> — they cannot access the main CRM. Toggle to temporarily suspend access without deleting the account.
         </p>
       </div>
@@ -1154,24 +1093,24 @@ export default function UserManagement({
       )}
 
       {upgradeAlert && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-          <div className="bg-white dark:bg-[#1A1D27] border border-[#E4E7EF] dark:border-[#262A38] rounded-2xl p-6 w-full max-w-sm mx-4 shadow-2xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm animate-fade-in">
+          <div className="surface-card !rounded-2xl p-6 w-full max-w-sm mx-4 shadow-popover animate-scale-in">
             <div className="flex flex-col items-center mb-5">
-              <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-3 ${upgradeAlert.contactSuperAdmin ? "bg-blue-100 dark:bg-blue-900/40" : "bg-amber-100 dark:bg-amber-900/40"}`}>
+              <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-3 ${upgradeAlert.contactSuperAdmin ? "bg-indigo-50 dark:bg-indigo-500/10" : "bg-amber-50 dark:bg-amber-500/10"}`}>
                 {upgradeAlert.contactSuperAdmin
-                  ? <svg className="w-6 h-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                  ? <svg className="w-6 h-6 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
                   : <svg className="w-6 h-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
                 }
               </div>
-              <h2 className="text-sm font-bold text-[#0F1117] dark:text-[#F0F2FA] text-center">{upgradeAlert.title}</h2>
-              <p className="text-xs text-[#8B92A9] dark:text-[#565C75] mt-2 text-center leading-relaxed">{upgradeAlert.message}</p>
+              <h2 className="text-sm font-bold text-slate-900 dark:text-white text-center">{upgradeAlert.title}</h2>
+              <p className="text-xs text-slate-400 mt-2 text-center leading-relaxed">{upgradeAlert.message}</p>
             </div>
             <div className="flex gap-2">
-              <button onClick={() => setUpgradeAlert("")} className="flex-1 py-2.5 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] text-xs font-semibold text-[#4B5168] dark:text-[#9DA3BB] hover:bg-[#F1F4FF] dark:hover:bg-[#262A38] transition">
+              <button onClick={() => setUpgradeAlert("")} className="btn-secondary btn-md flex-1">
                 {upgradeAlert.contactSuperAdmin ? "OK" : "Cancel"}
               </button>
               {!upgradeAlert.contactSuperAdmin && (
-                <button onClick={() => { setUpgradeAlert(""); navigate("/upgrade-plan"); }} className="flex-1 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-xs font-semibold transition flex items-center justify-center gap-1.5">
+                <button onClick={() => { setUpgradeAlert(""); navigate("/upgrade-plan"); }} className="btn-primary btn-md flex-1">
                   <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                   Upgrade Plan
                 </button>
@@ -1184,8 +1123,8 @@ export default function UserManagement({
       {/* Header */}
       <div className="flex flex-wrap items-start justify-between gap-4 mb-6">
         <div>
-          <h2 className="text-[18px] font-bold text-[#0F1117] dark:text-[#F0F2FA]">Employee Management</h2>
-          <p className="text-[13px] text-[#8B92A9] dark:text-[#565C75] mt-0.5">
+          <h2 className="text-[18px] font-bold text-slate-900 dark:text-white">Employee Management</h2>
+          <p className="text-[13px] text-slate-400 mt-0.5">
             Manage admins and employees on your <span className={`font-semibold ${cfg.statColor}`}>{cfg.label}</span> plan
           </p>
         </div>
@@ -1212,14 +1151,14 @@ export default function UserManagement({
             <>
               <div className="text-center">
                 <div className={`text-xl font-bold ${cfg.statColor}`}>{regularAdminCount}/{maxAdmins ?? cfg.maxAdmins}</div>
-                <div className="text-[10px] text-[#8B92A9] dark:text-[#565C75] uppercase tracking-wide">Admins</div>
+                <div className="text-[10px] text-slate-400 uppercase tracking-wide">Admins</div>
               </div>
               <div className={`w-px h-8 ${cfg.dividerColor}`}/>
             </>
           )}
           <div className="text-center">
-            <div className="text-xl font-bold text-[#059669] dark:text-[#34D399]">{totalCompanyUsers}/{maxUsers ?? cfg.maxUsers}</div>
-            <div className="text-[10px] text-[#8B92A9] dark:text-[#565C75] uppercase tracking-wide">Employees</div>
+            <div className="text-xl font-bold text-emerald-600 dark:text-emerald-400">{totalCompanyUsers}/{maxUsers ?? cfg.maxUsers}</div>
+            <div className="text-[10px] text-slate-400 uppercase tracking-wide">Employees</div>
           </div>
           {isCompanySuperAdmin && (
             <>
@@ -1234,26 +1173,23 @@ export default function UserManagement({
 
         {/* Admins — super admin only */}
         {isCompanySuperAdmin && (
-          <div className="bg-white dark:bg-[#1A1D27] border border-[#E4E7EF] dark:border-[#262A38] rounded-2xl overflow-hidden">
-            <div className="px-5 py-4 border-b border-[#E4E7EF] dark:border-[#262A38] flex items-center justify-between">
+          <div className="surface-card overflow-hidden">
+            <div className="px-5 py-4 border-b border-slate-100 dark:border-white/[0.06] flex items-center justify-between">
               <div>
                 <div className="flex items-center gap-2">
-                  <svg className="w-4 h-4 text-[#2563EB]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-                  <h3 className="text-sm font-bold text-[#0F1117] dark:text-[#F0F2FA]">Admins</h3>
+                  <svg className="w-4 h-4 text-indigo-600 dark:text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                  <h3 className="text-sm font-bold text-slate-900 dark:text-white">Admins</h3>
                 </div>
                 <SlotBar used={regularAdminCount} max={maxAdmins ?? cfg.maxAdmins} isAdmin/>
               </div>
-              <button
-                onClick={() => tryAdd("admin")}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition bg-blue-50 dark:bg-blue-950/40 text-[#2563EB] dark:text-blue-400 hover:bg-blue-100"
-              >
+              <button onClick={() => tryAdd("admin")} className="btn-secondary btn-sm !bg-indigo-50 dark:!bg-indigo-500/10 !text-indigo-600 dark:!text-indigo-400 !border-transparent hover:!bg-indigo-100 dark:hover:!bg-indigo-500/20">
                 <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4"/></svg>
                 Add Admin
               </button>
             </div>
             <div className="px-5 py-2 max-h-80 overflow-y-auto">
               {admins.length === 0
-                ? <div className="py-8 text-center"><p className="text-xs text-[#8B92A9] dark:text-[#565C75]">No admins yet</p></div>
+                ? <div className="py-8 text-center"><p className="text-xs text-slate-400">No admins yet</p></div>
                 : (() => {
                     const superAdminList = admins.filter(m => m.role === "super_admin" || m.role === "superadmin");
                     const regularAdmins  = admins.filter(m => m.role !== "super_admin" && m.role !== "superadmin");
@@ -1263,12 +1199,12 @@ export default function UserManagement({
                         {superAdminList.length > 0 && (
                           <>
                             <div className="flex items-center gap-2 py-2 mb-1">
-                              <div className="h-px flex-1 bg-amber-200 dark:bg-amber-800/50"/>
+                              <div className="h-px flex-1 bg-amber-200 dark:bg-amber-500/20"/>
                               <span className="text-[9px] font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400 flex items-center gap-1">
                                 <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
                                 Super Admin
                               </span>
-                              <div className="h-px flex-1 bg-amber-200 dark:bg-amber-800/50"/>
+                              <div className="h-px flex-1 bg-amber-200 dark:bg-amber-500/20"/>
                             </div>
                             {superAdminList.map(m => (
                               <MemberRow
@@ -1284,11 +1220,11 @@ export default function UserManagement({
                         {regularAdmins.length > 0 && (
                           <>
                             <div className="flex items-center gap-2 py-2 mb-1 mt-1">
-                              <div className="h-px flex-1 bg-blue-200 dark:bg-blue-800/50"/>
-                              <span className="text-[9px] font-bold uppercase tracking-widest text-blue-500 dark:text-blue-400">
+                              <div className="h-px flex-1 bg-indigo-200 dark:bg-indigo-500/20"/>
+                              <span className="text-[9px] font-bold uppercase tracking-widest text-indigo-500 dark:text-indigo-400">
                                 Admins
                               </span>
-                              <div className="h-px flex-1 bg-blue-200 dark:bg-blue-800/50"/>
+                              <div className="h-px flex-1 bg-indigo-200 dark:bg-indigo-500/20"/>
                             </div>
                             {regularAdmins.map(m => (
                               <MemberRow
@@ -1302,7 +1238,7 @@ export default function UserManagement({
                         )}
                         {regularAdmins.length === 0 && superAdminList.length > 0 && (
                           <div className="py-3 text-center">
-                            <p className="text-[11px] text-[#8B92A9] dark:text-[#565C75]">No regular admins yet</p>
+                            <p className="text-[11px] text-slate-400">No regular admins yet</p>
                           </div>
                         )}
                       </>
@@ -1314,23 +1250,23 @@ export default function UserManagement({
         )}
 
         {/* Users — visible to both admin and super admin */}
-        <div className="bg-white dark:bg-[#1A1D27] border border-[#E4E7EF] dark:border-[#262A38] rounded-2xl overflow-hidden">
-          <div className="px-5 py-4 border-b border-[#E4E7EF] dark:border-[#262A38] flex items-center justify-between">
+        <div className="surface-card overflow-hidden">
+          <div className="px-5 py-4 border-b border-slate-100 dark:border-white/[0.06] flex items-center justify-between">
             <div>
               <div className="flex items-center gap-2">
-                <svg className="w-4 h-4 text-[#059669]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0"/></svg>
-                <h3 className="text-sm font-bold text-[#0F1117] dark:text-[#F0F2FA]">Users <span className="text-xs font-normal text-[#8B92A9] dark:text-[#565C75]">(Employees)</span></h3>
+                <svg className="w-4 h-4 text-emerald-600 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0"/></svg>
+                <h3 className="text-sm font-bold text-slate-900 dark:text-white">Users <span className="text-xs font-normal text-slate-400">(Employees)</span></h3>
               </div>
               <SlotBar used={totalCompanyUsers} max={maxUsers ?? cfg.maxUsers} isAdmin={false}/>
             </div>
             <button
               onClick={() => tryAdd("user")}
               disabled={totalCompanyUsers >= (maxUsers ?? cfg.maxUsers)}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition
-                ${totalCompanyUsers >= (maxUsers ?? cfg.maxUsers)
-                  ? "bg-[#F1F4FF] dark:bg-[#262A38] text-[#8B92A9] dark:text-[#565C75] cursor-not-allowed"
-                  : "bg-green-50 dark:bg-green-950/40 text-[#059669] dark:text-green-400 hover:bg-green-100"
-                }`}
+              className={`btn-secondary btn-sm !border-transparent ${
+                totalCompanyUsers >= (maxUsers ?? cfg.maxUsers)
+                  ? "!bg-slate-100 dark:!bg-white/[0.06] !text-slate-400"
+                  : "!bg-emerald-50 dark:!bg-emerald-500/10 !text-emerald-600 dark:!text-emerald-400 hover:!bg-emerald-100 dark:hover:!bg-emerald-500/20"
+              }`}
             >
               <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4"/></svg>
               Add Employee
@@ -1340,10 +1276,10 @@ export default function UserManagement({
             {users.length === 0
               ? (
                 <div className="py-8 text-center">
-                  <div className="w-10 h-10 rounded-full bg-green-50 dark:bg-green-950/30 flex items-center justify-center mx-auto mb-2">
-                    <svg className="w-5 h-5 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0"/></svg>
+                  <div className="w-10 h-10 rounded-full bg-emerald-50 dark:bg-emerald-500/10 flex items-center justify-center mx-auto mb-2">
+                    <svg className="w-5 h-5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0"/></svg>
                   </div>
-                  <p className="text-xs text-[#8B92A9] dark:text-[#565C75]">No employees added yet</p>
+                  <p className="text-xs text-slate-400">No employees added yet</p>
                 </div>
               )
               : users.map(m => (

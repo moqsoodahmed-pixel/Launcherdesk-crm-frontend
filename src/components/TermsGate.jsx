@@ -114,11 +114,11 @@ export default function TermsGate({ children }) {
 
   // ── Blocking overlay ────────────────────────────────────────────────────────
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-3 sm:p-6">
-      <div className="flex w-full max-w-2xl max-h-[88vh] flex-col rounded-xl bg-white dark:bg-[#13161E] shadow-xl ring-1 ring-slate-900/10 dark:ring-white/10 overflow-hidden">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-3 sm:p-6 animate-fade-in">
+      <div className="surface-card !rounded-2xl shadow-popover animate-scale-in flex w-full max-w-2xl max-h-[88vh] flex-col overflow-hidden">
         {/* Header */}
         <div className="flex items-start gap-2.5 px-6 pt-4 pb-3 border-b border-slate-100 dark:border-white/5">
-          <span className="mt-px flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400">
+          <span className="mt-px flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-violet-50 text-violet-600 dark:bg-violet-500/10 dark:text-violet-400">
             <FileText className="h-3.5 w-3.5" strokeWidth={2} />
           </span>
           <div className="min-w-0 flex-1">
@@ -158,7 +158,7 @@ export default function TermsGate({ children }) {
         <div className="border-t border-slate-100 dark:border-white/5 bg-slate-50/80 dark:bg-white/[0.02] px-6 py-3.5">
           {!scrolledToBottom ? (
             <p className="mb-2.5 flex items-center gap-1.5 text-[9.5px] text-slate-500 dark:text-slate-400">
-              <ChevronDown className="h-3 w-3 animate-bounce" strokeWidth={2} />
+              <ChevronDown className="h-3 w-3 animate-bounce text-launcher-500" strokeWidth={2} />
               Scroll to the end to enable acceptance.
             </p>
           ) : (
@@ -178,7 +178,7 @@ export default function TermsGate({ children }) {
               disabled={!scrolledToBottom}
               checked={checked}
               onChange={(e) => setChecked(e.target.checked)}
-              className="mt-px h-3 w-3 shrink-0 rounded border-slate-300 text-blue-600 focus:ring-2 focus:ring-blue-500/40 disabled:opacity-50 dark:border-white/20 dark:bg-white/5"
+              className="mt-px h-3 w-3 shrink-0 rounded border-slate-300 accent-launcher-600 focus:ring-2 focus:ring-launcher-500/40 disabled:opacity-50 dark:border-white/20 dark:bg-white/5"
             />
             <span className="text-[10px] leading-[1.5] text-slate-700 dark:text-slate-300">
               I have read, understood and agree to the Terms &amp; Conditions.
@@ -189,7 +189,7 @@ export default function TermsGate({ children }) {
             type="button"
             onClick={handleAccept}
             disabled={!checked || !scrolledToBottom || submitting}
-            className="mt-3 flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-[10.5px] font-medium text-white shadow-sm transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500/50 disabled:cursor-not-allowed disabled:opacity-50"
+            className="btn-primary btn-md mt-3 w-full"
           >
             {submitting ? (
               <>

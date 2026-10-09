@@ -214,6 +214,7 @@ export default function AdminLogin() {
                     className="ta-input w-full rounded-lg border border-stroke bg-transparent py-3.5 px-5 pr-11 text-black dark:text-white dark:border-strokedark dark:bg-form-input transition"
                   />
                   <button type="button" onClick={() => setShowPass(!showPass)}
+                    aria-label={showPass ? "Hide password" : "Show password"}
                     className="absolute right-4 top-1/2 -translate-y-1/2 text-body hover:text-primary dark:text-bodydark transition">
                     {showPass ? <EyeOff className="w-4.5 h-4.5" /> : <Eye className="w-4.5 h-4.5" />}
                   </button>

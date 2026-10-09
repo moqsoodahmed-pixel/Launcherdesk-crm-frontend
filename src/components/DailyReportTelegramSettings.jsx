@@ -21,6 +21,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { createPortal } from "react-dom";
 import api from "../data/axiosConfig";
+import { Pill } from "./ui/Primitives";
 import {
   BarChart2, X, Eye, EyeOff, CheckCircle2, AlertCircle,
   Loader2, Save, ToggleLeft, ToggleRight, Send,
@@ -51,10 +52,10 @@ function getPanelStyle(btnRef) {
 function Feedback({ msg }) {
   if (!msg?.text) return null;
   return (
-    <div className={`flex items-center gap-1.5 px-2.5 py-2 rounded-xl text-[11px] font-medium
+    <div className={`flex items-center gap-1.5 px-2.5 py-2 rounded-xl text-[11px] font-medium border
       ${msg.type === "ok"
-        ? "bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800"
-        : "bg-red-50 dark:bg-red-950/30 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800"
+        ? "bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-500/20"
+        : "bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-500/20"
       }`}
     >
       {msg.type === "ok"
@@ -67,16 +68,16 @@ function Feedback({ msg }) {
 }
 
 function StatusBadge({ status }) {
-  const styles = {
-    sent:    "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400",
-    failed:  "bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400",
-    skipped: "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400",
-    pending: "bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400",
+  const tones = {
+    sent:    "emerald",
+    failed:  "rose",
+    skipped: "slate",
+    pending: "amber",
   };
   return (
-    <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full uppercase tracking-wide ${styles[status] || styles.pending}`}>
+    <Pill tone={tones[status] || "amber"} className="!text-[9px] uppercase tracking-wide">
       {status}
-    </span>
+    </Pill>
   );
 }
 
@@ -210,7 +211,7 @@ function SettingsTab() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-8">
-        <Loader2 className="w-5 h-5 animate-spin text-[#8B92A9]" />
+        <Loader2 className="w-5 h-5 animate-spin text-slate-400" />
       </div>
     );
   }
@@ -234,30 +235,30 @@ function SettingsTab() {
         className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl border transition-colors
           ${draft.enabled
             ? "border-emerald-200 dark:border-emerald-500/30 bg-emerald-50 dark:bg-emerald-500/10"
-            : "border-[#E4E7EF] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E]"
+            : "border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.04]"
           }`}
       >
         <div className="text-left">
-          <p className={`text-[12px] font-semibold ${draft.enabled ? "text-emerald-700 dark:text-emerald-400" : "text-[#0F1117] dark:text-[#F0F2FA]"}`}>
+          <p className={`text-[12px] font-semibold ${draft.enabled ? "text-emerald-700 dark:text-emerald-400" : "text-slate-900 dark:text-white"}`}>
             {draft.enabled ? "Daily Report enabled" : "Daily Report disabled"}
           </p>
-          <p className="text-[10px] text-[#8B92A9]">
+          <p className="text-[10px] text-slate-400">
             {draft.enabled ? "Report will be sent at the configured time" : "No reports will be sent"}
           </p>
         </div>
         {draft.enabled
           ? <ToggleRight className="w-5 h-5 text-emerald-500 shrink-0" />
-          : <ToggleLeft  className="w-5 h-5 text-[#C4C9D9] dark:text-[#3E4257] shrink-0" />
+          : <ToggleLeft  className="w-5 h-5 text-slate-300 dark:text-slate-600 shrink-0" />
         }
       </button>
 
       {/* Bot Token */}
       <div>
-        <label className="block text-[11px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] mb-1">
+        <label className="flex items-center gap-1.5 text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1">
           Telegram Bot Token
           {saved?.configured
-            ? <span className="ml-1.5 text-[10px] font-normal text-emerald-500">● set — leave blank to keep</span>
-            : <span className="ml-1.5 text-[10px] font-normal text-amber-500">● not set</span>
+            ? <Pill tone="emerald" className="!text-[10px] !py-0.5">set — leave blank to keep</Pill>
+            : <Pill tone="amber" className="!text-[10px] !py-0.5">not set</Pill>
           }
         </label>
         <div className="relative">
@@ -266,69 +267,61 @@ function SettingsTab() {
             value={draft.telegramBotToken}
             onChange={e => set("telegramBotToken", e.target.value)}
             placeholder={saved?.configured ? "Enter new token to replace…" : "7123456789:AAHxxxxxxxx"}
-            className="w-full px-3 py-2 pr-8 rounded-xl border border-[#E4E7EF] dark:border-[#262A38]
-              bg-[#F8F9FC] dark:bg-[#13161E] text-[11px] text-[#0F1117] dark:text-[#F0F2FA]
-              placeholder:text-[#8B92A9] focus:outline-none focus:border-[#2563EB] font-mono transition"
+            className="input-field px-3 py-2 pr-8 text-[11px] font-mono"
           />
           <button
             type="button"
             onClick={() => setShowToken(v => !v)}
-            className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#8B92A9] hover:text-[#2563EB] transition"
+            className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-indigo-500 transition"
           >
             {showToken ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
           </button>
         </div>
-        <p className="text-[10px] text-[#8B92A9] mt-1">
+        <p className="text-[10px] text-slate-400 mt-1">
           Create a <strong>separate</strong> bot for daily reports via <span className="font-mono font-semibold">@BotFather</span>
         </p>
       </div>
 
       {/* Chat ID */}
       <div>
-        <label className="block text-[11px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] mb-1">
+        <label className="flex items-center gap-1.5 text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1">
           Telegram Chat ID
-          {saved?.telegramChatId && <span className="ml-1.5 text-[10px] font-normal text-emerald-500">● connected</span>}
+          {saved?.telegramChatId && <Pill tone="emerald" className="!text-[10px] !py-0.5">connected</Pill>}
         </label>
         <input
           type="text"
           value={draft.telegramChatId}
           onChange={e => set("telegramChatId", e.target.value)}
           placeholder="-1001234567890"
-          className="w-full px-3 py-2 rounded-xl border border-[#E4E7EF] dark:border-[#262A38]
-            bg-[#F8F9FC] dark:bg-[#13161E] text-[11px] text-[#0F1117] dark:text-[#F0F2FA]
-            placeholder:text-[#8B92A9] focus:outline-none focus:border-[#2563EB] font-mono transition"
+          className="input-field px-3 py-2 text-[11px] font-mono"
         />
-        <p className="text-[10px] text-[#8B92A9] mt-1">
+        <p className="text-[10px] text-slate-400 mt-1">
           Add bot to group → get ID via <span className="font-mono font-semibold">@userinfobot</span>
         </p>
       </div>
 
       {/* Report Time */}
       <div>
-        <label className="block text-[11px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] mb-1">
+        <label className="flex items-center text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1">
           <Clock className="w-3 h-3 inline mr-1" />Report Time
         </label>
         <input
           type="time"
           value={draft.reportTime}
           onChange={e => set("reportTime", e.target.value)}
-          className="w-full px-3 py-2 rounded-xl border border-[#E4E7EF] dark:border-[#262A38]
-            bg-[#F8F9FC] dark:bg-[#13161E] text-[11px] text-[#0F1117] dark:text-[#F0F2FA]
-            focus:outline-none focus:border-[#2563EB] transition"
+          className="input-field px-3 py-2 text-[11px]"
         />
       </div>
 
       {/* Timezone */}
       <div>
-        <label className="block text-[11px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] mb-1">
+        <label className="flex items-center text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1">
           <Globe className="w-3 h-3 inline mr-1" />Timezone
         </label>
         <select
           value={draft.timezone}
           onChange={e => set("timezone", e.target.value)}
-          className="w-full px-3 py-2 rounded-xl border border-[#E4E7EF] dark:border-[#262A38]
-            bg-[#F8F9FC] dark:bg-[#13161E] text-[11px] text-[#0F1117] dark:text-[#F0F2FA]
-            focus:outline-none focus:border-[#2563EB] transition"
+          className="input-field px-3 py-2 text-[11px]"
         >
           {TIMEZONES.map(tz => (
             <option key={tz} value={tz}>{tz}</option>
@@ -343,14 +336,14 @@ function SettingsTab() {
         className={`w-full flex items-center justify-between px-3 py-2 rounded-xl border transition-colors
           ${draft.sendEmptyReport
             ? "border-sky-200 dark:border-sky-500/30 bg-sky-50 dark:bg-sky-500/10"
-            : "border-[#E4E7EF] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E]"
+            : "border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.04]"
           }`}
       >
         <div className="text-left">
-          <p className="text-[11px] font-semibold text-[#0F1117] dark:text-[#F0F2FA]">
+          <p className="text-[11px] font-semibold text-slate-900 dark:text-white">
             Send empty report
           </p>
-          <p className="text-[10px] text-[#8B92A9]">
+          <p className="text-[10px] text-slate-400">
             {draft.sendEmptyReport
               ? "Report sent even when no activity today"
               : "Skip report if no activity today"
@@ -359,7 +352,7 @@ function SettingsTab() {
         </div>
         {draft.sendEmptyReport
           ? <ToggleRight className="w-4 h-4 text-sky-500 shrink-0" />
-          : <ToggleLeft  className="w-4 h-4 text-[#C4C9D9] dark:text-[#3E4257] shrink-0" />
+          : <ToggleLeft  className="w-4 h-4 text-slate-300 dark:text-slate-600 shrink-0" />
         }
       </button>
 
@@ -370,8 +363,7 @@ function SettingsTab() {
         <button
           onClick={handleSave}
           disabled={saving || !hasChanges}
-          className="flex-1 py-2 rounded-xl bg-[#2563EB] hover:bg-blue-700 disabled:opacity-50
-            text-white text-[12px] font-semibold transition flex items-center justify-center gap-1.5"
+          className="btn-primary btn-sm flex-1"
         >
           {saving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Save className="w-3.5 h-3.5" />}
           {saving ? "Saving…" : "Save Settings"}
@@ -380,10 +372,7 @@ function SettingsTab() {
           onClick={handleTest}
           disabled={testing || !isConfigured}
           title={!isConfigured ? "Save Bot Token and Chat ID first" : "Send test report now"}
-          className="px-3 py-2 rounded-xl border border-[#E4E7EF] dark:border-[#262A38]
-            text-[11px] font-semibold text-[#4B5168] dark:text-[#9DA3BB]
-            hover:border-sky-400 hover:text-sky-600 dark:hover:text-sky-400
-            disabled:opacity-40 disabled:cursor-not-allowed transition flex items-center gap-1.5"
+          className="btn-secondary btn-sm"
         >
           {testing ? <Loader2 className="w-3 h-3 animate-spin" /> : <Send className="w-3 h-3" />}
           Test
@@ -395,10 +384,7 @@ function SettingsTab() {
         <button
           onClick={handleSendNow}
           disabled={sendingNow}
-          className="w-full py-2 rounded-xl border border-indigo-200 dark:border-indigo-700
-            text-indigo-600 dark:text-indigo-400 text-[12px] font-semibold
-            hover:bg-indigo-50 dark:hover:bg-indigo-900/20
-            disabled:opacity-50 transition flex items-center justify-center gap-1.5"
+          className="btn-secondary btn-sm w-full"
         >
           {sendingNow
             ? <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -427,14 +413,14 @@ function HistoryTab() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-8">
-        <Loader2 className="w-5 h-5 animate-spin text-[#8B92A9]" />
+        <Loader2 className="w-5 h-5 animate-spin text-slate-400" />
       </div>
     );
   }
 
   if (!history.length) {
     return (
-      <div className="flex flex-col items-center justify-center py-8 gap-2 text-[#8B92A9]">
+      <div className="flex flex-col items-center justify-center py-8 gap-2 text-slate-400">
         <History className="w-7 h-7 opacity-30" />
         <p className="text-[12px]">No reports sent yet.</p>
         <p className="text-[10px] text-center px-4">
@@ -449,23 +435,23 @@ function HistoryTab() {
       {history.map((entry, i) => (
         <div
           key={entry._id || i}
-          className="bg-[#F8F9FC] dark:bg-[#13161E] border border-[#E4E7EF] dark:border-[#262A38]
+          className="bg-slate-50 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10
             rounded-xl px-3 py-2.5 flex items-center justify-between gap-3"
         >
           <div className="min-w-0">
             <div className="flex items-center gap-2 mb-0.5">
-              <p className="text-[12px] font-semibold text-[#0F1117] dark:text-[#F0F2FA]">
+              <p className="text-[12px] font-semibold text-slate-900 dark:text-white">
                 {entry.reportDate}
               </p>
               <StatusBadge status={entry.status} />
               {entry.triggeredBy === "manual" && (
-                <span className="text-[9px] text-[#8B92A9] italic">manual</span>
+                <span className="text-[9px] text-slate-400 italic">manual</span>
               )}
               {entry.triggeredBy === "test" && (
-                <span className="text-[9px] text-[#8B92A9] italic">test</span>
+                <span className="text-[9px] text-slate-400 italic">test</span>
               )}
             </div>
-            <p className="text-[10px] text-[#8B92A9] truncate">
+            <p className="text-[10px] text-slate-400 truncate">
               {entry.employeeCount > 0
                 ? `${entry.employeeCount} employee${entry.employeeCount !== 1 ? "s" : ""} · ${entry.scheduledTime || "—"} ${entry.timezone || ""}`
                 : entry.status === "skipped"
@@ -474,7 +460,7 @@ function HistoryTab() {
               }
             </p>
           </div>
-          <ChevronRight className="w-3.5 h-3.5 text-[#C4C9D9] dark:text-[#3E4257] shrink-0" />
+          <ChevronRight className="w-3.5 h-3.5 text-slate-300 dark:text-slate-600 shrink-0" />
         </div>
       ))}
     </div>
@@ -541,7 +527,7 @@ export default function DailyReportTelegramSettings() {
     <div
       ref={panelRef}
       style={{ ...panelStyle, animation: "drSlide 0.15s ease both" }}
-      className="bg-white dark:bg-[#1A1D27] border border-[#E4E7EF] dark:border-[#262A38] rounded-2xl shadow-xl overflow-hidden"
+      className="surface-card shadow-popover overflow-hidden"
     >
       <style>{`
         @keyframes drSlide {
@@ -551,18 +537,17 @@ export default function DailyReportTelegramSettings() {
       `}</style>
 
       {/* Header */}
-      <div className="flex items-center gap-2.5 px-4 pt-4 pb-3 border-b border-[#F3F4F6] dark:border-[#262A38]">
+      <div className="flex items-center gap-2.5 px-4 pt-4 pb-3 border-b border-slate-100 dark:border-white/10">
         <div className="w-8 h-8 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center shrink-0">
           <BarChart2 className="w-4 h-4 text-indigo-500" />
         </div>
         <div className="flex-1 min-w-0">
-          <p className="text-[13px] font-bold text-[#0F1117] dark:text-[#F0F2FA]">Daily Report</p>
-          <p className="text-[10px] text-[#8B92A9]">Employee performance · Telegram delivery</p>
+          <p className="text-[13px] font-bold text-slate-900 dark:text-white">Daily Report</p>
+          <p className="text-[10px] text-slate-400">Employee performance · Telegram delivery</p>
         </div>
         <button
           onClick={() => setOpen(false)}
-          className="w-6 h-6 flex items-center justify-center rounded-lg text-[#8B92A9]
-            hover:text-[#0F1117] dark:hover:text-white hover:bg-gray-100 dark:hover:bg-[#262A38] transition"
+          className="icon-btn w-6 h-6"
         >
           <X className="w-3.5 h-3.5" />
         </button>
@@ -581,7 +566,7 @@ export default function DailyReportTelegramSettings() {
                 border transition flex-1 justify-center
                 ${active
                   ? "border-indigo-300 dark:border-indigo-700 bg-indigo-50 dark:bg-indigo-500/10 text-indigo-700 dark:text-indigo-300"
-                  : "border-[#E4E7EF] dark:border-[#262A38] text-[#8B92A9] hover:border-[#CBD5E1] dark:hover:border-[#3E4257] hover:text-[#4B5168] dark:hover:text-[#9DA3BB]"
+                  : "border-slate-200 dark:border-white/10 text-slate-400 hover:border-slate-300 dark:hover:border-white/20 hover:text-slate-600 dark:hover:text-slate-300"
                 }`}
             >
               <Icon className="w-3.5 h-3.5" />
@@ -606,15 +591,11 @@ export default function DailyReportTelegramSettings() {
         ref={btnRef}
         onClick={() => setOpen(v => !v)}
         title="Daily Telegram Report"
-        className={`relative w-9 h-9 flex items-center justify-center rounded-xl border transition-all duration-150 focus:outline-none
-          ${open
-            ? "bg-indigo-50 dark:bg-indigo-500/15 border-indigo-300 dark:border-indigo-700 text-indigo-600 dark:text-indigo-400"
-            : "border-[#E5E7EB] dark:border-[#262A38] bg-white dark:bg-[#1A1D27] text-[#6B7280] hover:text-indigo-500 hover:border-indigo-300 dark:hover:border-indigo-700 dark:hover:text-indigo-400"
-          }`}
+        className={`icon-btn relative ${open ? "bg-indigo-50 dark:bg-indigo-500/15 text-indigo-600 dark:text-indigo-400" : ""}`}
       >
         <BarChart2 className="w-3.5 h-3.5" />
         {dotData.configured && (
-          <span className={`absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full border-2 border-white dark:border-[#1A1D27]
+          <span className={`absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full border-2 border-white dark:border-[#181029]
             ${dotData.enabled ? "bg-emerald-500" : "bg-amber-400"}`}
           />
         )}

@@ -80,12 +80,12 @@ export default function ClockInGate({ children }) {
   // app content for a not-clocked-in user.
   if (checking) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center gap-3 bg-[#F8F9FC] dark:bg-[#0D0F14]">
-        <svg className="w-6 h-6 animate-spin text-[#2563EB]" fill="none" viewBox="0 0 24 24">
+      <div className="min-h-screen flex flex-col items-center justify-center gap-3 ld-canvas">
+        <svg className="w-6 h-6 animate-spin text-launcher-600" fill="none" viewBox="0 0 24 24">
           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
         </svg>
-        <span className="text-[13px] text-[#8B92A9]">Checking attendance…</span>
+        <span className="text-[13px] text-slate-500 dark:text-slate-400">Checking attendance…</span>
       </div>
     );
   }
@@ -94,35 +94,35 @@ export default function ClockInGate({ children }) {
 
   // ── Lockout screen ──────────────────────────────────────────────────────────
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 bg-[#F8F9FC] dark:bg-[#0D0F14]">
-      <div className="w-full max-w-md bg-white dark:bg-[#1A1D27] border border-[#E4E7EF] dark:border-[#262A38] rounded-2xl shadow-xl p-8 text-center">
-        <div className="w-16 h-16 mx-auto mb-5 rounded-full bg-blue-50 dark:bg-blue-950/40 flex items-center justify-center">
-          <svg className="w-8 h-8 text-[#2563EB]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+    <div className="min-h-screen flex items-center justify-center px-4 ld-canvas">
+      <div className="w-full max-w-md surface-card !rounded-2xl shadow-popover p-8 text-center">
+        <div className="w-16 h-16 mx-auto mb-5 rounded-full bg-violet-50 dark:bg-violet-500/10 flex items-center justify-center">
+          <svg className="w-8 h-8 text-launcher-600 dark:text-launcher-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
         </div>
 
-        <h1 className="text-[20px] font-bold text-[#0F1117] dark:text-[#F0F2FA] mb-1.5">
+        <h1 className="text-[20px] font-bold text-slate-900 dark:text-white mb-1.5">
           Clock in to get started
         </h1>
-        <p className="text-[13px] text-[#8B92A9] leading-relaxed mb-6">
+        <p className="text-[13px] text-slate-500 dark:text-slate-400 leading-relaxed mb-6">
           You need to clock in before you can access your leads, calls and other
           tools for today. Tap the button below to start your shift.
         </p>
 
         {error && (
-          <div className="mb-4 flex items-start gap-2 px-3 py-2.5 rounded-xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 text-left">
-            <svg className="w-4 h-4 text-red-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <div className="mb-4 flex items-start gap-2 px-3 py-2.5 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 text-left">
+            <svg className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            <span className="text-[12px] text-red-600 dark:text-red-400">{error}</span>
+            <span className="text-[12px] text-rose-600 dark:text-rose-400">{error}</span>
           </div>
         )}
 
         <button
           onClick={handleClockIn}
           disabled={clocking}
-          className="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-[14px] font-bold transition flex items-center justify-center gap-2 disabled:opacity-50"
+          className="btn-primary w-full py-3"
         >
           {clocking ? (
             <>
@@ -144,7 +144,7 @@ export default function ClockInGate({ children }) {
 
         <button
           onClick={refresh}
-          className="mt-3 text-[12px] text-[#8B92A9] hover:text-[#2563EB] transition"
+          className="mt-3 text-[12px] text-slate-500 dark:text-slate-400 hover:text-launcher-600 dark:hover:text-launcher-400 transition"
         >
           Already clocked in? Refresh
         </button>

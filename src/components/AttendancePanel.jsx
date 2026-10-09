@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import api from "../data/axiosConfig";
 import { Moon } from "lucide-react";
+import { Pill } from "./ui/Primitives";
 // FIX (clock/timezone bug): this component used to have its own local
 // fmtTime() that called toLocaleTimeString("en-IN", {...}) with no
 // `timeZone`, so it silently rendered in the *browser's* local timezone
@@ -284,48 +285,46 @@ export default function AttendancePanel() {
 
   // ── Status config ─────────────────────────────────────────────────────────
   const STATUS = {
-    active:     { bg: "bg-emerald-50 dark:bg-emerald-950/40", text: "text-emerald-600 dark:text-emerald-400", label: "● Active"     },
-    on_break:   { bg: "bg-amber-50 dark:bg-amber-950/40",     text: "text-amber-600 dark:text-amber-400",     label: "⏸ On Break"  },
-    idle:       { bg: "bg-red-50 dark:bg-red-950/40",         text: "text-red-600 dark:text-red-400",         Icon: Moon, label: "Idle"     },
-    logged_out: { bg: "bg-gray-50 dark:bg-gray-900/40",       text: "text-gray-500 dark:text-gray-400",       label: "⏹ Logged Out" },
+    active:     { tone: "emerald", dot: "bg-emerald-500",            label: "Active"     },
+    on_break:   { tone: "amber",   dot: "bg-amber-500",              label: "On Break"  },
+    idle:       { tone: "rose",    dot: "bg-rose-500 animate-pulse", Icon: Moon, label: "Idle"     },
+    logged_out: { tone: "slate",   dot: "bg-slate-400",              label: "Logged Out" },
   };
   const st = STATUS[record?.status] ?? STATUS.logged_out;
 
-  if (loading) return <div className="h-32 animate-pulse bg-gray-100 dark:bg-white/5 rounded-2xl" />;
+  if (loading) return <div className="h-32 skeleton rounded-2xl" />;
 
   const notClockedIn = !record?.loginTime;
   const isClockedOut = !!record?.logoutTime;
   const onBreak      = record?.status === "on_break" || record?.status === "idle";
 
   return (
-    <div className="bg-white dark:bg-[#1A1D27] border border-[#E4E7EF] dark:border-[#262A38] rounded-2xl p-5">
+    <div className="surface-card p-5">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h3 className="text-[14px] font-bold text-gray-800 dark:text-gray-100">Attendance</h3>
-          <p className="text-[11px] text-gray-400">
+          <h3 className="text-[14px] font-bold text-slate-900 dark:text-white">Attendance</h3>
+          <p className="text-[11px] text-slate-400 dark:text-slate-500">
             {new Date().toLocaleDateString("en-IN", {
               weekday: "long", day: "2-digit", month: "short", year: "numeric",
             })}
           </p>
         </div>
         {record && (
-          <span className={`inline-flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-full ${st.bg} ${st.text}`}>
-            {st.Icon && <st.Icon className="w-3 h-3" />}{st.label}
-          </span>
+          <Pill tone={st.tone} dot={!st.Icon ? st.dot : undefined} icon={st.Icon}>{st.label}</Pill>
         )}
       </div>
 
       {/* Idle warning */}
       {idleWarning && (
-        <div className="mb-4 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 rounded-xl p-3 flex items-center justify-between gap-3">
+        <div className="mb-4 bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 rounded-xl p-3 flex items-center justify-between gap-3">
           <div>
-            <p className="text-[13px] font-bold text-red-600 dark:text-red-400">You've been idle for 5 minutes</p>
-            <p className="text-[12px] text-red-400">Break started automatically. Click Resume to continue.</p>
+            <p className="text-[13px] font-bold text-rose-600 dark:text-rose-400">You've been idle for 5 minutes</p>
+            <p className="text-[12px] text-rose-500 dark:text-rose-400/80">Break started automatically. Click Resume to continue.</p>
           </div>
           <button
             onClick={endBreak}
-            className="shrink-0 px-3 py-1.5 rounded-lg bg-red-500 hover:bg-red-600 text-white text-[12px] font-bold transition"
+            className="btn btn-sm btn-danger shrink-0"
           >
             Resume
           </button>
@@ -335,21 +334,21 @@ export default function AttendancePanel() {
       {/* Stats */}
       {record?.loginTime && (
         <div className="grid grid-cols-3 gap-3 mb-4">
-          <div className="bg-gray-50 dark:bg-white/[0.03] rounded-xl p-3 text-center">
-            <p className="text-[11px] text-gray-400 mb-1">Work Time</p>
-            <p className="text-[16px] font-black text-gray-800 dark:text-gray-100">
+          <div className="bg-slate-50 dark:bg-white/[0.04] rounded-xl p-3 text-center">
+            <p className="text-[11px] text-slate-400 dark:text-slate-500 mb-1">Work Time</p>
+            <p className="text-[16px] font-black text-slate-900 dark:text-white">
               {fmt(Math.floor(elapsed / 60))}
             </p>
           </div>
-          <div className="bg-gray-50 dark:bg-white/[0.03] rounded-xl p-3 text-center">
-            <p className="text-[11px] text-gray-400 mb-1">Break Time</p>
-            <p className="text-[16px] font-black text-amber-500">
+          <div className="bg-slate-50 dark:bg-white/[0.04] rounded-xl p-3 text-center">
+            <p className="text-[11px] text-slate-400 dark:text-slate-500 mb-1">Break Time</p>
+            <p className="text-[16px] font-black text-amber-600 dark:text-amber-400">
               {fmt(record.totalBreakMinutes || 0)}
             </p>
           </div>
-          <div className="bg-gray-50 dark:bg-white/[0.03] rounded-xl p-3 text-center">
-            <p className="text-[11px] text-gray-400 mb-1">Login</p>
-            <p className="text-[16px] font-black text-gray-800 dark:text-gray-100">
+          <div className="bg-slate-50 dark:bg-white/[0.04] rounded-xl p-3 text-center">
+            <p className="text-[11px] text-slate-400 dark:text-slate-500 mb-1">Login</p>
+            <p className="text-[16px] font-black text-slate-900 dark:text-white">
               {fmtTime(record.loginTime)}
             </p>
           </div>
@@ -361,7 +360,7 @@ export default function AttendancePanel() {
         {notClockedIn && (
           <button
             onClick={clockIn}
-            className="flex-1 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-[13px] font-bold transition"
+            className="btn flex-1 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white"
           >
             Clock In
           </button>
@@ -372,7 +371,7 @@ export default function AttendancePanel() {
             {!onBreak && (
               <button
                 onClick={startBreak}
-                className="flex-1 py-2.5 rounded-xl bg-amber-100 dark:bg-amber-950/40 hover:bg-amber-200 dark:hover:bg-amber-900/40 text-amber-700 dark:text-amber-400 text-[13px] font-bold transition"
+                className="btn flex-1 py-2.5 bg-amber-100 dark:bg-amber-500/15 hover:bg-amber-200 dark:hover:bg-amber-500/25 text-amber-700 dark:text-amber-400"
               >
                 Break
               </button>
@@ -380,14 +379,14 @@ export default function AttendancePanel() {
             {onBreak && (
               <button
                 onClick={endBreak}
-                className="flex-1 py-2.5 rounded-xl bg-emerald-100 dark:bg-emerald-950/40 hover:bg-emerald-200 text-emerald-700 dark:text-emerald-400 text-[13px] font-bold transition"
+                className="btn flex-1 py-2.5 bg-emerald-100 dark:bg-emerald-500/15 hover:bg-emerald-200 dark:hover:bg-emerald-500/25 text-emerald-700 dark:text-emerald-400"
               >
                 Resume
               </button>
             )}
             <button
               onClick={clockOut}
-              className="flex-1 py-2.5 rounded-xl bg-red-100 dark:bg-red-950/40 hover:bg-red-200 text-red-600 dark:text-red-400 text-[13px] font-bold transition"
+              className="btn flex-1 py-2.5 bg-rose-100 dark:bg-rose-500/15 hover:bg-rose-200 dark:hover:bg-rose-500/25 text-rose-600 dark:text-rose-400"
             >
               Clock Out
             </button>
@@ -395,7 +394,7 @@ export default function AttendancePanel() {
         )}
 
         {isClockedOut && (
-          <div className="flex-1 py-2.5 rounded-xl bg-gray-100 dark:bg-white/5 text-center text-[13px] text-gray-400 font-semibold">
+          <div className="flex-1 py-2.5 rounded-xl bg-slate-100 dark:bg-white/5 text-center text-[13px] text-slate-400 dark:text-slate-500 font-semibold">
             Clocked out at {fmtTime(record.logoutTime)}
           </div>
         )}
@@ -403,29 +402,25 @@ export default function AttendancePanel() {
 
       {/* Break log */}
       {record?.breaks?.length > 0 && (
-        <div className="mt-4 border-t border-gray-100 dark:border-white/5 pt-4">
-          <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-2">Break Log</p>
+        <div className="mt-4 border-t border-slate-100 dark:border-white/5 pt-4">
+          <p className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-2">Break Log</p>
           <div className="space-y-2">
             {record.breaks.map((b, i) => (
               <div key={i} className="text-[11px]">
                 <div className="flex items-center justify-between">
-                  <span className={`px-2 py-0.5 rounded-full font-semibold ${
-                    b.reason === "Auto Idle"
-                      ? "bg-red-50 dark:bg-red-950/40 text-red-500"
-                      : "bg-amber-50 dark:bg-amber-950/40 text-amber-600"
-                  }`}>
+                  <Pill tone={b.reason === "Auto Idle" ? "rose" : "amber"} className="!text-[11px]">
                     {b.reason}
-                  </span>
-                  <span className="text-gray-400">
+                  </Pill>
+                  <span className="text-slate-400 dark:text-slate-500">
                     {fmtTime(b.startTime)} → {b.endTime ? fmtTime(b.endTime) : "ongoing"}
                     {b.durationMinutes != null ? ` (${b.durationMinutes}m)` : ""}
                   </span>
                 </div>
                 {b.reason === "Auto Idle" && (
                   b.remarkStatus === "filled" ? (
-                    <p className="text-[10px] text-gray-500 italic mt-1">"{b.remark}"</p>
+                    <p className="text-[10px] text-slate-500 dark:text-slate-400 italic mt-1">"{b.remark}"</p>
                   ) : b.remarkStatus === "pending" ? (
-                    <p className="text-[10px] text-amber-500 font-semibold mt-1">Reason pending</p>
+                    <p className="text-[10px] text-amber-600 dark:text-amber-400 font-semibold mt-1">Reason pending</p>
                   ) : null
                 )}
               </div>

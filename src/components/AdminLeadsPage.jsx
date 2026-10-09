@@ -2163,13 +2163,13 @@ export default function AdminLeadsPage() {
           <AgentSelect value={filterAgent} onChange={(val) => { setFilterAgent(val); setPage(1); }} agents={agents} className={INP} />
 
           {/* Quality — always visible */}
-          <select value={filterTemp} onChange={e => { setFilterTemp(e.target.value); setPage(1); }} className={INP}>
+          <select aria-label="Filter by quality" value={filterTemp} onChange={e => { setFilterTemp(e.target.value); setPage(1); }} className={INP}>
             <option value="All">All qualities</option>
             <option>Hot</option><option>Warm</option><option>Cold</option>
           </select>
 
           {/* Sort — always visible on desktop, hidden on mobile (in secondary panel) */}
-          <select value={sortBy} onChange={e => setSortBy(e.target.value)} className={`${INP} hidden sm:block`}>
+          <select aria-label="Sort leads" value={sortBy} onChange={e => setSortBy(e.target.value)} className={`${INP} hidden sm:block`}>
             <option value="date_desc">Newest first</option>
             <option value="date_asc">Oldest first</option>
             <option value="name_asc">Name A–Z</option>
@@ -2178,7 +2178,7 @@ export default function AdminLeadsPage() {
 
           {/* Desktop-only: Project filter */}
           <span className="hidden sm:inline-flex"><LanguageFilter value={filterLang} onChange={v => { setFilterLang(v); setPage(1); }} /></span>
-          <select value={filterProject} onChange={e => { setFilterProject(e.target.value); setPage(1); }} className={`${INP} hidden sm:block`}>
+          <select aria-label="Filter by project" value={filterProject} onChange={e => { setFilterProject(e.target.value); setPage(1); }} className={`${INP} hidden sm:block`}>
             <option value="All">All Projects</option>
             {projects.map(p => (
               <option key={String(p._id)} value={String(p._id)}>{p.name}</option>
@@ -2186,7 +2186,7 @@ export default function AdminLeadsPage() {
           </select>
 
           {/* Desktop-only: Source filter */}
-          <select value={filterSrc} onChange={e => { setFilterSrc(e.target.value); setPage(1); }} className={`${INP} hidden sm:block`}>
+          <select aria-label="Filter by source" value={filterSrc} onChange={e => { setFilterSrc(e.target.value); setPage(1); }} className={`${INP} hidden sm:block`}>
             <option value="All">All sources</option>
             {uniqueSources.map(s => <option key={s}>{s}</option>)}
           </select>
@@ -2227,7 +2227,7 @@ export default function AdminLeadsPage() {
             {/* Source */}
             <div>
               <p className="text-[11px] font-bold text-[#7D7296] uppercase tracking-widest mb-1.5">Source</p>
-              <select value={filterSrc} onChange={e => { setFilterSrc(e.target.value); setPage(1); }} className={INP + " w-full"}>
+              <select aria-label="Filter by source" value={filterSrc} onChange={e => { setFilterSrc(e.target.value); setPage(1); }} className={INP + " w-full"}>
                 <option value="All">All sources</option>
                 {uniqueSources.map(s => <option key={s}>{s}</option>)}
               </select>
@@ -2236,7 +2236,7 @@ export default function AdminLeadsPage() {
             {/* Project */}
             <div>
               <p className="text-[11px] font-bold text-[#7D7296] uppercase tracking-widest mb-1.5">Project</p>
-              <select value={filterProject} onChange={e => { setFilterProject(e.target.value); setPage(1); }} className={INP + " w-full"}>
+              <select aria-label="Filter by project" value={filterProject} onChange={e => { setFilterProject(e.target.value); setPage(1); }} className={INP + " w-full"}>
                 <option value="All">All Projects</option>
                 {projects.map(p => (
                   <option key={String(p._id)} value={String(p._id)}>{p.name}</option>
@@ -2252,6 +2252,7 @@ export default function AdminLeadsPage() {
                   <p className="text-[11px] text-[#7D7296] mb-1">From</p>
                   <input
                     type="date"
+                    aria-label="From date"
                     value={dateFrom}
                     onChange={e => { setDateFrom(e.target.value); setPage(1); }}
                     className={INP + " w-full"}
@@ -2261,6 +2262,7 @@ export default function AdminLeadsPage() {
                   <p className="text-[11px] text-[#7D7296] mb-1">To</p>
                   <input
                     type="date"
+                    aria-label="To date"
                     value={dateTo}
                     onChange={e => { setDateTo(e.target.value); setPage(1); }}
                     className={INP + " w-full"}
@@ -2272,7 +2274,7 @@ export default function AdminLeadsPage() {
             {/* Sort — mobile */}
             <div>
               <p className="text-[11px] font-bold text-[#7D7296] uppercase tracking-widest mb-1.5">Sort</p>
-              <select value={sortBy} onChange={e => setSortBy(e.target.value)} className={INP + " w-full"}>
+              <select aria-label="Sort leads" value={sortBy} onChange={e => setSortBy(e.target.value)} className={INP + " w-full"}>
                 <option value="date_desc">Newest first</option>
                 <option value="date_asc">Oldest first</option>
                 <option value="name_asc">Name A–Z</option>

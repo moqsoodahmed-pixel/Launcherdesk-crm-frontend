@@ -9,7 +9,7 @@ export default function LeadTimeline({ lead }) {
   events.push({
     type: "created",
     icon: "",
-    color: "#2563EB",
+    color: "#7E14FF", // launcher brand violet
     title: "Lead Created",
     subtitle: `Source: ${lead.source || "—"}  •  Campaign: ${lead.campaign || "—"}`,
     time: lead.createdAt || lead.date,
@@ -20,7 +20,7 @@ export default function LeadTimeline({ lead }) {
     events.push({
       type: "assigned",
       icon: "",
-      color: "#7C3AED",
+      color: "#9333EA", // violet/purple
       title: `Assigned to ${lead.user?.name || lead.agent || "Employee"}`,
       subtitle: lead.user?.email || "",
       time: lead.createdAt || lead.date,
@@ -32,7 +32,7 @@ export default function LeadTimeline({ lead }) {
     events.push({
       type: "call",
       icon: "",
-      color: h.outcome === "Not Interested" ? "#DC2626" : "#059669",
+      color: h.outcome === "Not Interested" ? "#E11D48" : "#059669",
       title: `Called by ${h.userName || "Employee"}`,
       subtitle: `Outcome: ${h.outcome || "—"}  •  Remark: ${h.remark || "—"}`,
       time: h.calledAt,
@@ -58,7 +58,7 @@ export default function LeadTimeline({ lead }) {
   events.push({
     type: "status",
     icon: lead.status === "Converted" ? "" : lead.status === "Not Interested" ? "" : "",
-    color: lead.status === "Converted" ? "#059669" : lead.status === "Not Interested" ? "#DC2626" : "#D97706",
+    color: lead.status === "Converted" ? "#059669" : lead.status === "Not Interested" ? "#E11D48" : "#D97706",
     title: `Current Status: ${lead.status}`,
     subtitle: `Quality: ${lead.Quality || "Not set"}  •  Remark: ${lead.remark || "—"}`,
     time: lead.updatedAt,
@@ -66,21 +66,23 @@ export default function LeadTimeline({ lead }) {
 
   return (
     <div className="relative pl-6">
-      {/* Vertical line */}
-      <div className="absolute left-[11px] top-2 bottom-2 w-0.5 bg-gray-200 dark:bg-white/10" />
+      {/* Vertical connector line */}
+      <div className="absolute left-[11px] top-2 bottom-2 w-0.5 bg-slate-200 dark:bg-white/10" />
 
       {events.map((ev, i) => (
         <div key={i} className="relative flex gap-4 mb-5 last:mb-0">
           {/* Dot */}
-          <div className="absolute -left-6 top-0.5 w-5 h-5 rounded-full border-2 border-white dark:border-[#1A1D27] flex items-center justify-center text-[10px]"
-            style={{ background: ev.color }}>
+          <div
+            className="absolute -left-6 top-0.5 w-5 h-5 rounded-full border-2 border-white dark:border-[#181029] flex items-center justify-center text-[10px] shrink-0"
+            style={{ background: ev.color }}
+          >
             {ev.icon}
           </div>
           {/* Content */}
-          <div className="flex-1 bg-gray-50 dark:bg-white/[0.03] border border-gray-100 dark:border-white/5 rounded-xl p-3">
-            <p className="text-[13px] font-semibold text-gray-800 dark:text-gray-100">{ev.title}</p>
-            <p className="text-[11px] text-gray-400 dark:text-gray-500 mt-0.5">{ev.subtitle}</p>
-            <p className="text-[10px] text-gray-300 dark:text-gray-600 mt-1">{formatDate(ev.time)}</p>
+          <div className="flex-1 surface-card !rounded-xl p-3">
+            <p className="text-[13px] font-semibold text-slate-900 dark:text-white">{ev.title}</p>
+            <p className="text-[11px] text-slate-400 mt-0.5">{ev.subtitle}</p>
+            <p className="text-[10px] text-slate-300 dark:text-slate-600 mt-1">{formatDate(ev.time)}</p>
           </div>
         </div>
       ))}

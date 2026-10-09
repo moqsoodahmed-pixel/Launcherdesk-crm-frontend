@@ -213,8 +213,8 @@ export default function VoiceflowChat() {
       {/* ── Floating toggle button ─────────────────────────────────────────── */}
       <button
         onClick={() => (open ? setOpen(false) : handleOpen())}
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full shadow-2xl
-                   bg-[#2563EB] hover:bg-blue-700 text-white
+        className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full shadow-glow-brand
+                   bg-brand-gradient hover:brightness-110 text-white
                    flex items-center justify-center transition-all duration-200
                    hover:scale-110 active:scale-95"
         title="Open AI Assistant"
@@ -238,15 +238,13 @@ export default function VoiceflowChat() {
       {open && (
         <div
           className="fixed bottom-24 right-6 z-50 w-[360px] max-h-[600px]
-                     bg-white dark:bg-[#13161E]
-                     border border-[#E4E7EF] dark:border-[#262A38]
-                     rounded-2xl shadow-2xl flex flex-col overflow-hidden
+                     surface-card shadow-elevated flex flex-col overflow-hidden
                      animate-in slide-in-from-bottom-4 duration-200"
           style={{ minHeight: '400px' }}
         >
           {/* ── Header ──────────────────────────────────────────────────────── */}
           <div className="flex items-center justify-between px-4 py-3
-                          bg-[#2563EB] text-white rounded-t-2xl flex-shrink-0">
+                          bg-brand-gradient text-white rounded-t-2xl flex-shrink-0">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -255,7 +253,7 @@ export default function VoiceflowChat() {
               </div>
               <div>
                 <p className="text-[13px] font-bold leading-tight">Launcherdesk Assistant</p>
-                <p className="text-[10px] text-blue-200 leading-tight">
+                <p className="text-[10px] text-violet-100 leading-tight">
                   {connected ? '● Online' : isConfigured ? 'Connecting…' : <span className="inline-flex items-center gap-1"><Settings className="w-3 h-3" /> Setup required</span>}
                 </p>
               </div>
@@ -303,19 +301,19 @@ export default function VoiceflowChat() {
 
           {/* ── Settings panel ───────────────────────────────────────────────── */}
           {settingsOpen ? (
-            <div className="flex-1 overflow-y-auto px-5 py-5 space-y-4 bg-[#F8F9FC] dark:bg-[#0F1117]">
+            <div className="flex-1 overflow-y-auto px-5 py-5 space-y-4 bg-slate-50 dark:bg-[#181029]">
               <div>
-                <h3 className="text-[14px] font-bold text-[#0F1117] dark:text-[#F0F2FA] mb-1">
+                <h3 className="text-[14px] font-bold text-slate-900 dark:text-white mb-1">
                   Voiceflow Configuration
                 </h3>
-                <p className="text-[11px] text-[#8B92A9] dark:text-[#565C75] leading-relaxed">
+                <p className="text-[11px] text-slate-400 dark:text-slate-500 leading-relaxed">
                   Enter your Voiceflow credentials below. These are saved locally in your browser.
                 </p>
               </div>
 
               {/* API Key */}
               <div className="space-y-1">
-                <label className="block text-[11px] font-semibold text-[#565C75] dark:text-[#8B92A9] uppercase tracking-wide">
+                <label className="block text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide">
                   API Key *
                 </label>
                 <input
@@ -323,19 +321,16 @@ export default function VoiceflowChat() {
                   value={formKey}
                   onChange={e => setFormKey(e.target.value)}
                   placeholder="VF.DM.xxxxxxxx.xxxxxxxx"
-                  className="w-full px-3 py-2.5 rounded-xl border border-[#E4E7EF] dark:border-[#262A38]
-                             bg-white dark:bg-[#13161E] text-[13px] text-[#0F1117] dark:text-[#F0F2FA]
-                             placeholder-[#C0C4D0] focus:outline-none focus:ring-2 focus:ring-[#2563EB]
-                             font-mono"
+                  className="input-field px-3 py-2.5 text-[13px] font-mono"
                 />
-                <p className="text-[10px] text-[#8B92A9]">
+                <p className="text-[10px] text-slate-400">
                   Voiceflow Dashboard → Settings → API Keys
                 </p>
               </div>
 
               {/* Project ID */}
               <div className="space-y-1">
-                <label className="block text-[11px] font-semibold text-[#565C75] dark:text-[#8B92A9] uppercase tracking-wide">
+                <label className="block text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide">
                   Project ID *
                 </label>
                 <input
@@ -343,19 +338,16 @@ export default function VoiceflowChat() {
                   value={formProject}
                   onChange={e => setFormProject(e.target.value)}
                   placeholder="64xxxxxxxxxxxxxxxxxxxxxx"
-                  className="w-full px-3 py-2.5 rounded-xl border border-[#E4E7EF] dark:border-[#262A38]
-                             bg-white dark:bg-[#13161E] text-[13px] text-[#0F1117] dark:text-[#F0F2FA]
-                             placeholder-[#C0C4D0] focus:outline-none focus:ring-2 focus:ring-[#2563EB]
-                             font-mono"
+                  className="input-field px-3 py-2.5 text-[13px] font-mono"
                 />
-                <p className="text-[10px] text-[#8B92A9]">
+                <p className="text-[10px] text-slate-400">
                   Found in your Voiceflow project URL
                 </p>
               </div>
 
               {/* Version ID */}
               <div className="space-y-1">
-                <label className="block text-[11px] font-semibold text-[#565C75] dark:text-[#8B92A9] uppercase tracking-wide">
+                <label className="block text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide">
                   Version <span className="normal-case font-normal">(optional)</span>
                 </label>
                 <input
@@ -363,12 +355,9 @@ export default function VoiceflowChat() {
                   value={formVersion}
                   onChange={e => setFormVersion(e.target.value)}
                   placeholder="production"
-                  className="w-full px-3 py-2.5 rounded-xl border border-[#E4E7EF] dark:border-[#262A38]
-                             bg-white dark:bg-[#13161E] text-[13px] text-[#0F1117] dark:text-[#F0F2FA]
-                             placeholder-[#C0C4D0] focus:outline-none focus:ring-2 focus:ring-[#2563EB]
-                             font-mono"
+                  className="input-field px-3 py-2.5 text-[13px] font-mono"
                 />
-                <p className="text-[10px] text-[#8B92A9]">
+                <p className="text-[10px] text-slate-400">
                   Leave as "production" unless using a test version
                 </p>
               </div>
@@ -383,9 +372,7 @@ export default function VoiceflowChat() {
               <button
                 onClick={saveSettings}
                 disabled={!formKey.trim() || !formProject.trim()}
-                className="w-full py-2.5 rounded-xl bg-[#2563EB] hover:bg-blue-700
-                           disabled:opacity-40 disabled:cursor-not-allowed
-                           text-white text-[13px] font-semibold transition"
+                className="btn-primary w-full py-2.5 text-[13px]"
               >
                 Save & Connect
               </button>
@@ -393,19 +380,18 @@ export default function VoiceflowChat() {
               {isConfigured && (
                 <button
                   onClick={() => { setSettingsOpen(false); setError(''); }}
-                  className="w-full py-2 rounded-xl border border-[#E4E7EF] dark:border-[#262A38]
-                             text-[12px] text-[#8B92A9] hover:text-[#0F1117] dark:hover:text-[#F0F2FA] transition"
+                  className="btn-secondary w-full py-2 text-[12px]"
                 >
                   Cancel
                 </button>
               )}
 
               {/* Help callout */}
-              <div className="px-3 py-3 rounded-xl bg-blue-50 dark:bg-[#1A2540] border border-blue-100 dark:border-[#1E3A6E]">
-                <p className="text-[10px] text-[#2563EB] dark:text-[#4F8EF7] leading-relaxed font-medium">
+              <div className="px-3 py-3 rounded-xl bg-violet-50 dark:bg-violet-500/10 border border-violet-100 dark:border-violet-800/30">
+                <p className="text-[10px] text-violet-600 dark:text-violet-300 leading-relaxed font-medium">
                   <span className="inline-flex items-center gap-1"><Lightbulb className="w-3.5 h-3.5" /> How to get your keys</span>
                 </p>
-                <ol className="text-[10px] text-[#565C75] dark:text-[#8B92A9] leading-relaxed mt-1 space-y-0.5 list-decimal list-inside">
+                <ol className="text-[10px] text-slate-500 dark:text-slate-400 leading-relaxed mt-1 space-y-0.5 list-decimal list-inside">
                   <li>Go to <span className="font-mono">creator.voiceflow.com</span></li>
                   <li>Open your project</li>
                   <li>Settings → API Keys → copy your key</li>
@@ -416,7 +402,7 @@ export default function VoiceflowChat() {
           ) : (
             <>
               {/* ── Messages area ──────────────────────────────────────────── */}
-              <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3 bg-[#F8F9FC] dark:bg-[#0F1117]">
+              <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3 bg-slate-50 dark:bg-[#181029]">
                 {!isConfigured && (
                   <div className="flex flex-col items-center justify-center h-full gap-3 text-center py-8">
                     <div className="w-14 h-14 rounded-full bg-orange-100 dark:bg-orange-950 flex items-center justify-center">
@@ -427,12 +413,12 @@ export default function VoiceflowChat() {
                       </svg>
                     </div>
                     <div>
-                      <p className="text-[13px] font-bold text-[#0F1117] dark:text-[#F0F2FA]">Setup Required</p>
-                      <p className="text-[11px] text-[#8B92A9] mt-1">Click the gear icon above to add your Voiceflow API Key.</p>
+                      <p className="text-[13px] font-bold text-slate-900 dark:text-white">Setup Required</p>
+                      <p className="text-[11px] text-slate-400 mt-1">Click the gear icon above to add your Voiceflow API Key.</p>
                     </div>
                     <button
                       onClick={() => { setFormKey(''); setFormProject(''); setFormVersion('production'); setSettingsOpen(true); }}
-                      className="px-4 py-2 rounded-xl bg-[#2563EB] text-white text-[12px] font-semibold hover:bg-blue-700 transition"
+                      className="btn-primary btn-sm"
                     >
                       Open Settings
                     </button>
@@ -442,18 +428,18 @@ export default function VoiceflowChat() {
                 {isConfigured && messages.length === 0 && !loading && (
                   <div className="flex flex-col items-center justify-center h-full gap-2 text-center py-8">
                     <div className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-950 flex items-center justify-center animate-pulse">
-                      <svg className="w-5 h-5 text-[#2563EB]" fill="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-5 h-5 text-violet-600" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
                       </svg>
                     </div>
-                    <p className="text-[12px] text-[#8B92A9]">Connecting to your assistant…</p>
+                    <p className="text-[12px] text-slate-400">Connecting to your assistant…</p>
                   </div>
                 )}
 
                 {messages.map((msg, i) => (
                   <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                     {msg.role === 'bot' && (
-                      <div className="w-6 h-6 rounded-full bg-[#2563EB] flex items-center justify-center mr-2 mt-0.5 flex-shrink-0">
+                      <div className="w-6 h-6 rounded-full bg-violet-600 flex items-center justify-center mr-2 mt-0.5 flex-shrink-0">
                         <svg className="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 24 24">
                           <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
                         </svg>
@@ -462,8 +448,8 @@ export default function VoiceflowChat() {
                     <div
                       className={`max-w-[78%] px-3 py-2.5 rounded-2xl text-[12px] leading-relaxed ${
                         msg.role === 'user'
-                          ? 'bg-[#2563EB] text-white rounded-br-sm'
-                          : 'bg-white dark:bg-[#13161E] text-[#0F1117] dark:text-[#F0F2FA] border border-[#E4E7EF] dark:border-[#262A38] rounded-bl-sm'
+                          ? 'bg-violet-600 text-white rounded-br-sm'
+                          : 'bg-white dark:bg-[#181029] text-slate-900 dark:text-white border border-slate-200 dark:border-white/10 rounded-bl-sm'
                       }`}
                     >
                       {msg.text}
@@ -473,16 +459,16 @@ export default function VoiceflowChat() {
 
                 {loading && (
                   <div className="flex justify-start">
-                    <div className="w-6 h-6 rounded-full bg-[#2563EB] flex items-center justify-center mr-2 flex-shrink-0">
+                    <div className="w-6 h-6 rounded-full bg-violet-600 flex items-center justify-center mr-2 flex-shrink-0">
                       <svg className="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
                       </svg>
                     </div>
-                    <div className="px-3 py-2.5 rounded-2xl rounded-bl-sm bg-white dark:bg-[#13161E]
-                                    border border-[#E4E7EF] dark:border-[#262A38] flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#8B92A9] animate-bounce" style={{ animationDelay: '0ms' }} />
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#8B92A9] animate-bounce" style={{ animationDelay: '150ms' }} />
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#8B92A9] animate-bounce" style={{ animationDelay: '300ms' }} />
+                    <div className="px-3 py-2.5 rounded-2xl rounded-bl-sm bg-white dark:bg-[#181029]
+                                    border border-slate-200 dark:border-white/10 flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-slate-400 animate-bounce" style={{ animationDelay: '0ms' }} />
+                      <span className="w-1.5 h-1.5 rounded-full bg-slate-400 animate-bounce" style={{ animationDelay: '150ms' }} />
+                      <span className="w-1.5 h-1.5 rounded-full bg-slate-400 animate-bounce" style={{ animationDelay: '300ms' }} />
                     </div>
                   </div>
                 )}
@@ -499,8 +485,8 @@ export default function VoiceflowChat() {
 
               {/* ── Input bar ─────────────────────────────────────────────────── */}
               {isConfigured && (
-                <div className="flex items-end gap-2 px-3 py-3 border-t border-[#E4E7EF] dark:border-[#262A38]
-                                bg-white dark:bg-[#13161E] flex-shrink-0">
+                <div className="flex items-end gap-2 px-3 py-3 border-t border-slate-200 dark:border-white/10
+                                bg-white dark:bg-[#181029] flex-shrink-0">
                   <textarea
                     ref={inputRef}
                     value={inputText}
@@ -509,16 +495,13 @@ export default function VoiceflowChat() {
                     placeholder="Type a message…"
                     rows={1}
                     disabled={loading || !connected}
-                    className="flex-1 resize-none px-3 py-2 rounded-xl border border-[#E4E7EF] dark:border-[#262A38]
-                               bg-[#F8F9FC] dark:bg-[#0F1117] text-[12px] text-[#0F1117] dark:text-[#F0F2FA]
-                               placeholder-[#C0C4D0] focus:outline-none focus:ring-2 focus:ring-[#2563EB]
-                               disabled:opacity-50 max-h-24 leading-relaxed"
+                    className="input-field flex-1 resize-none px-3 py-2 text-[12px] disabled:opacity-50 max-h-24 leading-relaxed"
                     style={{ scrollbarWidth: 'none' }}
                   />
                   <button
                     onClick={() => sendMessage(inputText)}
                     disabled={!inputText.trim() || loading || !connected}
-                    className="w-9 h-9 rounded-xl bg-[#2563EB] hover:bg-blue-700
+                    className="w-9 h-9 rounded-xl bg-brand-gradient hover:brightness-110
                                disabled:opacity-40 disabled:cursor-not-allowed
                                flex items-center justify-center transition flex-shrink-0"
                   >

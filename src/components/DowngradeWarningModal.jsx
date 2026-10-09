@@ -13,35 +13,8 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { useState, useMemo } from "react";
-
-// ── Avatar helpers (same palette as UserManagement) ──────────────────────────
-const AVATAR_HEX = [
-  "#2563EB","#7C3AED","#0891B2","#059669",
-  "#D97706","#DC2626","#0F766E","#9333EA",
-];
-function avatarHex(str) {
-  let h = 0;
-  for (let i = 0; i < String(str).length; i++)
-    h = String(str).charCodeAt(i) + ((h << 5) - h);
-  return AVATAR_HEX[Math.abs(h) % AVATAR_HEX.length];
-}
-function MemberAvatar({ member }) {
-  const uid = member._id || member.id || member.email || "";
-  const initials = (member.name || "?")
-    .split(" ")
-    .map((n) => n[0])
-    .join("")
-    .slice(0, 2)
-    .toUpperCase();
-  return (
-    <div
-      className="w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-bold text-white shrink-0"
-      style={{ background: avatarHex(uid) }}
-    >
-      {initials}
-    </div>
-  );
-}
+import { AlertTriangle, ArrowDown, CheckCircle2 } from "lucide-react";
+import { Avatar, Pill } from "./ui/Primitives";
 
 // ── Checkbox UI ──────────────────────────────────────────────────────────────
 function Checkbox({ checked }) {
@@ -49,8 +22,8 @@ function Checkbox({ checked }) {
     <div
       className={`w-5 h-5 rounded-md border-2 flex items-center justify-center shrink-0 transition-all ${
         checked
-          ? "bg-red-500 border-red-500"
-          : "border-[#D1D5DB] dark:border-[#3A3F52]"
+          ? "bg-rose-500 border-rose-500"
+          : "border-slate-300 dark:border-white/15"
       }`}
     >
       {checked && (
@@ -75,26 +48,26 @@ function SelectableRow({ member, selected, onToggle, isLast }) {
       type="button"
       onClick={() => onToggle(member)}
       className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-colors ${
-        !isLast ? "border-b border-[#E4E7EF] dark:border-[#262A38]" : ""
+        !isLast ? "border-b border-slate-200 dark:border-white/10" : ""
       } ${
         selected
-          ? "bg-red-50 dark:bg-red-950/20"
-          : "hover:bg-[#F8F9FC] dark:hover:bg-[#181B27]"
+          ? "bg-rose-50 dark:bg-rose-500/10"
+          : "hover:bg-slate-50 dark:hover:bg-white/[0.04]"
       }`}
     >
-      <MemberAvatar member={member} />
+      <Avatar name={member.name} size={8} />
       <div className="flex-1 min-w-0">
-        <p className="text-[12px] font-semibold text-[#0F1117] dark:text-[#F0F2FA] truncate">
+        <p className="text-[12px] font-semibold text-slate-900 dark:text-white truncate">
           {member.name}
         </p>
-        <p className="text-[11px] text-[#8B92A9] dark:text-[#565C75] truncate">
+        <p className="text-[11px] text-slate-400 truncate">
           {member.email}
         </p>
       </div>
       {selected && (
-        <span className="shrink-0 px-2 py-0.5 rounded-full bg-red-50 dark:bg-red-950/40 text-red-600 dark:text-red-400 text-[10px] font-semibold mr-1">
+        <Pill tone="rose" className="shrink-0 mr-1">
           Removing
-        </span>
+        </Pill>
       )}
       <Checkbox checked={selected} />
     </button>
@@ -105,30 +78,24 @@ function SelectableRow({ member, selected, onToggle, isLast }) {
 function SectionHeader({ label, sublabel, selected, needed }) {
   const done = selected >= needed;
   return (
-    <div className="px-4 py-2.5 bg-[#F8F9FC] dark:bg-[#13161E] border-b border-[#E4E7EF] dark:border-[#262A38] flex items-center justify-between">
+    <div className="px-4 py-2.5 bg-slate-50 dark:bg-white/[0.04] border-b border-slate-200 dark:border-white/10 flex items-center justify-between">
       <div>
-        <span className="text-[11px] font-semibold text-[#4B5168] dark:text-[#7B829E]">
+        <span className="text-[11px] font-semibold text-slate-600 dark:text-slate-300">
           {label}
         </span>
         {sublabel && (
-          <span className="ml-1.5 text-[11px] text-[#8B92A9] dark:text-[#565C75]">
+          <span className="ml-1.5 text-[11px] text-slate-400">
             {sublabel}
           </span>
         )}
       </div>
-      <span
-        className={`px-2 py-0.5 rounded-full text-[10px] font-bold transition-colors ${
-          done
-            ? "bg-green-50 dark:bg-green-950/40 text-green-700 dark:text-green-400"
-            : "bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300"
-        }`}
-      >
+      <Pill tone={done ? "emerald" : "amber"}>
         {done ? (
           <>✓ {selected} selected</>
         ) : (
           <>{selected} / {needed} selected</>
         )}
-      </span>
+      </Pill>
     </div>
   );
 }
@@ -214,62 +181,43 @@ export default function DowngradeWarningModal({
   }
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
-      style={{ animation: "fadeIn 0.15s ease both" }}
-    >
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4 animate-fade-in">
       <div
-        className="bg-white dark:bg-[#1A1D27] border border-[#E4E7EF] dark:border-[#262A38]
-          rounded-2xl w-full max-w-md shadow-2xl overflow-hidden flex flex-col"
-        style={{
-          animation: "slideUp 0.2s cubic-bezier(0.4,0,0.2,1) both",
-          maxHeight: "90vh",
-        }}
+        className="surface-card !rounded-2xl shadow-popover w-full max-w-md overflow-hidden flex flex-col animate-scale-in"
+        style={{ maxHeight: "90vh" }}
       >
         {/* Amber accent bar */}
         <div className="h-1.5 w-full bg-amber-500 shrink-0" />
 
         {/* Scrollable content */}
-        <div className="overflow-y-auto flex-1">
+        <div className="overflow-y-auto scrollbar-thin flex-1">
           <div className="p-6">
             {/* Icon */}
             <div className="flex justify-center mb-4">
-              <div className="w-14 h-14 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border-2 border-amber-100 dark:border-amber-900/50 flex items-center justify-center">
-                <svg
-                  className="w-7 h-7 text-amber-500"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M19 14l-7 7m0 0l-7-7m7 7V3"
-                  />
-                </svg>
+              <div className="w-14 h-14 rounded-2xl bg-amber-50 dark:bg-amber-500/10 border-2 border-amber-100 dark:border-amber-500/20 flex items-center justify-center">
+                <ArrowDown className="w-7 h-7 text-amber-500" strokeWidth={2} />
               </div>
             </div>
 
             {/* Title */}
-            <h2 className="text-[15px] font-bold text-[#0F1117] dark:text-[#F0F2FA] text-center mb-1">
+            <h2 className="text-[15px] font-bold text-slate-900 dark:text-white text-center mb-1">
               Downgrade to {targetPlan.name}?
             </h2>
 
             {hasAnyRequired ? (
-              <p className="text-[12px] text-[#6B7280] dark:text-[#565C75] text-center mb-5 leading-relaxed">
+              <p className="text-[12px] text-slate-500 dark:text-slate-400 text-center mb-5 leading-relaxed">
                 The {targetPlan.name} plan allows{" "}
-                <span className="font-semibold text-[#0F1117] dark:text-[#F0F2FA]">
+                <span className="font-semibold text-slate-900 dark:text-white">
                   {targetAdminLimit} admin{targetAdminLimit !== 1 ? "s" : ""}
                 </span>{" "}
                 and{" "}
-                <span className="font-semibold text-[#0F1117] dark:text-[#F0F2FA]">
+                <span className="font-semibold text-slate-900 dark:text-white">
                   {targetUserLimit} users
                 </span>
                 . Select who to remove to proceed.
               </p>
             ) : (
-              <p className="text-[12px] text-[#6B7280] dark:text-[#565C75] text-center mb-5 leading-relaxed">
+              <p className="text-[12px] text-slate-500 dark:text-slate-400 text-center mb-5 leading-relaxed">
                 Your current team fits within {targetPlan.name} plan limits. No
                 members need to be removed.
               </p>
@@ -277,7 +225,7 @@ export default function DowngradeWarningModal({
 
             {/* ── Admins section ── */}
             {mustRemoveAdmins > 0 && (
-              <div className="border border-[#E4E7EF] dark:border-[#262A38] rounded-xl overflow-hidden mb-3">
+              <div className="border border-slate-200 dark:border-white/10 rounded-xl overflow-hidden mb-3">
                 <SectionHeader
                   label="Admins"
                   sublabel={`(keep ${targetAdminLimit}, remove at least ${mustRemoveAdmins})`}
@@ -298,7 +246,7 @@ export default function DowngradeWarningModal({
 
             {/* ── Users section ── */}
             {mustRemoveUsers > 0 && (
-              <div className="border border-[#E4E7EF] dark:border-[#262A38] rounded-xl overflow-hidden mb-3">
+              <div className="border border-slate-200 dark:border-white/10 rounded-xl overflow-hidden mb-3">
                 <SectionHeader
                   label="Employees"
                   sublabel={`(keep ${targetUserLimit}, remove at least ${mustRemoveUsers})`}
@@ -318,9 +266,9 @@ export default function DowngradeWarningModal({
                   <button
                     type="button"
                     onClick={() => setShowAllUsers(true)}
-                    className="w-full px-4 py-2.5 text-[11px] font-semibold text-[#2563EB] dark:text-blue-400
-                      hover:bg-[#F8F9FC] dark:hover:bg-[#181B27] transition border-t
-                      border-[#E4E7EF] dark:border-[#262A38] text-center"
+                    className="w-full px-4 py-2.5 text-[11px] font-semibold text-launcher-600 dark:text-launcher-400
+                      hover:bg-slate-50 dark:hover:bg-white/[0.04] transition border-t
+                      border-slate-200 dark:border-white/10 text-center"
                   >
                     Show {currentUsers.length - VISIBLE_LIMIT} more users
                   </button>
@@ -332,28 +280,16 @@ export default function DowngradeWarningModal({
             {hasAnyRequired && (
               <div className="mb-4">
                 {canConfirm ? (
-                  <p className="text-[12px] font-semibold text-green-600 dark:text-green-400 flex items-center gap-1.5">
-                    <svg
-                      className="w-4 h-4"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={2.5}
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
+                  <p className="text-[12px] font-semibold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4" strokeWidth={2.5} />
                     Ready — {selectedAdmins.length + selectedUsers.length} account
                     {selectedAdmins.length + selectedUsers.length !== 1 ? "s" : ""}{" "}
                     selected for removal.
                   </p>
                 ) : (
-                  <p className="text-[12px] text-[#8B92A9] dark:text-[#565C75]">
+                  <p className="text-[12px] text-slate-400">
                     Select{" "}
-                    <span className="font-semibold text-red-500">
+                    <span className="font-semibold text-rose-500">
                       {statusParts.join(" and ")}
                     </span>{" "}
                     to enable confirm.
@@ -364,20 +300,8 @@ export default function DowngradeWarningModal({
 
             {/* Warning */}
             {hasAnyRequired && (
-              <div className="flex items-start gap-2 px-3 py-2.5 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 mb-5">
-                <svg
-                  className="w-3.5 h-3.5 text-amber-500 mt-0.5 shrink-0"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"
-                  />
-                </svg>
+              <div className="flex items-start gap-2 px-3 py-2.5 rounded-xl bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/20 mb-5">
+                <AlertTriangle className="w-3.5 h-3.5 text-amber-500 mt-0.5 shrink-0" />
                 <p className="text-[11px] text-amber-700 dark:text-amber-400 leading-relaxed">
                   Selected accounts will be removed <strong>only after payment succeeds</strong>.
                   If you cancel payment, no one is removed. Once removed, their
@@ -389,10 +313,10 @@ export default function DowngradeWarningModal({
         </div>
 
         {/* Sticky footer */}
-        <div className="px-6 pb-6 shrink-0 bg-white dark:bg-[#1A1D27]">
+        <div className="px-6 pb-6 shrink-0 bg-white dark:bg-[#181029]">
           {/* Plan chips */}
           <div className="flex items-center gap-2 flex-wrap mb-4">
-            <span className="text-[11px] text-[#8B92A9]">Switching to:</span>
+            <span className="text-[11px] text-slate-400">Switching to:</span>
             <span
               className="px-2.5 py-1 rounded-lg text-[11px] font-semibold"
               style={{
@@ -402,56 +326,28 @@ export default function DowngradeWarningModal({
             >
               {targetPlan.name}
             </span>
-            <span className="text-[11px] text-[#8B92A9]">·</span>
-            <span className="text-[11px] text-[#8B92A9]">
+            <span className="text-[11px] text-slate-400">·</span>
+            <span className="text-[11px] text-slate-400">
               Max {targetAdminLimit} admin{targetAdminLimit !== 1 ? "s" : ""} /{" "}
               {targetUserLimit} users
             </span>
           </div>
 
           <div className="flex gap-2.5">
-            <button
-              onClick={onCancel}
-              className="flex-1 py-2.5 rounded-xl border border-[#E4E7EF] dark:border-[#262A38]
-                text-[13px] font-semibold text-[#4B5168] dark:text-[#9DA3BB]
-                hover:bg-[#F1F4FF] dark:hover:bg-[#262A38] transition-colors"
-            >
+            <button onClick={onCancel} className="btn-secondary btn-md flex-1">
               Keep current plan
             </button>
             <button
               onClick={handleConfirm}
               disabled={!canConfirm}
-              className="flex-1 py-2.5 rounded-xl text-white text-[13px] font-semibold
-                transition-colors flex items-center justify-center gap-2
-                disabled:opacity-50 disabled:cursor-not-allowed"
-              style={{ background: canConfirm ? "#EF4444" : undefined }}
+              className="btn-danger btn-md flex-1"
             >
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
-                />
-              </svg>
+              <ArrowDown className="w-4 h-4" />
               Proceed to pay
             </button>
           </div>
         </div>
       </div>
-
-      <style>{`
-        @keyframes fadeIn  { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes slideUp {
-          from { opacity: 0; transform: translateY(20px) scale(0.97); }
-          to   { opacity: 1; transform: translateY(0) scale(1); }
-        }
-      `}</style>
     </div>
   );
 }

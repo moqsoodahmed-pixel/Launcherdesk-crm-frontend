@@ -3,12 +3,13 @@ import api from "../data/axiosConfig";
 import GoogleAdsApiConnect from "./GoogleAdsApiConnect";
 import GoogleAdsBreakdown from "./GoogleAdsBreakdown";
 import AISummaryPanel from "./AISummaryPanel";
+import { Pill } from "./ui/Primitives";
 import {
   TrendingUp, TrendingDown, Minus, Sparkles, Loader2, FileDown, AlertTriangle,
   IndianRupee, Users, Target, MousePointerClick, Award, Percent, ArrowUpDown,
   Filter, Lightbulb, AlertCircle, CheckCircle2, ChevronUp, ChevronDown, Wallet,
 } from "lucide-react";
- 
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Google Ads — Business Performance Dashboard
 // Revenue-focused view built from CRM data + manually-entered ad metrics.
@@ -30,13 +31,13 @@ const TL = {
   orange: { text: "text-amber-600 dark:text-amber-400",     chip: "bg-amber-50 dark:bg-amber-950/30" },
 };
 
-const CARD = "bg-white dark:bg-[#11131C] border border-[#E4E7EF] dark:border-[#1E2133] rounded-2xl";
-const TH = "text-[10px] font-bold uppercase tracking-wider text-[#8B92A9] px-3 py-2.5 whitespace-nowrap";
-const TD = "text-[12px] text-[#0F1117] dark:text-[#DDE1F5] px-3 py-2.5 whitespace-nowrap";
+const CARD = "surface-card";
+const TH = "text-[10px] font-bold uppercase tracking-wider text-slate-400 px-3 py-2.5 whitespace-nowrap";
+const TD = "text-[12px] text-slate-900 dark:text-white px-3 py-2.5 whitespace-nowrap";
 const SectionTitle = ({ children, sub }) => (
   <div className="mb-3">
-    <h2 className="text-[13px] font-bold text-[#0F1117] dark:text-[#DDE1F5]">{children}</h2>
-    {sub && <p className="text-[11px] text-[#8B92A9] mt-0.5">{sub}</p>}
+    <h2 className="text-[13px] font-bold text-slate-900 dark:text-white">{children}</h2>
+    {sub && <p className="text-[11px] text-slate-400 mt-0.5">{sub}</p>}
   </div>
 );
 
@@ -53,8 +54,8 @@ function KpiCard({ kpi }) {
   return (
     <div className={`${CARD} p-4 flex flex-col gap-2.5`}>
       <div className="flex items-center justify-between">
-        <div className="w-8 h-8 rounded-xl bg-blue-50 dark:bg-blue-950/40 flex items-center justify-center">
-          <Icon className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+        <div className="w-8 h-8 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center">
+          <Icon className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
         </div>
         {t.deltaPct != null && (
           <span className={`inline-flex items-center gap-0.5 text-[10px] font-bold px-1.5 py-0.5 rounded-full ${tl.chip} ${tl.text}`}>
@@ -63,8 +64,8 @@ function KpiCard({ kpi }) {
         )}
       </div>
       <div>
-        <p className="text-[10px] font-bold uppercase tracking-wider text-[#8B92A9] mb-0.5">{kpi.label}</p>
-        <p className="text-[18px] font-bold text-[#0F1117] dark:text-[#DDE1F5] leading-none">{fmt(kpi.value, kpi.format)}</p>
+        <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-0.5">{kpi.label}</p>
+        <p className="text-[18px] font-bold text-slate-900 dark:text-white leading-none">{fmt(kpi.value, kpi.format)}</p>
       </div>
     </div>
   );
@@ -91,7 +92,7 @@ function SortableTable({ columns, rows, initialSort }) {
     <div className={`${CARD} overflow-x-auto`}>
       <table className="w-full border-collapse">
         <thead>
-          <tr className="border-b border-[#E4E7EF] dark:border-[#1E2133] bg-[#F8F9FC] dark:bg-[#0D0F14]">
+          <tr className="border-b border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.03]">
             {columns.map((c) => (
               <th key={c.key} className={`${TH} cursor-pointer select-none ${c.align === "right" ? "text-right" : "text-left"}`} onClick={() => toggle(c.key)}>
                 <span className="inline-flex items-center gap-1">
@@ -106,7 +107,7 @@ function SortableTable({ columns, rows, initialSort }) {
         </thead>
         <tbody>
           {sorted.map((r, i) => (
-            <tr key={i} className="border-b border-[#F0F2FA] dark:border-[#1A1D2A] last:border-0 hover:bg-[#F8F9FC] dark:hover:bg-[#0D0F14]">
+            <tr key={i} className="border-b border-slate-100 dark:border-white/5 last:border-0 hover:bg-slate-50 dark:hover:bg-white/[0.03]">
               {columns.map((c) => (
                 <td key={c.key} className={`${TD} ${c.align === "right" ? "text-right" : "text-left"}`}>
                   {c.render ? c.render(r) : r[c.key] ?? "—"}
@@ -115,7 +116,7 @@ function SortableTable({ columns, rows, initialSort }) {
             </tr>
           ))}
           {sorted.length === 0 && (
-            <tr><td colSpan={columns.length} className="text-center text-[12px] text-[#8B92A9] py-8">No data</td></tr>
+            <tr><td colSpan={columns.length} className="text-center text-[12px] text-slate-400 py-8">No data</td></tr>
           )}
         </tbody>
       </table>
@@ -169,7 +170,7 @@ export default function GoogleAdsDashboard() {
   const campaignOpts = data?.campaigns?.map((c) => c.campaignName) || [];
   const salesOpts = (data?.salesTeam || []).filter((s) => s.userId).map((s) => ({ id: s.userId, name: s.salesperson }));
 
-  const selCls = "text-[12px] font-semibold bg-[#F8F9FC] dark:bg-[#0D0F14] border border-[#E4E7EF] dark:border-[#1E2133] rounded-xl px-3 py-2 text-[#0F1117] dark:text-[#DDE1F5] focus:outline-none";
+  const selCls = "input-field w-auto px-3 py-2 text-[12px] font-semibold";
 
   return (
     <div className="print-area">
@@ -178,26 +179,24 @@ export default function GoogleAdsDashboard() {
         .funnel-bar { transform-origin: left center; animation: growbar .5s ease-out both; }`}</style>
 
       {/* Header + controls */}
-      <div className="px-4 md:px-8 pt-6 pb-4 border-b border-[#E4E7EF] dark:border-[#1E2133] bg-white dark:bg-[#11131C] no-print">
+      <div className="px-4 md:px-8 pt-6 pb-4 border-b border-slate-200 dark:border-white/10 bg-white dark:bg-[#181029] no-print">
         <div className="max-w-6xl mx-auto flex flex-col gap-4">
           <div className="flex items-center justify-between gap-3 flex-wrap">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-blue-600 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-2xl bg-brand-gradient shadow-glow-brand flex items-center justify-center">
                 <MousePointerClick className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h1 className="text-[18px] font-bold text-[#0F1117] dark:text-[#DDE1F5]">Google Ads Performance</h1>
-                <p className="text-[12px] text-[#8B92A9]">Where your ad budget becomes customers &amp; revenue</p>
+                <h1 className="text-[18px] font-bold text-slate-900 dark:text-white">Google Ads Performance</h1>
+                <p className="text-[12px] text-slate-400">Where your ad budget becomes customers &amp; revenue</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <button onClick={generateAI} disabled={aiLoading || loading}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white text-[12px] font-semibold transition">
+              <button onClick={generateAI} disabled={aiLoading || loading} className="btn-primary btn-md">
                 {aiLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Sparkles className="w-3.5 h-3.5" />}
                 {aiLoading ? "Analyzing…" : data?.aiAnalysis ? "Re-generate AI" : "Generate AI Report"}
               </button>
-              <button onClick={exportPDF} disabled={!data}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-[#E4E7EF] dark:border-[#1E2133] bg-white dark:bg-[#11131C] text-[#4B5168] dark:text-[#9DA3BB] text-[12px] font-semibold disabled:opacity-40">
+              <button onClick={exportPDF} disabled={!data} className="btn-secondary btn-md">
                 <FileDown className="w-3.5 h-3.5" /> PDF
               </button>
             </div>
@@ -205,25 +204,25 @@ export default function GoogleAdsDashboard() {
 
           {/* Filters */}
           <div className="flex flex-wrap items-center gap-2">
-            <div className="flex items-center gap-1.5 bg-[#F8F9FC] dark:bg-[#0D0F14] border border-[#E4E7EF] dark:border-[#1E2133] rounded-xl px-2.5 py-1.5">
-              <Filter className="w-3.5 h-3.5 text-[#8B92A9]" />
-              <input type="date" value={from} onChange={(e) => setFrom(e.target.value)} className="text-[12px] font-semibold bg-transparent focus:outline-none text-[#0F1117] dark:text-[#DDE1F5]" />
-              <span className="text-[#C4C9DA]">→</span>
-              <input type="date" value={to} onChange={(e) => setTo(e.target.value)} className="text-[12px] font-semibold bg-transparent focus:outline-none text-[#0F1117] dark:text-[#DDE1F5]" />
+            <div className="flex items-center gap-1.5 bg-slate-50 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 rounded-xl px-2.5 py-1.5">
+              <Filter className="w-3.5 h-3.5 text-slate-400" />
+              <input type="date" value={from} onChange={(e) => setFrom(e.target.value)} aria-label="From date" className="text-[12px] font-semibold bg-transparent focus:outline-none text-slate-900 dark:text-white" />
+              <span className="text-slate-300 dark:text-slate-600">→</span>
+              <input type="date" value={to} onChange={(e) => setTo(e.target.value)} aria-label="To date" className="text-[12px] font-semibold bg-transparent focus:outline-none text-slate-900 dark:text-white" />
             </div>
-            <select value={campaign} onChange={(e) => setCampaign(e.target.value)} className={selCls}>
+            <select value={campaign} onChange={(e) => setCampaign(e.target.value)} aria-label="Filter by campaign" className={selCls}>
               <option value="">All campaigns</option>
               {campaignOpts.map((c) => <option key={c} value={c}>{c}</option>)}
             </select>
-            <select value={salesperson} onChange={(e) => setSalesperson(e.target.value)} className={selCls}>
+            <select value={salesperson} onChange={(e) => setSalesperson(e.target.value)} aria-label="Filter by salesperson" className={selCls}>
               <option value="">All salespeople</option>
               {salesOpts.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
             </select>
-            <select value={status} onChange={(e) => setStatus(e.target.value)} className={selCls}>
+            <select value={status} onChange={(e) => setStatus(e.target.value)} aria-label="Filter by status" className={selCls}>
               <option value="">All statuses</option>
               {STATUS_OPTS.map((s) => <option key={s} value={s}>{s}</option>)}
             </select>
-            {loading && <Loader2 className="w-4 h-4 text-blue-500 animate-spin" />}
+            {loading && <Loader2 className="w-4 h-4 text-indigo-500 animate-spin" />}
           </div>
         </div>
       </div>
@@ -247,7 +246,7 @@ export default function GoogleAdsDashboard() {
           <SectionTitle sub="Green = improving · Orange = stable · Red = needs attention (vs previous period)">Overview</SectionTitle>
           {loading && !data ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-              {Array.from({ length: 11 }).map((_, i) => <div key={i} className={`${CARD} p-4 h-24 animate-pulse`} />)}
+              {Array.from({ length: 11 }).map((_, i) => <div key={i} className="skeleton h-24" />)}
             </div>
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
@@ -277,20 +276,20 @@ export default function GoogleAdsDashboard() {
                 return (
                   <div key={s.name} className={`${CARD} p-3.5`}>
                     <div className="flex items-center justify-between mb-2 gap-3">
-                      <span className="text-[12px] font-bold text-[#0F1117] dark:text-[#DDE1F5]">{s.name}</span>
+                      <span className="text-[12px] font-bold text-slate-900 dark:text-white">{s.name}</span>
                       <div className="flex items-center gap-3 text-[11px]">
-                        <span className="font-bold text-[#0F1117] dark:text-[#DDE1F5]">{int(s.count)}</span>
-                        {s.fromPrevPct != null && <span className="text-[#8B92A9]">{s.fromPrevPct}% of prev</span>}
-                        {s.conversionPct != null && <span className="text-blue-600 dark:text-blue-400">{s.conversionPct}% overall</span>}
+                        <span className="font-bold text-slate-900 dark:text-white">{int(s.count)}</span>
+                        {s.fromPrevPct != null && <span className="text-slate-400">{s.fromPrevPct}% of prev</span>}
+                        {s.conversionPct != null && <span className="text-indigo-600 dark:text-indigo-400">{s.conversionPct}% overall</span>}
                         {s.dropOffPct != null && (
-                          <span className={`font-semibold ${s.bigDropOff ? "text-rose-600 dark:text-rose-400" : "text-[#8B92A9]"}`}>
+                          <span className={`font-semibold ${s.bigDropOff ? "text-rose-600 dark:text-rose-400" : "text-slate-400"}`}>
                             ▼ {s.dropOffPct}%
                           </span>
                         )}
                       </div>
                     </div>
-                    <div className="h-2.5 rounded-full bg-[#F0F2FA] dark:bg-[#1A1D2A] overflow-hidden">
-                      <div className={`funnel-bar h-full rounded-full ${s.bigDropOff ? "bg-rose-500" : "bg-blue-500"}`} style={{ width: `${width}%`, animationDelay: `${i * 60}ms` }} />
+                    <div className="h-2.5 rounded-full bg-slate-100 dark:bg-white/10 overflow-hidden">
+                      <div className={`funnel-bar h-full rounded-full ${s.bigDropOff ? "bg-rose-500" : "bg-indigo-500"}`} style={{ width: `${width}%`, animationDelay: `${i * 60}ms` }} />
                     </div>
                   </div>
                 );
@@ -308,7 +307,7 @@ export default function GoogleAdsDashboard() {
               rows={data.campaigns}
               columns={[
                 { key: "campaignName", label: "Campaign", render: (r) => <span className="font-semibold">{r.campaignName}</span> },
-                { key: "status", label: "Status", render: (r) => <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${r.status === "Active" ? "bg-emerald-50 text-emerald-600 dark:bg-emerald-950/30" : "bg-[#F0F2FA] text-[#8B92A9] dark:bg-[#1A1D2A]"}`}>{r.status}</span> },
+                { key: "status", label: "Status", render: (r) => <Pill tone={r.status === "Active" ? "emerald" : "slate"}>{r.status}</Pill> },
                 { key: "spend", label: "Spend", align: "right", render: (r) => money(r.spend) },
                 { key: "impressions", label: "Impr.", align: "right", render: (r) => int(r.impressions) },
                 { key: "clicks", label: "Clicks", align: "right", render: (r) => int(r.clicks) },
@@ -340,8 +339,8 @@ export default function GoogleAdsDashboard() {
                 ["Revenue / Customer", money(data.crmSales.revenuePerCustomer)],
               ].map(([label, val]) => (
                 <div key={label} className={`${CARD} p-4`}>
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-[#8B92A9] mb-1">{label}</p>
-                  <p className="text-[16px] font-bold text-[#0F1117] dark:text-[#DDE1F5]">{val}</p>
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">{label}</p>
+                  <p className="text-[16px] font-bold text-slate-900 dark:text-white">{val}</p>
                 </div>
               ))}
             </div>
@@ -396,7 +395,7 @@ export default function GoogleAdsDashboard() {
 
         {/* Unavailable-sections note (honest) */}
         {data?.notes?.unavailable && (
-          <p className="text-[11px] text-[#8B92A9] border-t border-[#E4E7EF] dark:border-[#1E2133] pt-4">
+          <p className="text-[11px] text-slate-400 border-t border-slate-200 dark:border-white/10 pt-4">
             {data.notes.unavailable} {data.notes.qualified} {data.notes.revenue}
           </p>
         )}

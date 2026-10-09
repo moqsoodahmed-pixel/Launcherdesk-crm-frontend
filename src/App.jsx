@@ -33,6 +33,8 @@ const AdminLeadsPage = lazy(() => import("./components/AdminLeadsPage"));
 const Communications = lazy(() => import("./components/Communications"));
 const AttendancePage = lazy(() => import("./pages/AttendancePage"));
 const UpgradePlan = lazy(() => import("./components/UpgradePlan"));
+const PipelineBoard = lazy(() => import("./components/PipelineBoard"));
+const CompanyBrandSettings = lazy(() => import("./components/CompanyBrandSettings"));
 
 // User pages
 const UserLogin = lazy(() => import("./pages/UserLogin"));
@@ -456,7 +458,7 @@ function CompanyHeader() {
             {/* Tagline only for the un-customized default brand — a company
                 that has set its own name/logo keeps a neutral label instead,
                 so dynamic tenant branding is never overridden. */}
-            <span className="block text-[10px] font-medium text-violet-500/80 dark:text-violet-300/70 truncate max-w-[160px] -mt-0.5">
+            <span className="block text-[10px] font-medium text-violet-700 dark:text-violet-300/70 truncate max-w-[160px] -mt-0.5">
               {brand?.name ? "Admin workspace" : "Your Business HQ"}
             </span>
           </span>
@@ -748,9 +750,19 @@ function AppInner() {
               <AdminRoute><FeatureGate featureKey="attendance"><AttendancePage /></FeatureGate></AdminRoute>
             } />
 
+            {/* ── Pipeline board — same access level as Leads ── */}
+            <Route path="/pipeline" element={
+              <AdminRoute><PipelineBoard /></AdminRoute>
+            } />
+
             {/* ── Upgrade Plan — SuperAdmin only ── */}
             <Route path="/upgrade-plan" element={
               <SuperAdminRoute><UpgradePlanWithMembers /></SuperAdminRoute>
+            } />
+
+            {/* ── Brand Settings — SuperAdmin only ── */}
+            <Route path="/brand-settings" element={
+              <SuperAdminRoute><CompanyBrandSettings /></SuperAdminRoute>
             } />
 
             {/* ── Custom Reports — SuperAdmin only ── */}

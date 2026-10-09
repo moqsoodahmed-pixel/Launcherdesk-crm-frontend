@@ -95,7 +95,7 @@ export default function TrialGate() {
         currency:    order.currency,
         name:        "Launcherdesk CRM",
         description: "Start your 7-day Pro trial — save your payment method",
-        theme:       { color: "#2563EB" },
+        theme:       { color: "#7E14FF" },
         handler: async (res) => {
           try {
             await api.post("/trial/mandate/verify", {
@@ -148,7 +148,7 @@ export default function TrialGate() {
         name:        "Launcherdesk CRM",
         description: `${order.planName} plan (${billing})`,
         prefill:     order.prefill || {},
-        theme:       { color: "#2563EB" },
+        theme:       { color: "#7E14FF" },
         handler: async (res) => {
           try {
             await api.post("/trial/select-plan/verify", {
@@ -186,12 +186,12 @@ export default function TrialGate() {
   // ── Thin banner while the trial is active ────────────────────────────────────
   if (status.trialActive && !status.needsPaymentMethod) {
     return (
-      <div className="w-full bg-[#EEF3FF] dark:bg-[#1A2540] border-b border-[#C7D7FF] dark:border-[#2D3A6B] px-4 py-2 flex items-center justify-center gap-2 text-[13px]">
-        <ShieldCheck className="w-4 h-4 text-[#2563EB]" />
-        <span className="text-[#2563EB] dark:text-[#9DB4FF] font-semibold">
+      <div className="w-full bg-violet-50 dark:bg-violet-500/10 border-b border-violet-200 dark:border-violet-500/20 px-4 py-2 flex items-center justify-center gap-2 text-[13px]">
+        <ShieldCheck className="w-4 h-4 text-launcher-600 dark:text-launcher-400" />
+        <span className="text-launcher-700 dark:text-launcher-300 font-semibold">
           Pro trial active — {status.daysRemaining} day{status.daysRemaining === 1 ? "" : "s"} left.
         </span>
-        <span className="text-[#4B5168] dark:text-[#9DA3BB]">
+        <span className="text-slate-500 dark:text-slate-400">
           You won't be charged until you choose a plan.
         </span>
       </div>
@@ -231,11 +231,11 @@ export default function TrialGate() {
 
   // ── Full-screen blocking modal ───────────────────────────────────────────────
   return (
-    <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-      <div className="w-full max-w-lg bg-white dark:bg-[#1A1D27] rounded-2xl border border-[#E4E7EF] dark:border-[#262A38] shadow-2xl overflow-hidden">
+    <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4 animate-fade-in">
+      <div className="w-full max-w-lg bg-white dark:bg-[#181029] rounded-2xl border border-slate-200 dark:border-white/10 shadow-2xl overflow-hidden animate-scale-in">
 
         {/* Header */}
-        <div className="px-6 py-5 bg-[#2563EB]">
+        <div className="px-6 py-5 bg-brand-gradient">
           <div className="flex items-center gap-2.5">
             <div className="w-9 h-9 rounded-xl bg-white/15 flex items-center justify-center">
               {needStart
@@ -258,26 +258,26 @@ export default function TrialGate() {
             <>
               <ul className="space-y-2 mb-5">
                 {startBullets.map((t) => (
-                  <li key={t} className="flex items-start gap-2 text-[13px] text-[#4B5168] dark:text-[#9DA3BB]">
+                  <li key={t} className="flex items-start gap-2 text-[13px] text-slate-600 dark:text-slate-300">
                     <Check className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
                     {t}
                   </li>
                 ))}
               </ul>
               {error && (
-                <div className="mb-3 flex items-center gap-2 px-3 py-2 rounded-xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 text-[12px] text-red-600 dark:text-red-400">
+                <div className="mb-3 flex items-center gap-2 px-3 py-2 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 text-[12px] text-rose-600 dark:text-rose-400">
                   <AlertTriangle className="w-4 h-4 shrink-0" /> {error}
                 </div>
               )}
               <button
                 onClick={handleStart}
                 disabled={busy}
-                className="w-full py-3 rounded-xl bg-[#2563EB] text-white text-[14px] font-bold hover:bg-blue-700 disabled:opacity-50 transition flex items-center justify-center gap-2"
+                className="btn-primary w-full py-3"
               >
                 {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : (isMandate ? <CreditCard className="w-4 h-4" /> : <Rocket className="w-4 h-4" />)}
                 {startBtnText}
               </button>
-              <p className="text-[11px] text-[#8B92A9] text-center mt-2">
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 text-center mt-2">
                 {isMandate
                   ? "Secured by Razorpay. Cancel anytime before the trial ends to avoid charges."
                   : "No charge today. Cancel anytime during the trial."}
@@ -286,13 +286,13 @@ export default function TrialGate() {
           ) : (
             <>
               {/* Billing toggle */}
-              <div className="flex items-center justify-center gap-1 mb-4 bg-[#F1F4FF] dark:bg-[#13161E] rounded-xl p-1 w-fit mx-auto">
+              <div className="flex items-center justify-center gap-1 mb-4 bg-violet-50 dark:bg-violet-500/10 rounded-xl p-1 w-fit mx-auto">
                 {["monthly", "yearly"].map((b) => (
                   <button
                     key={b}
                     onClick={() => setBilling(b)}
                     className={`px-4 py-1.5 rounded-lg text-[12px] font-semibold capitalize transition ${
-                      billing === b ? "bg-[#2563EB] text-white" : "text-[#8B92A9] hover:text-[#2563EB]"
+                      billing === b ? "bg-launcher-600 text-white" : "text-slate-500 dark:text-slate-400 hover:text-launcher-600 dark:hover:text-launcher-400"
                     }`}
                   >
                     {b}{b === "yearly" ? " (save 20%)" : ""}
@@ -310,23 +310,23 @@ export default function TrialGate() {
                       disabled={busy}
                       className={`w-full flex items-center justify-between px-4 py-3 rounded-xl border-2 transition text-left disabled:opacity-50 ${
                         p.popular
-                          ? "border-[#2563EB] bg-[#EEF3FF] dark:bg-[#1A2540]"
-                          : "border-[#E4E7EF] dark:border-[#262A38] hover:border-[#2563EB]"
+                          ? "border-launcher-500 bg-violet-50 dark:bg-violet-500/10"
+                          : "border-slate-200 dark:border-white/10 hover:border-launcher-500"
                       }`}
                     >
                       <div>
-                        <p className="text-[14px] font-bold text-[#0F1117] dark:text-white flex items-center gap-2">
+                        <p className="text-[14px] font-bold text-slate-900 dark:text-white flex items-center gap-2">
                           {p.name}
                           {p.popular && (
-                            <span className="text-[10px] font-bold bg-[#2563EB] text-white px-1.5 py-0.5 rounded-full">POPULAR</span>
+                            <span className="text-[10px] font-bold bg-launcher-600 text-white px-1.5 py-0.5 rounded-full">POPULAR</span>
                           )}
                         </p>
-                        <p className="text-[11px] text-[#8B92A9]">{p.blurb}</p>
+                        <p className="text-[11px] text-slate-500 dark:text-slate-400">{p.blurb}</p>
                       </div>
                       <div className="text-right">
-                        <p className="text-[15px] font-black text-[#0F1117] dark:text-white">
+                        <p className="text-[15px] font-black text-slate-900 dark:text-white">
                           ₹{price.toLocaleString("en-IN")}
-                          <span className="text-[11px] font-normal text-[#8B92A9]">/{billing === "yearly" ? "mo, billed yearly" : "mo"}</span>
+                          <span className="text-[11px] font-normal text-slate-500 dark:text-slate-400">/{billing === "yearly" ? "mo, billed yearly" : "mo"}</span>
                         </p>
                       </div>
                     </button>
@@ -335,12 +335,12 @@ export default function TrialGate() {
               </div>
 
               {error && (
-                <div className="mb-2 flex items-center gap-2 px-3 py-2 rounded-xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 text-[12px] text-red-600 dark:text-red-400">
+                <div className="mb-2 flex items-center gap-2 px-3 py-2 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 text-[12px] text-rose-600 dark:text-rose-400">
                   <AlertTriangle className="w-4 h-4 shrink-0" /> {error}
                 </div>
               )}
 
-              <div className="flex items-center justify-center gap-1.5 text-[11px] text-[#8B92A9]">
+              <div className="flex items-center justify-center gap-1.5 text-[11px] text-slate-500 dark:text-slate-400">
                 {busy ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />}
                 {expiredFootnote}
               </div>

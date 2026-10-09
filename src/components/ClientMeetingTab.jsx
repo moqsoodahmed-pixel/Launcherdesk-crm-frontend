@@ -51,16 +51,16 @@ function MeetingCard({ visit }) {
   const Icon   = MEETING_TYPE_ICON[visit.meetingType] || CalendarClock;
   const oStyle = OUTCOME_STYLE[visit.outcome] || "bg-gray-100 dark:bg-gray-900/40 text-gray-500 dark:text-gray-400";
   return (
-    <div className="rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E] p-3 mb-3">
+    <div className="rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.04] p-3 mb-3">
       <div className="flex items-start justify-between gap-2">
         <div className="flex items-center gap-2 min-w-0">
-          <span className="text-[#2563EB]"><Icon className="w-4 h-4" /></span>
+          <span className="text-violet-600"><Icon className="w-4 h-4" /></span>
           <div className="min-w-0">
-            <p className="text-[12px] font-semibold text-[#0F1117] dark:text-[#F0F2FA]">
+            <p className="text-[12px] font-semibold text-slate-900 dark:text-white">
               {visit.meetingType || "Visit"}
-              {visit.userName ? <span className="font-normal text-[#8B92A9]"> · {visit.userName}</span> : null}
+              {visit.userName ? <span className="font-normal text-slate-400"> · {visit.userName}</span> : null}
             </p>
-            <p className="text-[10px] text-[#8B92A9]">{fmtDateTime(visit.metAt)}</p>
+            <p className="text-[10px] text-slate-400">{fmtDateTime(visit.metAt)}</p>
           </div>
         </div>
         {visit.outcome ? (
@@ -71,11 +71,11 @@ function MeetingCard({ visit }) {
       </div>
 
       {visit.remark ? (
-        <p className="mt-2 text-[11px] text-[#4B5168] dark:text-[#9DA3BB] italic leading-relaxed">"{visit.remark}"</p>
+        <p className="mt-2 text-[11px] text-slate-500 dark:text-slate-400 italic leading-relaxed">"{visit.remark}"</p>
       ) : null}
 
       {visit.location ? (
-        <p className="mt-1.5 text-[10px] text-[#8B92A9] flex items-center gap-1">
+        <p className="mt-1.5 text-[10px] text-slate-400 flex items-center gap-1">
           <MapPin className="w-3 h-3 shrink-0" /><span className="truncate">{visit.location}</span>
         </p>
       ) : null}
@@ -90,13 +90,13 @@ function MeetingCard({ visit }) {
         <div className="mt-2 flex flex-wrap gap-2">
           {visit.documentUrl ? (
             <a href={visit.documentUrl} target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-1 rounded-lg border border-blue-200 dark:border-blue-500/30 bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-500/20 transition">
+              className="inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-1 rounded-lg border border-violet-200 dark:border-violet-500/30 bg-violet-50 dark:bg-violet-500/10 text-violet-600 dark:text-violet-400 hover:bg-violet-100 dark:hover:bg-violet-500/20 transition">
               <Paperclip className="w-3 h-3" />{visit.documentName || "View attachment"}
             </a>
           ) : null}
           {visit.recordingUrl ? (
             <a href={visit.recordingUrl} target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-1 rounded-lg border border-purple-200 dark:border-purple-500/30 bg-purple-50 dark:bg-purple-500/10 text-purple-600 dark:text-purple-400 hover:bg-purple-100 dark:hover:bg-purple-500/20 transition">
+              className="inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-1 rounded-lg border border-cyan-200 dark:border-cyan-500/30 bg-cyan-50 dark:bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 hover:bg-cyan-100 dark:hover:bg-cyan-500/20 transition">
               <Mic className="w-3 h-3" />{visit.recordingName || "Play recording"}
             </a>
           ) : null}
@@ -116,21 +116,21 @@ export default function ClientMeetingTab({ lead }) {
     <div className="px-6 py-4">
       {/* ── Header ──────────────────────────────────────────────────────────── */}
       <div className="flex items-center gap-2 mb-3">
-        <span className="text-[#8B92A9]"><MapIcon className="w-3.5 h-3.5" /></span>
-        <p className="text-[10px] font-bold text-[#8B92A9] dark:text-[#565C75] uppercase tracking-widest">
+        <span className="text-slate-400"><MapIcon className="w-3.5 h-3.5" /></span>
+        <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
           Client Meeting History ({visits.length})
         </p>
-        <div className="flex-1 h-px bg-[#E4E7EF] dark:bg-[#262A38]" />
+        <div className="flex-1 h-px bg-slate-200 dark:bg-white/10" />
       </div>
 
       {/* ── Visit history ──────────────────────────────────────────────────── */}
       {visits.length > 0 ? (
         visits.map((v, i) => <MeetingCard key={v._id || i} visit={v} />)
       ) : (
-        <div className="flex flex-col items-center justify-center py-10 gap-2 bg-[#F8F9FC] dark:bg-[#13161E] rounded-xl border border-dashed border-[#E4E7EF] dark:border-[#262A38]">
-          <span className="text-[#8B92A9]"><NotebookPen className="w-7 h-7" strokeWidth={1.5} /></span>
-          <p className="text-[12px] text-[#8B92A9]">No client meetings logged yet</p>
-          <p className="text-[10px] text-[#8B92A9]">Meetings logged from the mobile app will appear here.</p>
+        <div className="flex flex-col items-center justify-center py-10 gap-2 bg-slate-50 dark:bg-white/[0.04] rounded-xl border border-dashed border-slate-200 dark:border-white/10">
+          <span className="text-slate-400"><NotebookPen className="w-7 h-7" strokeWidth={1.5} /></span>
+          <p className="text-[12px] text-slate-400">No client meetings logged yet</p>
+          <p className="text-[10px] text-slate-400">Meetings logged from the mobile app will appear here.</p>
         </div>
       )}
     </div>

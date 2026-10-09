@@ -23,9 +23,9 @@ function PauseCircleIcon() {
   );
 }
 
-function LockIcon() {
+function LockIcon({ className = "w-12 h-12 text-rose-400" }) {
   return (
-    <svg className="w-12 h-12 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
       <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
     </svg>
   );
@@ -34,12 +34,12 @@ function LockIcon() {
 // ── Status config for the full-screen gate ────────────────────────────────────
 const STATUS_CONFIG = {
   expired: {
-    icon:    <LockIcon />,
+    icon:    <LockIcon className="w-12 h-12 text-orange-400" />,
     title:   "Subscription Expired",
     body:    "Your subscription has expired and your account is in read-only mode. Renew your plan to restore full access.",
     btnText: "View Plans & Renew",
-    border:  "border-red-200 dark:border-red-900",
-    iconBg:  "bg-red-50 dark:bg-red-900/20",
+    border:  "border-orange-200 dark:border-orange-900",
+    iconBg:  "bg-orange-50 dark:bg-orange-900/20",
     showBtn: true,
   },
   suspended: {
@@ -47,8 +47,8 @@ const STATUS_CONFIG = {
     title:   "Account Suspended",
     body:    "Your account has been suspended by an administrator. Your data is in read-only mode. Please contact support to resolve this.",
     btnText: "Contact Support",
-    border:  "border-red-200 dark:border-red-900",
-    iconBg:  "bg-red-50 dark:bg-red-900/20",
+    border:  "border-rose-200 dark:border-rose-900",
+    iconBg:  "bg-rose-50 dark:bg-rose-900/20",
     showBtn: false,
   },
   paused: {
@@ -65,8 +65,8 @@ const STATUS_CONFIG = {
     title:   "Subscription Cancelled",
     body:    "Your subscription has been cancelled. Please contact support to re-activate your account.",
     btnText: "Contact Support",
-    border:  "border-red-200 dark:border-red-900",
-    iconBg:  "bg-red-50 dark:bg-red-900/20",
+    border:  "border-rose-200 dark:border-rose-900",
+    iconBg:  "bg-rose-50 dark:bg-rose-900/20",
     showBtn: false,
   },
 };
@@ -76,28 +76,28 @@ export function SuspensionScreen({ onGoToPlans, status = "expired" }) {
   const config = STATUS_CONFIG[status] || STATUS_CONFIG.expired;
 
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#0B0D14]/95 backdrop-blur-sm">
-      <div className={`bg-white dark:bg-[#11131C] rounded-2xl p-10 max-w-md w-full mx-4 shadow-2xl border ${config.border} text-center`}>
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-slate-950/90 backdrop-blur-sm animate-fade-in">
+      <div className={`bg-white dark:bg-[#181029] ld-card rounded-2xl p-10 max-w-md w-full mx-4 shadow-2xl border ${config.border} text-center animate-scale-in`}>
         <div className="flex justify-center mb-5">
           <div className={`w-20 h-20 rounded-full ${config.iconBg} flex items-center justify-center`}>
             {config.icon}
           </div>
         </div>
-        <h2 className="text-[22px] font-bold text-[#0F1117] dark:text-[#DDE1F5] mb-2">
+        <h2 className="text-[22px] font-bold text-slate-900 dark:text-white mb-2">
           {config.title}
         </h2>
-        <p className="text-[13px] text-[#8B92A9] mb-6 leading-relaxed">
+        <p className="text-[13px] text-slate-500 dark:text-slate-400 mb-6 leading-relaxed">
           {config.body}
         </p>
         {config.showBtn && (
           <button
             onClick={onGoToPlans}
-            className="w-full py-3 rounded-xl bg-[#2563EB] text-white text-[14px] font-semibold hover:bg-[#1D4ED8] transition"
+            className="btn-primary btn-md w-full"
           >
             {config.btnText}
           </button>
         )}
-        <p className="mt-4 text-[11px] text-[#8B92A9]">
+        <p className="mt-4 text-[11px] text-slate-500 dark:text-slate-400">
           Need help? Contact support at support@launcherdesk.com
         </p>
       </div>
@@ -156,7 +156,7 @@ export default function ExpiryBanner({ onGoToPlans }) {
   // Suspended banner
   if (status.status === "suspended") {
     return (
-      <div className="bg-red-600 text-white px-4 py-2.5 flex items-center justify-between gap-3 text-[12px] font-semibold z-50">
+      <div className="bg-rose-600 text-white px-4 py-2.5 flex items-center justify-between gap-3 text-[12px] font-semibold z-50">
         <div className="flex items-center gap-2">
           <AlertIcon />
           <span>Your account has been suspended. Contact support to restore access.</span>
@@ -175,7 +175,7 @@ export default function ExpiryBanner({ onGoToPlans }) {
   if (!status.expiringSoon) return null;
 
   const isUrgent = days <= 2;
-  const bgColor  = isUrgent ? "bg-red-600" : "bg-amber-500";
+  const bgColor  = isUrgent ? "bg-rose-600" : "bg-amber-500";
   const msg =
     days === 0 ? "Your subscription expires today!" :
     days === 1 ? "Your subscription expires tomorrow!" :

@@ -17,6 +17,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { useState } from "react";
+import { Loader2, CheckCircle2, X, ShieldCheck } from "lucide-react";
 
 // ── helpers ──────────────────────────────────────────────────────────────────
 const formatCard   = (v) => v.replace(/\D/g, "").slice(0, 16).replace(/(.{4})/g, "$1 ").trim();
@@ -36,8 +37,7 @@ const detectNetwork = (num) => {
   return "Card";
 };
 
-const INPUT =
-  "mt-1 w-full px-3 py-2.5 rounded-xl border border-[#E2E8F0] bg-white text-[13px] text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/10 transition";
+const INPUT = "input-field px-3 py-2.5 mt-1";
 
 // ─────────────────────────────────────────────────────────────────────────────
 export default function UpdatePaymentModal({ currentMethod, onSave, onClose }) {
@@ -104,65 +104,49 @@ export default function UpdatePaymentModal({ currentMethod, onSave, onClose }) {
   // ── render ─────────────────────────────────────────────────────────────
   return (
     <div
-      className="fixed inset-0 z-[70] flex items-center justify-center bg-black/60 backdrop-blur-sm px-4"
+      className="fixed inset-0 z-[70] flex items-center justify-center bg-slate-900/40 backdrop-blur-sm px-4 animate-fade-in"
       onClick={(e) => e.target === e.currentTarget && onClose?.()}
     >
-      <div
-        className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden"
-        style={{ fontFamily: "'IBM Plex Sans', sans-serif" }}
-      >
+      <div className="surface-card !rounded-2xl shadow-popover w-full max-w-md overflow-hidden animate-scale-in">
         {/* ── header ── */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[#F1F5F9]">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-white/10">
           <div>
-            <h2 className="text-[15px] font-bold text-[#0F172A]">Update Payment Method</h2>
+            <h2 className="text-[15px] font-bold text-slate-900 dark:text-white">Update Payment Method</h2>
             {currentMethod && (
-              <p className="text-[11px] text-[#94A3B8] mt-0.5">
-                Current: <span className="font-semibold text-[#475569]">{currentMethod}</span>
+              <p className="text-[11px] text-slate-400 mt-0.5">
+                Current: <span className="font-semibold text-slate-600 dark:text-slate-300">{currentMethod}</span>
               </p>
             )}
           </div>
-          <button
-            onClick={onClose}
-            className="w-7 h-7 rounded-lg flex items-center justify-center text-[#94A3B8] hover:text-[#0F172A] hover:bg-[#F1F5F9] transition"
-          >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
+          <button onClick={onClose} className="icon-btn">
+            <X className="w-4 h-4" />
           </button>
         </div>
 
         {/* ── saving ── */}
         {step === "saving" && (
           <div className="flex flex-col items-center gap-4 py-16">
-            <svg className="animate-spin w-10 h-10 text-[#2563EB]" fill="none" viewBox="0 0 24 24">
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
-            </svg>
-            <p className="text-[13px] font-semibold text-[#0F172A]">Saving your payment method…</p>
-            <p className="text-[11px] text-[#94A3B8]">Please wait</p>
+            <Loader2 className="animate-spin w-10 h-10 text-launcher-600" />
+            <p className="text-[13px] font-semibold text-slate-900 dark:text-white">Saving your payment method…</p>
+            <p className="text-[11px] text-slate-400">Please wait</p>
           </div>
         )}
 
         {/* ── success ── */}
         {step === "success" && (
           <div className="flex flex-col items-center gap-4 py-12 px-6">
-            <div className="w-14 h-14 rounded-full bg-[#ECFDF5] flex items-center justify-center">
-              <svg className="w-7 h-7 text-[#059669]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-              </svg>
+            <div className="w-14 h-14 rounded-full bg-emerald-50 dark:bg-emerald-500/10 flex items-center justify-center">
+              <CheckCircle2 className="w-7 h-7 text-emerald-500" strokeWidth={2.5} />
             </div>
             <div className="text-center">
-              <h3 className="text-[15px] font-bold text-[#0F172A]">Payment method updated!</h3>
-              <p className="text-[12px] text-[#64748B] mt-1">Your new method is now on file</p>
+              <h3 className="text-[15px] font-bold text-slate-900 dark:text-white">Payment method updated!</h3>
+              <p className="text-[12px] text-slate-400 mt-1">Your new method is now on file</p>
             </div>
-            <div className="w-full px-4 py-3 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] text-center">
-              <p className="text-[10px] text-[#94A3B8] uppercase tracking-wide mb-0.5">Active Payment Method</p>
-              <p className="text-[13px] font-bold text-[#0F172A]">{savedMethod}</p>
+            <div className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 text-center">
+              <p className="text-[10px] text-slate-400 uppercase tracking-wide mb-0.5">Active Payment Method</p>
+              <p className="text-[13px] font-bold text-slate-900 dark:text-white">{savedMethod}</p>
             </div>
-            <button
-              onClick={onClose}
-              className="w-full py-2.5 rounded-xl bg-[#2563EB] text-white text-[13px] font-semibold hover:bg-[#1D4ED8] transition"
-            >
+            <button onClick={onClose} className="btn-primary btn-md w-full">
               Done
             </button>
           </div>
@@ -172,7 +156,7 @@ export default function UpdatePaymentModal({ currentMethod, onSave, onClose }) {
         {step === "form" && (
           <>
             {/* tabs */}
-            <div className="flex border-b border-[#F1F5F9] bg-[#F8FAFC]">
+            <div className="flex border-b border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.02]">
               {[
                 { id: "card", label: "Card" },
                 { id: "upi",  label: "UPI" },
@@ -181,12 +165,11 @@ export default function UpdatePaymentModal({ currentMethod, onSave, onClose }) {
                 <button
                   key={t.id}
                   onClick={() => { setTab(t.id); setError(""); }}
-                  className="flex-1 py-3 text-[12px] font-semibold transition"
-                  style={{
-                    borderBottom: tab === t.id ? "2px solid #2563EB" : "2px solid transparent",
-                    color: tab === t.id ? "#2563EB" : "#94A3B8",
-                    background: tab === t.id ? "white" : "transparent",
-                  }}
+                  className={`flex-1 py-3 text-[12px] font-semibold transition border-b-2 ${
+                    tab === t.id
+                      ? "border-launcher-600 text-launcher-600 bg-white dark:bg-white/[0.04]"
+                      : "border-transparent text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
+                  }`}
                 >
                   {t.label}
                 </button>
@@ -195,8 +178,8 @@ export default function UpdatePaymentModal({ currentMethod, onSave, onClose }) {
 
             <div className="px-6 py-5 space-y-4">
               {error && (
-                <div className="px-3 py-2 rounded-lg bg-red-50 border border-red-200">
-                  <p className="text-[11px] text-red-600">{error}</p>
+                <div className="px-3 py-2 rounded-lg bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20">
+                  <p className="text-[11px] text-rose-600 dark:text-rose-400">{error}</p>
                 </div>
               )}
 
@@ -219,7 +202,7 @@ export default function UpdatePaymentModal({ currentMethod, onSave, onClose }) {
                         className={INPUT + " font-mono pr-16"}
                       />
                       {cardNum.replace(/\s/g,"").length >= 1 && (
-                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-[#94A3B8]">
+                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400">
                           {detectNetwork(cardNum)}
                         </span>
                       )}
@@ -243,12 +226,10 @@ export default function UpdatePaymentModal({ currentMethod, onSave, onClose }) {
                   </div>
                   <div className="flex items-center gap-2 pt-1">
                     {["VISA", "MC", "RuPay", "Amex"].map((c) => (
-                      <span key={c} className="px-2 py-0.5 rounded border border-[#E2E8F0] text-[9px] font-bold text-[#94A3B8]">{c}</span>
+                      <span key={c} className="px-2 py-0.5 rounded border border-slate-200 dark:border-white/10 text-[9px] font-bold text-slate-400">{c}</span>
                     ))}
-                    <span className="ml-auto flex items-center gap-1 text-[10px] text-[#94A3B8]">
-                      <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                      </svg>
+                    <span className="ml-auto flex items-center gap-1 text-[10px] text-slate-400">
+                      <ShieldCheck className="w-3 h-3" />
                       256-bit SSL
                     </span>
                   </div>
@@ -258,29 +239,27 @@ export default function UpdatePaymentModal({ currentMethod, onSave, onClose }) {
               {/* ── UPI ── */}
               {tab === "upi" && (
                 <div className="space-y-3">
-                  <p className="text-[12px] text-[#64748B]">
+                  <p className="text-[12px] text-slate-500 dark:text-slate-400">
                     Enter the UPI ID you want to use for future renewals.
                   </p>
                   <Field label="UPI ID">
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 mt-1">
                       <input
                         type="text" value={upiId}
                         onChange={(e) => { setUpiId(e.target.value); setUpiVerified(null); }}
-                        placeholder="yourname@okaxis" className={INPUT}
+                        placeholder="yourname@okaxis" className="input-field px-3 py-2.5"
                       />
                       <button
                         onClick={handleVerifyUPI}
-                        className="px-4 py-2.5 rounded-xl border border-[#E2E8F0] text-[12px] font-semibold text-[#2563EB] hover:bg-[#EFF6FF] transition whitespace-nowrap"
+                        className="btn-secondary btn-md !text-launcher-600 whitespace-nowrap"
                       >
                         Verify
                       </button>
                     </div>
                   </Field>
                   {upiVerified === true && (
-                    <div className="flex items-center gap-2 text-[#059669] text-[11px] font-semibold">
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                      </svg>
+                    <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 text-[11px] font-semibold">
+                      <CheckCircle2 className="w-4 h-4" strokeWidth={2.5} />
                       UPI ID verified successfully
                     </div>
                   )}
@@ -295,10 +274,10 @@ export default function UpdatePaymentModal({ currentMethod, onSave, onClose }) {
                         <div className="w-8 h-8 rounded-xl flex items-center justify-center text-[8px] font-bold text-white" style={{ background: a.bg }}>
                           {a.label}
                         </div>
-                        <span className="text-[8px] text-[#94A3B8]">{a.label}</span>
+                        <span className="text-[8px] text-slate-400">{a.label}</span>
                       </div>
                     ))}
-                    <span className="text-[10px] text-[#94A3B8] ml-1">& more</span>
+                    <span className="text-[10px] text-slate-400 ml-1">& more</span>
                   </div>
                 </div>
               )}
@@ -306,9 +285,9 @@ export default function UpdatePaymentModal({ currentMethod, onSave, onClose }) {
               {/* ── BANK ── */}
               {tab === "bank" && (
                 <div className="space-y-3">
-                  <div className="px-3 py-2.5 rounded-xl bg-[#EFF6FF] border border-[#BFDBFE]">
-                    <p className="text-[11px] text-[#2563EB] font-semibold">NEFT / IMPS / RTGS</p>
-                    <p className="text-[10px] text-[#3B82F6] mt-0.5">
+                  <div className="px-3 py-2.5 rounded-xl bg-launcher-50 dark:bg-launcher-500/10 border border-launcher-200 dark:border-launcher-500/20">
+                    <p className="text-[11px] text-launcher-700 dark:text-launcher-300 font-semibold">NEFT / IMPS / RTGS</p>
+                    <p className="text-[10px] text-launcher-600 dark:text-launcher-400 mt-0.5">
                       Add your bank account for auto-debit on renewal dates.
                     </p>
                   </div>
@@ -345,16 +324,10 @@ export default function UpdatePaymentModal({ currentMethod, onSave, onClose }) {
 
               {/* ── actions ── */}
               <div className="flex gap-2 pt-2">
-                <button
-                  onClick={onClose}
-                  className="flex-1 py-2.5 rounded-xl border border-[#E2E8F0] text-[13px] font-semibold text-[#64748B] hover:bg-[#F8FAFC] transition"
-                >
+                <button onClick={onClose} className="btn-secondary btn-md flex-1">
                   Cancel
                 </button>
-                <button
-                  onClick={handleSave}
-                  className="flex-1 py-2.5 rounded-xl bg-[#2563EB] text-white text-[13px] font-semibold hover:bg-[#1D4ED8] transition"
-                >
+                <button onClick={handleSave} className="btn-primary btn-md flex-1">
                   Save Method
                 </button>
               </div>
@@ -370,7 +343,7 @@ export default function UpdatePaymentModal({ currentMethod, onSave, onClose }) {
 function Field({ label, children, className = "" }) {
   return (
     <div className={className}>
-      <label className="text-[10px] font-bold text-[#94A3B8] uppercase tracking-widest">
+      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
         {label}
       </label>
       {children}

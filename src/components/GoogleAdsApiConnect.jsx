@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import api from "../data/axiosConfig";
 import { Megaphone, Loader2, Link2, CheckCircle2, ChevronDown, KeyRound, RefreshCw, AlertTriangle } from "lucide-react";
 import GoogleOAuthSetupForm from "./GoogleOAuthSetupForm";
+import { Pill } from "./ui/Primitives";
 
 // Google Ads API connect card — live metrics (impressions/clicks/cost/etc.).
 // Mirrors GoogleAnalyticsConnect: setup form when creds missing → Connect →
@@ -73,9 +74,9 @@ export default function GoogleAdsApiConnect({ onSynced }) {
   const disconnect = async () => { if (!window.confirm("Disconnect Google Ads API?")) return; await api.delete("/google-ads-api"); loadStatus(); };
   const onCredsSaved = async () => { setEditCreds(false); await loadStatus(); };
 
-  const CARD = "bg-white dark:bg-[#11131C] border border-[#E4E7EF] dark:border-[#1E2133] rounded-2xl";
+  const CARD = "surface-card";
 
-  if (loading) return <div className={`${CARD} p-4 flex items-center justify-center`}><Loader2 className="w-4 h-4 animate-spin text-[#8B92A9]" /></div>;
+  if (loading) return <div className={`${CARD} p-4 flex items-center justify-center`}><Loader2 className="w-4 h-4 animate-spin text-slate-400" /></div>;
 
   // Credentials not configured (or editing) → setup form
   if (status?.oauthConfigured === false || editCreds) {
@@ -83,7 +84,7 @@ export default function GoogleAdsApiConnect({ onSynced }) {
       <div className={`${CARD} p-4`}>
         <GoogleOAuthSetupForm variant="ads" compact onSaved={onCredsSaved} onCancel={editCreds ? () => setEditCreds(false) : undefined} />
         {status?.developerToken === false && (
-          <p className="mt-3 flex items-start gap-1.5 text-[11px] text-amber-600"><AlertTriangle className="w-3.5 h-3.5 mt-px shrink-0" /> Server developer token not set (GOOGLE_ADS_DEVELOPER_TOKEN). You can connect, but syncing needs it.</p>
+          <p className="mt-3 flex items-start gap-1.5 text-[11px] text-amber-600 dark:text-amber-400"><AlertTriangle className="w-3.5 h-3.5 mt-px shrink-0" /> Server developer token not set (GOOGLE_ADS_DEVELOPER_TOKEN). You can connect, but syncing needs it.</p>
         )}
       </div>
     );
@@ -94,51 +95,51 @@ export default function GoogleAdsApiConnect({ onSynced }) {
       <div className="flex items-center gap-3 mb-3">
         <div className="w-9 h-9 rounded-xl bg-blue-50 dark:bg-blue-950/40 flex items-center justify-center"><Megaphone className="w-4.5 h-4.5 text-blue-600" /></div>
         <div className="min-w-0">
-          <p className="text-[13px] font-bold text-[#0F1117] dark:text-[#F0F2FA]">Google Ads (live metrics)</p>
-          <p className="text-[11px] text-[#8B92A9] truncate">{status?.connected ? (status.customerName || status.connectedEmail || "Connected") : "Pull impressions, clicks, cost & conversions automatically"}</p>
+          <p className="text-[13px] font-bold text-slate-900 dark:text-white">Google Ads (live metrics)</p>
+          <p className="text-[11px] text-slate-400 truncate">{status?.connected ? (status.customerName || status.connectedEmail || "Connected") : "Pull impressions, clicks, cost & conversions automatically"}</p>
         </div>
-        {status?.connected && status?.customerId && <span className="ml-auto inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-600 bg-emerald-50 dark:bg-emerald-950/30 px-2 py-0.5 rounded-full"><CheckCircle2 className="w-3 h-3" /> Connected</span>}
+        {status?.connected && status?.customerId && <Pill tone="emerald" icon={CheckCircle2} className="ml-auto shrink-0">Connected</Pill>}
       </div>
 
       {status?.developerToken === false && (
-        <p className="mb-3 flex items-start gap-1.5 text-[11px] text-amber-600"><AlertTriangle className="w-3.5 h-3.5 mt-px shrink-0" /> Server developer token not set — set GOOGLE_ADS_DEVELOPER_TOKEN to enable syncing.</p>
+        <p className="mb-3 flex items-start gap-1.5 text-[11px] text-amber-600 dark:text-amber-400"><AlertTriangle className="w-3.5 h-3.5 mt-px shrink-0" /> Server developer token not set — set GOOGLE_ADS_DEVELOPER_TOKEN to enable syncing.</p>
       )}
-      {error && <p className="text-[12px] text-rose-600 mb-2">{error}</p>}
-      {msg && <p className="text-[12px] text-emerald-600 mb-2">{msg}</p>}
+      {error && <p className="text-[12px] text-rose-600 dark:text-rose-400 mb-2">{error}</p>}
+      {msg && <p className="text-[12px] text-emerald-600 dark:text-emerald-400 mb-2">{msg}</p>}
 
       {!status?.connected ? (
-        <button onClick={connect} disabled={busy} className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white text-[12px] font-semibold">
+        <button onClick={connect} disabled={busy} className="btn-primary btn-md w-full">
           {busy ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Link2 className="w-3.5 h-3.5" />} Connect Google Ads
         </button>
       ) : status?.needsAccount ? (
         <div className="space-y-1.5">
-          <p className="text-[11px] text-[#8B92A9] mb-1">Select the Google Ads account:</p>
-          {accounts == null ? <Loader2 className="w-4 h-4 animate-spin text-[#8B92A9]" /> :
-            accounts.length === 0 ? <p className="text-[11px] text-[#8B92A9]">No accessible accounts found.</p> :
+          <p className="text-[11px] text-slate-400 mb-1">Select the Google Ads account:</p>
+          {accounts == null ? <Loader2 className="w-4 h-4 animate-spin text-slate-400" /> :
+            accounts.length === 0 ? <p className="text-[11px] text-slate-400">No accessible accounts found.</p> :
             accounts.map((a) => (
               <button key={a.customerId} onClick={() => chooseAccount(a)} disabled={busy}
-                className="w-full flex items-center justify-between px-3 py-2 rounded-lg border border-[#E4E7EF] dark:border-[#1E2133] hover:border-blue-400 text-left text-[12px] disabled:opacity-50">
-                <span className="truncate"><span className="font-semibold">{a.customerName}</span> <span className="text-[#8B92A9]">· {a.customerId}</span></span>
-                <ChevronDown className="w-3.5 h-3.5 -rotate-90 text-[#8B92A9]" />
+                className="w-full flex items-center justify-between px-3 py-2 rounded-lg border border-slate-200 dark:border-white/10 hover:border-indigo-400 dark:hover:border-indigo-500 text-left text-[12px] disabled:opacity-50 text-slate-900 dark:text-white">
+                <span className="truncate"><span className="font-semibold">{a.customerName}</span> <span className="text-slate-400">· {a.customerId}</span></span>
+                <ChevronDown className="w-3.5 h-3.5 -rotate-90 text-slate-400" />
               </button>
             ))}
         </div>
       ) : (
         <div className="flex items-center gap-2">
           <button onClick={runSync} disabled={syncing || status?.developerToken === false}
-            className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white text-[12px] font-semibold">
+            className="btn-primary btn-md flex-1">
             {syncing ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <RefreshCw className="w-3.5 h-3.5" />} Sync now
           </button>
-          <button onClick={disconnect} className="px-3 py-2.5 rounded-xl border border-[#E4E7EF] dark:border-[#1E2133] text-[11px] text-[#8B92A9] hover:text-rose-600 font-semibold">Disconnect</button>
+          <button onClick={disconnect} className="btn-danger btn-md">Disconnect</button>
         </div>
       )}
 
       {status?.connected && !status?.needsAccount && (
-        <p className="text-[10px] text-[#8B92A9] mt-2">{status.lastSyncedAt ? `Last synced ${new Date(status.lastSyncedAt).toLocaleString()}` : "Not synced yet — click Sync now."}</p>
+        <p className="text-[10px] text-slate-400 mt-2">{status.lastSyncedAt ? `Last synced ${new Date(status.lastSyncedAt).toLocaleString()}` : "Not synced yet — click Sync now."}</p>
       )}
 
       {status?.oauthSource === "db" && (
-        <button onClick={() => setEditCreds(true)} className="mt-3 inline-flex items-center gap-1 text-[10px] font-semibold text-[#8B92A9] hover:text-blue-600">
+        <button onClick={() => setEditCreds(true)} className="mt-3 inline-flex items-center gap-1 text-[10px] font-semibold text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400">
           <KeyRound className="w-3 h-3" /> Edit API credentials
         </button>
       )}

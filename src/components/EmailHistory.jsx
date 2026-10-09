@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import api from "../data/axiosConfig";
 import { sanitizeHtml } from "../utils/sanitizeHtml";
+import { Pill } from "./ui/Primitives";
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 const fmtDate = (iso) => {
@@ -10,16 +11,13 @@ const fmtDate = (iso) => {
     " " + d.toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" });
 };
 
-const FIELD_CLS =
-  "w-full px-3 py-2.5 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E] text-[13px] text-[#0F1117] dark:text-[#F0F2FA] placeholder:text-[#8B92A9] focus:outline-none focus:border-[#2563EB] transition";
-
 // ── Skeleton row ──────────────────────────────────────────────────────────────
 function SkeletonRow() {
   return (
     <tr className="animate-pulse">
       {[1,2,3,4,5].map((i) => (
         <td key={i} className="px-4 py-3">
-          <div className="h-3.5 bg-[#E4E7EF] dark:bg-[#262A38] rounded-full" style={{ width: `${60 + i * 8}%` }} />
+          <div className="skeleton h-3.5" style={{ width: `${60 + i * 8}%` }} />
         </td>
       ))}
     </tr>
@@ -30,14 +28,9 @@ function SkeletonRow() {
 function StatusBadge({ status }) {
   const isSent = status === "sent";
   return (
-    <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold ${
-      isSent
-        ? "bg-[#ECFDF5] dark:bg-[#052E1C] text-[#059669] dark:text-[#34D399]"
-        : "bg-[#FEF2F2] dark:bg-[#2D0A0A] text-[#DC2626] dark:text-[#F87171]"
-    }`}>
-      <span className={`w-1.5 h-1.5 rounded-full ${isSent ? "bg-[#059669]" : "bg-[#DC2626]"}`} />
+    <Pill tone={isSent ? "emerald" : "rose"} dot={isSent ? "bg-emerald-500" : "bg-rose-500"}>
       {isSent ? "Sent" : "Failed"}
-    </span>
+    </Pill>
   );
 }
 
@@ -54,32 +47,32 @@ function LogDetailModal({ logId, onClose }) {
   }, [logId]);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 dark:bg-black/60 p-4" onClick={onClose}>
       <div
-        className="w-full max-w-2xl bg-white dark:bg-[#1A1D27] rounded-2xl border border-[#E4E7EF] dark:border-[#262A38] overflow-hidden flex flex-col max-h-[90vh]"
+        className="w-full max-w-2xl surface-card shadow-elevated overflow-hidden flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="px-6 py-4 border-b border-[#E4E7EF] dark:border-[#262A38] flex items-center justify-between shrink-0">
+        <div className="px-6 py-4 border-b border-slate-100 dark:border-white/10 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-xl bg-[#F5F3FF] dark:bg-[#1E1040] flex items-center justify-center">
-              <svg className="w-4 h-4 text-[#7C3AED]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <div className="w-8 h-8 rounded-xl bg-violet-50 dark:bg-violet-500/10 flex items-center justify-center">
+              <svg className="w-4 h-4 text-violet-600 dark:text-violet-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
             </div>
-            <h2 className="text-[15px] font-bold text-[#0F1117] dark:text-[#F0F2FA]">Email Details</h2>
+            <h2 className="text-[15px] font-bold text-slate-900 dark:text-white">Email Details</h2>
           </div>
-          <button onClick={onClose} className="w-7 h-7 rounded-lg border border-[#E4E7EF] dark:border-[#262A38] flex items-center justify-center text-[#8B92A9] hover:text-[#0F1117] dark:hover:text-[#F0F2FA] transition">
+          <button onClick={onClose} className="icon-btn w-7 h-7">
             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
           </button>
         </div>
         <div className="overflow-y-auto px-6 py-5 space-y-4">
           {loading ? (
-            <div className="flex items-center justify-center py-12 text-[#8B92A9] gap-2">
+            <div className="flex items-center justify-center py-12 text-slate-400 gap-2">
               <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" /></svg>
               Loading…
             </div>
           ) : !log ? (
-            <p className="text-center text-[#8B92A9] py-8">Could not load log details.</p>
+            <p className="text-center text-slate-400 py-8">Could not load log details.</p>
           ) : (
             <>
               <div className="grid grid-cols-2 gap-3">
@@ -89,27 +82,27 @@ function LogDetailModal({ logId, onClose }) {
                   { label: "Status", value: <StatusBadge status={log.status} /> },
                   { label: "Sent At", value: fmtDate(log.sentAt) },
                 ].map(({ label, value }) => (
-                  <div key={label} className="bg-[#F8F9FC] dark:bg-[#13161E] rounded-xl px-4 py-3">
-                    <p className="text-[10px] font-semibold text-[#8B92A9] uppercase tracking-wide mb-1">{label}</p>
-                    <div className="text-[13px] font-medium text-[#0F1117] dark:text-[#F0F2FA]">{value}</div>
+                  <div key={label} className="bg-slate-50 dark:bg-white/[0.04] rounded-xl px-4 py-3">
+                    <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wide mb-1">{label}</p>
+                    <div className="text-[13px] font-medium text-slate-900 dark:text-white">{value}</div>
                   </div>
                 ))}
               </div>
-              <div className="bg-[#F8F9FC] dark:bg-[#13161E] rounded-xl px-4 py-3">
-                <p className="text-[10px] font-semibold text-[#8B92A9] uppercase tracking-wide mb-1">Subject</p>
-                <p className="text-[13px] font-medium text-[#0F1117] dark:text-[#F0F2FA]">{log.subject}</p>
+              <div className="bg-slate-50 dark:bg-white/[0.04] rounded-xl px-4 py-3">
+                <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wide mb-1">Subject</p>
+                <p className="text-[13px] font-medium text-slate-900 dark:text-white">{log.subject}</p>
               </div>
               {log.errorMessage && (
-                <div className="bg-[#FEF2F2] dark:bg-[#2D0A0A] border border-[#FECACA] dark:border-[#7F1D1D] rounded-xl px-4 py-3">
-                  <p className="text-[10px] font-semibold text-[#DC2626] uppercase tracking-wide mb-1">Error</p>
-                  <p className="text-[12px] text-[#DC2626]">{log.errorMessage}</p>
+                <div className="bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 rounded-xl px-4 py-3">
+                  <p className="text-[10px] font-semibold text-rose-600 dark:text-rose-400 uppercase tracking-wide mb-1">Error</p>
+                  <p className="text-[12px] text-rose-600 dark:text-rose-400">{log.errorMessage}</p>
                 </div>
               )}
               {log.body && (
                 <div>
-                  <p className="text-[10px] font-semibold text-[#8B92A9] uppercase tracking-wide mb-2">Email Body</p>
+                  <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wide mb-2">Email Body</p>
                   <div
-                    className="border border-[#E4E7EF] dark:border-[#262A38] rounded-xl p-4 bg-white dark:bg-[#0D0F14] text-[13px] text-[#0F1117] dark:text-[#F0F2FA] max-h-64 overflow-y-auto"
+                    className="border border-slate-200 dark:border-white/10 rounded-xl p-4 bg-white dark:bg-[#0B0715] text-[13px] text-slate-900 dark:text-white max-h-64 overflow-y-auto"
                     dangerouslySetInnerHTML={{ __html: sanitizeHtml(log.body) }}
                   />
                 </div>
@@ -269,19 +262,19 @@ export default function EmailHistory() {
   const failedCount = logs.filter((l) => l.status === "failed").length;
 
   return (
-    <div className="bg-[#F8F9FC] dark:bg-[#0D0F14] min-h-screen font-poppins px-6 py-8">
+    <div className="ld-canvas min-h-screen font-poppins px-6 py-8">
       {/* Header */}
       <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-[24px] font-bold text-[#0F1117] dark:text-[#F0F2FA]">Email Source History</h1>
-          <p className="text-[13px] text-[#8B92A9] dark:text-[#565C75] mt-0.5">
+          <h1 className="text-[24px] font-bold text-slate-900 dark:text-white">Email Source History</h1>
+          <p className="text-[13px] text-slate-400 mt-0.5">
             {loading ? "Loading…" : `${pagination.total.toLocaleString()} total emails logged`}
           </p>
         </div>
         <div className="flex items-center gap-2">
           <button
             onClick={() => fetchLogs(pagination.page)}
-            className="w-9 h-9 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] flex items-center justify-center text-[#8B92A9] hover:text-[#2563EB] hover:border-[#2563EB] transition"
+            className="icon-btn w-9 h-9"
             title="Refresh"
           >
             <svg className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -291,7 +284,7 @@ export default function EmailHistory() {
           <button
             onClick={handleExportCSV}
             disabled={exportLoading}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#059669] text-white text-[13px] font-semibold hover:bg-green-700 disabled:opacity-50 transition"
+            className="btn-primary btn-md"
           >
             {exportLoading ? (
               <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" /></svg>
@@ -306,15 +299,15 @@ export default function EmailHistory() {
       {/* Summary chips */}
       <div className="flex flex-wrap gap-3 mb-6">
         {[
-          { label: "Total (this page)", value: logs.length, color: "#2563EB" },
-          { label: "Sent", value: sentCount, color: "#059669" },
-          { label: "Failed", value: failedCount, color: "#DC2626" },
-          { label: "All time", value: pagination.total, color: "#7C3AED" },
+          { label: "Total (this page)", value: logs.length, dot: "bg-indigo-500" },
+          { label: "Sent", value: sentCount, dot: "bg-emerald-500" },
+          { label: "Failed", value: failedCount, dot: "bg-rose-500" },
+          { label: "All time", value: pagination.total, dot: "bg-violet-500" },
         ].map((s) => (
-          <div key={s.label} className="flex items-center gap-2 bg-white dark:bg-[#1A1D27] border border-[#E4E7EF] dark:border-[#262A38] rounded-xl px-4 py-2.5">
-            <span className="w-2 h-2 rounded-full shrink-0" style={{ background: s.color }} />
-            <span className="text-[13px] font-bold text-[#0F1117] dark:text-[#F0F2FA]">{s.value.toLocaleString()}</span>
-            <span className="text-[11px] text-[#8B92A9] dark:text-[#565C75]">{s.label}</span>
+          <div key={s.label} className="flex items-center gap-2 surface-card px-4 py-2.5">
+            <span className={`w-2 h-2 rounded-full shrink-0 ${s.dot}`} />
+            <span className="text-[13px] font-bold text-slate-900 dark:text-white">{s.value.toLocaleString()}</span>
+            <span className="text-[11px] text-slate-400">{s.label}</span>
           </div>
         ))}
       </div>
@@ -323,7 +316,7 @@ export default function EmailHistory() {
       <div className="flex flex-wrap items-center gap-3 mb-5">
         {/* Search */}
         <div className="relative flex-1 min-w-[200px] max-w-xs">
-          <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#8B92A9]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z" />
           </svg>
           <input
@@ -332,10 +325,10 @@ export default function EmailHistory() {
             value={search}
             onChange={(e) => handleSearchChange(e.target.value)}
             placeholder="Search by recipient email…"
-            className="pl-8 pr-4 py-2.5 w-full rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-white dark:bg-[#1A1D27] text-[12px] text-[#0F1117] dark:text-[#F0F2FA] placeholder:text-[#8B92A9] focus:outline-none focus:border-[#2563EB] transition"
+            className="input-field pl-8 pr-4 py-2.5"
           />
           {search && (
-            <button onClick={() => handleSearchChange("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8B92A9] hover:text-[#0F1117]">
+            <button onClick={() => handleSearchChange("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-900 dark:hover:text-white">
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
             </button>
           )}
@@ -345,7 +338,7 @@ export default function EmailHistory() {
         <select
           value={campaignFilter}
           onChange={(e) => handleCampaignChange(e.target.value)}
-          className="px-3 py-2.5 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-white dark:bg-[#1A1D27] text-[12px] text-[#0F1117] dark:text-[#F0F2FA] focus:outline-none focus:border-[#2563EB] transition"
+          className="input-field px-3 py-2.5 w-auto"
         >
           <option value="">All Source</option>
           {campaigns.map((c) => (
@@ -355,7 +348,7 @@ export default function EmailHistory() {
 
         {/* Date From */}
         <div className="relative flex items-center">
-          <svg className="absolute left-3 w-3.5 h-3.5 text-[#8B92A9] pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <svg className="absolute left-3 w-3.5 h-3.5 text-slate-400 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
           </svg>
           <input
@@ -363,16 +356,16 @@ export default function EmailHistory() {
             value={dateFrom}
             max={dateTo || undefined}
             onChange={(e) => handleDateFromChange(e.target.value)}
-            className="pl-8 pr-3 py-2.5 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-white dark:bg-[#1A1D27] text-[12px] text-[#0F1117] dark:text-[#F0F2FA] focus:outline-none focus:border-[#2563EB] transition w-[150px]"
+            className="input-field pl-8 pr-3 py-2.5 w-[150px]"
             title="From date"
           />
         </div>
 
-        <span className="text-[12px] text-[#8B92A9] shrink-0">to</span>
+        <span className="text-[12px] text-slate-400 shrink-0">to</span>
 
         {/* Date To */}
         <div className="relative flex items-center">
-          <svg className="absolute left-3 w-3.5 h-3.5 text-[#8B92A9] pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <svg className="absolute left-3 w-3.5 h-3.5 text-slate-400 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
           </svg>
           <input
@@ -380,7 +373,7 @@ export default function EmailHistory() {
             value={dateTo}
             min={dateFrom || undefined}
             onChange={(e) => handleDateToChange(e.target.value)}
-            className="pl-8 pr-3 py-2.5 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-white dark:bg-[#1A1D27] text-[12px] text-[#0F1117] dark:text-[#F0F2FA] focus:outline-none focus:border-[#2563EB] transition w-[150px]"
+            className="input-field pl-8 pr-3 py-2.5 w-[150px]"
             title="To date"
           />
         </div>
@@ -389,7 +382,7 @@ export default function EmailHistory() {
         {(dateFrom || dateTo) && (
           <button
             onClick={handleClearDates}
-            className="flex items-center gap-1.5 px-3 py-2.5 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] text-[12px] text-[#8B92A9] hover:text-[#DC2626] hover:border-[#DC2626] transition"
+            className="btn-secondary btn-sm hover:text-rose-600 dark:hover:text-rose-400 hover:border-rose-300 dark:hover:border-rose-500/30"
             title="Clear date filter"
           >
             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
@@ -401,7 +394,7 @@ export default function EmailHistory() {
         <select
           value={sortOrder}
           onChange={(e) => handleSortChange(e.target.value)}
-          className="px-3 py-2.5 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-white dark:bg-[#1A1D27] text-[12px] text-[#0F1117] dark:text-[#F0F2FA] focus:outline-none focus:border-[#2563EB] transition"
+          className="input-field px-3 py-2.5 w-auto"
         >
           <option value="desc">Newest first</option>
           <option value="asc">Oldest first</option>
@@ -410,33 +403,33 @@ export default function EmailHistory() {
 
       {/* Error */}
       {error && (
-        <div className="bg-[#FEF2F2] dark:bg-[#2D0A0A] border border-[#FECACA] dark:border-[#7F1D1D] rounded-xl px-4 py-3 text-[12px] text-[#DC2626] mb-4">
+        <div className="bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 rounded-xl px-4 py-3 text-[12px] text-rose-600 dark:text-rose-400 mb-4">
            {error}
         </div>
       )}
 
       {/* Table */}
-      <div className="bg-white dark:bg-[#1A1D27] border border-[#E4E7EF] dark:border-[#262A38] rounded-2xl overflow-hidden">
+      <div className="surface-card overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="border-b border-[#E4E7EF] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E]">
+              <tr className="border-b border-slate-100 dark:border-white/10 bg-slate-50 dark:bg-white/[0.03]">
                 {["Recipient", "Campaign Name", "Source", "Status", "Sent At", ""].map((h) => (
-                  <th key={h} className="px-4 py-3 text-left text-[11px] font-bold text-[#8B92A9] dark:text-[#565C75] uppercase tracking-wide whitespace-nowrap">
+                  <th key={h} className="px-4 py-3 text-left text-[11px] font-bold text-slate-400 uppercase tracking-wide whitespace-nowrap">
                     {h}
                   </th>
                 ))}
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#E4E7EF] dark:divide-[#262A38]">
+            <tbody className="divide-y divide-slate-100 dark:divide-white/10">
               {loading ? (
                 Array.from({ length: 6 }).map((_, i) => <SkeletonRow key={i} />)
               ) : logs.length === 0 ? (
                 <tr>
                   <td colSpan={6} className="px-4 py-16 text-center">
                     <div className="text-[36px] mb-3"></div>
-                    <p className="text-[14px] font-semibold text-[#4B5168] dark:text-[#9DA3BB]">No email logs found</p>
-                    <p className="text-[12px] text-[#8B92A9] mt-1">
+                    <p className="text-[14px] font-semibold text-slate-600 dark:text-slate-300">No email logs found</p>
+                    <p className="text-[12px] text-slate-400 mt-1">
                       {search || campaignFilter || dateFrom || dateTo ? "Try clearing your filters." : "Send emails to start tracking history."}
                     </p>
                   </td>
@@ -445,40 +438,40 @@ export default function EmailHistory() {
                 logs.map((log) => (
                   <tr
                     key={log._id}
-                    className="hover:bg-[#F8F9FC] dark:hover:bg-[#13161E] transition-colors cursor-pointer"
+                    className="hover:bg-slate-50 dark:hover:bg-white/[0.04] transition-colors cursor-pointer"
                     onClick={() => setSelectedLogId(log._id)}
                   >
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-2">
-                        <div className="w-7 h-7 rounded-full bg-[#F5F3FF] dark:bg-[#1E1040] flex items-center justify-center text-[10px] font-bold text-[#7C3AED] shrink-0">
+                        <div className="w-7 h-7 rounded-full bg-violet-50 dark:bg-violet-500/10 flex items-center justify-center text-[10px] font-bold text-violet-600 dark:text-violet-400 shrink-0">
                           {log.to?.charAt(0)?.toUpperCase() || "?"}
                         </div>
-                        <span className="text-[12px] font-medium text-[#0F1117] dark:text-[#F0F2FA] max-w-[180px] truncate">{log.to}</span>
+                        <span className="text-[12px] font-medium text-slate-900 dark:text-white max-w-[180px] truncate">{log.to}</span>
                       </div>
                     </td>
                     <td className="px-4 py-3">
-                      <span className="text-[12px] text-[#4B5168] dark:text-[#9DA3BB] max-w-[200px] truncate block">{log.subject}</span>
+                      <span className="text-[12px] text-slate-600 dark:text-slate-300 max-w-[200px] truncate block">{log.subject}</span>
                     </td>
                     <td className="px-4 py-3">
                       {log.campaignId ? (
-                        <span className="inline-block px-2.5 py-1 rounded-full bg-[#EEF3FF] dark:bg-[#1A2540] text-[#2563EB] dark:text-[#4F8EF7] text-[11px] font-semibold max-w-[140px] truncate">
+                        <span className="badge bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 max-w-[140px] truncate">
                           {log.campaignId}
                         </span>
                       ) : (
-                        <span className="text-[12px] text-[#8B92A9]">—</span>
+                        <span className="text-[12px] text-slate-400">—</span>
                       )}
                     </td>
                     <td className="px-4 py-3">
                       <StatusBadge status={log.status} />
                     </td>
                     <td className="px-4 py-3">
-                      <span className="text-[12px] text-[#8B92A9] dark:text-[#565C75] whitespace-nowrap">{fmtDate(log.sentAt)}</span>
+                      <span className="text-[12px] text-slate-400 whitespace-nowrap">{fmtDate(log.sentAt)}</span>
                     </td>
                     <td className="px-4 py-3" onClick={(e) => e.stopPropagation()}>
                       <button
                         onClick={() => handleDelete(log._id)}
                         disabled={deletingId === log._id}
-                        className="p-1.5 rounded-lg text-[#8B92A9] hover:text-[#DC2626] hover:bg-[#FEF2F2] dark:hover:bg-[#2D0A0A] transition disabled:opacity-40"
+                        className="icon-btn w-7 h-7 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-500/10 disabled:opacity-40"
                         title="Delete log"
                       >
                         {deletingId === log._id ? (
@@ -497,15 +490,15 @@ export default function EmailHistory() {
 
         {/* Pagination */}
         {pagination.totalPages > 1 && (
-          <div className="px-4 py-3 border-t border-[#E4E7EF] dark:border-[#262A38] flex items-center justify-between">
-            <span className="text-[12px] text-[#8B92A9] dark:text-[#565C75]">
+          <div className="px-4 py-3 border-t border-slate-100 dark:border-white/10 flex items-center justify-between">
+            <span className="text-[12px] text-slate-400">
               Page {pagination.page} of {pagination.totalPages} · {pagination.total} total
             </span>
             <div className="flex items-center gap-1.5">
               <button
                 disabled={pagination.page <= 1}
                 onClick={() => fetchLogs(pagination.page - 1)}
-                className="px-3 py-1.5 rounded-lg border border-[#E4E7EF] dark:border-[#262A38] text-[12px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] disabled:opacity-40 hover:border-[#2563EB] hover:text-[#2563EB] transition"
+                className="btn-secondary btn-sm"
               >
                 ← Prev
               </button>
@@ -520,8 +513,8 @@ export default function EmailHistory() {
                     onClick={() => fetchLogs(p)}
                     className={`w-8 h-8 rounded-lg text-[12px] font-semibold transition ${
                       p === pagination.page
-                        ? "bg-[#2563EB] text-white"
-                        : "border border-[#E4E7EF] dark:border-[#262A38] text-[#4B5168] dark:text-[#9DA3BB] hover:border-[#2563EB] hover:text-[#2563EB]"
+                        ? "bg-brand-gradient text-white shadow-glow-brand"
+                        : "border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:border-indigo-300 dark:hover:border-indigo-500/40 hover:text-indigo-600 dark:hover:text-indigo-400"
                     }`}
                   >
                     {p}
@@ -531,7 +524,7 @@ export default function EmailHistory() {
               <button
                 disabled={pagination.page >= pagination.totalPages}
                 onClick={() => fetchLogs(pagination.page + 1)}
-                className="px-3 py-1.5 rounded-lg border border-[#E4E7EF] dark:border-[#262A38] text-[12px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] disabled:opacity-40 hover:border-[#2563EB] hover:text-[#2563EB] transition"
+                className="btn-secondary btn-sm"
               >
                 Next →
               </button>

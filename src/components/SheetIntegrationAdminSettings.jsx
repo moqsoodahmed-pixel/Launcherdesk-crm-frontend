@@ -32,12 +32,12 @@ function Row({ label, on, onToggle, disabled }) {
   return (
     <button type="button" onClick={onToggle} disabled={disabled}
       className={`w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl border transition text-left
-        ${disabled ? "opacity-50 cursor-not-allowed" : "hover:border-[#2563EB]"}
-        border-[#E4E7EF] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E]`}>
-      <span className="text-[12px] font-medium text-[#0F1117] dark:text-white">{label}</span>
+        ${disabled ? "opacity-50 cursor-not-allowed" : "hover:border-indigo-400 dark:hover:border-indigo-500"}
+        border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.04]`}>
+      <span className="text-[12px] font-medium text-slate-900 dark:text-white">{label}</span>
       {on
         ? <ToggleRight className="w-6 h-6 text-emerald-500 shrink-0" />
-        : <ToggleLeft className="w-6 h-6 text-[#8B92A9] shrink-0" />}
+        : <ToggleLeft className="w-6 h-6 text-slate-300 dark:text-slate-600 shrink-0" />}
     </button>
   );
 }
@@ -91,21 +91,21 @@ export default function SheetIntegrationAdminSettings() {
   return (
     <>
       <button onClick={() => setOpen(true)} title="Excel / Google Sheet Integration"
-        className="w-8 h-8 flex items-center justify-center rounded-xl text-gray-500 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 transition">
+        className="icon-btn">
         <Sheet className="w-4 h-4" />
       </button>
 
       {open && createPortal(
         <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4"
           onClick={() => setOpen(false)}>
-          <div className="w-full max-w-md bg-white dark:bg-[#1A1D27] border border-gray-100 dark:border-white/10 rounded-2xl shadow-2xl p-5"
+          <div className="surface-card shadow-popover w-full max-w-md p-5"
             onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-[15px] font-bold text-[#0F1117] dark:text-white flex items-center gap-2">
-                <Sheet className="w-4 h-4 text-[#2563EB]" /> Employee Sheet Integration
+              <h2 className="text-[15px] font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <Sheet className="w-4 h-4 text-indigo-500" /> Employee Sheet Integration
               </h2>
               <button onClick={() => setOpen(false)}
-                className="w-7 h-7 flex items-center justify-center rounded-lg text-[#8B92A9] hover:bg-[#F1F4FF] dark:hover:bg-[#262A38]">
+                className="icon-btn w-7 h-7">
                 <X className="w-4 h-4" />
               </button>
             </div>
@@ -115,28 +115,28 @@ export default function SheetIntegrationAdminSettings() {
                 <Row label="Enable Excel / Google Sheet Integration" on={settings.enabled} onToggle={() => toggle("enabled")} />
 
                 <div className={`space-y-2 ${settings.enabled ? "" : "opacity-50 pointer-events-none"}`}>
-                  <p className="text-[10px] font-semibold text-[#8B92A9] uppercase tracking-wide pt-1">Employee permissions</p>
+                  <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wide pt-1">Employee permissions</p>
                   {SUB_PERMS.map((p) => (
                     <Row key={p.key} label={p.label} on={!!settings[p.key]} onToggle={() => toggle(p.key)} disabled={!settings.enabled} />
                   ))}
                 </div>
 
-                <div className="flex items-center gap-2 text-[11px] text-[#8B92A9] pt-1">
+                <div className="flex items-center gap-2 text-[11px] text-slate-400 pt-1">
                   <Users className="w-3.5 h-3.5" /> {connectedEmployees} employee{connectedEmployees === 1 ? "" : "s"} connected
                 </div>
 
                 {msg && (
                   <div className={`flex items-center gap-2 px-3 py-2 rounded-xl text-[12px] font-medium border ${
                     msg.type === "ok"
-                      ? "bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800"
-                      : "bg-red-50 dark:bg-red-950/30 text-red-600 dark:text-red-400 border-red-200 dark:border-red-800"}`}>
+                      ? "bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-500/20"
+                      : "bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-500/20"}`}>
                     {msg.type === "ok" ? <CheckCircle2 className="w-4 h-4" /> : <AlertCircle className="w-4 h-4" />}
                     {msg.text}
                   </div>
                 )}
 
                 <button onClick={save} disabled={saving}
-                  className="w-full mt-1 inline-flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[#2563EB] text-white text-[13px] font-semibold hover:bg-blue-700 transition disabled:opacity-60">
+                  className="btn-primary btn-md w-full mt-1">
                   {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} Save Settings
                 </button>
               </div>

@@ -11,9 +11,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import api from "../data/axiosConfig";
-
-const FIELD_CLS =
-  "w-full px-3 py-2.5 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E] text-[13px] text-[#0F1117] dark:text-[#F0F2FA] placeholder:text-[#8B92A9] focus:outline-none focus:border-[#2563EB] transition";
+import { Palette, Upload, X, ImageOff, Loader2, CheckCircle2, AlertCircle } from "lucide-react";
 
 export default function CompanyBrandSettings() {
   const [brand,      setBrand]      = useState({ name: "", logoUrl: "" });
@@ -89,89 +87,95 @@ export default function CompanyBrandSettings() {
   const currentLogo = preview || brand.logoUrl;
 
   return (
-    <div className="bg-white dark:bg-[#1A1D27] border border-[#E4E7EF] dark:border-[#262A38] rounded-2xl p-6 max-w-lg">
-      <div className="flex items-center gap-3 mb-5">
-        <div className="w-9 h-9 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center">
-          <svg className="w-5 h-5 text-indigo-600 dark:text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-          </svg>
-        </div>
-        <div>
-          <h3 className="text-[15px] font-bold text-[#0F1117] dark:text-[#F0F2FA]">Company Branding</h3>
-          <p className="text-[11px] text-[#8B92A9] mt-0.5">Logo and name shown in the navbar across all interfaces</p>
-        </div>
-      </div>
+    <div className="min-h-screen ld-canvas">
+      <div className="p-4 md:p-6 max-w-3xl mx-auto">
 
-      {/* Company Name */}
-      <div className="mb-4">
-        <label className="block text-[12px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] mb-1.5">
-          Company Name
-        </label>
-        <input
-          type="text"
-          value={nameInput}
-          onChange={(e) => setNameInput(e.target.value)}
-          placeholder="e.g. Acme Corp"
-          className={FIELD_CLS}
-          maxLength={40}
-        />
-        <p className="text-[10px] text-[#8B92A9] mt-1">Displayed next to the logo in the sidebar header</p>
-      </div>
-
-      {/* Logo Upload */}
-      <div className="mb-5">
-        <label className="block text-[12px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] mb-1.5">
-          Company Logo
-        </label>
-        <div className="flex items-center gap-4">
-          {currentLogo ? (
-            <div className="relative">
-              <img src={currentLogo} alt="logo preview" loading="lazy" decoding="async" className="h-14 w-auto max-w-[120px] object-contain rounded-lg border border-[#E4E7EF] dark:border-[#262A38] bg-white dark:bg-[#13161E] p-1" />
-              <button
-                onClick={handleRemoveLogo}
-                className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-red-500 text-white flex items-center justify-center hover:bg-red-600 transition"
-                title="Remove logo"
-              >
-                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-              </button>
-            </div>
-          ) : (
-            <div className="h-14 w-14 rounded-lg border-2 border-dashed border-[#E4E7EF] dark:border-[#262A38] flex items-center justify-center text-[#8B92A9]">
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-            </div>
-          )}
+        {/* Page header */}
+        <div className="ld-hero rounded-3xl px-5 sm:px-7 py-5 sm:py-6 text-white flex items-center gap-3 mb-5 flex-wrap">
+          <div className="w-11 h-11 rounded-2xl bg-white/15 flex items-center justify-center shrink-0">
+            <Palette className="w-5 h-5 text-white" />
+          </div>
           <div>
-            <button
-              onClick={() => fileRef.current?.click()}
-              className="px-3 py-2 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] text-[12px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] hover:border-[#2563EB] hover:text-[#2563EB] transition"
-            >
-              {currentLogo ? "Change Logo" : "Upload Logo"}
-            </button>
-            <p className="text-[10px] text-[#8B92A9] mt-1">PNG, JPG or SVG · max 2 MB</p>
-            <input ref={fileRef} type="file" accept="image/*" onChange={handleFile} className="hidden" />
+            <h1 className="font-display text-xl font-bold tracking-tight text-white">Brand Settings</h1>
+            <p className="text-xs text-white/75">Logo and name shown in the navbar across all interfaces.</p>
           </div>
         </div>
+
+        <div className="surface-card p-6">
+          {/* Company Name */}
+          <div className="mb-5">
+            <label className="block text-[12px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">
+              Company Name
+            </label>
+            <input
+              type="text"
+              value={nameInput}
+              onChange={(e) => setNameInput(e.target.value)}
+              placeholder="e.g. Acme Corp"
+              className="input-field px-3 py-2.5"
+              maxLength={40}
+            />
+            <p className="text-[11px] text-slate-400 mt-1.5">Displayed next to the logo in the sidebar header</p>
+          </div>
+
+          {/* Logo Upload */}
+          <div className="mb-6">
+            <label className="block text-[12px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">
+              Company Logo
+            </label>
+            <div className="flex items-center gap-4">
+              {currentLogo ? (
+                <div className="relative">
+                  <img
+                    src={currentLogo}
+                    alt="logo preview"
+                    loading="lazy"
+                    decoding="async"
+                    className="h-16 w-auto max-w-[130px] object-contain rounded-xl border border-slate-200 dark:border-white/10 bg-white p-1.5 shadow-xs"
+                  />
+                  <button
+                    onClick={handleRemoveLogo}
+                    className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-rose-500 text-white flex items-center justify-center hover:bg-rose-600 transition shadow-xs"
+                    title="Remove logo"
+                  >
+                    <X className="w-3 h-3" strokeWidth={3} />
+                  </button>
+                </div>
+              ) : (
+                <div className="h-16 w-16 rounded-xl border-2 border-dashed border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-300 dark:text-slate-600">
+                  <ImageOff className="w-6 h-6" />
+                </div>
+              )}
+              <div>
+                <button onClick={() => fileRef.current?.click()} className="btn-secondary btn-sm">
+                  <Upload className="w-3.5 h-3.5" />
+                  {currentLogo ? "Change Logo" : "Upload Logo"}
+                </button>
+                <p className="text-[11px] text-slate-400 mt-1.5">PNG, JPG or SVG · max 2 MB</p>
+                <input ref={fileRef} type="file" accept="image/*" onChange={handleFile} className="hidden" />
+              </div>
+            </div>
+          </div>
+
+          {error && (
+            <div className="mb-4 flex items-center gap-2 px-3 py-2.5 rounded-xl bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 text-[12.5px] text-rose-600 dark:text-rose-400">
+              <AlertCircle className="w-4 h-4 shrink-0" />
+              {error}
+            </div>
+          )}
+          {success && (
+            <div className="mb-4 flex items-center gap-2 px-3 py-2.5 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-[12.5px] text-emerald-600 dark:text-emerald-400">
+              <CheckCircle2 className="w-4 h-4 shrink-0" />
+              Branding saved! The sidebar will update immediately.
+            </div>
+          )}
+
+          <button onClick={handleSave} disabled={saving} className="btn-primary btn-md w-full">
+            {saving && <Loader2 className="w-4 h-4 animate-spin" />}
+            {saving ? "Saving…" : "Save Branding"}
+          </button>
+        </div>
       </div>
-
-      {error && (
-        <div className="mb-3 px-3 py-2 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-[12px] text-red-600 dark:text-red-400">
-          {error}
-        </div>
-      )}
-      {success && (
-        <div className="mb-3 px-3 py-2 rounded-xl bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 text-[12px] text-emerald-600 dark:text-emerald-400">
-          ✓ Branding saved! The sidebar will update immediately.
-        </div>
-      )}
-
-      <button
-        onClick={handleSave}
-        disabled={saving}
-        className="w-full py-2.5 rounded-xl bg-[#2563EB] hover:bg-blue-700 disabled:opacity-60 text-white text-[13px] font-semibold transition flex items-center justify-center gap-2"
-      >
-        {saving && <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg>}
-        {saving ? "Saving…" : "Save Branding"}
-      </button>
     </div>
   );
 }

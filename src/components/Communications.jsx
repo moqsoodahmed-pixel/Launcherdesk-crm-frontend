@@ -8,6 +8,7 @@ import { io } from "socket.io-client";
 import axios from "axios";
 import api from "../data/axiosConfig";
 import { sanitizeHtml } from "../utils/sanitizeHtml";
+import { Pill } from "./ui/Primitives";
 import { AlertOctagon, Lightbulb, ClipboardList, BarChart3, RefreshCw, MessageCircle, Inbox, Smartphone, Target, FileText, Image as ImageIcon, Music, Video, MapPin, AlertTriangle, Zap, X, Check } from "lucide-react";
 
 const API_URL    = import.meta.env.VITE_API_URL;
@@ -81,8 +82,7 @@ function sessionBanner(conv) {
   return null;
 }
 
-const FIELD_CLS =
-  "w-full px-3 py-2.5 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E] text-[13px] text-[#0F1117] dark:text-[#F0F2FA] placeholder:text-[#8B92A9] focus:outline-none focus:border-[#2563EB] transition";
+const FIELD_CLS = "input-field px-3 py-2.5";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // ── INTEGRATIONS SETTINGS MODAL ───────────────────────────────────────────────
@@ -93,7 +93,7 @@ const FIELD_CLS =
 //   DELETE  /admin/company/brevo-config   → disconnects Brevo
 //   DELETE  /admin/company/msg91-config   → disconnects MSG91
 // ─────────────────────────────────────────────────────────────────────────────
-const FIELD = "w-full px-3 py-2.5 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E] text-[13px] text-[#0F1117] dark:text-[#F0F2FA] placeholder:text-[#8B92A9] focus:outline-none focus:border-[#2563EB] transition";
+const FIELD = "input-field px-3 py-2.5";
 
 // Webhook URL box — shown in WhatsApp Integrations tab so admin can configure
 // MSG91 inbound webhook for instant reply delivery (eliminates 30-40s poll lag).
@@ -124,8 +124,8 @@ function WebhookUrlBox() {
       </p>
 
       {/* Step by step */}
-      <div className="bg-white dark:bg-[#1a1d27] rounded-xl p-3 space-y-2 border border-red-200 dark:border-red-800">
-        <p className="text-[11px] font-bold text-[#4B5168] dark:text-[#9DA3BB] uppercase tracking-widest">Do these 4 steps right now:</p>
+      <div className="bg-white dark:bg-[#181029] rounded-xl p-3 space-y-2 border border-red-200 dark:border-red-800">
+        <p className="text-[11px] font-bold text-slate-600 dark:text-slate-300 uppercase tracking-widest">Do these 4 steps right now:</p>
         {[
           <>Go to <strong>msg91.com</strong> → Login → <strong>WhatsApp</strong> section</>,
           <>Click <strong>Integrated Numbers</strong> → click your number <strong>919591327778</strong></>,
@@ -134,7 +134,7 @@ function WebhookUrlBox() {
         ].map((step, i) => (
           <div key={i} className="flex items-start gap-2">
             <span className="w-5 h-5 rounded-full bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">{i+1}</span>
-            <p className="text-[12px] text-[#0F1117] dark:text-[#F0F2FA]">{step}</p>
+            <p className="text-[12px] text-slate-900 dark:text-white">{step}</p>
           </div>
         ))}
       </div>
@@ -143,7 +143,7 @@ function WebhookUrlBox() {
       <div>
         <p className="text-[10px] font-bold text-red-700 dark:text-red-400 uppercase tracking-widest mb-1">Paste this URL in MSG91:</p>
         <div className="flex items-center gap-2">
-          <code className="flex-1 bg-white dark:bg-[#111827] border-2 border-red-300 dark:border-red-700 rounded-lg px-3 py-2 text-[11px] font-mono text-red-700 dark:text-red-300 break-all select-all font-bold">
+          <code className="flex-1 bg-white dark:bg-slate-900 border-2 border-red-300 dark:border-red-700 rounded-lg px-3 py-2 text-[11px] font-mono text-red-700 dark:text-red-300 break-all select-all font-bold">
             {webhookUrl}
           </code>
           <button
@@ -323,16 +323,16 @@ function IntegrationsModal({ onClose }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm px-4" onClick={onClose}>
       <div
-        className="bg-white dark:bg-[#1A1D27] rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-hidden flex flex-col"
+        className="bg-white dark:bg-[#181029] rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-hidden flex flex-col"
         onClick={e => e.stopPropagation()}
       >
         {/* ── Modal header ── */}
-        <div className="px-5 py-4 border-b border-[#E4E7EF] dark:border-[#262A38] flex items-center justify-between shrink-0">
+        <div className="px-5 py-4 border-b border-slate-200 dark:border-white/10 flex items-center justify-between shrink-0">
           <div>
-            <h2 className="text-[16px] font-bold text-[#0F1117] dark:text-[#F0F2FA]">Integrations</h2>
-            <p className="text-[11px] text-[#8B92A9] mt-0.5">Connect your messaging and email providers</p>
+            <h2 className="text-[16px] font-bold text-slate-900 dark:text-white">Integrations</h2>
+            <p className="text-[11px] text-slate-400 mt-0.5">Connect your messaging and email providers</p>
           </div>
-          <button onClick={onClose} className="w-8 h-8 flex items-center justify-center rounded-xl hover:bg-gray-100 dark:hover:bg-[#262A38] text-[#8B92A9] transition">
+          <button onClick={onClose} className="w-8 h-8 flex items-center justify-center rounded-xl hover:bg-gray-100 dark:hover:bg-white/10 text-slate-400 transition">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
             </svg>
@@ -340,7 +340,7 @@ function IntegrationsModal({ onClose }) {
         </div>
 
         {/* ── Service tabs ── */}
-        <div className="flex border-b border-[#E4E7EF] dark:border-[#262A38] shrink-0">
+        <div className="flex border-b border-slate-200 dark:border-white/10 shrink-0">
           {TABS.map(t => (
             <button
               key={t.key}
@@ -348,13 +348,13 @@ function IntegrationsModal({ onClose }) {
               className={`flex-1 flex flex-col items-center gap-1 py-3 text-[12px] font-semibold transition border-b-2 ${
                 activeTab === t.key
                   ? "border-current"
-                  : "border-transparent text-[#8B92A9] hover:text-[#4B5168] dark:hover:text-[#9DA3BB]"
+                  : "border-transparent text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
               }`}
               style={{ color: activeTab === t.key ? t.color : undefined }}
             >
               <div className="relative">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>{t.icon}</svg>
-                <span className={`absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full border-2 border-white dark:border-[#1A1D27] ${t.connected ? "bg-emerald-500" : "bg-[#8B92A9]"}`}/>
+                <span className={`absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full border-2 border-white dark:border-white/10 ${t.connected ? "bg-emerald-500" : "bg-slate-400"}`}/>
               </div>
               {t.label}
             </button>
@@ -398,8 +398,8 @@ function IntegrationsModal({ onClose }) {
           {(activeTab === "whatsapp" || activeTab === "sms") && (
             <>
               {/* How-to steps */}
-              <div className="bg-[#F8F9FC] dark:bg-[#13161E] rounded-xl p-4 space-y-2">
-                <p className="text-[11px] font-bold text-[#4B5168] dark:text-[#9DA3BB] uppercase tracking-widest mb-2">How to get MSG91 credentials</p>
+              <div className="bg-slate-50 dark:bg-white/[0.04] rounded-xl p-4 space-y-2">
+                <p className="text-[11px] font-bold text-slate-600 dark:text-slate-300 uppercase tracking-widest mb-2">How to get MSG91 credentials</p>
                 {[
                   "Log in to msg91.com → click your profile → API",
                   "Copy your Auth Key (keep it secret — never share it)",
@@ -408,14 +408,14 @@ function IntegrationsModal({ onClose }) {
                 ].map((s, i) => (
                   <div key={i} className="flex items-start gap-2.5">
                     <span className="w-5 h-5 rounded-full bg-[#25D366]/10 text-[#25D366] text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">{i + 1}</span>
-                    <p className="text-[12px] text-[#4B5168] dark:text-[#9DA3BB]">{s}</p>
+                    <p className="text-[12px] text-slate-600 dark:text-slate-300">{s}</p>
                   </div>
                 ))}
               </div>
 
               {/* Auth Key */}
               <div>
-                <label className="block text-[12px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] mb-1.5">
+                <label className="block text-[12px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">
                   MSG91 Auth Key <span className="text-red-500">*</span>
                 </label>
                 <div className="relative">
@@ -423,7 +423,7 @@ function IntegrationsModal({ onClose }) {
                     placeholder="Paste your MSG91 auth key here"
                     className={FIELD + " pr-10 font-mono"} autoComplete="off"/>
                   <button type="button" onClick={() => setMsg91Show(s => !s)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8B92A9] hover:text-[#4B5168] transition">
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       {msg91Show
                         ? <path strokeLinecap="round" strokeLinejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/>
@@ -432,46 +432,46 @@ function IntegrationsModal({ onClose }) {
                     </svg>
                   </button>
                 </div>
-                <p className="text-[10px] text-[#8B92A9] mt-1">msg91.com → Profile → API → Your Auth Key</p>
+                <p className="text-[10px] text-slate-400 mt-1">msg91.com → Profile → API → Your Auth Key</p>
               </div>
 
               {/* Integrated number */}
               <div>
-                <label className="block text-[12px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] mb-1.5">
+                <label className="block text-[12px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">
                   Integrated WhatsApp Number <span className="text-red-500">*</span>
                 </label>
                 <input type="text" value={msg91Num} onChange={e => setMsg91Num(e.target.value)}
                   placeholder="e.g. 919876543210 (country code, no +)"
                   className={FIELD + " font-mono"}/>
-                <p className="text-[10px] text-[#8B92A9] mt-1">msg91.com → WhatsApp → Integrated Numbers</p>
+                <p className="text-[10px] text-slate-400 mt-1">msg91.com → WhatsApp → Integrated Numbers</p>
               </div>
 
               {/* Namespace */}
               <div>
-                <label className="block text-[12px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] mb-1.5">
-                  WhatsApp Namespace <span className="text-[10px] font-normal text-[#8B92A9]">(required for templates)</span>
+                <label className="block text-[12px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">
+                  WhatsApp Namespace <span className="text-[10px] font-normal text-slate-400">(required for templates)</span>
                 </label>
                 <input type="text" value={msg91NS} onChange={e => setMsg91NS(e.target.value)}
                   placeholder="e.g. 68bcef67_e185_4e55_94df_52c26cb0bc37"
                   className={FIELD + " font-mono"}/>
-                <p className="text-[10px] text-[#8B92A9] mt-1">MSG91 → Templates → click any template → Code JSON → copy "namespace" value</p>
+                <p className="text-[10px] text-slate-400 mt-1">MSG91 → Templates → click any template → Code JSON → copy "namespace" value</p>
               </div>
 
               {/* Brochure / document header URL */}
               <div>
-                <label className="block text-[12px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] mb-1.5">
-                  Brochure PDF URL <span className="text-[10px] font-normal text-[#8B92A9]">(only for templates with a document header, e.g. crm_followup_leads)</span>
+                <label className="block text-[12px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">
+                  Brochure PDF URL <span className="text-[10px] font-normal text-slate-400">(only for templates with a document header, e.g. crm_followup_leads)</span>
                 </label>
                 <input type="text" value={msg91Brochure} onChange={e => setMsg91Brochure(e.target.value)}
                   placeholder="https://your-domain.com/brochure.pdf"
                   className={FIELD + " font-mono"}/>
-                <p className="text-[10px] text-[#8B92A9] mt-1">
+                <p className="text-[10px] text-slate-400 mt-1">
                   Must be a public PDF link. Templates with an approved document header will fail with a 404 until this is set.
                 </p>
               </div>
 
               {/* Note about both services */}
-              <div className="bg-[#F0FDF4] dark:bg-emerald-900/10 border border-emerald-200 dark:border-emerald-800/40 rounded-xl px-4 py-3">
+              <div className="bg-emerald-50 dark:bg-emerald-900/10 border border-emerald-200 dark:border-emerald-800/40 rounded-xl px-4 py-3">
                 <p className="text-[12px] text-emerald-700 dark:text-emerald-400">
                   <strong>One key, two services:</strong> Saving this key enables both <strong>WhatsApp</strong> and <strong>SMS</strong> blasts. You only need to do this once.
                 </p>
@@ -479,29 +479,29 @@ function IntegrationsModal({ onClose }) {
 
               {/* ── Launcherdesk_greetings approved DLT template reference ── */}
               {activeTab === "sms" && (
-                <div className="rounded-xl border border-[#FED7AA] dark:border-[#7c3a00] bg-[#FFF7ED] dark:bg-[#1c0a00] p-4">
+                <div className="rounded-xl border border-orange-200 dark:border-amber-900 bg-orange-50 dark:bg-orange-950 p-4">
                   <div className="flex items-center justify-between mb-2">
-                    <p className="text-[11px] font-bold text-[#EA580C] uppercase tracking-widest">
+                    <p className="text-[11px] font-bold text-orange-600 uppercase tracking-widest">
                       <span className="inline-flex items-center gap-1"><ClipboardList className="w-3.5 h-3.5" /> Approved DLT Template</span>
                     </p>
-                    <span className="px-2 py-0.5 rounded-full bg-[#DCFCE7] dark:bg-[#052e16] text-[#15803D] text-[10px] font-bold">
+                    <span className="px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-700 text-[10px] font-bold">
                       Active
                     </span>
                   </div>
-                  <p className="text-[12px] font-semibold text-[#0F1117] dark:text-[#F0F2FA] mb-1">
+                  <p className="text-[12px] font-semibold text-slate-900 dark:text-white mb-1">
                     Launcherdesk_greetings
                   </p>
                   <div className="grid grid-cols-2 gap-2 mb-2">
                     <div className="bg-white dark:bg-[#111B21] rounded-lg p-2">
-                      <p className="text-[10px] text-[#8B92A9] mb-0.5">Sender ID</p>
-                      <code className="font-mono font-bold text-[#EA580C] text-[12px]">695382</code>
+                      <p className="text-[10px] text-slate-400 mb-0.5">Sender ID</p>
+                      <code className="font-mono font-bold text-orange-600 text-[12px]">695382</code>
                     </div>
                     <div className="bg-white dark:bg-[#111B21] rounded-lg p-2">
-                      <p className="text-[10px] text-[#8B92A9] mb-0.5">DLT Template ID</p>
-                      <code className="font-mono font-bold text-[#EA580C] text-[10px]">1007503933418344595</code>
+                      <p className="text-[10px] text-slate-400 mb-0.5">DLT Template ID</p>
+                      <code className="font-mono font-bold text-orange-600 text-[10px]">1007503933418344595</code>
                     </div>
                   </div>
-                  <p className="text-[10px] text-[#9A3412] dark:text-[#FED7AA] leading-relaxed">
+                  <p className="text-[10px] text-orange-800 dark:text-orange-200 leading-relaxed">
                     These values are pre-filled in the SMS Blast composer automatically.
                     Use the <strong>"Use Launcherdesk_greetings"</strong> button to also fill the message body.
                   </p>
@@ -527,8 +527,8 @@ function IntegrationsModal({ onClose }) {
           {activeTab === "msg91email" && (
             <>
               {/* How-to steps */}
-              <div className="bg-[#F8F9FC] dark:bg-[#13161E] rounded-xl p-4 space-y-2">
-                <p className="text-[11px] font-bold text-[#4B5168] dark:text-[#9DA3BB] uppercase tracking-widest mb-2">How to set up MSG91 Email</p>
+              <div className="bg-slate-50 dark:bg-white/[0.04] rounded-xl p-4 space-y-2">
+                <p className="text-[11px] font-bold text-slate-600 dark:text-slate-300 uppercase tracking-widest mb-2">How to set up MSG91 Email</p>
                 {[
                   "Log in to msg91.com → navigate to Email section",
                   "Go to Settings → API Key → copy your Auth Key",
@@ -538,24 +538,24 @@ function IntegrationsModal({ onClose }) {
                   "MSG91 handles up to 5,000 emails/day — when that limit is hit, the CRM automatically switches to Brevo",
                 ].map((s, i) => (
                   <div key={i} className="flex items-start gap-2.5">
-                    <span className="w-5 h-5 rounded-full bg-[#0284C7]/10 text-[#0284C7] text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">{i + 1}</span>
-                    <p className="text-[12px] text-[#4B5168] dark:text-[#9DA3BB]">{s}</p>
+                    <span className="w-5 h-5 rounded-full bg-sky-500/10 text-sky-600 text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">{i + 1}</span>
+                    <p className="text-[12px] text-slate-600 dark:text-slate-300">{s}</p>
                   </div>
                 ))}
               </div>
 
               {/* Quota status banner if connected */}
               {m91EmailConnected && m91Email && (
-                <div className="bg-[#EFF6FF] dark:bg-[#0c1a2e] border border-[#BFDBFE] dark:border-[#1e3a5f] rounded-xl px-4 py-3">
-                  <p className="text-[12px] font-semibold text-[#1e40af] dark:text-[#60a5fa] mb-1 flex items-center gap-1"><BarChart3 className="w-3 h-3" /> Daily Quota (resets midnight UTC)</p>
+                <div className="bg-sky-50 dark:bg-sky-950 border border-sky-200 dark:border-sky-900 rounded-xl px-4 py-3">
+                  <p className="text-[12px] font-semibold text-sky-800 dark:text-sky-400 mb-1 flex items-center gap-1"><BarChart3 className="w-3 h-3" /> Daily Quota (resets midnight UTC)</p>
                   <div className="flex items-center gap-3">
-                    <div className="flex-1 bg-[#DBEAFE] dark:bg-[#1e3a5f] rounded-full h-2 overflow-hidden">
+                    <div className="flex-1 bg-sky-100 dark:bg-sky-900 rounded-full h-2 overflow-hidden">
                       <div
-                        className="h-full bg-[#2563EB] rounded-full transition-all"
+                        className="h-full bg-launcher-600 rounded-full transition-all"
                         style={{ width: `${Math.min(100, ((5000 - (m91Email.remaining ?? 5000)) / 5000) * 100)}%` }}
                       />
                     </div>
-                    <span className="text-[11px] font-semibold text-[#1e40af] dark:text-[#60a5fa] shrink-0">
+                    <span className="text-[11px] font-semibold text-sky-800 dark:text-sky-400 shrink-0">
                       {m91Email.remaining ?? 5000} / 5,000 remaining
                     </span>
                   </div>
@@ -563,7 +563,7 @@ function IntegrationsModal({ onClose }) {
               )}
 
               {/* Fallback info */}
-              <div className="bg-[#F0FDF4] dark:bg-emerald-900/10 border border-emerald-200 dark:border-emerald-800/40 rounded-xl px-4 py-3">
+              <div className="bg-emerald-50 dark:bg-emerald-900/10 border border-emerald-200 dark:border-emerald-800/40 rounded-xl px-4 py-3">
                 <p className="text-[12px] text-emerald-700 dark:text-emerald-400">
                   <strong className="inline-flex items-center gap-1"><RefreshCw className="w-3 h-3" /> Smart fallback:</strong> MSG91 Email is the <strong>primary</strong> sender (free 5,000/day quota).
                   When the daily limit is reached, the CRM <strong>automatically falls back to Brevo</strong> — zero downtime.
@@ -573,7 +573,7 @@ function IntegrationsModal({ onClose }) {
 
               {/* Auth Key */}
               <div>
-                <label className="block text-[12px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] mb-1.5">
+                <label className="block text-[12px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">
                   MSG91 Auth Key <span className="text-red-500">*</span>
                 </label>
                 <div className="relative">
@@ -581,7 +581,7 @@ function IntegrationsModal({ onClose }) {
                     placeholder="Paste your MSG91 auth key here"
                     className={FIELD + " pr-10 font-mono"} autoComplete="off"/>
                   <button type="button" onClick={() => setM91EmailShow(s => !s)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8B92A9] hover:text-[#4B5168] transition">
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       {m91EmailShow
                         ? <path strokeLinecap="round" strokeLinejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/>
@@ -590,35 +590,35 @@ function IntegrationsModal({ onClose }) {
                     </svg>
                   </button>
                 </div>
-                <p className="text-[10px] text-[#8B92A9] mt-1">msg91.com → Profile → API → Your Auth Key (same key used for WhatsApp/SMS)</p>
+                <p className="text-[10px] text-slate-400 mt-1">msg91.com → Profile → API → Your Auth Key (same key used for WhatsApp/SMS)</p>
               </div>
 
               {/* Sending domain */}
               <div>
-                <label className="block text-[12px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] mb-1.5">
+                <label className="block text-[12px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">
                   Sending Domain <span className="text-red-500">*</span>
                 </label>
                 <input type="text" value={m91EmailDomain} onChange={e => setM91EmailDomain(e.target.value)}
                   placeholder="e.g. mail.launcherdesk.com"
                   className={FIELD}/>
-                <p className="text-[10px] text-[#8B92A9] mt-1">Must be verified in MSG91 Email → Domains</p>
+                <p className="text-[10px] text-slate-400 mt-1">Must be verified in MSG91 Email → Domains</p>
               </div>
 
               {/* Sender email */}
               <div>
-                <label className="block text-[12px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] mb-1.5">
+                <label className="block text-[12px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">
                   Sender Email <span className="text-red-500">*</span>
                 </label>
                 <input type="email" value={m91EmailSender} onChange={e => setM91EmailSender(e.target.value)}
                   placeholder="noreply@mail.launcherdesk.com"
                   className={FIELD}/>
-                <p className="text-[10px] text-[#8B92A9] mt-1">Must be a verified sender under your MSG91 domain</p>
+                <p className="text-[10px] text-slate-400 mt-1">Must be a verified sender under your MSG91 domain</p>
               </div>
 
               {/* Sender name */}
               <div>
-                <label className="block text-[12px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] mb-1.5">
-                  Sender Name <span className="text-[#8B92A9] font-normal">(optional)</span>
+                <label className="block text-[12px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">
+                  Sender Name <span className="text-slate-400 font-normal">(optional)</span>
                 </label>
                 <input type="text" value={m91EmailName} onChange={e => setM91EmailName(e.target.value)}
                   placeholder="e.g. LAUNCHERDESK CRM"
@@ -641,8 +641,8 @@ function IntegrationsModal({ onClose }) {
           {activeTab === "email" && (
             <>
               {/* How-to steps */}
-              <div className="bg-[#F8F9FC] dark:bg-[#13161E] rounded-xl p-4 space-y-2">
-                <p className="text-[11px] font-bold text-[#4B5168] dark:text-[#9DA3BB] uppercase tracking-widest mb-2">How to get your Brevo API key</p>
+              <div className="bg-slate-50 dark:bg-white/[0.04] rounded-xl p-4 space-y-2">
+                <p className="text-[11px] font-bold text-slate-600 dark:text-slate-300 uppercase tracking-widest mb-2">How to get your Brevo API key</p>
                 {[
                   "Log in to app.brevo.com (or create a free account)",
                   "Go to Settings (top-right) → API Keys → Generate a new key",
@@ -651,15 +651,15 @@ function IntegrationsModal({ onClose }) {
                   "Paste the key below and click Connect",
                 ].map((s, i) => (
                   <div key={i} className="flex items-start gap-2.5">
-                    <span className="w-5 h-5 rounded-full bg-[#7C3AED]/10 text-[#7C3AED] text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">{i + 1}</span>
-                    <p className="text-[12px] text-[#4B5168] dark:text-[#9DA3BB]">{s}</p>
+                    <span className="w-5 h-5 rounded-full bg-violet-600/10 text-violet-600 text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">{i + 1}</span>
+                    <p className="text-[12px] text-slate-600 dark:text-slate-300">{s}</p>
                   </div>
                 ))}
               </div>
 
               {/* Brevo API Key */}
               <div>
-                <label className="block text-[12px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] mb-1.5">
+                <label className="block text-[12px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">
                   Brevo API Key <span className="text-red-500">*</span>
                 </label>
                 <div className="relative">
@@ -667,7 +667,7 @@ function IntegrationsModal({ onClose }) {
                     placeholder="xkeysib-…"
                     className={FIELD + " pr-10 font-mono"} autoComplete="off"/>
                   <button type="button" onClick={() => setBrevoShow(s => !s)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8B92A9] hover:text-[#4B5168] transition">
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       {brevoShow
                         ? <path strokeLinecap="round" strokeLinejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/>
@@ -676,29 +676,29 @@ function IntegrationsModal({ onClose }) {
                     </svg>
                   </button>
                 </div>
-                <p className="text-[10px] text-[#8B92A9] mt-1">app.brevo.com → Settings → API Keys</p>
+                <p className="text-[10px] text-slate-400 mt-1">app.brevo.com → Settings → API Keys</p>
               </div>
 
               {/* Sender email */}
               <div>
-                <label className="block text-[12px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] mb-1.5">
+                <label className="block text-[12px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">
                   Sender Email <span className="text-red-500">*</span>
                 </label>
                 <input type="email" value={brevoEmail} onChange={e => setBrevoEmail(e.target.value)}
                   placeholder="you@yourdomain.com"
                   className={FIELD}/>
-                <p className="text-[10px] text-[#8B92A9] mt-1">Must be verified in your Brevo account</p>
+                <p className="text-[10px] text-slate-400 mt-1">Must be verified in your Brevo account</p>
               </div>
 
               {/* Sender name */}
               <div>
-                <label className="block text-[12px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] mb-1.5">
-                  Sender Name <span className="text-[#8B92A9] font-normal">(optional)</span>
+                <label className="block text-[12px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">
+                  Sender Name <span className="text-slate-400 font-normal">(optional)</span>
                 </label>
                 <input type="text" value={brevoName} onChange={e => setBrevoName(e.target.value)}
                   placeholder="e.g. LAUNCHERDESK CRM"
                   className={FIELD}/>
-                <p className="text-[10px] text-[#8B92A9] mt-1">Shown as the From name in recipients' inboxes</p>
+                <p className="text-[10px] text-slate-400 mt-1">Shown as the From name in recipients' inboxes</p>
               </div>
 
               {brevoErr && <div className="px-3 py-2 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-[12px] text-red-600 dark:text-red-400">{brevoErr}</div>}
@@ -743,8 +743,8 @@ function TabNav({ active, onChange, showReports }) {
           <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
         </svg>
       ),
-      activeColor: "text-[#7C3AED] border-[#7C3AED]",
-      activeBg: "bg-[#f5f3ff] dark:bg-[#1e1040]",
+      activeColor: "text-violet-600 border-violet-600",
+      activeBg: "bg-violet-50 dark:bg-violet-950",
     },
     {
       key: "sms",
@@ -754,8 +754,8 @@ function TabNav({ active, onChange, showReports }) {
           <path strokeLinecap="round" strokeLinejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
         </svg>
       ),
-      activeColor: "text-[#EA580C] border-[#EA580C]",
-      activeBg: "bg-[#fff7ed] dark:bg-[#1c0a00]",
+      activeColor: "text-orange-600 border-orange-600",
+      activeBg: "bg-orange-50 dark:bg-orange-950",
     },
     ...(showReports ? [{
       key: "reports",
@@ -765,13 +765,13 @@ function TabNav({ active, onChange, showReports }) {
           <path strokeLinecap="round" strokeLinejoin="round" d="M9 17V9m6 8V5M5 21h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2z"/>
         </svg>
       ),
-      activeColor: "text-[#2563EB] border-[#2563EB]",
-      activeBg: "bg-[#eff6ff] dark:bg-[#0a1a33]",
+      activeColor: "text-launcher-600 border-launcher-600",
+      activeBg: "bg-sky-50 dark:bg-sky-950",
     }] : []),
   ];
 
   return (
-    <div className="flex gap-1 p-1 bg-[#F1F5F9] dark:bg-[#13161E] rounded-2xl overflow-x-auto" style={{scrollbarWidth:"none"}}>
+    <div className="flex gap-1 p-1 bg-slate-100 dark:bg-white/[0.04] rounded-2xl overflow-x-auto" style={{scrollbarWidth:"none"}}>
       {tabs.map((t) => (
         <button
           key={t.key}
@@ -779,7 +779,7 @@ function TabNav({ active, onChange, showReports }) {
           className={`flex items-center gap-1.5 px-3 sm:px-5 py-2 sm:py-2.5 rounded-xl text-[12px] sm:text-[13px] font-semibold transition-all whitespace-nowrap shrink-0 ${
             active === t.key
               ? `${t.activeBg} ${t.activeColor.split(" ")[0]} shadow-sm`
-              : "text-[#8B92A9] hover:text-[#4B5168] dark:hover:text-[#9DA3BB]"
+              : "text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
           }`}
         >
           {t.icon}
@@ -832,11 +832,11 @@ function NewConversationModal({ onClose, onSuccess, authHeaders }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" onClick={onClose}>
       <div
-        className="w-full max-w-md bg-white dark:bg-[#1A1D27] rounded-2xl border border-[#E4E7EF] dark:border-[#262A38] overflow-hidden"
+        className="w-full max-w-md bg-white dark:bg-[#181029] rounded-2xl border border-slate-200 dark:border-white/10 overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="px-6 py-4 border-b border-[#E4E7EF] dark:border-[#262A38] flex items-center justify-between">
+        <div className="px-6 py-4 border-b border-slate-200 dark:border-white/10 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-xl bg-[#f0fdf4] dark:bg-[#052e1c] flex items-center justify-center">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366">
@@ -845,11 +845,11 @@ function NewConversationModal({ onClose, onSuccess, authHeaders }) {
               </svg>
             </div>
             <div>
-              <h2 className="text-[15px] font-bold text-[#0F1117] dark:text-[#F0F2FA] leading-none">New WhatsApp Chat</h2>
-              <p className="text-[11px] text-[#8B92A9] mt-0.5">Start a conversation with any client number</p>
+              <h2 className="text-[15px] font-bold text-slate-900 dark:text-white leading-none">New WhatsApp Chat</h2>
+              <p className="text-[11px] text-slate-400 mt-0.5">Start a conversation with any client number</p>
             </div>
           </div>
-          <button onClick={onClose} className="w-7 h-7 rounded-lg border border-[#E4E7EF] dark:border-[#262A38] flex items-center justify-center text-[#8B92A9] hover:text-[#0F1117] transition">
+          <button onClick={onClose} className="w-7 h-7 rounded-lg border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-400 hover:text-slate-900 transition">
             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
           </button>
         </div>
@@ -858,9 +858,9 @@ function NewConversationModal({ onClose, onSuccess, authHeaders }) {
         <div className="px-6 py-5 space-y-4">
 
           {/* Info banner */}
-          <div className="flex gap-2.5 bg-[#FFFBEB] dark:bg-[#1c1600] border border-[#FDE68A] dark:border-[#78350f] rounded-xl px-4 py-3">
+          <div className="flex gap-2.5 bg-amber-50 dark:bg-amber-950 border border-amber-200 dark:border-amber-900 rounded-xl px-4 py-3">
             <span className="shrink-0 mt-0.5 text-amber-500"><Lightbulb className="w-3.5 h-3.5" /></span>
-            <p className="text-[11px] text-[#92400E] dark:text-[#FCD34D] leading-relaxed">
+            <p className="text-[11px] text-amber-800 dark:text-amber-300 leading-relaxed">
               WhatsApp requires a <strong>pre-approved template</strong> to initiate a new conversation.
               Once the client replies, you can send free-form messages for 24 hours.
             </p>
@@ -868,8 +868,8 @@ function NewConversationModal({ onClose, onSuccess, authHeaders }) {
 
           {/* Phone */}
           <div>
-            <label className="block text-[12px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] mb-1.5">
-              Client WhatsApp Number <span className="text-[#DC2626]">*</span>
+            <label className="block text-[12px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">
+              Client WhatsApp Number <span className="text-rose-600">*</span>
             </label>
             <input
               type="tel"
@@ -879,13 +879,13 @@ function NewConversationModal({ onClose, onSuccess, authHeaders }) {
               className={FIELD_CLS}
               autoFocus
             />
-            <p className="text-[10px] text-[#8B92A9] mt-1">Include country code — e.g. 91 for India, 1 for USA</p>
+            <p className="text-[10px] text-slate-400 mt-1">Include country code — e.g. 91 for India, 1 for USA</p>
           </div>
 
           {/* Contact name */}
           <div>
-            <label className="block text-[12px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] mb-1.5">
-              Client Name <span className="text-[#8B92A9] font-normal">(optional)</span>
+            <label className="block text-[12px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">
+              Client Name <span className="text-slate-400 font-normal">(optional)</span>
             </label>
             <input
               type="text"
@@ -898,8 +898,8 @@ function NewConversationModal({ onClose, onSuccess, authHeaders }) {
 
           {/* Template name */}
           <div>
-            <label className="block text-[12px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] mb-1.5">
-              Template Name <span className="text-[#DC2626]">*</span>
+            <label className="block text-[12px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">
+              Template Name <span className="text-rose-600">*</span>
             </label>
             <input
               type="text"
@@ -908,14 +908,14 @@ function NewConversationModal({ onClose, onSuccess, authHeaders }) {
               placeholder="crm_followup_leads"
               className={FIELD_CLS}
             />
-            <p className="text-[10px] text-[#8B92A9] mt-1">
+            <p className="text-[10px] text-slate-400 mt-1">
               Must match exactly the approved template name in your MSG91 / Meta dashboard
             </p>
           </div>
 
           {/* Language */}
           <div>
-            <label className="block text-[12px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] mb-1.5">Template Language</label>
+            <label className="block text-[12px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">Template Language</label>
             <select value={languageCode} onChange={(e) => setLanguageCode(e.target.value)} className={FIELD_CLS}>
               <option value="en">English (en) — MSG91 default</option>
               <option value="en_US">English (en_US)</option>
@@ -933,7 +933,7 @@ function NewConversationModal({ onClose, onSuccess, authHeaders }) {
           </div>
 
           {error && (
-            <div className="bg-[#FEF2F2] dark:bg-[#2D0A0A] border border-[#FECACA] dark:border-[#7F1D1D] rounded-xl px-4 py-3 text-[12px] text-[#DC2626]">
+            <div className="bg-rose-50 dark:bg-rose-950 border border-rose-200 dark:border-rose-900 rounded-xl px-4 py-3 text-[12px] text-rose-600">
               <span className="inline-flex items-center gap-1"><AlertTriangle className="w-3.5 h-3.5" /> {error}</span>
             </div>
           )}
@@ -941,7 +941,7 @@ function NewConversationModal({ onClose, onSuccess, authHeaders }) {
 
         {/* Footer */}
         <div className="px-6 pb-5 pt-2 flex gap-3">
-          <button onClick={onClose} className="px-4 py-2.5 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] text-[13px] font-semibold text-[#4B5168] hover:bg-[#F8F9FC] dark:hover:bg-[#13161E] transition">
+          <button onClick={onClose} className="px-4 py-2.5 rounded-xl border border-slate-200 dark:border-white/10 text-[13px] font-semibold text-slate-600 hover:bg-slate-50 dark:hover:bg-white/[0.06] transition">
             Cancel
           </button>
           <button
@@ -1021,7 +1021,7 @@ function ReEngageModal({ conversationId, authHeaders, onSent }) {
           Re-engage
         </button>
       </div>
-      {error && <p className="text-[11px] text-[#DC2626] flex items-center gap-1"><AlertTriangle className="w-3 h-3" /> {error}</p>}
+      {error && <p className="text-[11px] text-rose-600 flex items-center gap-1"><AlertTriangle className="w-3 h-3" /> {error}</p>}
     </div>
   );
 }
@@ -1158,22 +1158,22 @@ function WhatsAppBlastModal({ onClose, authHeaders }) {
   // Result screen
   if (result) return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" onClick={onClose}>
-      <div className="w-full max-w-md bg-white dark:bg-[#1A1D27] rounded-2xl border border-[#E4E7EF] dark:border-[#262A38] p-8 text-center" onClick={(e) => e.stopPropagation()}>
+      <div className="w-full max-w-md bg-white dark:bg-[#181029] rounded-2xl border border-slate-200 dark:border-white/10 p-8 text-center" onClick={(e) => e.stopPropagation()}>
         <div className="w-14 h-14 rounded-full bg-[#f0fdf4] dark:bg-[#052e1c] flex items-center justify-center mx-auto mb-4">
           <svg className="w-7 h-7 text-[#25D366]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
         </div>
-        <h2 className="text-[16px] font-bold text-[#0F1117] dark:text-[#F0F2FA] mb-1">WhatsApp Blast Complete!</h2>
-        <p className="text-[12px] text-[#8B92A9] mb-5">Template messages dispatched successfully.</p>
+        <h2 className="text-[16px] font-bold text-slate-900 dark:text-white mb-1">WhatsApp Blast Complete!</h2>
+        <p className="text-[12px] text-slate-400 mb-5">Template messages dispatched successfully.</p>
         <div className="grid grid-cols-3 gap-3 mb-5">
           {[{ label: "Sent", value: result.sent ?? 1, color: "#25D366" }, { label: "Failed", value: result.failed ?? 0, color: "#DC2626" }, { label: "Total", value: result.total ?? 1, color: "#2563EB" }].map((s) => (
-            <div key={s.label} className="bg-[#F8F9FC] dark:bg-[#13161E] rounded-xl p-3 text-center border border-[#E4E7EF] dark:border-[#262A38]">
+            <div key={s.label} className="bg-slate-50 dark:bg-white/[0.04] rounded-xl p-3 text-center border border-slate-200 dark:border-white/10">
               <div className="text-[22px] font-bold" style={{ color: s.color }}>{s.value}</div>
-              <div className="text-[10px] text-[#8B92A9] uppercase mt-0.5">{s.label}</div>
+              <div className="text-[10px] text-slate-400 uppercase mt-0.5">{s.label}</div>
             </div>
           ))}
         </div>
         {result.results?.filter(r => r.status === "failed").length > 0 && (
-          <div className="bg-[#FEF2F2] dark:bg-[#2D0A0A] rounded-xl px-4 py-3 text-left text-[11px] text-[#DC2626] mb-4 max-h-28 overflow-y-auto">
+          <div className="bg-rose-50 dark:bg-rose-950 rounded-xl px-4 py-3 text-left text-[11px] text-rose-600 mb-4 max-h-28 overflow-y-auto">
             {result.results.filter(r => r.status === "failed").slice(0, 5).map((r, i) => (
               <div key={i}>{r.name} ({maskPhone(r.phone)}): {r.reason}</div>
             ))}
@@ -1186,20 +1186,20 @@ function WhatsAppBlastModal({ onClose, authHeaders }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" onClick={onClose}>
-      <div className="w-full max-w-2xl bg-white dark:bg-[#1A1D27] rounded-2xl border border-[#E4E7EF] dark:border-[#262A38] overflow-hidden flex flex-col max-h-[94vh]" onClick={(e) => e.stopPropagation()}>
+      <div className="w-full max-w-2xl bg-white dark:bg-[#181029] rounded-2xl border border-slate-200 dark:border-white/10 overflow-hidden flex flex-col max-h-[94vh]" onClick={(e) => e.stopPropagation()}>
 
         {/* Header */}
-        <div className="px-6 py-4 border-b border-[#E4E7EF] dark:border-[#262A38] flex items-center justify-between shrink-0">
+        <div className="px-6 py-4 border-b border-slate-200 dark:border-white/10 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-xl bg-[#f0fdf4] dark:bg-[#052e1c] flex items-center justify-center">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.121 1.531 5.845L.057 23.286a.5.5 0 0 0 .64.64l5.431-1.47A11.952 11.952 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.849 0-3.576-.498-5.066-1.367l-.363-.214-3.765 1.018 1.022-3.734-.234-.376A9.967 9.967 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
             </div>
             <div>
-              <h2 className="text-[15px] font-bold text-[#0F1117] dark:text-[#F0F2FA] leading-none">Send WhatsApp Blast</h2>
-              <p className="text-[11px] text-[#8B92A9] mt-0.5">Personalized bulk messages via MSG91</p>
+              <h2 className="text-[15px] font-bold text-slate-900 dark:text-white leading-none">Send WhatsApp Blast</h2>
+              <p className="text-[11px] text-slate-400 mt-0.5">Personalized bulk messages via MSG91</p>
             </div>
           </div>
-          <button onClick={onClose} className="w-7 h-7 rounded-lg border border-[#E4E7EF] dark:border-[#262A38] flex items-center justify-center text-[#8B92A9] hover:text-[#0F1117] transition">
+          <button onClick={onClose} className="w-7 h-7 rounded-lg border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-400 hover:text-slate-900 transition">
             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
           </button>
         </div>
@@ -1209,7 +1209,7 @@ function WhatsAppBlastModal({ onClose, authHeaders }) {
           <div className="grid grid-cols-3 gap-1.5 sm:gap-2">
             {[{ key: "campaign", label: "Campaign leads" }, { key: "single", label: "Single lead" }, { key: "csv", label: "CSV import" }].map((m) => (
               <button key={m.key} onClick={() => { setMode(m.key); setError(""); }}
-                className={`py-2 rounded-xl border text-[12px] font-semibold transition ${mode === m.key ? "border-[#25D366] bg-[#f0fdf4] dark:bg-[#052e1c] text-[#25D366]" : "border-[#E4E7EF] dark:border-[#262A38] text-[#4B5168] dark:text-[#9DA3BB] hover:border-[#25D366]/50"}`}>
+                className={`py-2 rounded-xl border text-[12px] font-semibold transition ${mode === m.key ? "border-[#25D366] bg-[#f0fdf4] dark:bg-[#052e1c] text-[#25D366]" : "border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:border-[#25D366]/50"}`}>
                 {m.label}
               </button>
             ))}
@@ -1222,14 +1222,14 @@ function WhatsAppBlastModal({ onClose, authHeaders }) {
           {/* Campaign mode */}
           {mode === "campaign" && (
             <div>
-              <label className="block text-[12px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] mb-1.5">Target campaign</label>
+              <label className="block text-[12px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">Target campaign</label>
               <div className="flex gap-2">
                 <select value={campaign} onChange={(e) => { setCampaign(e.target.value); setLeadCount(null); }} className={FIELD_CLS + " flex-1"}>
                   <option value="">— Select a campaign —</option>
                   {[...new Set(campaigns.map((c) => c).filter(Boolean))].map((n) => <option key={n} value={n}>{n}</option>)}
                 </select>
                 <button onClick={handlePreview} disabled={!campaign || previewing}
-                  className="px-4 py-2.5 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] text-[12px] font-semibold text-[#25D366] hover:border-[#25D366] disabled:opacity-40 transition shrink-0">
+                  className="px-4 py-2.5 rounded-xl border border-slate-200 dark:border-white/10 text-[12px] font-semibold text-[#25D366] hover:border-[#25D366] disabled:opacity-40 transition shrink-0">
                   {previewing ? "…" : "Preview"}
                 </button>
               </div>
@@ -1237,7 +1237,7 @@ function WhatsAppBlastModal({ onClose, authHeaders }) {
                 <div className="mt-2 flex items-center gap-1.5 text-[12px]">
                   <span className="w-2 h-2 rounded-full bg-[#25D366]" />
                   <span className="text-[#25D366] font-semibold">{leadCount} leads</span>
-                  <span className="text-[#8B92A9]">with mobile numbers will receive this</span>
+                  <span className="text-slate-400">with mobile numbers will receive this</span>
                 </div>
               )}
             </div>
@@ -1247,13 +1247,13 @@ function WhatsAppBlastModal({ onClose, authHeaders }) {
           {mode === "single" && (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block text-[12px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] mb-1.5">Contact name <span className="text-[#8B92A9] font-normal">(optional)</span></label>
+                <label className="block text-[12px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">Contact name <span className="text-slate-400 font-normal">(optional)</span></label>
                 <input type="text" value={singleName} onChange={(e) => setSingleName(e.target.value)} placeholder="Rahul Sharma" className={FIELD_CLS} />
               </div>
               <div>
-                <label className="block text-[12px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] mb-1.5">WhatsApp number <span className="text-[#DC2626]">*</span></label>
+                <label className="block text-[12px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">WhatsApp number <span className="text-rose-600">*</span></label>
                 <input type="tel" value={singlePhone} onChange={(e) => setSinglePhone(e.target.value)} placeholder="919876543210 (with country code)" className={FIELD_CLS} />
-                <p className="text-[10px] text-[#8B92A9] mt-1">Include country code, no + sign</p>
+                <p className="text-[10px] text-slate-400 mt-1">Include country code, no + sign</p>
               </div>
             </div>
           )}
@@ -1267,24 +1267,24 @@ function WhatsAppBlastModal({ onClose, authHeaders }) {
                 <input type="file" accept=".csv" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (!f) return; const r = new FileReader(); r.onload = (ev) => { setCsvText(ev.target.result); setCsvParsed(null); setCsvError(""); }; r.readAsText(f); e.target.value = ""; }} />
               </label>
               <textarea value={csvText} onChange={(e) => { setCsvText(e.target.value); setCsvParsed(null); setCsvError(""); }} rows={4} className={FIELD_CLS + " font-mono text-[12px] resize-y"} placeholder={"name,phone\nRahul Sharma,919876543210"} />
-              <p className="text-[10px] text-[#8B92A9] mt-1 mb-2">Required column: <code className="bg-[#f0fdf4] dark:bg-[#052e1c] text-[#25D366] px-1 rounded">phone</code> or <code className="bg-[#f0fdf4] dark:bg-[#052e1c] text-[#25D366] px-1 rounded">mobile</code>. Optional: <code className="bg-[#f0fdf4] dark:bg-[#052e1c] text-[#25D366] px-1 rounded">name</code>. Include country code.</p>
+              <p className="text-[10px] text-slate-400 mt-1 mb-2">Required column: <code className="bg-[#f0fdf4] dark:bg-[#052e1c] text-[#25D366] px-1 rounded">phone</code> or <code className="bg-[#f0fdf4] dark:bg-[#052e1c] text-[#25D366] px-1 rounded">mobile</code>. Optional: <code className="bg-[#f0fdf4] dark:bg-[#052e1c] text-[#25D366] px-1 rounded">name</code>. Include country code.</p>
               <div className="flex items-center gap-2 mt-2">
-                <button onClick={parseCSV} className="px-4 py-2 rounded-xl bg-[#f0fdf4] dark:bg-[#052e1c] text-[#25D366] text-[12px] font-semibold hover:bg-[#dcfce7] transition border border-[#25D366]/30">Parse CSV</button>
+                <button onClick={parseCSV} className="px-4 py-2 rounded-xl bg-[#f0fdf4] dark:bg-[#052e1c] text-[#25D366] text-[12px] font-semibold hover:bg-emerald-100 transition border border-[#25D366]/30">Parse CSV</button>
                 {csvParsed && <span className="text-[12px] text-[#25D366] font-semibold inline-flex items-center gap-1"><Check className="w-3 h-3" /> {csvParsed.length} recipients found</span>}
               </div>
-              {csvError && <p className="text-[11px] text-[#DC2626] mt-1 flex items-center gap-1"><AlertTriangle className="w-3 h-3" /> {csvError}</p>}
+              {csvError && <p className="text-[11px] text-rose-600 mt-1 flex items-center gap-1"><AlertTriangle className="w-3 h-3" /> {csvError}</p>}
             </div>
           )}
 
 
           {/* ── Blast filter / targeting ─────────────────────────────────────────── */}
-<div className="bg-[#F8F9FC] dark:bg-[#13161E] rounded-xl p-4 mb-4 space-y-3">
-  <p className="text-[11px] font-bold text-[#4B5168] dark:text-[#9DA3BB] uppercase tracking-widest">
+<div className="bg-slate-50 dark:bg-white/[0.04] rounded-xl p-4 mb-4 space-y-3">
+  <p className="text-[11px] font-bold text-slate-600 dark:text-slate-300 uppercase tracking-widest">
     Target Audience
   </p>
   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
     <div>
-      <label className="text-[11px] font-semibold text-[#8B92A9] mb-1 block">Lead Status</label>
+      <label className="text-[11px] font-semibold text-slate-400 mb-1 block">Lead Status</label>
       <select value={blastFilter.status}
         onChange={(e) => setBlastFilter(f => ({ ...f, status: e.target.value }))}
         className={FIELD_CLS}>
@@ -1296,7 +1296,7 @@ function WhatsAppBlastModal({ onClose, authHeaders }) {
       </select>
     </div>
     <div>
-      <label className="text-[11px] font-semibold text-[#8B92A9] mb-1 block">Lead Source</label>
+      <label className="text-[11px] font-semibold text-slate-400 mb-1 block">Lead Source</label>
       <select value={blastFilter.source}
         onChange={(e) => setBlastFilter(f => ({ ...f, source: e.target.value }))}
         className={FIELD_CLS}>
@@ -1308,13 +1308,13 @@ function WhatsAppBlastModal({ onClose, authHeaders }) {
       </select>
     </div>
     <div>
-      <label className="text-[11px] font-semibold text-[#8B92A9] mb-1 block">Date From</label>
+      <label className="text-[11px] font-semibold text-slate-400 mb-1 block">Date From</label>
       <input type="date" value={blastFilter.dateFrom}
         onChange={(e) => setBlastFilter(f => ({ ...f, dateFrom: e.target.value }))}
         className={FIELD_CLS} />
     </div>
     <div>
-      <label className="text-[11px] font-semibold text-[#8B92A9] mb-1 block">Date To</label>
+      <label className="text-[11px] font-semibold text-slate-400 mb-1 block">Date To</label>
       <input type="date" value={blastFilter.dateTo}
         onChange={(e) => setBlastFilter(f => ({ ...f, dateTo: e.target.value }))}
         className={FIELD_CLS} />
@@ -1322,23 +1322,23 @@ function WhatsAppBlastModal({ onClose, authHeaders }) {
   </div>
 </div>
           {/* Template section */}
-          <div className="pt-1 border-t border-[#E4E7EF] dark:border-[#262A38]">
+          <div className="pt-1 border-t border-slate-200 dark:border-white/10">
             
-            <p className="text-[11px] font-bold text-[#8B92A9] uppercase tracking-widest mb-3">WhatsApp Template</p>
-            <div className="flex gap-2.5 bg-[#FFFBEB] dark:bg-[#1c1600] border border-[#FDE68A] dark:border-[#78350f] rounded-xl px-4 py-3 mb-4">
+            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-3">WhatsApp Template</p>
+            <div className="flex gap-2.5 bg-amber-50 dark:bg-amber-950 border border-amber-200 dark:border-amber-900 rounded-xl px-4 py-3 mb-4">
               <span className="shrink-0 mt-0.5 text-amber-500"><Lightbulb className="w-3.5 h-3.5" /></span>
-              <p className="text-[11px] text-[#92400E] dark:text-[#FCD34D] leading-relaxed">
+              <p className="text-[11px] text-amber-800 dark:text-amber-300 leading-relaxed">
                 WhatsApp requires a <strong>pre-approved template</strong> to send bulk messages. The template name must exactly match what is approved in your MSG91 / Meta dashboard.
               </p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block text-[12px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] mb-1.5">Template name <span className="text-[#DC2626]">*</span></label>
+                <label className="block text-[12px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">Template name <span className="text-rose-600">*</span></label>
                 <input type="text" value={templateName} onChange={(e) => setTemplateName(e.target.value)} placeholder="crm_followup_leads" className={FIELD_CLS} />
-                <p className="text-[10px] text-[#8B92A9] mt-1">Must match exactly — case-sensitive</p>
+                <p className="text-[10px] text-slate-400 mt-1">Must match exactly — case-sensitive</p>
               </div>
               <div>
-                <label className="block text-[12px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] mb-1.5">Template language</label>
+                <label className="block text-[12px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">Template language</label>
                 <select value={languageCode} onChange={(e) => setLanguageCode(e.target.value)} className={FIELD_CLS}>
                   <option value="en">English (en) — MSG91 default</option>
                   <option value="en_US">English (en_US)</option>
@@ -1358,13 +1358,13 @@ function WhatsAppBlastModal({ onClose, authHeaders }) {
           </div>
 
           {error && (
-            <div className="bg-[#FEF2F2] dark:bg-[#2D0A0A] border border-[#FECACA] dark:border-[#7F1D1D] rounded-xl px-4 py-3 text-[12px] text-[#DC2626] flex items-center gap-1"><AlertTriangle className="w-3.5 h-3.5 shrink-0" /> {error}</div>
+            <div className="bg-rose-50 dark:bg-rose-950 border border-rose-200 dark:border-rose-900 rounded-xl px-4 py-3 text-[12px] text-rose-600 flex items-center gap-1"><AlertTriangle className="w-3.5 h-3.5 shrink-0" /> {error}</div>
           )}
         </div>
 
         {/* Footer */}
-        <div className="px-6 pb-5 pt-3 border-t border-[#E4E7EF] dark:border-[#262A38] flex gap-3 shrink-0">
-          <button onClick={onClose} className="px-4 py-2.5 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] text-[13px] font-semibold text-[#4B5168] hover:bg-[#F8F9FC] dark:hover:bg-[#13161E] transition">
+        <div className="px-6 pb-5 pt-3 border-t border-slate-200 dark:border-white/10 flex gap-3 shrink-0">
+          <button onClick={onClose} className="px-4 py-2.5 rounded-xl border border-slate-200 dark:border-white/10 text-[13px] font-semibold text-slate-600 hover:bg-slate-50 dark:hover:bg-white/[0.06] transition">
             Cancel
           </button>
           <button onClick={handleSend} disabled={!isValid || loading}
@@ -1695,17 +1695,17 @@ function WhatsAppPanel({ currentUser }) {
   const session = sessionBanner(selected);
 
   return (
-    <div className="flex h-full overflow-hidden rounded-2xl border border-[#E4E7EF] dark:border-[#262A38]">
+    <div className="flex h-full overflow-hidden rounded-2xl border border-slate-200 dark:border-white/10">
       {/* Sidebar — full width on mobile when no convo selected, hidden when convo open */}
-      <div className={`w-full sm:w-[300px] shrink-0 flex flex-col border-r border-[#E4E7EF] dark:border-[#262A38] bg-[#FAFBFE] dark:bg-[#13161E] ${selected ? 'hidden sm:flex' : 'flex'}`}>
-        <div className="p-3 border-b border-[#E4E7EF] dark:border-[#262A38]">
+      <div className={`w-full sm:w-[300px] shrink-0 flex flex-col border-r border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.04] ${selected ? 'hidden sm:flex' : 'flex'}`}>
+        <div className="p-3 border-b border-slate-200 dark:border-white/10">
           <div className="relative mb-2">
-            <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#8B92A9]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg>
-            <input type="text" placeholder="Search by name or number..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-8 pr-3 py-2 w-full rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-white dark:bg-[#1A1D27] text-[12px] text-[#0F1117] dark:text-[#F0F2FA] placeholder:text-[#8B92A9] focus:outline-none focus:border-[#25D366] transition" />
+            <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg>
+            <input type="text" placeholder="Search by name or number..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-8 pr-3 py-2 w-full rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#181029] text-[12px] text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-[#25D366] transition" />
           </div>
           <div className="flex gap-1">
             {["all","open","waiting","closed"].map((f) => (
-              <button key={f} onClick={() => setFilter(f)} className={`flex-1 text-[10px] py-1 rounded-lg font-semibold capitalize transition ${filter === f ? "bg-[#25D366] text-white" : "bg-white dark:bg-[#1A1D27] border border-[#E4E7EF] dark:border-[#262A38] text-[#8B92A9] hover:text-[#4B5168]"}`}>{f}</button>
+              <button key={f} onClick={() => setFilter(f)} className={`flex-1 text-[10px] py-1 rounded-lg font-semibold capitalize transition ${filter === f ? "bg-[#25D366] text-white" : "bg-white dark:bg-[#181029] border border-slate-200 dark:border-white/10 text-slate-400 hover:text-slate-600"}`}>{f}</button>
             ))}
           </div>
           {isAdmin && (
@@ -1720,10 +1720,10 @@ function WhatsAppPanel({ currentUser }) {
         </div>
 
         {/* Sub-tabs: Chats | Leads */}
-        <div className="flex border-b border-[#E4E7EF] dark:border-[#262A38]">
+        <div className="flex border-b border-slate-200 dark:border-white/10">
           {[{key:"chats",label:"Chats"},{key:"leads",label:`Leads (${leads.length})`}].map(t => (
             <button key={t.key} onClick={() => { setSideTab(t.key); if(t.key==="leads" && leads.length===0) loadLeads(); }}
-              className={`flex-1 py-2 text-[11px] font-semibold transition border-b-2 ${sideTab===t.key ? "border-[#25D366] text-[#25D366]" : "border-transparent text-[#8B92A9] hover:text-[#4B5168] dark:hover:text-[#9DA3BB]"}`}>
+              className={`flex-1 py-2 text-[11px] font-semibold transition border-b-2 ${sideTab===t.key ? "border-[#25D366] text-[#25D366]" : "border-transparent text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"}`}>
               {t.label}
             </button>
           ))}
@@ -1733,8 +1733,8 @@ function WhatsAppPanel({ currentUser }) {
         {sideTab === "chats" && <div className="flex-1 overflow-y-auto">
           {filtered.length === 0 && (
             <div className="flex flex-col items-center justify-center py-10 gap-3">
-              <span className="text-[#8B92A9]"><MessageCircle className="w-8 h-8" strokeWidth={1.5} /></span>
-              <p className="text-[#8B92A9] text-[12px]">No conversations yet</p>
+              <span className="text-slate-400"><MessageCircle className="w-8 h-8" strokeWidth={1.5} /></span>
+              <p className="text-slate-400 text-[12px]">No conversations yet</p>
               <button onClick={() => setSideTab("leads")} className="text-[11px] text-[#25D366] hover:underline font-semibold">Go to Leads →</button>
             </div>
           )}
@@ -1744,19 +1744,19 @@ function WhatsAppPanel({ currentUser }) {
             // A zombie conversation: no messages and no session — created by a failed template send
             const isZombie  = isAdmin && !conv.lastMessage && !conv.sessionExpiresAt;
             return (
-              <div key={conv._id} onClick={() => selectConversation(conv)} className={`relative flex items-center gap-2.5 px-3 py-3 cursor-pointer border-b border-[#E4E7EF] dark:border-[#262A38] transition-colors group ${isActive ? "bg-[#f0fdf4] dark:bg-[#052e1c]" : "hover:bg-[#F8F9FC] dark:hover:bg-[#1A1D27]"}`}>
-                <div className="w-9 h-9 rounded-full bg-[#dcfce7] flex items-center justify-center font-semibold text-[13px] text-[#166534] shrink-0">
+              <div key={conv._id} onClick={() => selectConversation(conv)} className={`relative flex items-center gap-2.5 px-3 py-3 cursor-pointer border-b border-slate-200 dark:border-white/10 transition-colors group ${isActive ? "bg-[#f0fdf4] dark:bg-[#052e1c]" : "hover:bg-slate-50 dark:hover:bg-white/5"}`}>
+                <div className="w-9 h-9 rounded-full bg-emerald-100 flex items-center justify-center font-semibold text-[13px] text-emerald-700 shrink-0">
                   {getInitials(conv.contactName || conv.lead?.name || conv.waPhone)}
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex justify-between items-baseline">
-                    <span className={`text-[12px] truncate max-w-[120px] ${hasUnread ? "font-semibold text-[#0F1117] dark:text-[#F0F2FA]" : "font-medium text-[#4B5168] dark:text-[#9DA3BB]"}`}>
+                    <span className={`text-[12px] truncate max-w-[120px] ${hasUnread ? "font-semibold text-slate-900 dark:text-white" : "font-medium text-slate-600 dark:text-slate-300"}`}>
                       {conv.contactName || conv.lead?.name || `+${conv.waPhone}`}
                     </span>
-                    <span className="text-[10px] text-[#8B92A9] shrink-0">{timeAgo(conv.lastMessageAt)}</span>
+                    <span className="text-[10px] text-slate-400 shrink-0">{timeAgo(conv.lastMessageAt)}</span>
                   </div>
                   <div className="flex items-center justify-between mt-0.5">
-                    <span className={`text-[11px] truncate max-w-[130px] ${isZombie ? "text-[#DC2626]" : "text-[#8B92A9]"}`}>
+                    <span className={`text-[11px] truncate max-w-[130px] ${isZombie ? "text-rose-600" : "text-slate-400"}`}>
                       {isZombie ? <span className="inline-flex items-center gap-1"><AlertTriangle className="w-3 h-3" /> Template failed — tap to delete</span> : conv.lastMessage || "No messages yet"}
                     </span>
                     <div className="flex items-center gap-1.5 shrink-0">
@@ -1764,13 +1764,13 @@ function WhatsAppPanel({ currentUser }) {
                       {hasUnread && <span className="bg-[#25D366] text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full min-w-[16px] text-center">{conv.unreadCount}</span>}
                     </div>
                   </div>
-                  {isAdmin && conv.assignedAgent?.name && <div className="text-[10px] text-[#8B92A9] mt-0.5">{conv.assignedAgent.name}</div>}
+                  {isAdmin && conv.assignedAgent?.name && <div className="text-[10px] text-slate-400 mt-0.5">{conv.assignedAgent.name}</div>}
                 </div>
                 {/* Delete button — only visible on hover for zombie conversations */}
                 {isZombie && (
                   <button
                     onClick={(e) => { e.stopPropagation(); deleteConversation(conv._id); }}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 w-6 h-6 rounded-lg bg-[#FEF2F2] dark:bg-[#2D0A0A] flex items-center justify-center text-[#DC2626] hover:bg-[#fee2e2] transition"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 w-6 h-6 rounded-lg bg-rose-50 dark:bg-rose-950 flex items-center justify-center text-rose-600 hover:bg-rose-100 transition"
                     title="Delete this failed conversation"
                   >
                     <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
@@ -1783,26 +1783,31 @@ function WhatsAppPanel({ currentUser }) {
 
         {/* LEADS list */}
         {sideTab === "leads" && <div className="flex-1 overflow-y-auto">
-          <div className="p-2 border-b border-[#E4E7EF] dark:border-[#262A38]">
+          <div className="p-2 border-b border-slate-200 dark:border-white/10">
             <input type="text" placeholder="Search name or phone..." value={leadsSearch} onChange={e => setLeadsSearch(e.target.value)}
-              className="w-full px-3 py-1.5 rounded-lg border border-[#E4E7EF] dark:border-[#262A38] bg-white dark:bg-[#1A1D27] text-[12px] text-[#0F1117] dark:text-[#F0F2FA] placeholder:text-[#8B92A9] focus:outline-none focus:border-[#25D366] transition" />
+              className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-[#181029] text-[12px] text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-[#25D366] transition" />
           </div>
-          {leadsLoading && <div className="p-6 text-center text-[#8B92A9] text-[12px]">Loading leads...</div>}
+          {leadsLoading && <div className="p-6 text-center text-slate-400 text-[12px]">Loading leads...</div>}
           {!leadsLoading && leads.filter(l => !leadsSearch || l.name?.toLowerCase().includes(leadsSearch.toLowerCase()) || l.mobile?.includes(leadsSearch)).map(lead => {
             const hasConv = !!lead.existingConversationId;
             return (
-              <div key={lead._id} className="flex items-center gap-2.5 px-3 py-3 border-b border-[#E4E7EF] dark:border-[#262A38] hover:bg-[#F8F9FC] dark:hover:bg-[#1A1D27] transition">
-                <div className="w-9 h-9 rounded-full bg-[#dcfce7] flex items-center justify-center font-semibold text-[13px] text-[#166534] shrink-0">
+              <div key={lead._id} className="flex items-center gap-2.5 px-3 py-3 border-b border-slate-200 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-white/5 transition">
+                <div className="w-9 h-9 rounded-full bg-emerald-100 flex items-center justify-center font-semibold text-[13px] text-emerald-700 shrink-0">
                   {getInitials(lead.name)}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="text-[12px] font-medium text-[#0F1117] dark:text-[#F0F2FA] truncate">{lead.name}</div>
-                  <div className="text-[11px] text-[#8B92A9] font-mono">{maskPhone(lead.mobile, isSuperAdmin)}</div>
-                  <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded" style={{background: lead.status==="Converted"?"#dcfce7":lead.status==="In Progress"?"#fef9c3":lead.status==="Not Interested"?"#fee2e2":"#dbeafe", color: lead.status==="Converted"?"#166534":lead.status==="In Progress"?"#854d0e":lead.status==="Not Interested"?"#991b1b":"#1e40af"}}>{lead.status}</span>
+                  <div className="text-[12px] font-medium text-slate-900 dark:text-white truncate">{lead.name}</div>
+                  <div className="text-[11px] text-slate-400 font-mono">{maskPhone(lead.mobile, isSuperAdmin)}</div>
+                  <Pill
+                    tone={lead.status==="Converted"?"emerald":lead.status==="In Progress"?"amber":lead.status==="Not Interested"?"rose":"cyan"}
+                    className="!text-[10px] !py-0 mt-0.5"
+                  >
+                    {lead.status}
+                  </Pill>
                 </div>
                 {hasConv ? (
                   <button onClick={() => { const c = conversations.find(c=>c._id===lead.existingConversationId); if(c){selectConversation(c);setSideTab("chats");}else{loadConversations().then(()=>setSideTab("chats"));} }}
-                    title="Open existing chat" className="w-8 h-8 rounded-full bg-[#dcfce7] border border-[#bbf7d0] flex items-center justify-center text-[#166534] hover:bg-[#bbf7d0] transition shrink-0">
+                    title="Open existing chat" className="w-8 h-8 rounded-full bg-emerald-100 border border-emerald-200 flex items-center justify-center text-emerald-700 hover:bg-emerald-200 transition shrink-0">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
                   </button>
                 ) : (
@@ -1814,27 +1819,27 @@ function WhatsAppPanel({ currentUser }) {
               </div>
             );
           })}
-          {!leadsLoading && leads.length === 0 && <div className="p-6 text-center text-[#8B92A9] text-[12px]">No leads found</div>}
+          {!leadsLoading && leads.length === 0 && <div className="p-6 text-center text-slate-400 text-[12px]">No leads found</div>}
         </div>}
       </div>
 
       {/* Start conversation modal */}
       {startModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" onClick={()=>setStartModal(null)}>
-          <div className="bg-white dark:bg-[#1A1D27] rounded-2xl p-6 w-full max-w-[360px] mx-4 shadow-2xl" onClick={e=>e.stopPropagation()}>
-            <h3 className="text-[15px] font-semibold text-[#0F1117] dark:text-[#F0F2FA] mb-1">Start WhatsApp Chat</h3>
-            <p className="text-[12px] text-[#8B92A9] mb-4 font-mono">{startModal.name} · {maskPhone(startModal.mobile, isSuperAdmin)}</p>
-            <label className="block text-[11px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] mb-1">Template Name <span className="text-[#DC2626]">*</span></label>
-            <input value={tmplName} onChange={e=>setTmplName(e.target.value)} placeholder="crm_followup_leads" className="w-full px-3 py-2 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E] text-[13px] text-[#0F1117] dark:text-[#F0F2FA] focus:outline-none focus:border-[#25D366] mb-1 transition" />
-            <p className="text-[10px] text-[#8B92A9] mb-3">Must match exactly the approved template name in MSG91</p>
-            <label className="block text-[11px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] mb-1">Language</label>
-            <select value={tmplLang} onChange={e=>setTmplLang(e.target.value)} className="w-full px-3 py-2 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E] text-[13px] text-[#0F1117] dark:text-[#F0F2FA] focus:outline-none focus:border-[#25D366] mb-3 transition">
+          <div className="bg-white dark:bg-[#181029] rounded-2xl p-6 w-full max-w-[360px] mx-4 shadow-2xl" onClick={e=>e.stopPropagation()}>
+            <h3 className="text-[15px] font-semibold text-slate-900 dark:text-white mb-1">Start WhatsApp Chat</h3>
+            <p className="text-[12px] text-slate-400 mb-4 font-mono">{startModal.name} · {maskPhone(startModal.mobile, isSuperAdmin)}</p>
+            <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1">Template Name <span className="text-rose-600">*</span></label>
+            <input value={tmplName} onChange={e=>setTmplName(e.target.value)} placeholder="crm_followup_leads" className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.04] text-[13px] text-slate-900 dark:text-white focus:outline-none focus:border-[#25D366] mb-1 transition" />
+            <p className="text-[10px] text-slate-400 mb-3">Must match exactly the approved template name in MSG91</p>
+            <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1">Language</label>
+            <select value={tmplLang} onChange={e=>setTmplLang(e.target.value)} className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.04] text-[13px] text-slate-900 dark:text-white focus:outline-none focus:border-[#25D366] mb-3 transition">
               <option value="en">English (en) — MSG91 default</option>
               <option value="en_US">English (en_US)</option>
             </select>
-            {startErr && <p className="text-[11px] text-[#DC2626] mb-3">{startErr}</p>}
+            {startErr && <p className="text-[11px] text-rose-600 mb-3">{startErr}</p>}
             <div className="flex gap-2 mt-2">
-              <button onClick={()=>setStartModal(null)} className="flex-1 py-2 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] text-[12px] text-[#8B92A9] hover:bg-[#F8F9FC] dark:hover:bg-[#13161E] transition">Cancel</button>
+              <button onClick={()=>setStartModal(null)} className="flex-1 py-2 rounded-xl border border-slate-200 dark:border-white/10 text-[12px] text-slate-400 hover:bg-slate-50 dark:hover:bg-white/[0.06] transition">Cancel</button>
               <button disabled={starting||!tmplName.trim()} onClick={async()=>{
                 setStarting(true); setStartErr("");
                 try {
@@ -1856,38 +1861,38 @@ function WhatsAppPanel({ currentUser }) {
 
       {/* Chat window */}
       {!selected ? (
-        <div className="hidden sm:flex flex-1 flex-col items-center justify-center text-[#8B92A9] bg-white dark:bg-[#1A1D27]">
+        <div className="hidden sm:flex flex-1 flex-col items-center justify-center text-slate-400 bg-white dark:bg-[#181029]">
           <div className="w-14 h-14 rounded-full bg-[#f0fdf4] dark:bg-[#052e1c] flex items-center justify-center mb-4">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="#25D366">
               <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
               <path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.121 1.531 5.845L.057 23.286a.5.5 0 0 0 .64.64l5.431-1.47A11.952 11.952 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.849 0-3.576-.498-5.066-1.367l-.363-.214-3.765 1.018 1.022-3.734-.234-.376A9.967 9.967 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
             </svg>
           </div>
-          <p className="text-[15px] font-semibold text-[#4B5168] dark:text-[#9DA3BB]">Select a conversation</p>
+          <p className="text-[15px] font-semibold text-slate-600 dark:text-slate-300">Select a conversation</p>
           <p className="text-[12px] mt-1">Choose a chat from the list to view messages</p>
         </div>
       ) : (
-        <div className="flex-1 flex flex-col min-w-0 bg-white dark:bg-[#1A1D27]">
+        <div className="flex-1 flex flex-col min-w-0 bg-white dark:bg-[#181029]">
           {/* Header */}
-          <div className="px-4 py-3 border-b border-[#E4E7EF] dark:border-[#262A38] flex items-center gap-3">
+          <div className="px-4 py-3 border-b border-slate-200 dark:border-white/10 flex items-center gap-3">
             {/* Mobile back button */}
             <button
               onClick={() => setSelected(null)}
-              className="sm:hidden w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-[#262A38] text-[#8B92A9] shrink-0 transition"
+              className="sm:hidden w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-slate-400 shrink-0 transition"
               title="Back to conversations"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7"/>
               </svg>
             </button>
-            <div className="w-9 h-9 rounded-full bg-[#dcfce7] flex items-center justify-center font-semibold text-[13px] text-[#166534] shrink-0">
+            <div className="w-9 h-9 rounded-full bg-emerald-100 flex items-center justify-center font-semibold text-[13px] text-emerald-700 shrink-0">
               {getInitials(selected.contactName || selected.lead?.name || selected.waPhone)}
             </div>
             <div className="flex-1">
-              <div className="font-semibold text-[14px] text-[#0F1117] dark:text-[#F0F2FA]">
+              <div className="font-semibold text-[14px] text-slate-900 dark:text-white">
                 {selected.contactName || selected.lead?.name || `+${selected.waPhone}`}
               </div>
-              <div className="text-[11px] text-[#8B92A9] font-mono">
+              <div className="text-[11px] text-slate-400 font-mono">
                 {isSuperAdmin ? `+${selected.waPhone}` : maskPhone(selected.waPhone, false)}
                 {selected.lead?.status ? ` · ${selected.lead.status}` : ""}
                 {isAdmin && selected.assignedAgent?.name ? ` · Employee: ${selected.assignedAgent.name}` : ""}
@@ -1897,30 +1902,30 @@ function WhatsAppPanel({ currentUser }) {
               onClick={refreshSelected}
               disabled={refreshing}
               title="Refresh this chat"
-              className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-[#262A38] text-[#8B92A9] shrink-0 transition disabled:opacity-50"
+              className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-slate-400 shrink-0 transition disabled:opacity-50"
             >
               <RefreshCw className={`w-4 h-4 ${refreshing ? "animate-spin" : ""}`} />
             </button>
           </div>
 
           {session && (
-            <div className={`px-4 py-2 text-[11px] border-b border-[#E4E7EF] dark:border-[#262A38] ${session.expired ? "bg-[#FEF2F2] text-[#DC2626]" : "bg-[#FFFBEB] text-[#D97706]"}`}>
+            <div className={`px-4 py-2 text-[11px] border-b border-slate-200 dark:border-white/10 ${session.expired ? "bg-rose-50 text-rose-600" : "bg-amber-50 text-amber-600"}`}>
               <span className="inline-flex items-center gap-1"><AlertTriangle className="w-3.5 h-3.5" /> {session.text}</span>
             </div>
           )}
 
           {/* Messages */}
           <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-2" style={{ background: "linear-gradient(to bottom, #f0fdf4 0%, #fafffe 100%)" }}>
-            {loading && <div className="text-center text-[#8B92A9] text-[13px] py-8">Loading messages…</div>}
+            {loading && <div className="text-center text-slate-400 text-[13px] py-8">Loading messages…</div>}
             {messages.map((msg) => {
               const isOut = msg.direction === "outbound";
               return (
                 <div key={msg._id} className={`flex ${isOut ? "justify-end" : "justify-start"}`}>
-                  <div className={`max-w-[68%] px-3 py-2 rounded-2xl shadow-sm border ${isOut ? "bg-[#dcfce7] border-[#bbf7d0] rounded-br-sm" : "bg-white border-[#e5e7eb] rounded-bl-sm"}`}>
+                  <div className={`max-w-[68%] px-3 py-2 rounded-2xl shadow-sm border ${isOut ? "bg-emerald-100 border-emerald-200 rounded-br-sm" : "bg-white border-slate-200 rounded-bl-sm"}`}>
                     {isAdmin && isOut && msg.sentBy && (
-                      <div className="text-[9px] text-[#166534] font-semibold mb-0.5">{msg.sentBy.name}</div>
+                      <div className="text-[9px] text-emerald-700 font-semibold mb-0.5">{msg.sentBy.name}</div>
                     )}
-                    <div className="text-[13px] text-[#111827] leading-[1.5] whitespace-pre-wrap break-words">
+                    <div className="text-[13px] text-slate-900 leading-[1.5] whitespace-pre-wrap break-words">
                       {msg.messageType === "image" && <ImageIcon className="w-3.5 h-3.5 inline mr-1" />}
                       {msg.messageType === "document" && <FileText className="w-3.5 h-3.5 inline mr-1" />}
                       {msg.messageType === "audio" && <Music className="w-3.5 h-3.5 inline mr-1" />}
@@ -1932,13 +1937,13 @@ function WhatsAppPanel({ currentUser }) {
                     <div className="flex justify-end items-center gap-1 mt-1">
                       <span className="text-[10px] text-[#6b7280]">{formatTime(msg.waTimestamp)}</span>
                       {isOut && (
-                        <span className={`text-[10px] ${msg.status === "read" ? "text-[#2563eb]" : msg.status === "failed" ? "text-[#dc2626]" : "text-[#9ca3af]"}`}>
+                        <span className={`text-[10px] ${msg.status === "read" ? "text-launcher-600" : msg.status === "failed" ? "text-rose-600" : "text-[#9ca3af]"}`}>
                           {msg.status === "read" ? "✓✓" : msg.status === "delivered" ? "✓✓" : msg.status === "sent" ? "✓" : msg.status === "failed" ? "✗" : "⏳"}
                         </span>
                       )}
                     </div>
                     {isOut && msg.status === "failed" && (
-                      <div className="text-[10px] text-[#dc2626] mt-0.5 text-right" title={msg.failReason || ""}>
+                      <div className="text-[10px] text-rose-600 mt-0.5 text-right" title={msg.failReason || ""}>
                         Not delivered{msg.failReason ? " — tap for details" : ""}
                       </div>
                     )}
@@ -1950,7 +1955,7 @@ function WhatsAppPanel({ currentUser }) {
           </div>
 
           {error && (
-            <div className="px-4 py-2 bg-[#FEF2F2] text-[#DC2626] text-[11px] border-t border-[#FECACA] flex items-center justify-between">
+            <div className="px-4 py-2 bg-rose-50 text-rose-600 text-[11px] border-t border-rose-200 flex items-center justify-between">
               {error}
               <button onClick={() => setError("")} className="ml-2 text-inherit"><X className="w-3 h-3 inline" /></button>
             </div>
@@ -1958,8 +1963,8 @@ function WhatsAppPanel({ currentUser }) {
 
           {/* Input — show Re-engage button when session expired, normal input otherwise */}
           {session?.expired && selected.status !== "closed" ? (
-            <div className="px-4 py-3 border-t border-[#E4E7EF] dark:border-[#262A38] bg-white dark:bg-[#1A1D27]">
-              <p className="text-[11px] text-[#8B92A9] mb-2 text-center">24-hour session expired. Send a pre-approved template to re-open the conversation.</p>
+            <div className="px-4 py-3 border-t border-slate-200 dark:border-white/10 bg-white dark:bg-[#181029]">
+              <p className="text-[11px] text-slate-400 mb-2 text-center">24-hour session expired. Send a pre-approved template to re-open the conversation.</p>
               <ReEngageModal conversationId={selected._id} authHeaders={authHeaders} onSent={(msg) => {
                 setMessages((prev) => [...prev, msg]);
                 const newExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000);
@@ -1969,7 +1974,7 @@ function WhatsAppPanel({ currentUser }) {
               }} />
             </div>
           ) : (
-            <div className="px-4 py-3 border-t border-[#E4E7EF] dark:border-[#262A38] flex gap-2 items-end bg-white dark:bg-[#1A1D27]">
+            <div className="px-4 py-3 border-t border-slate-200 dark:border-white/10 flex gap-2 items-end bg-white dark:bg-[#181029]">
               <textarea
                 ref={inputRef}
                 value={text}
@@ -1978,9 +1983,9 @@ function WhatsAppPanel({ currentUser }) {
                 placeholder={selected.status === "closed" ? "Conversation is closed" : "Type a message… (Enter to send)"}
                 disabled={selected.status === "closed" || sending}
                 rows={1}
-                className="flex-1 resize-none text-[13px] px-3 py-2.5 rounded-2xl border border-[#E4E7EF] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E] text-[#0F1117] dark:text-[#F0F2FA] placeholder:text-[#8B92A9] focus:outline-none focus:border-[#25D366] transition leading-[1.5] max-h-[120px] overflow-y-auto"
+                className="flex-1 resize-none text-[13px] px-3 py-2.5 rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.04] text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-[#25D366] transition leading-[1.5] max-h-[120px] overflow-y-auto"
               />
-              <button onClick={sendMessage} disabled={!text.trim() || sending || selected.status === "closed"} className={`w-9 h-9 rounded-full flex items-center justify-center transition shrink-0 ${text.trim() && !sending ? "bg-[#25D366] hover:bg-[#1da851]" : "bg-[#E4E7EF] dark:bg-[#262A38]"}`}>
+              <button onClick={sendMessage} disabled={!text.trim() || sending || selected.status === "closed"} className={`w-9 h-9 rounded-full flex items-center justify-center transition shrink-0 ${text.trim() && !sending ? "bg-[#25D366] hover:bg-[#1da851]" : "bg-slate-200 dark:bg-white/10"}`}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill={text.trim() && !sending ? "white" : "#9ca3af"}>
                   <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
                 </svg>
@@ -2014,8 +2019,8 @@ function WhatsAppPanel({ currentUser }) {
 function StatusBadge({ status }) {
   const isSent = status === "sent";
   return (
-    <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold ${isSent ? "bg-[#ECFDF5] dark:bg-[#052E1C] text-[#059669] dark:text-[#34D399]" : "bg-[#FEF2F2] dark:bg-[#2D0A0A] text-[#DC2626] dark:text-[#F87171]"}`}>
-      <span className={`w-1.5 h-1.5 rounded-full ${isSent ? "bg-[#059669]" : "bg-[#DC2626]"}`} />
+    <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold ${isSent ? "bg-emerald-50 dark:bg-[#052E1C] text-emerald-600 dark:text-emerald-400" : "bg-rose-50 dark:bg-rose-950 text-rose-600 dark:text-rose-400"}`}>
+      <span className={`w-1.5 h-1.5 rounded-full ${isSent ? "bg-emerald-600" : "bg-rose-600"}`} />
       {isSent ? "Sent" : "Failed"}
     </span>
   );
@@ -2027,7 +2032,7 @@ function SkeletonRow() {
     <tr className="animate-pulse">
       {[1,2,3,4,5].map((i) => (
         <td key={i} className="px-4 py-3">
-          <div className="h-3.5 bg-[#E4E7EF] dark:bg-[#262A38] rounded-full" style={{ width: `${60 + i * 8}%` }} />
+          <div className="h-3.5 bg-slate-200 dark:bg-white/10 rounded-full" style={{ width: `${60 + i * 8}%` }} />
         </td>
       ))}
     </tr>
@@ -2048,26 +2053,26 @@ function LogDetailModal({ logId, onClose }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" onClick={onClose}>
-      <div className="w-full max-w-2xl bg-white dark:bg-[#1A1D27] rounded-2xl border border-[#E4E7EF] dark:border-[#262A38] overflow-hidden flex flex-col max-h-[90vh]" onClick={(e) => e.stopPropagation()}>
-        <div className="px-6 py-4 border-b border-[#E4E7EF] dark:border-[#262A38] flex items-center justify-between shrink-0">
+      <div className="w-full max-w-2xl bg-white dark:bg-[#181029] rounded-2xl border border-slate-200 dark:border-white/10 overflow-hidden flex flex-col max-h-[90vh]" onClick={(e) => e.stopPropagation()}>
+        <div className="px-6 py-4 border-b border-slate-200 dark:border-white/10 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-xl bg-[#F5F3FF] dark:bg-[#1E1040] flex items-center justify-center">
-              <svg className="w-4 h-4 text-[#7C3AED]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+            <div className="w-8 h-8 rounded-xl bg-violet-50 dark:bg-violet-950 flex items-center justify-center">
+              <svg className="w-4 h-4 text-violet-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
             </div>
-            <h2 className="text-[15px] font-bold text-[#0F1117] dark:text-[#F0F2FA]">Email Details</h2>
+            <h2 className="text-[15px] font-bold text-slate-900 dark:text-white">Email Details</h2>
           </div>
-          <button onClick={onClose} className="w-7 h-7 rounded-lg border border-[#E4E7EF] dark:border-[#262A38] flex items-center justify-center text-[#8B92A9] hover:text-[#0F1117] transition">
+          <button onClick={onClose} className="w-7 h-7 rounded-lg border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-400 hover:text-slate-900 transition">
             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
           </button>
         </div>
         <div className="overflow-y-auto px-6 py-5 space-y-4">
           {loading ? (
-            <div className="flex items-center justify-center py-12 text-[#8B92A9] gap-2">
+            <div className="flex items-center justify-center py-12 text-slate-400 gap-2">
               <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/></svg>
               Loading…
             </div>
           ) : !log ? (
-            <p className="text-center text-[#8B92A9] py-8">Could not load log details.</p>
+            <p className="text-center text-slate-400 py-8">Could not load log details.</p>
           ) : (
             <>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -2077,26 +2082,26 @@ function LogDetailModal({ logId, onClose }) {
                   { label: "Status", value: <StatusBadge status={log.status} /> },
                   { label: "Sent At", value: fmtDate(log.sentAt) },
                 ].map(({ label, value }) => (
-                  <div key={label} className="bg-[#F8F9FC] dark:bg-[#13161E] rounded-xl px-4 py-3">
-                    <p className="text-[10px] font-semibold text-[#8B92A9] uppercase tracking-wide mb-1">{label}</p>
-                    <div className="text-[13px] font-medium text-[#0F1117] dark:text-[#F0F2FA]">{value}</div>
+                  <div key={label} className="bg-slate-50 dark:bg-white/[0.04] rounded-xl px-4 py-3">
+                    <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wide mb-1">{label}</p>
+                    <div className="text-[13px] font-medium text-slate-900 dark:text-white">{value}</div>
                   </div>
                 ))}
               </div>
-              <div className="bg-[#F8F9FC] dark:bg-[#13161E] rounded-xl px-4 py-3">
-                <p className="text-[10px] font-semibold text-[#8B92A9] uppercase tracking-wide mb-1">Subject</p>
-                <p className="text-[13px] font-medium text-[#0F1117] dark:text-[#F0F2FA]">{log.subject}</p>
+              <div className="bg-slate-50 dark:bg-white/[0.04] rounded-xl px-4 py-3">
+                <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wide mb-1">Subject</p>
+                <p className="text-[13px] font-medium text-slate-900 dark:text-white">{log.subject}</p>
               </div>
               {log.errorMessage && (
-                <div className="bg-[#FEF2F2] dark:bg-[#2D0A0A] border border-[#FECACA] dark:border-[#7F1D1D] rounded-xl px-4 py-3">
-                  <p className="text-[10px] font-semibold text-[#DC2626] uppercase tracking-wide mb-1">Error</p>
-                  <p className="text-[12px] text-[#DC2626]">{log.errorMessage}</p>
+                <div className="bg-rose-50 dark:bg-rose-950 border border-rose-200 dark:border-rose-900 rounded-xl px-4 py-3">
+                  <p className="text-[10px] font-semibold text-rose-600 uppercase tracking-wide mb-1">Error</p>
+                  <p className="text-[12px] text-rose-600">{log.errorMessage}</p>
                 </div>
               )}
               {log.body && (
                 <div>
-                  <p className="text-[10px] font-semibold text-[#8B92A9] uppercase tracking-wide mb-2">Email Body</p>
-                  <div className="border border-[#E4E7EF] dark:border-[#262A38] rounded-xl p-4 bg-white dark:bg-[#0D0F14] text-[13px] text-[#0F1117] dark:text-[#F0F2FA] max-h-64 overflow-y-auto" dangerouslySetInnerHTML={{ __html: sanitizeHtml(log.body) }} />
+                  <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wide mb-2">Email Body</p>
+                  <div className="border border-slate-200 dark:border-white/10 rounded-xl p-4 bg-white dark:bg-[#181029] text-[13px] text-slate-900 dark:text-white max-h-64 overflow-y-auto" dangerouslySetInnerHTML={{ __html: sanitizeHtml(log.body) }} />
                 </div>
               )}
             </>
@@ -2195,30 +2200,30 @@ function EmailBlastModal({ onClose }) {
 
   if (result) return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40" onClick={onClose}>
-      <div className="w-full max-w-md bg-white dark:bg-[#1A1D27] rounded-2xl border border-[#E4E7EF] dark:border-[#262A38] p-8 text-center" onClick={(e) => e.stopPropagation()}>
-        <div className="w-14 h-14 rounded-full bg-[#ECFDF5] dark:bg-[#052E1C] flex items-center justify-center mx-auto mb-4">
-          <svg className="w-7 h-7 text-[#059669]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
+      <div className="w-full max-w-md bg-white dark:bg-[#181029] rounded-2xl border border-slate-200 dark:border-white/10 p-8 text-center" onClick={(e) => e.stopPropagation()}>
+        <div className="w-14 h-14 rounded-full bg-emerald-50 dark:bg-[#052E1C] flex items-center justify-center mx-auto mb-4">
+          <svg className="w-7 h-7 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
         </div>
-        <h2 className="text-[16px] font-bold text-[#0F1117] dark:text-[#F0F2FA] mb-2">
+        <h2 className="text-[16px] font-bold text-slate-900 dark:text-white mb-2">
           {result.queued ? "Campaign Queued!" : "Campaign Sent!"}
         </h2>
         {result.queued && (
-          <p className="text-[12px] text-[#8B92A9] mb-3">{result.message || "Emails are being sent in the background."}</p>
+          <p className="text-[12px] text-slate-400 mb-3">{result.message || "Emails are being sent in the background."}</p>
         )}
         <div className="grid grid-cols-3 gap-3 my-5">
           {[{ label: "Sent", value: result.sent ?? 1, color: "#059669" }, { label: "Failed", value: result.failed ?? 0, color: "#DC2626" }, { label: "Total", value: result.total ?? 1, color: "#2563EB" }].map((s) => (
-            <div key={s.label} className="bg-[#F8F9FC] dark:bg-[#13161E] rounded-xl p-3 text-center border border-[#E4E7EF] dark:border-[#262A38]">
+            <div key={s.label} className="bg-slate-50 dark:bg-white/[0.04] rounded-xl p-3 text-center border border-slate-200 dark:border-white/10">
               <div className="text-[22px] font-bold" style={{ color: s.color }}>{s.value}</div>
-              <div className="text-[10px] text-[#8B92A9] uppercase mt-0.5">{s.label}</div>
+              <div className="text-[10px] text-slate-400 uppercase mt-0.5">{s.label}</div>
             </div>
           ))}
         </div>
         {result.errors?.length > 0 && (
-          <div className="bg-[#FEF2F2] dark:bg-[#2D0A0A] rounded-xl px-4 py-3 text-left text-[11px] text-[#DC2626] mb-4 max-h-28 overflow-y-auto">
+          <div className="bg-rose-50 dark:bg-rose-950 rounded-xl px-4 py-3 text-left text-[11px] text-rose-600 mb-4 max-h-28 overflow-y-auto">
             {result.errors.slice(0, 5).map((e, i) => <div key={i}>{maskEmail(e.email)}: {e.error}</div>)}
           </div>
         )}
-        <button onClick={onClose} className="w-full py-2.5 rounded-xl bg-[#7C3AED] text-white text-[13px] font-semibold hover:bg-purple-700 transition">Done</button>
+        <button onClick={onClose} className="w-full py-2.5 rounded-xl bg-violet-600 text-white text-[13px] font-semibold hover:bg-purple-700 transition">Done</button>
       </div>
     </div>
   );
@@ -2228,18 +2233,18 @@ function EmailBlastModal({ onClose }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" onClick={onClose}>
-      <div className="w-full max-w-2xl bg-white dark:bg-[#1A1D27] rounded-2xl border border-[#E4E7EF] dark:border-[#262A38] overflow-hidden flex flex-col max-h-[94vh]" onClick={(e) => e.stopPropagation()}>
-        <div className="px-6 py-4 border-b border-[#E4E7EF] dark:border-[#262A38] flex items-center justify-between shrink-0">
+      <div className="w-full max-w-2xl bg-white dark:bg-[#181029] rounded-2xl border border-slate-200 dark:border-white/10 overflow-hidden flex flex-col max-h-[94vh]" onClick={(e) => e.stopPropagation()}>
+        <div className="px-6 py-4 border-b border-slate-200 dark:border-white/10 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-xl bg-[#F5F3FF] dark:bg-[#1E1040] flex items-center justify-center">
-              <svg className="w-4 h-4 text-[#7C3AED]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+            <div className="w-8 h-8 rounded-xl bg-violet-50 dark:bg-violet-950 flex items-center justify-center">
+              <svg className="w-4 h-4 text-violet-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
             </div>
             <div>
-              <h2 className="text-[15px] font-bold text-[#0F1117] dark:text-[#F0F2FA] leading-none">Send Email Blast</h2>
-              <p className="text-[11px] text-[#8B92A9] mt-0.5">Personalized bulk emails via Brevo</p>
+              <h2 className="text-[15px] font-bold text-slate-900 dark:text-white leading-none">Send Email Blast</h2>
+              <p className="text-[11px] text-slate-400 mt-0.5">Personalized bulk emails via Brevo</p>
             </div>
           </div>
-          <button onClick={onClose} className="w-7 h-7 rounded-lg border border-[#E4E7EF] dark:border-[#262A38] flex items-center justify-center text-[#8B92A9] hover:text-[#0F1117] transition">
+          <button onClick={onClose} className="w-7 h-7 rounded-lg border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-400 hover:text-slate-900 transition">
             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
           </button>
         </div>
@@ -2252,7 +2257,7 @@ function EmailBlastModal({ onClose }) {
               { key: "single", label: "Single lead" },
               { key: "csv", label: "CSV import" },
             ].map((m) => (
-              <button key={m.key} onClick={() => { setMode(m.key); setError(""); }} className={`py-2 rounded-xl border text-[12px] font-semibold transition ${mode === m.key ? "border-[#7C3AED] bg-[#F5F3FF] dark:bg-[#1E1040] text-[#7C3AED]" : "border-[#E4E7EF] dark:border-[#262A38] text-[#4B5168] dark:text-[#9DA3BB] hover:border-[#7C3AED]/50"}`}>{m.label}</button>
+              <button key={m.key} onClick={() => { setMode(m.key); setError(""); }} className={`py-2 rounded-xl border text-[12px] font-semibold transition ${mode === m.key ? "border-violet-600 bg-violet-50 dark:bg-violet-950 text-violet-600" : "border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:border-violet-600/50"}`}>{m.label}</button>
             ))}
           </div>
         </div>
@@ -2261,21 +2266,21 @@ function EmailBlastModal({ onClose }) {
           {/* Campaign mode */}
           {mode === "campaign" && (
             <div>
-              <label className="block text-[12px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] mb-1.5">Target campaign</label>
+              <label className="block text-[12px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">Target campaign</label>
               <div className="flex gap-2">
                 <select value={form.campaign} onChange={(e) => { setForm((p) => ({ ...p, campaign: e.target.value })); setLeadCount(null); }} className={FIELD_CLS + " flex-1"}>
                   <option value="">— Select a campaign —</option>
                   {[...new Set(campaigns.map((c) => c).filter(Boolean))].map((n) => <option key={n} value={n}>{n}</option>)}
                 </select>
-                <button onClick={handlePreview} disabled={!form.campaign || previewing} className="px-4 py-2.5 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] text-[12px] font-semibold text-[#7C3AED] hover:border-[#7C3AED] disabled:opacity-40 transition shrink-0">
+                <button onClick={handlePreview} disabled={!form.campaign || previewing} className="px-4 py-2.5 rounded-xl border border-slate-200 dark:border-white/10 text-[12px] font-semibold text-violet-600 hover:border-violet-600 disabled:opacity-40 transition shrink-0">
                   {previewing ? "…" : "Preview"}
                 </button>
               </div>
               {leadCount !== null && (
                 <div className="mt-2 flex items-center gap-1.5 text-[12px]">
-                  <span className="w-2 h-2 rounded-full bg-[#7C3AED]" />
-                  <span className="text-[#7C3AED] font-semibold">{leadCount} leads</span>
-                  <span className="text-[#8B92A9]">with email addresses will receive this</span>
+                  <span className="w-2 h-2 rounded-full bg-violet-600" />
+                  <span className="text-violet-600 font-semibold">{leadCount} leads</span>
+                  <span className="text-slate-400">with email addresses will receive this</span>
                 </div>
               )}
             </div>
@@ -2285,11 +2290,11 @@ function EmailBlastModal({ onClose }) {
           {mode === "single" && (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block text-[12px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] mb-1.5">Full name *</label>
+                <label className="block text-[12px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">Full name *</label>
                 <input type="text" value={singleLead.name} onChange={(e) => setSingleLead((p) => ({ ...p, name: e.target.value }))} placeholder="Rahul Sharma" className={FIELD_CLS} />
               </div>
               <div>
-                <label className="block text-[12px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] mb-1.5">Email address *</label>
+                <label className="block text-[12px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">Email address *</label>
                 <input type="email" value={singleLead.email} onChange={(e) => setSingleLead((p) => ({ ...p, email: e.target.value }))} placeholder="rahul@gmail.com" className={FIELD_CLS} />
               </div>
             </div>
@@ -2298,60 +2303,60 @@ function EmailBlastModal({ onClose }) {
           {/* CSV mode */}
           {mode === "csv" && (
             <div>
-              <label className="flex items-center justify-center gap-2 w-full px-4 py-3 mb-2 rounded-xl border-2 border-dashed border-[#7C3AED]/40 bg-[#F5F3FF] dark:bg-[#1E1040] text-[#7C3AED] text-[12px] font-semibold cursor-pointer hover:border-[#7C3AED] transition">
+              <label className="flex items-center justify-center gap-2 w-full px-4 py-3 mb-2 rounded-xl border-2 border-dashed border-violet-600/40 bg-violet-50 dark:bg-violet-950 text-violet-600 text-[12px] font-semibold cursor-pointer hover:border-violet-600 transition">
                 Upload CSV file
                 <input type="file" accept=".csv" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (!f) return; const r = new FileReader(); r.onload = (ev) => { setCsvText(ev.target.result); setCsvParsed(null); setCsvError(""); }; r.readAsText(f); e.target.value = ""; }} />
               </label>
               <textarea value={csvText} onChange={(e) => { setCsvText(e.target.value); setCsvParsed(null); setCsvError(""); }} rows={4} className={FIELD_CLS + " font-mono text-[12px] resize-y"} placeholder="name,email\nRahul,rahul@gmail.com" />
               <div className="flex items-center gap-2 mt-2">
-                <button onClick={parseCSV} className="px-4 py-2 rounded-xl bg-[#EEF3FF] dark:bg-[#1A2540] text-[#2563EB] text-[12px] font-semibold hover:bg-[#dce7ff] transition">Parse CSV</button>
-                {csvParsed && <span className="text-[12px] text-[#059669] font-semibold inline-flex items-center gap-1"><Check className="w-3 h-3" /> {csvParsed.length} recipients found</span>}
+                <button onClick={parseCSV} className="px-4 py-2 rounded-xl bg-sky-50 dark:bg-sky-900 text-launcher-600 text-[12px] font-semibold hover:bg-sky-100 transition">Parse CSV</button>
+                {csvParsed && <span className="text-[12px] text-emerald-600 font-semibold inline-flex items-center gap-1"><Check className="w-3 h-3" /> {csvParsed.length} recipients found</span>}
               </div>
-              {csvError && <p className="text-[11px] text-[#DC2626] mt-1 flex items-center gap-1"><AlertTriangle className="w-3 h-3" /> {csvError}</p>}
+              {csvError && <p className="text-[11px] text-rose-600 mt-1 flex items-center gap-1"><AlertTriangle className="w-3 h-3" /> {csvError}</p>}
             </div>
           )}
 
           {/* Email details */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="block text-[12px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] mb-1.5">Subject *</label>
+              <label className="block text-[12px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">Subject *</label>
               <input type="text" value={subject} onChange={(e) => setSubject(e.target.value)} placeholder="Special offer for {{name}}!" className={FIELD_CLS} />
             </div>
             <div>
-              <label className="block text-[12px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] mb-1.5">From name (optional)</label>
+              <label className="block text-[12px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">From name (optional)</label>
               <input type="text" value={fromName} onChange={(e) => setFromName(e.target.value)} placeholder="Launcherdesk CRM Team" className={FIELD_CLS} />
             </div>
           </div>
 
           {/* Merge tags */}
           <div>
-            <p className="text-[11px] font-bold text-[#8B92A9] uppercase tracking-widest mb-2">Merge tags — click to insert</p>
+            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-2">Merge tags — click to insert</p>
             <div className="flex flex-wrap gap-1.5">
               {MERGE_TAGS.map((tag) => (
-                <button key={tag} onClick={() => insertTag(tag)} className="px-2.5 py-1 rounded-lg bg-[#F5F3FF] dark:bg-[#1E1040] text-[#7C3AED] text-[11px] font-mono font-semibold hover:bg-[#ede9fe] transition">{tag}</button>
+                <button key={tag} onClick={() => insertTag(tag)} className="px-2.5 py-1 rounded-lg bg-violet-50 dark:bg-violet-950 text-violet-600 text-[11px] font-mono font-semibold hover:bg-violet-100 transition">{tag}</button>
               ))}
             </div>
           </div>
 
           {/* Body */}
           <div>
-            <label className="block text-[12px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] mb-1.5">Email body (HTML) *</label>
+            <label className="block text-[12px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">Email body (HTML) *</label>
             <textarea value={bodyTemplate} onChange={(e) => setBodyTemplate(e.target.value)} rows={8} className={FIELD_CLS + " font-mono text-[12px] resize-y"} />
           </div>
 
           {bodyTemplate && (
             <div>
-              <p className="text-[11px] font-bold text-[#8B92A9] uppercase tracking-widest mb-2">Preview (sample data)</p>
-              <div className="border border-[#E4E7EF] dark:border-[#262A38] rounded-xl p-4 bg-white dark:bg-[#0D0F14] text-[13px] text-[#0F1117] dark:text-[#F0F2FA] max-h-44 overflow-y-auto" dangerouslySetInnerHTML={{ __html: sanitizeHtml(bodyTemplate.replace(/{{name}}/g, "<strong>Rahul Sharma</strong>").replace(/{{campaign}}/g, form.campaign || "Summer Sale").replace(/{{mobile}}/g, "9876543210").replace(/{{email}}/g, "rahul@example.com")) }} />
+              <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-2">Preview (sample data)</p>
+              <div className="border border-slate-200 dark:border-white/10 rounded-xl p-4 bg-white dark:bg-[#181029] text-[13px] text-slate-900 dark:text-white max-h-44 overflow-y-auto" dangerouslySetInnerHTML={{ __html: sanitizeHtml(bodyTemplate.replace(/{{name}}/g, "<strong>Rahul Sharma</strong>").replace(/{{campaign}}/g, form.campaign || "Summer Sale").replace(/{{mobile}}/g, "9876543210").replace(/{{email}}/g, "rahul@example.com")) }} />
             </div>
           )}
 
-          {error && <div className="bg-[#FEF2F2] dark:bg-[#2D0A0A] border border-[#FECACA] dark:border-[#7F1D1D] rounded-xl px-4 py-3 text-[12px] text-[#DC2626] flex items-center gap-1"><AlertTriangle className="w-3.5 h-3.5 shrink-0" /> {error}</div>}
+          {error && <div className="bg-rose-50 dark:bg-rose-950 border border-rose-200 dark:border-rose-900 rounded-xl px-4 py-3 text-[12px] text-rose-600 flex items-center gap-1"><AlertTriangle className="w-3.5 h-3.5 shrink-0" /> {error}</div>}
         </div>
 
-        <div className="px-6 pb-5 pt-3 border-t border-[#E4E7EF] dark:border-[#262A38] flex gap-3 shrink-0">
-          <button onClick={onClose} className="px-4 py-2.5 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] text-[13px] font-semibold text-[#4B5168] hover:bg-[#F8F9FC] dark:hover:bg-[#13161E] transition">Cancel</button>
-          <button onClick={handleSend} disabled={!isValid || loading} className="flex-1 py-2.5 rounded-xl bg-[#7C3AED] text-white text-[13px] font-semibold hover:bg-purple-700 disabled:opacity-40 transition flex items-center justify-center gap-2">
+        <div className="px-6 pb-5 pt-3 border-t border-slate-200 dark:border-white/10 flex gap-3 shrink-0">
+          <button onClick={onClose} className="px-4 py-2.5 rounded-xl border border-slate-200 dark:border-white/10 text-[13px] font-semibold text-slate-600 hover:bg-slate-50 dark:hover:bg-white/[0.06] transition">Cancel</button>
+          <button onClick={handleSend} disabled={!isValid || loading} className="flex-1 py-2.5 rounded-xl bg-violet-600 text-white text-[13px] font-semibold hover:bg-purple-700 disabled:opacity-40 transition flex items-center justify-center gap-2">
             {loading ? (<><svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/></svg>Sending…</>) : (<>Send to {recipientLabel}</>)}
           </button>
         </div>
@@ -2440,19 +2445,19 @@ function EmailPanel() {
       {/* Toolbar */}
       <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center sm:justify-between gap-2 sm:gap-3 mb-4 shrink-0">
         <div>
-          <p className="text-[13px] text-[#8B92A9] dark:text-[#565C75]">
+          <p className="text-[13px] text-slate-400 dark:text-slate-500">
             {loading ? "Loading…" : `${pagination.total.toLocaleString()} total emails logged`}
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          <button onClick={() => fetchLogs(pagination.page)} className="w-9 h-9 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] flex items-center justify-center text-[#8B92A9] hover:text-[#2563EB] hover:border-[#2563EB] transition" title="Refresh">
+          <button onClick={() => fetchLogs(pagination.page)} className="w-9 h-9 rounded-xl border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-400 hover:text-launcher-600 hover:border-launcher-600 transition" title="Refresh">
             <svg className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
           </button>
-          <button onClick={handleExportCSV} disabled={exportLoading} className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#059669] text-white text-[13px] font-semibold hover:bg-green-700 disabled:opacity-50 transition">
+          <button onClick={handleExportCSV} disabled={exportLoading} className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 text-white text-[13px] font-semibold hover:bg-green-700 disabled:opacity-50 transition">
             {exportLoading ? <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/></svg> : <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>}
             Export CSV
           </button>
-          <button onClick={() => setShowBlast(true)} className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#7C3AED] text-white text-[13px] font-semibold hover:bg-purple-700 transition">
+          <button onClick={() => setShowBlast(true)} className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-violet-600 text-white text-[13px] font-semibold hover:bg-purple-700 transition">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
             Send Email
           </button>
@@ -2467,10 +2472,10 @@ function EmailPanel() {
           { label: "Failed", value: failedCount, color: "#DC2626" },
           { label: "All time", value: pagination.total, color: "#7C3AED" },
         ].map((s) => (
-          <div key={s.label} className="flex items-center gap-2 bg-white dark:bg-[#1A1D27] border border-[#E4E7EF] dark:border-[#262A38] rounded-xl px-3 py-2">
+          <div key={s.label} className="flex items-center gap-2 bg-white dark:bg-[#181029] border border-slate-200 dark:border-white/10 rounded-xl px-3 py-2">
             <span className="w-2 h-2 rounded-full shrink-0" style={{ background: s.color }} />
-            <span className="text-[13px] font-bold text-[#0F1117] dark:text-[#F0F2FA]">{s.value.toLocaleString()}</span>
-            <span className="text-[11px] text-[#8B92A9] dark:text-[#565C75]">{s.label}</span>
+            <span className="text-[13px] font-bold text-slate-900 dark:text-white">{s.value.toLocaleString()}</span>
+            <span className="text-[11px] text-slate-400 dark:text-slate-500">{s.label}</span>
           </div>
         ))}
       </div>
@@ -2478,61 +2483,61 @@ function EmailPanel() {
       {/* Filters */}
       <div className="flex flex-wrap items-center gap-2 mb-4 shrink-0">
         <div className="relative w-full sm:flex-1 sm:min-w-[180px] sm:max-w-xs">
-          <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#8B92A9]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg>
-          <input type="text" value={search} onChange={(e) => handleSearchChange(e.target.value)} placeholder="Search by recipient…" className="pl-8 pr-4 py-2 w-full rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-white dark:bg-[#1A1D27] text-[12px] text-[#0F1117] dark:text-[#F0F2FA] placeholder:text-[#8B92A9] focus:outline-none focus:border-[#2563EB] transition" />
-          {search && <button onClick={() => handleSearchChange("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8B92A9]"><svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>}
+          <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg>
+          <input type="text" value={search} onChange={(e) => handleSearchChange(e.target.value)} placeholder="Search by recipient…" className="pl-8 pr-4 py-2 w-full rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#181029] text-[12px] text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-launcher-600 transition" />
+          {search && <button onClick={() => handleSearchChange("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400"><svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>}
         </div>
         <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
-          <select value={campaignFilter} onChange={(e) => { setCampaignFilter(e.target.value); fetchLogs(1, search, e.target.value, sortOrder); }} className="flex-1 sm:flex-none px-3 py-2 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-white dark:bg-[#1A1D27] text-[12px] text-[#0F1117] dark:text-[#F0F2FA] focus:outline-none focus:border-[#2563EB] transition">
+          <select value={campaignFilter} onChange={(e) => { setCampaignFilter(e.target.value); fetchLogs(1, search, e.target.value, sortOrder); }} className="flex-1 sm:flex-none px-3 py-2 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#181029] text-[12px] text-slate-900 dark:text-white focus:outline-none focus:border-launcher-600 transition">
             <option value="">All Source</option>
             {campaigns.map((c) => <option key={c} value={c}>{c}</option>)}
           </select>
-          <input type="date" value={dateFrom} max={dateTo || undefined} onChange={(e) => { setDateFrom(e.target.value); fetchLogs(1, search, campaignFilter, sortOrder, e.target.value, dateTo); }} className="flex-1 sm:flex-none px-3 py-2 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-white dark:bg-[#1A1D27] text-[12px] text-[#0F1117] dark:text-[#F0F2FA] focus:outline-none focus:border-[#2563EB] transition sm:w-[140px]" title="From date" />
-          <span className="text-[12px] text-[#8B92A9] hidden sm:inline">to</span>
-          <input type="date" value={dateTo} min={dateFrom || undefined} onChange={(e) => { setDateTo(e.target.value); fetchLogs(1, search, campaignFilter, sortOrder, dateFrom, e.target.value); }} className="flex-1 sm:flex-none px-3 py-2 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-white dark:bg-[#1A1D27] text-[12px] text-[#0F1117] dark:text-[#F0F2FA] focus:outline-none focus:border-[#2563EB] transition sm:w-[140px]" title="To date" />
-          {(dateFrom || dateTo) && <button onClick={() => { setDateFrom(""); setDateTo(""); fetchLogs(1, search, campaignFilter, sortOrder, "", ""); }} className="px-3 py-2 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] text-[12px] text-[#8B92A9] hover:text-[#DC2626] hover:border-[#DC2626] transition"><span className="inline-flex items-center gap-1"><X className="w-3 h-3" /> Clear</span></button>}
-          <select value={sortOrder} onChange={(e) => { setSortOrder(e.target.value); fetchLogs(1, search, campaignFilter, e.target.value, dateFrom, dateTo); }} className="flex-1 sm:flex-none px-3 py-2 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-white dark:bg-[#1A1D27] text-[12px] text-[#0F1117] dark:text-[#F0F2FA] focus:outline-none focus:border-[#2563EB] transition">
+          <input type="date" value={dateFrom} max={dateTo || undefined} onChange={(e) => { setDateFrom(e.target.value); fetchLogs(1, search, campaignFilter, sortOrder, e.target.value, dateTo); }} className="flex-1 sm:flex-none px-3 py-2 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#181029] text-[12px] text-slate-900 dark:text-white focus:outline-none focus:border-launcher-600 transition sm:w-[140px]" title="From date" />
+          <span className="text-[12px] text-slate-400 hidden sm:inline">to</span>
+          <input type="date" value={dateTo} min={dateFrom || undefined} onChange={(e) => { setDateTo(e.target.value); fetchLogs(1, search, campaignFilter, sortOrder, dateFrom, e.target.value); }} className="flex-1 sm:flex-none px-3 py-2 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#181029] text-[12px] text-slate-900 dark:text-white focus:outline-none focus:border-launcher-600 transition sm:w-[140px]" title="To date" />
+          {(dateFrom || dateTo) && <button onClick={() => { setDateFrom(""); setDateTo(""); fetchLogs(1, search, campaignFilter, sortOrder, "", ""); }} className="px-3 py-2 rounded-xl border border-slate-200 dark:border-white/10 text-[12px] text-slate-400 hover:text-rose-600 hover:border-rose-600 transition"><span className="inline-flex items-center gap-1"><X className="w-3 h-3" /> Clear</span></button>}
+          <select value={sortOrder} onChange={(e) => { setSortOrder(e.target.value); fetchLogs(1, search, campaignFilter, e.target.value, dateFrom, dateTo); }} className="flex-1 sm:flex-none px-3 py-2 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#181029] text-[12px] text-slate-900 dark:text-white focus:outline-none focus:border-launcher-600 transition">
             <option value="desc">Newest first</option>
             <option value="asc">Oldest first</option>
           </select>
         </div>
       </div>
 
-      {error && <div className="bg-[#FEF2F2] dark:bg-[#2D0A0A] border border-[#FECACA] dark:border-[#7F1D1D] rounded-xl px-4 py-3 text-[12px] text-[#DC2626] mb-3 shrink-0 flex items-center gap-1"><AlertTriangle className="w-3.5 h-3.5 shrink-0" /> {error}</div>}
+      {error && <div className="bg-rose-50 dark:bg-rose-950 border border-rose-200 dark:border-rose-900 rounded-xl px-4 py-3 text-[12px] text-rose-600 mb-3 shrink-0 flex items-center gap-1"><AlertTriangle className="w-3.5 h-3.5 shrink-0" /> {error}</div>}
 
       {/* Table */}
-      <div className="flex-1 overflow-auto bg-white dark:bg-[#1A1D27] border border-[#E4E7EF] dark:border-[#262A38] rounded-2xl">
+      <div className="flex-1 overflow-auto bg-white dark:bg-[#181029] border border-slate-200 dark:border-white/10 rounded-2xl">
         <table className="w-full min-w-[500px]">
           <thead>
-            <tr className="border-b border-[#E4E7EF] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E]">
+            <tr className="border-b border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.04]">
               {["Recipient","Subject","Source","Status","Sent At",""].map((h, i) => (
-                <th key={h} className={`px-4 py-3 text-left text-[11px] font-bold text-[#8B92A9] uppercase tracking-wide whitespace-nowrap ${i === 2 ? "hidden sm:table-cell" : ""}`}>{h}</th>
+                <th key={h} className={`px-4 py-3 text-left text-[11px] font-bold text-slate-400 uppercase tracking-wide whitespace-nowrap ${i === 2 ? "hidden sm:table-cell" : ""}`}>{h}</th>
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-[#E4E7EF] dark:divide-[#262A38]">
+          <tbody className="divide-y divide-slate-200 dark:divide-white/10">
             {loading ? Array.from({ length: 6 }).map((_, i) => <SkeletonRow key={i} />) : logs.length === 0 ? (
               <tr><td colSpan={6} className="px-4 py-16 text-center">
-                <div className="mb-3 flex justify-center text-[#8B92A9]"><Inbox className="w-9 h-9" strokeWidth={1.5} /></div>
-                <p className="text-[14px] font-semibold text-[#4B5168] dark:text-[#9DA3BB]">No email logs found</p>
-                <p className="text-[12px] text-[#8B92A9] mt-1">{search || campaignFilter || dateFrom || dateTo ? "Try clearing your filters." : "Send emails to start tracking history."}</p>
+                <div className="mb-3 flex justify-center text-slate-400"><Inbox className="w-9 h-9" strokeWidth={1.5} /></div>
+                <p className="text-[14px] font-semibold text-slate-600 dark:text-slate-300">No email logs found</p>
+                <p className="text-[12px] text-slate-400 mt-1">{search || campaignFilter || dateFrom || dateTo ? "Try clearing your filters." : "Send emails to start tracking history."}</p>
               </td></tr>
             ) : logs.map((log) => (
-              <tr key={log._id} className="hover:bg-[#F8F9FC] dark:hover:bg-[#13161E] transition-colors cursor-pointer" onClick={() => setSelectedLogId(log._id)}>
+              <tr key={log._id} className="hover:bg-slate-50 dark:hover:bg-white/[0.06] transition-colors cursor-pointer" onClick={() => setSelectedLogId(log._id)}>
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-2">
-                    <div className="w-7 h-7 rounded-full bg-[#F5F3FF] dark:bg-[#1E1040] flex items-center justify-center text-[10px] font-bold text-[#7C3AED] shrink-0">{log.to?.charAt(0)?.toUpperCase() || "?"}</div>
-                    <span className="text-[12px] font-medium text-[#0F1117] dark:text-[#F0F2FA] max-w-[160px] truncate">{maskEmail(log.to)}</span>
+                    <div className="w-7 h-7 rounded-full bg-violet-50 dark:bg-violet-950 flex items-center justify-center text-[10px] font-bold text-violet-600 shrink-0">{log.to?.charAt(0)?.toUpperCase() || "?"}</div>
+                    <span className="text-[12px] font-medium text-slate-900 dark:text-white max-w-[160px] truncate">{maskEmail(log.to)}</span>
                   </div>
                 </td>
-                <td className="px-4 py-3"><span className="text-[12px] text-[#4B5168] dark:text-[#9DA3BB] max-w-[200px] truncate block">{log.subject}</span></td>
+                <td className="px-4 py-3"><span className="text-[12px] text-slate-600 dark:text-slate-300 max-w-[200px] truncate block">{log.subject}</span></td>
                 <td className="px-4 py-3 hidden sm:table-cell">
-                  {log.campaignId ? <span className="inline-block px-2.5 py-1 rounded-full bg-[#EEF3FF] dark:bg-[#1A2540] text-[#2563EB] dark:text-[#4F8EF7] text-[11px] font-semibold max-w-[140px] truncate">{log.campaignId}</span> : <span className="text-[12px] text-[#8B92A9]">—</span>}
+                  {log.campaignId ? <span className="inline-block px-2.5 py-1 rounded-full bg-sky-50 dark:bg-sky-900 text-launcher-600 dark:text-sky-500 text-[11px] font-semibold max-w-[140px] truncate">{log.campaignId}</span> : <span className="text-[12px] text-slate-400">—</span>}
                 </td>
                 <td className="px-4 py-3"><StatusBadge status={log.status} /></td>
-                <td className="px-4 py-3"><span className="text-[12px] text-[#8B92A9] whitespace-nowrap">{fmtDate(log.sentAt)}</span></td>
+                <td className="px-4 py-3"><span className="text-[12px] text-slate-400 whitespace-nowrap">{fmtDate(log.sentAt)}</span></td>
                 <td className="px-4 py-3" onClick={(e) => e.stopPropagation()}>
-                  {/* <button onClick={() => handleDelete(log._id)} disabled={deletingId === log._id} className="p-1.5 rounded-lg text-[#8B92A9] hover:text-[#DC2626] hover:bg-[#FEF2F2] dark:hover:bg-[#2D0A0A] transition disabled:opacity-40" title="Delete log">
+                  {/* <button onClick={() => handleDelete(log._id)} disabled={deletingId === log._id} className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950 transition disabled:opacity-40" title="Delete log">
                     {deletingId === log._id ? <svg className="w-3.5 h-3.5 animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/></svg> : <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>}
                   </button> */}
                 </td>
@@ -2543,17 +2548,17 @@ function EmailPanel() {
 
         {/* Pagination */}
         {pagination.totalPages > 1 && (
-          <div className="px-4 py-3 border-t border-[#E4E7EF] dark:border-[#262A38] flex items-center justify-between">
-            <span className="text-[12px] text-[#8B92A9]">Page {pagination.page} of {pagination.totalPages} · {pagination.total} total</span>
+          <div className="px-4 py-3 border-t border-slate-200 dark:border-white/10 flex items-center justify-between">
+            <span className="text-[12px] text-slate-400">Page {pagination.page} of {pagination.totalPages} · {pagination.total} total</span>
             <div className="flex items-center gap-1.5">
-              <button disabled={pagination.page <= 1} onClick={() => fetchLogs(pagination.page - 1)} className="px-3 py-1.5 rounded-lg border border-[#E4E7EF] dark:border-[#262A38] text-[12px] font-semibold text-[#4B5168] disabled:opacity-40 hover:border-[#2563EB] hover:text-[#2563EB] transition">← Prev</button>
+              <button disabled={pagination.page <= 1} onClick={() => fetchLogs(pagination.page - 1)} className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-white/10 text-[12px] font-semibold text-slate-600 disabled:opacity-40 hover:border-launcher-600 hover:text-launcher-600 transition">← Prev</button>
               {Array.from({ length: Math.min(5, pagination.totalPages) }, (_, i) => {
                 const start = Math.max(1, Math.min(pagination.page - 2, pagination.totalPages - 4));
                 const p = start + i;
                 if (p > pagination.totalPages) return null;
-                return <button key={p} onClick={() => fetchLogs(p)} className={`w-8 h-8 rounded-lg text-[12px] font-semibold transition ${p === pagination.page ? "bg-[#2563EB] text-white" : "border border-[#E4E7EF] dark:border-[#262A38] text-[#4B5168] hover:border-[#2563EB] hover:text-[#2563EB]"}`}>{p}</button>;
+                return <button key={p} onClick={() => fetchLogs(p)} className={`w-8 h-8 rounded-lg text-[12px] font-semibold transition ${p === pagination.page ? "bg-launcher-600 text-white" : "border border-slate-200 dark:border-white/10 text-slate-600 hover:border-launcher-600 hover:text-launcher-600"}`}>{p}</button>;
               })}
-              <button disabled={pagination.page >= pagination.totalPages} onClick={() => fetchLogs(pagination.page + 1)} className="px-3 py-1.5 rounded-lg border border-[#E4E7EF] dark:border-[#262A38] text-[12px] font-semibold text-[#4B5168] disabled:opacity-40 hover:border-[#2563EB] hover:text-[#2563EB] transition">Next →</button>
+              <button disabled={pagination.page >= pagination.totalPages} onClick={() => fetchLogs(pagination.page + 1)} className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-white/10 text-[12px] font-semibold text-slate-600 disabled:opacity-40 hover:border-launcher-600 hover:text-launcher-600 transition">Next →</button>
             </div>
           </div>
         )}
@@ -2581,7 +2586,7 @@ function SmsStatusTick({ status }) {
       </svg>
     );
   return (
-    <svg className="w-3.5 h-3.5 text-[#8B92A9] inline-block" viewBox="0 0 16 11" fill="currentColor">
+    <svg className="w-3.5 h-3.5 text-slate-400 inline-block" viewBox="0 0 16 11" fill="currentColor">
       <path d="M11.071.653a.75.75 0 0 1 .025 1.06l-6.5 7a.75.75 0 0 1-1.092-.013l-3-3.5a.75.75 0 1 1 1.14-.977l2.46 2.87 5.908-6.415a.75.75 0 0 1 1.059-.025z"/>
     </svg>
   );
@@ -2616,7 +2621,7 @@ function SmsBubble({ log }) {
           </div>
         </div>
         {log.status === "failed" && log.errorMessage && (
-          <p className="text-[10px] text-[#DC2626] mt-0.5 text-right">{log.errorMessage}</p>
+          <p className="text-[10px] text-rose-600 mt-0.5 text-right">{log.errorMessage}</p>
         )}
       </div>
     </div>
@@ -2634,8 +2639,8 @@ function SmsLeadRow({ lead, isActive, onClick }) {
   return (
     <button
       onClick={onClick}
-      className={`w-full flex items-center gap-3 px-4 py-3 hover:bg-[#F0F2FA] dark:hover:bg-[#1A1D27] transition-colors text-left border-b border-[#F0F2FA] dark:border-[#1E2130] ${
-        isActive ? "bg-[#F0F2FA] dark:bg-[#1A1D27]" : ""
+      className={`w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors text-left border-b border-slate-200 dark:border-white/10 ${
+        isActive ? "bg-slate-100 dark:bg-[#181029]" : ""
       }`}
     >
       <div className="relative shrink-0">
@@ -2654,7 +2659,7 @@ function SmsLeadRow({ lead, isActive, onClick }) {
             {lead.recipientName || maskPhone(lead.to)}
           </span>
           {lastTime && (
-            <span className={`text-[11px] shrink-0 ${failedCount > 0 ? "text-[#DC2626]" : "text-[#8B92A9] dark:text-[#565C75]"}`}>
+            <span className={`text-[11px] shrink-0 ${failedCount > 0 ? "text-rose-600" : "text-slate-400 dark:text-slate-500"}`}>
               {lastTime}
             </span>
           )}
@@ -2667,19 +2672,19 @@ function SmsLeadRow({ lead, isActive, onClick }) {
             }
           </p>
           {failedCount > 0 && (
-            <span className="shrink-0 min-w-[18px] h-[18px] px-1 rounded-full bg-[#DC2626] text-white text-[10px] font-bold flex items-center justify-center">
+            <span className="shrink-0 min-w-[18px] h-[18px] px-1 rounded-full bg-rose-600 text-white text-[10px] font-bold flex items-center justify-center">
               {failedCount}
             </span>
           )}
           {failedCount === 0 && sentCount > 0 && (
-            <span className="shrink-0 text-[10px] text-[#059669] font-semibold inline-flex items-center gap-1">{sentCount} <Check className="w-2.5 h-2.5" /></span>
+            <span className="shrink-0 text-[10px] text-emerald-600 font-semibold inline-flex items-center gap-1">{sentCount} <Check className="w-2.5 h-2.5" /></span>
           )}
           {!hasSms && (
-            <span className="shrink-0 text-[10px] text-[#8B92A9] italic">no SMS</span>
+            <span className="shrink-0 text-[10px] text-slate-400 italic">no SMS</span>
           )}
         </div>
         {lead.campaignId && (
-          <span className="inline-block mt-0.5 px-1.5 py-0.5 rounded-full bg-[#FFF7ED] dark:bg-[#1c0a00] text-[#EA580C] text-[9px] font-semibold truncate max-w-[140px]">
+          <span className="inline-block mt-0.5 px-1.5 py-0.5 rounded-full bg-orange-50 dark:bg-orange-950 text-orange-600 text-[9px] font-semibold truncate max-w-[140px]">
             {lead.campaignId}
           </span>
         )}
@@ -2814,7 +2819,7 @@ function SmsBlastComposer({ onSent }) {
     <div className="flex-1 flex flex-col bg-[#EFEAE2] dark:bg-[#0B141A] overflow-hidden">
       {/* Chat wallpaper header */}
       <div className="bg-[#075E54] dark:bg-[#202C33] px-4 py-3 flex items-center gap-3 shrink-0">
-        <div className="w-9 h-9 rounded-full bg-[#EA580C] flex items-center justify-center">
+        <div className="w-9 h-9 rounded-full bg-orange-600 flex items-center justify-center">
           <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
           </svg>
@@ -2830,8 +2835,8 @@ function SmsBlastComposer({ onSent }) {
 
         {/* DLT info banner — like a system message */}
         <div className="flex justify-center">
-          <div className="bg-[#FFF7C7] dark:bg-[#2A2519] rounded-lg px-4 py-2 max-w-sm text-center shadow-sm">
-            <p className="text-[11px] text-[#7B6914] dark:text-[#CDB648] leading-relaxed">
+          <div className="bg-amber-100 dark:bg-amber-950 rounded-lg px-4 py-2 max-w-sm text-center shadow-sm">
+            <p className="text-[11px] text-amber-700 dark:text-amber-400 leading-relaxed">
               <span className="inline-flex items-center gap-1"><ClipboardList className="w-3.5 h-3.5" /> MSG91 requires a <strong>DLT Template ID</strong> for Indian numbers.</span>
               Use <code className="bg-yellow-200 dark:bg-yellow-900 px-1 rounded">{"{{name}}"}</code> to personalise.
             </p>
@@ -2851,7 +2856,7 @@ function SmsBlastComposer({ onSent }) {
                 className={`flex-1 py-2 px-2 rounded-xl text-[11px] font-semibold border transition ${
                   mode === m.key
                     ? "bg-[#DCF8C6] dark:bg-[#005C4B] border-[#25D366] text-[#075E54] dark:text-[#E9EDEF]"
-                    : "border-[#E4E7EF] dark:border-[#2A3942] text-[#8B92A9] hover:border-[#25D366] hover:text-[#075E54]"
+                    : "border-slate-200 dark:border-[#2A3942] text-slate-400 hover:border-[#25D366] hover:text-[#075E54]"
                 }`}>
                 <span className="inline-flex items-center gap-1"><m.Icon className="w-3.5 h-3.5" />{m.label}</span>
               </button>
@@ -2864,15 +2869,15 @@ function SmsBlastComposer({ onSent }) {
           {mode === "campaign" && (
             <div>
               <label className="block text-[11px] font-semibold text-[#667781] dark:text-[#8696A0] mb-1.5">
-                Campaign <span className="text-[#DC2626]">*</span>
+                Campaign <span className="text-rose-600">*</span>
               </label>
               <select value={form.campaign} onChange={(e) => setForm((p) => ({ ...p, campaign: e.target.value }))} className={FIELD_CLS}>
                 <option value="">— Select campaign —</option>
                 {campaigns.map((c) => <option key={c} value={c}>{c}</option>)}
               </select>
               {leadCount !== null && (
-                <p className="text-[11px] text-[#8B92A9] mt-1">
-                  <span className="font-bold text-[#EA580C]">{leadCount}</span> leads with mobile numbers
+                <p className="text-[11px] text-slate-400 mt-1">
+                  <span className="font-bold text-orange-600">{leadCount}</span> leads with mobile numbers
                 </p>
               )}
             </div>
@@ -2885,7 +2890,7 @@ function SmsBlastComposer({ onSent }) {
                 <input type="text" value={singleLead.name} onChange={(e) => setSingleLead((p) => ({ ...p, name: e.target.value }))} placeholder="Rahul Sharma" className={FIELD_CLS} />
               </div>
               <div>
-                <label className="block text-[11px] font-semibold text-[#667781] dark:text-[#8696A0] mb-1.5">Mobile <span className="text-[#DC2626]">*</span></label>
+                <label className="block text-[11px] font-semibold text-[#667781] dark:text-[#8696A0] mb-1.5">Mobile <span className="text-rose-600">*</span></label>
                 <input type="tel" value={singleLead.mobile} onChange={(e) => setSingleLead((p) => ({ ...p, mobile: e.target.value }))} placeholder="919876543210" className={FIELD_CLS} />
               </div>
             </div>
@@ -2893,27 +2898,27 @@ function SmsBlastComposer({ onSent }) {
 
           {mode === "csv" && (
             <div>
-              <label className="block text-[11px] font-semibold text-[#667781] dark:text-[#8696A0] mb-1.5">Paste CSV (name, mobile) <span className="text-[#DC2626]">*</span></label>
+              <label className="block text-[11px] font-semibold text-[#667781] dark:text-[#8696A0] mb-1.5">Paste CSV (name, mobile) <span className="text-rose-600">*</span></label>
               <textarea value={csvText} onChange={(e) => { setCsvText(e.target.value); setCsvParsed(null); setCsvError(""); }} rows={4} className={FIELD_CLS + " font-mono text-[11px] resize-y"} />
               <div className="flex items-center gap-2 mt-1.5">
-                <button onClick={parseCsv} className="px-3 py-1.5 rounded-lg bg-[#F1F5F9] dark:bg-[#2A3942] text-[11px] font-semibold text-[#4B5168] hover:border-[#25D366] hover:text-[#075E54] border border-[#E4E7EF] dark:border-[#2A3942] transition">Parse CSV</button>
-                {csvParsed && <span className="text-[11px] text-[#059669] font-semibold inline-flex items-center gap-1"><Check className="w-3 h-3" /> {csvParsed.length} valid rows</span>}
-                {csvError  && <span className="text-[11px] text-[#DC2626] inline-flex items-center gap-1"><AlertTriangle className="w-3 h-3" /> {csvError}</span>}
+                <button onClick={parseCsv} className="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-[#2A3942] text-[11px] font-semibold text-slate-600 hover:border-[#25D366] hover:text-[#075E54] border border-slate-200 dark:border-[#2A3942] transition">Parse CSV</button>
+                {csvParsed && <span className="text-[11px] text-emerald-600 font-semibold inline-flex items-center gap-1"><Check className="w-3 h-3" /> {csvParsed.length} valid rows</span>}
+                {csvError  && <span className="text-[11px] text-rose-600 inline-flex items-center gap-1"><AlertTriangle className="w-3 h-3" /> {csvError}</span>}
               </div>
             </div>
           )}
 
           {/* MSG91 config */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-[#F1F5F9] dark:border-[#2A3942]">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-slate-100 dark:border-[#2A3942]">
             <div>
               <label className="block text-[11px] font-semibold text-[#667781] dark:text-[#8696A0] mb-1.5">DLT Template ID</label>
               <input type="text" value={templateId} onChange={(e) => setTemplateId(e.target.value)} placeholder="1234567890123456789" className={FIELD_CLS} />
-              <p className="text-[10px] text-[#8B92A9] mt-0.5">MSG91 → DLT dashboard</p>
+              <p className="text-[10px] text-slate-400 mt-0.5">MSG91 → DLT dashboard</p>
             </div>
             <div>
               <label className="block text-[11px] font-semibold text-[#667781] dark:text-[#8696A0] mb-1.5">Sender ID</label>
               <input type="text" maxLength={6} value={senderId} onChange={(e) => setSenderId(e.target.value.toUpperCase())} placeholder="SKYCRM" className={FIELD_CLS} />
-              <p className="text-[10px] text-[#8B92A9] mt-0.5">6-char DLT-approved</p>
+              <p className="text-[10px] text-slate-400 mt-0.5">6-char DLT-approved</p>
             </div>
           </div>
         </div>
@@ -2922,10 +2927,10 @@ function SmsBlastComposer({ onSent }) {
         <div className="bg-white dark:bg-[#202C33] rounded-2xl p-4 shadow-sm">
 
           {/* ── Launcherdesk_greetings quick-fill banner ── */}
-          <div className="mb-3 p-3 bg-[#FFF7ED] dark:bg-[#1c0a00] border border-[#FED7AA] dark:border-[#7c3a00] rounded-xl flex items-center justify-between gap-3">
+          <div className="mb-3 p-3 bg-orange-50 dark:bg-orange-950 border border-orange-200 dark:border-amber-900 rounded-xl flex items-center justify-between gap-3">
             <div className="min-w-0">
-              <p className="text-[11px] font-bold text-[#EA580C] mb-0.5 flex items-center gap-1"><ClipboardList className="w-3 h-3" /> Approved Template</p>
-              <p className="text-[10px] text-[#9A3412] dark:text-[#FED7AA] font-mono truncate">
+              <p className="text-[11px] font-bold text-orange-600 mb-0.5 flex items-center gap-1"><ClipboardList className="w-3 h-3" /> Approved Template</p>
+              <p className="text-[10px] text-orange-800 dark:text-orange-200 font-mono truncate">
                 Sender: <strong>695382</strong> · DLT: <strong>1007503933418344595</strong>
               </p>
             </div>
@@ -2936,7 +2941,7 @@ function SmsBlastComposer({ onSent }) {
                 setSenderId(LAUNCHERDESK_GREETINGS_SENDER_ID);
                 setMessage(LAUNCHERDESK_GREETINGS_MESSAGE);
               }}
-              className="shrink-0 px-3 py-1.5 rounded-lg bg-[#EA580C] text-white text-[11px] font-bold hover:bg-orange-700 transition whitespace-nowrap"
+              className="shrink-0 px-3 py-1.5 rounded-lg bg-orange-600 text-white text-[11px] font-bold hover:bg-orange-700 transition whitespace-nowrap"
             >
               Use Launcherdesk_greetings
             </button>
@@ -2944,7 +2949,7 @@ function SmsBlastComposer({ onSent }) {
 
           <div className="flex items-center justify-between mb-2">
             <label className="text-[11px] font-semibold text-[#667781] dark:text-[#8696A0] uppercase tracking-wide">
-              Message <span className="text-[#DC2626]">*</span>
+              Message <span className="text-rose-600">*</span>
             </label>
             <div className="flex items-center gap-1 flex-wrap justify-end">
               {MERGE_TAGS.map((tag) => (
@@ -2963,11 +2968,11 @@ function SmsBlastComposer({ onSent }) {
             placeholder={`Hi {{name}}, this is a message from Launcherdesk CRM.`}
           />
           <div className="flex items-center justify-between mt-1.5">
-            <p className="text-[10px] text-[#8B92A9]">
-              <span className={charCount > 160 ? "text-[#EA580C] font-bold" : ""}>{charCount}</span> chars ·{" "}
-              <span className={smsCount > 1 ? "text-[#EA580C] font-bold" : ""}>{smsCount} SMS</span>/recipient
+            <p className="text-[10px] text-slate-400">
+              <span className={charCount > 160 ? "text-orange-600 font-bold" : ""}>{charCount}</span> chars ·{" "}
+              <span className={smsCount > 1 ? "text-orange-600 font-bold" : ""}>{smsCount} SMS</span>/recipient
             </p>
-            <p className="text-[10px] text-[#8B92A9]">→ <strong className="text-[#EA580C]">{recipientLabel}</strong></p>
+            <p className="text-[10px] text-slate-400">→ <strong className="text-orange-600">{recipientLabel}</strong></p>
           </div>
         </div>
 
@@ -2991,12 +2996,12 @@ function SmsBlastComposer({ onSent }) {
         )}
 
         {error && (
-          <div className="bg-[#FEF2F2] dark:bg-[#2D0A0A] border border-[#FECACA] dark:border-[#7F1D1D] rounded-xl px-4 py-3 text-[12px] text-[#DC2626] flex items-center gap-1"><AlertTriangle className="w-3.5 h-3.5 shrink-0" /> {error}</div>
+          <div className="bg-rose-50 dark:bg-rose-950 border border-rose-200 dark:border-rose-900 rounded-xl px-4 py-3 text-[12px] text-rose-600 flex items-center gap-1"><AlertTriangle className="w-3.5 h-3.5 shrink-0" /> {error}</div>
         )}
       </div>
 
       {/* Send bar — mimics WhatsApp input bar */}
-      <div className="bg-[#F0F2F5] dark:bg-[#202C33] px-4 py-3 flex items-center gap-3 shrink-0 border-t border-[#E4E7EF] dark:border-[#2A3942]">
+      <div className="bg-[#F0F2F5] dark:bg-[#202C33] px-4 py-3 flex items-center gap-3 shrink-0 border-t border-slate-200 dark:border-[#2A3942]">
         <div className="flex-1 bg-white dark:bg-[#2A3942] rounded-full px-4 py-2.5 text-[12px] text-[#667781] dark:text-[#8696A0] select-none">
           {message.trim()
             ? <span className="text-[#111B21] dark:text-[#E9EDEF] truncate block">{message.slice(0, 60)}{message.length > 60 ? "…" : ""}</span>
@@ -3135,7 +3140,7 @@ function SmsLeadThread({ lead, onBack, onSend }) {
 
       {/* ── MSG91 config drawer (gear icon opens this) ────────────────────── */}
       {showConfig && (
-        <div className="bg-[#F0F2F5] dark:bg-[#202C33] px-4 py-3 border-b border-[#E4E7EF] dark:border-[#2A3942] shrink-0">
+        <div className="bg-[#F0F2F5] dark:bg-[#202C33] px-4 py-3 border-b border-slate-200 dark:border-[#2A3942] shrink-0">
           <p className="text-[10px] font-bold text-[#667781] dark:text-[#8696A0] uppercase tracking-widest mb-2.5">
             MSG91 Settings — saved per account
           </p>
@@ -3143,7 +3148,7 @@ function SmsLeadThread({ lead, onBack, onSend }) {
             {/* Auth Key */}
             <div className="flex-1 min-w-[160px]">
               <label className="block text-[10px] font-semibold text-[#667781] dark:text-[#8696A0] mb-1">
-                Auth Key <span className="text-[#DC2626]">*</span>
+                Auth Key <span className="text-rose-600">*</span>
               </label>
               <input
                 type="password"
@@ -3152,7 +3157,7 @@ function SmsLeadThread({ lead, onBack, onSend }) {
                 placeholder="447171TxxxXXXX67f2b4e5"
                 className={FIELD_CLS}
               />
-              <p className="text-[9px] text-[#8B92A9] mt-0.5">MSG91 Dashboard → API → Auth Key</p>
+              <p className="text-[9px] text-slate-400 mt-0.5">MSG91 Dashboard → API → Auth Key</p>
             </div>
             {/* Sender ID */}
             <div className="w-28">
@@ -3165,7 +3170,7 @@ function SmsLeadThread({ lead, onBack, onSend }) {
                 placeholder="SKYCRM"
                 className={FIELD_CLS}
               />
-              <p className="text-[9px] text-[#8B92A9] mt-0.5">6-char DLT</p>
+              <p className="text-[9px] text-slate-400 mt-0.5">6-char DLT</p>
             </div>
             {/* DLT Template ID */}
             <div className="flex-1 min-w-[160px]">
@@ -3178,14 +3183,14 @@ function SmsLeadThread({ lead, onBack, onSend }) {
                 className={FIELD_CLS}
               />
               <div className="flex items-center gap-2 mt-0.5">
-                <p className="text-[9px] text-[#8B92A9]">Launcherdesk_greetings: <code className="font-mono">1007503933418344595</code></p>
+                <p className="text-[9px] text-slate-400">Launcherdesk_greetings: <code className="font-mono">1007503933418344595</code></p>
                 <button
                   type="button"
                   onClick={() => {
                     setTemplateId("6a1ffe028c6272147b00b233");
                     setSenderId("695382");
                   }}
-                  className="text-[9px] font-bold text-[#EA580C] hover:underline whitespace-nowrap"
+                  className="text-[9px] font-bold text-orange-600 hover:underline whitespace-nowrap"
                 >
                   Use default
                 </button>
@@ -3234,7 +3239,7 @@ function SmsLeadThread({ lead, onBack, onSend }) {
             onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleSend(); } }}
             rows={1}
             placeholder="Type a message"
-            className="w-full bg-transparent text-[13px] text-[#111B21] dark:text-[#E9EDEF] placeholder:text-[#8B92A9] resize-none focus:outline-none leading-relaxed"
+            className="w-full bg-transparent text-[13px] text-[#111B21] dark:text-[#E9EDEF] placeholder:text-slate-400 resize-none focus:outline-none leading-relaxed"
             style={{ maxHeight: "100px", overflowY: "auto" }}
           />
         </div>
@@ -3275,7 +3280,13 @@ function SmsPanel() {
         api.get(`/sms/history?page=1&limit=500&sortOrder=desc${camp ? `&campaignId=${encodeURIComponent(camp)}` : ""}`),
       ]);
 
-      const crmLeads = (crmRes.status === "fulfilled" ? crmRes.value.data : []) || [];
+      // BUGFIX: /lead/admin/all returns { leads: [...] }, not a bare array —
+      // this was calling .filter()/.map() directly on the response object,
+      // throwing "crmLeads.filter is not a function" and failing the whole
+      // SMS tab. Same array-or-object fallback already used elsewhere (e.g.
+      // AdminLeadsPage.fetchLeads) for this exact endpoint.
+      const crmData = crmRes.status === "fulfilled" ? crmRes.value.data : [];
+      const crmLeads = Array.isArray(crmData) ? crmData : (crmData?.leads || []);
       const smsLogs  = (smsRes.status === "fulfilled" ? (smsRes.value.data?.data || []) : []);
 
       // 2️⃣ Build SMS history map keyed by normalised phone
@@ -3373,10 +3384,10 @@ function SmsPanel() {
   );
 
   return (
-    <div className="flex h-full overflow-hidden rounded-2xl border border-[#E4E7EF] dark:border-[#262A38] shadow-sm">
+    <div className="flex h-full overflow-hidden rounded-2xl border border-slate-200 dark:border-white/10 shadow-sm">
 
       {/* ── LEFT: Lead sidebar ─────────────────────────────────────────────── */}
-     <div className={`w-full sm:w-[300px] lg:w-[340px] shrink-0 flex flex-col min-h-0 bg-white dark:bg-[#111B21] border-r border-[#E4E7EF] dark:border-[#2A3942] ${selectedLead || showComposer ? "hidden sm:flex" : "flex"}`}>
+     <div className={`w-full sm:w-[300px] lg:w-[340px] shrink-0 flex flex-col min-h-0 bg-white dark:bg-[#111B21] border-r border-slate-200 dark:border-[#2A3942] ${selectedLead || showComposer ? "hidden sm:flex" : "flex"}`}>
 
         {/* Sidebar header */}
         <div className="bg-[#075E54] dark:bg-[#202C33] px-4 py-3 flex items-center justify-between shrink-0">
@@ -3394,34 +3405,34 @@ function SmsPanel() {
         </div>
 
         {/* Stats chips */}
-        <div className="flex gap-2 px-4 py-2 bg-[#F0F2F5] dark:bg-[#202C33] border-b border-[#E4E7EF] dark:border-[#2A3942] shrink-0">
+        <div className="flex gap-2 px-4 py-2 bg-[#F0F2F5] dark:bg-[#202C33] border-b border-slate-200 dark:border-[#2A3942] shrink-0">
           <div className="flex items-center gap-1.5 bg-white dark:bg-[#2A3942] rounded-lg px-2.5 py-1.5">
-            <span className="w-2 h-2 rounded-full bg-[#059669]" />
+            <span className="w-2 h-2 rounded-full bg-emerald-600" />
             <span className="text-[11px] font-bold text-[#111B21] dark:text-[#E9EDEF]">{stats.sent}</span>
             <span className="text-[10px] text-[#667781]">sent</span>
           </div>
           <div className="flex items-center gap-1.5 bg-white dark:bg-[#2A3942] rounded-lg px-2.5 py-1.5">
-            <span className="w-2 h-2 rounded-full bg-[#DC2626]" />
+            <span className="w-2 h-2 rounded-full bg-rose-600" />
             <span className="text-[11px] font-bold text-[#111B21] dark:text-[#E9EDEF]">{stats.failed}</span>
             <span className="text-[10px] text-[#667781]">failed</span>
           </div>
           <div className="flex items-center gap-1.5 bg-white dark:bg-[#2A3942] rounded-lg px-2.5 py-1.5">
-            <span className="w-2 h-2 rounded-full bg-[#7C3AED]" />
+            <span className="w-2 h-2 rounded-full bg-violet-600" />
             <span className="text-[11px] font-bold text-[#111B21] dark:text-[#E9EDEF]">{leads.length}</span>
             <span className="text-[10px] text-[#667781]">leads</span>
           </div>
         </div>
 
         {/* Search + campaign filter */}
-        <div className="px-3 py-2 bg-[#F0F2F5] dark:bg-[#202C33] flex gap-2 border-b border-[#E4E7EF] dark:border-[#2A3942] shrink-0">
+        <div className="px-3 py-2 bg-[#F0F2F5] dark:bg-[#202C33] flex gap-2 border-b border-slate-200 dark:border-[#2A3942] shrink-0">
           <div className="relative flex-1">
-            <svg className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#8B92A9]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg>
+            <svg className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg>
             <input
               type="text"
               value={search}
               onChange={(e) => handleSearchChange(e.target.value)}
               placeholder="Search contacts…"
-              className="w-full pl-8 pr-3 py-2 bg-white dark:bg-[#2A3942] rounded-xl text-[12px] text-[#111B21] dark:text-[#E9EDEF] placeholder:text-[#8B92A9] focus:outline-none"
+              className="w-full pl-8 pr-3 py-2 bg-white dark:bg-[#2A3942] rounded-xl text-[12px] text-[#111B21] dark:text-[#E9EDEF] placeholder:text-slate-400 focus:outline-none"
             />
           </div>
           <select
@@ -3438,17 +3449,17 @@ function SmsPanel() {
         <div className="flex-1 overflow-y-auto">
           {loading ? (
             Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="flex items-center gap-3 px-4 py-3 border-b border-[#F0F2FA] dark:border-[#1E2130]">
-                <div className="w-11 h-11 rounded-full bg-[#F1F5F9] dark:bg-[#1A1D27] animate-pulse shrink-0" />
+              <div key={i} className="flex items-center gap-3 px-4 py-3 border-b border-slate-200 dark:border-white/10">
+                <div className="w-11 h-11 rounded-full bg-slate-100 dark:bg-[#181029] animate-pulse shrink-0" />
                 <div className="flex-1 space-y-2">
-                  <div className="h-3 w-32 rounded bg-[#F1F5F9] dark:bg-[#1A1D27] animate-pulse" />
-                  <div className="h-2.5 w-48 rounded bg-[#F1F5F9] dark:bg-[#1A1D27] animate-pulse" />
+                  <div className="h-3 w-32 rounded bg-slate-100 dark:bg-[#181029] animate-pulse" />
+                  <div className="h-2.5 w-48 rounded bg-slate-100 dark:bg-[#181029] animate-pulse" />
                 </div>
               </div>
             ))
           ) : filteredLeads.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full gap-3 p-8 opacity-60">
-              <div className="text-[#8B92A9]"><Smartphone className="w-9 h-9" strokeWidth={1.5} /></div>
+              <div className="text-slate-400"><Smartphone className="w-9 h-9" strokeWidth={1.5} /></div>
               <p className="text-[13px] text-[#667781] text-center">No SMS contacts yet. Send your first blast!</p>
             </div>
           ) : (
@@ -3477,8 +3488,8 @@ function SmsPanel() {
         ) : (
           /* Empty state when nothing selected on desktop */
           <div className="flex-1 flex flex-col items-center justify-center bg-[#EFEAE2] dark:bg-[#0B141A] gap-4">
-            <div className="w-20 h-20 rounded-full bg-[#EA580C]/10 flex items-center justify-center">
-              <svg className="w-10 h-10 text-[#EA580C]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <div className="w-20 h-20 rounded-full bg-orange-600/10 flex items-center justify-center">
+              <svg className="w-10 h-10 text-orange-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
               </svg>
             </div>
@@ -3550,7 +3561,7 @@ function AutoTemplateSettingsPanel({ activeTab, onClose }) {
   };
 
   if (!settings) return (
-    <div className="flex items-center justify-center py-8 gap-2 text-[#8B92A9]">
+    <div className="flex items-center justify-center py-8 gap-2 text-slate-400">
       <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/></svg>
       Loading…
     </div>
@@ -3563,15 +3574,15 @@ function AutoTemplateSettingsPanel({ activeTab, onClose }) {
   // Channel colour tokens
   const tokens = {
     whatsapp: { ring: "#25D366", bg: "bg-[#f0fdf4] dark:bg-[#052e1c]", text: "text-[#25D366]", border: "border-[#25D366]" },
-    email:    { ring: "#7C3AED", bg: "bg-[#f5f3ff] dark:bg-[#1e1040]", text: "text-[#7C3AED]", border: "border-[#7C3AED]" },
-    sms:      { ring: "#EA580C", bg: "bg-[#fff7ed] dark:bg-[#1c0a00]", text: "text-[#EA580C]", border: "border-[#EA580C]" },
+    email:    { ring: "#7C3AED", bg: "bg-violet-50 dark:bg-violet-950", text: "text-violet-600", border: "border-violet-600" },
+    sms:      { ring: "#EA580C", bg: "bg-orange-50 dark:bg-orange-950", text: "text-orange-600", border: "border-orange-600" },
   };
   const tok = tokens[activeTab] || tokens.whatsapp;
 
   return (
-    <div className="bg-white dark:bg-[#1A1D27] border border-[#E4E7EF] dark:border-[#262A38] rounded-2xl overflow-hidden mb-4 shadow-sm">
+    <div className="bg-white dark:bg-[#181029] border border-slate-200 dark:border-white/10 rounded-2xl overflow-hidden mb-4 shadow-sm">
       {/* Header */}
-      <div className={`flex items-center justify-between px-5 py-3.5 ${tok.bg} border-b border-[#E4E7EF] dark:border-[#262A38]`}>
+      <div className={`flex items-center justify-between px-5 py-3.5 ${tok.bg} border-b border-slate-200 dark:border-white/10`}>
         <div className="flex items-center gap-2.5">
           <div className={`w-7 h-7 rounded-lg ${tok.bg} border ${tok.border} flex items-center justify-center`}>
             <svg className={`w-3.5 h-3.5 ${tok.text}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -3580,10 +3591,10 @@ function AutoTemplateSettingsPanel({ activeTab, onClose }) {
           </div>
           <div>
             <p className={`text-[13px] font-bold ${tok.text} leading-none`}>Auto-Blast Settings</p>
-            <p className="text-[11px] text-[#8B92A9] mt-0.5">Fires when a new lead is added, and again when a lead is marked Interested</p>
+            <p className="text-[11px] text-slate-400 mt-0.5">Fires when a new lead is added, and again when a lead is marked Interested</p>
           </div>
         </div>
-        <button onClick={onClose} className="w-7 h-7 rounded-lg border border-[#E4E7EF] dark:border-[#262A38] flex items-center justify-center text-[#8B92A9] hover:text-[#0F1117] dark:hover:text-[#F0F2FA] transition">
+        <button onClick={onClose} className="w-7 h-7 rounded-lg border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-400 hover:text-slate-900 dark:hover:text-white transition">
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
@@ -3595,28 +3606,28 @@ function AutoTemplateSettingsPanel({ activeTab, onClose }) {
             {/* Toggle */}
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-[13px] font-semibold text-[#0F1117] dark:text-[#F0F2FA]">Send WhatsApp Template to New Leads</p>
-                <p className="text-[11px] text-[#8B92A9] mt-0.5">Every new lead will automatically receive the template below</p>
+                <p className="text-[13px] font-semibold text-slate-900 dark:text-white">Send WhatsApp Template to New Leads</p>
+                <p className="text-[11px] text-slate-400 mt-0.5">Every new lead will automatically receive the template below</p>
               </div>
               <button
                 onClick={() => update("whatsapp", "enabled", !wa.enabled)}
-                className={`relative w-11 h-6 rounded-full transition-colors duration-200 focus:outline-none ${wa.enabled ? "bg-[#25D366]" : "bg-[#E4E7EF] dark:bg-[#262A38]"}`}
+                className={`relative w-11 h-6 rounded-full transition-colors duration-200 focus:outline-none ${wa.enabled ? "bg-[#25D366]" : "bg-slate-200 dark:bg-white/10"}`}
               >
                 <span className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow-sm transition-transform duration-200 ${wa.enabled ? "translate-x-5" : "translate-x-0"}`} />
               </button>
             </div>
 
             {wa.enabled && (
-              <div className="space-y-3 pt-1 border-t border-[#E4E7EF] dark:border-[#262A38]">
-                <div className="flex gap-2.5 bg-[#FFFBEB] dark:bg-[#1c1600] border border-[#FDE68A] dark:border-[#78350f] rounded-xl px-4 py-3">
+              <div className="space-y-3 pt-1 border-t border-slate-200 dark:border-white/10">
+                <div className="flex gap-2.5 bg-amber-50 dark:bg-amber-950 border border-amber-200 dark:border-amber-900 rounded-xl px-4 py-3">
                   <span className="shrink-0 text-amber-500"><Lightbulb className="w-3.5 h-3.5" /></span>
-                  <p className="text-[11px] text-[#92400E] dark:text-[#FCD34D] leading-relaxed">
+                  <p className="text-[11px] text-amber-800 dark:text-amber-300 leading-relaxed">
                     The template name must exactly match an approved template in your <strong>MSG91 / Meta dashboard</strong>.
                   </p>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-[11px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] mb-1.5">Template Name <span className="text-[#DC2626]">*</span></label>
+                    <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">Template Name <span className="text-rose-600">*</span></label>
                     <input
                       type="text"
                       value={wa.templateName || ""}
@@ -3624,10 +3635,10 @@ function AutoTemplateSettingsPanel({ activeTab, onClose }) {
                       placeholder="crm_followup_leads"
                       className={FIELD_CLS}
                     />
-                    <p className="text-[10px] text-[#8B92A9] mt-0.5">Enter the exact approved template name you already use in WhatsApp chat / bulk blast — it must exist in your MSG91 account.</p>
+                    <p className="text-[10px] text-slate-400 mt-0.5">Enter the exact approved template name you already use in WhatsApp chat / bulk blast — it must exist in your MSG91 account.</p>
                   </div>
                   <div>
-                    <label className="block text-[11px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] mb-1.5">Template Language</label>
+                    <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">Template Language</label>
                     <select value={wa.languageCode || "en"} onChange={e => update("whatsapp", "languageCode", e.target.value)} className={FIELD_CLS}>
                       <option value="en">English (en) — MSG91 default</option>
                       <option value="en_US">English (en_US)</option>
@@ -3651,32 +3662,32 @@ function AutoTemplateSettingsPanel({ activeTab, onClose }) {
           <>
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-[13px] font-semibold text-[#0F1117] dark:text-[#F0F2FA]">Send Email to New Leads</p>
-                <p className="text-[11px] text-[#8B92A9] mt-0.5">Every new lead with an email address will receive this automatically</p>
+                <p className="text-[13px] font-semibold text-slate-900 dark:text-white">Send Email to New Leads</p>
+                <p className="text-[11px] text-slate-400 mt-0.5">Every new lead with an email address will receive this automatically</p>
               </div>
               <button
                 onClick={() => update("email", "enabled", !em.enabled)}
-                className={`relative w-11 h-6 rounded-full transition-colors duration-200 focus:outline-none ${em.enabled ? "bg-[#7C3AED]" : "bg-[#E4E7EF] dark:bg-[#262A38]"}`}
+                className={`relative w-11 h-6 rounded-full transition-colors duration-200 focus:outline-none ${em.enabled ? "bg-violet-600" : "bg-slate-200 dark:bg-white/10"}`}
               >
                 <span className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow-sm transition-transform duration-200 ${em.enabled ? "translate-x-5" : "translate-x-0"}`} />
               </button>
             </div>
 
             {em.enabled && (
-              <div className="space-y-3 pt-1 border-t border-[#E4E7EF] dark:border-[#262A38]">
+              <div className="space-y-3 pt-1 border-t border-slate-200 dark:border-white/10">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-[11px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] mb-1.5">Subject <span className="text-[#DC2626]">*</span></label>
+                    <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">Subject <span className="text-rose-600">*</span></label>
                     <input type="text" value={em.subject || ""} onChange={e => update("email", "subject", e.target.value)} placeholder="Welcome, {{name}}!" className={FIELD_CLS} />
                   </div>
                   <div>
-                    <label className="block text-[11px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] mb-1.5">From Name (optional)</label>
+                    <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">From Name (optional)</label>
                     <input type="text" value={em.fromName || ""} onChange={e => update("email", "fromName", e.target.value)} placeholder="Launcherdesk CRM Team" className={FIELD_CLS} />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-[11px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] mb-1">Email Body (HTML)</label>
-                  <p className="text-[10px] text-[#8B92A9] mb-1.5">Use <code className="bg-[#f5f3ff] dark:bg-[#1e1040] text-[#7C3AED] px-1 rounded">{"{{name}}"}</code> <code className="bg-[#f5f3ff] dark:bg-[#1e1040] text-[#7C3AED] px-1 rounded">{"{{mobile}}"}</code> <code className="bg-[#f5f3ff] dark:bg-[#1e1040] text-[#7C3AED] px-1 rounded">{"{{campaign}}"}</code> as merge tags</p>
+                  <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1">Email Body (HTML)</label>
+                  <p className="text-[10px] text-slate-400 mb-1.5">Use <code className="bg-violet-50 dark:bg-violet-950 text-violet-600 px-1 rounded">{"{{name}}"}</code> <code className="bg-violet-50 dark:bg-violet-950 text-violet-600 px-1 rounded">{"{{mobile}}"}</code> <code className="bg-violet-50 dark:bg-violet-950 text-violet-600 px-1 rounded">{"{{campaign}}"}</code> as merge tags</p>
                   <textarea rows={5} value={em.bodyTemplate || ""} onChange={e => update("email", "bodyTemplate", e.target.value)} className={FIELD_CLS + " font-mono text-[12px] resize-y"} placeholder="<p>Hi {{name}},</p><p>Thank you for your interest!</p>" />
                 </div>
               </div>
@@ -3689,36 +3700,36 @@ function AutoTemplateSettingsPanel({ activeTab, onClose }) {
           <>
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-[13px] font-semibold text-[#0F1117] dark:text-[#F0F2FA]">Send SMS to New Leads</p>
-                <p className="text-[11px] text-[#8B92A9] mt-0.5">Every new lead with a mobile number will receive this automatically via MSG91</p>
+                <p className="text-[13px] font-semibold text-slate-900 dark:text-white">Send SMS to New Leads</p>
+                <p className="text-[11px] text-slate-400 mt-0.5">Every new lead with a mobile number will receive this automatically via MSG91</p>
               </div>
               <button
                 onClick={() => update("sms", "enabled", !sm.enabled)}
-                className={`relative w-11 h-6 rounded-full transition-colors duration-200 focus:outline-none ${sm.enabled ? "bg-[#EA580C]" : "bg-[#E4E7EF] dark:bg-[#262A38]"}`}
+                className={`relative w-11 h-6 rounded-full transition-colors duration-200 focus:outline-none ${sm.enabled ? "bg-orange-600" : "bg-slate-200 dark:bg-white/10"}`}
               >
                 <span className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow-sm transition-transform duration-200 ${sm.enabled ? "translate-x-5" : "translate-x-0"}`} />
               </button>
             </div>
 
             {sm.enabled && (
-              <div className="space-y-3 pt-1 border-t border-[#E4E7EF] dark:border-[#262A38]">
+              <div className="space-y-3 pt-1 border-t border-slate-200 dark:border-white/10">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-[11px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] mb-1.5">MSG91 Flow ID <span className="font-normal text-[#8B92A9]">(optional)</span></label>
+                    <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">MSG91 Flow ID <span className="font-normal text-slate-400">(optional)</span></label>
                     <input type="text" value={sm.templateId || ""} onChange={e => update("sms", "templateId", e.target.value)} placeholder="6a1ffe028c6272147b00b233" className={FIELD_CLS} />
-                    <p className="text-[10px] text-[#8B92A9] mt-0.5">From MSG91 → SMS → Flows (24-char ID, NOT the 19-digit DLT number). Leave blank to use your saved Greetings flow.</p>
+                    <p className="text-[10px] text-slate-400 mt-0.5">From MSG91 → SMS → Flows (24-char ID, NOT the 19-digit DLT number). Leave blank to use your saved Greetings flow.</p>
                   </div>
                   <div>
-                    <label className="block text-[11px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] mb-1.5">Sender ID <span className="font-normal text-[#8B92A9]">(optional)</span></label>
+                    <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">Sender ID <span className="font-normal text-slate-400">(optional)</span></label>
                     <input type="text" maxLength={6} value={sm.senderId || ""} onChange={e => update("sms", "senderId", e.target.value.toUpperCase())} placeholder="695382" className={FIELD_CLS} />
-                    <p className="text-[10px] text-[#8B92A9] mt-0.5">Must match the sender registered for the flow above. Leave blank to use your saved Greetings sender.</p>
+                    <p className="text-[10px] text-slate-400 mt-0.5">Must match the sender registered for the flow above. Leave blank to use your saved Greetings sender.</p>
                   </div>
                 </div>
                 <div>
-                  <label className="block text-[11px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] mb-1">Message <span className="text-[#DC2626]">*</span></label>
-                  <p className="text-[10px] text-[#8B92A9] mb-1.5">Use <code className="bg-[#fff7ed] dark:bg-[#1c0a00] text-[#EA580C] px-1 rounded">{"{{name}}"}</code> <code className="bg-[#fff7ed] dark:bg-[#1c0a00] text-[#EA580C] px-1 rounded">{"{{mobile}}"}</code> <code className="bg-[#fff7ed] dark:bg-[#1c0a00] text-[#EA580C] px-1 rounded">{"{{campaign}}"}</code> as merge tags</p>
+                  <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1">Message <span className="text-rose-600">*</span></label>
+                  <p className="text-[10px] text-slate-400 mb-1.5">Use <code className="bg-orange-50 dark:bg-orange-950 text-orange-600 px-1 rounded">{"{{name}}"}</code> <code className="bg-orange-50 dark:bg-orange-950 text-orange-600 px-1 rounded">{"{{mobile}}"}</code> <code className="bg-orange-50 dark:bg-orange-950 text-orange-600 px-1 rounded">{"{{campaign}}"}</code> as merge tags</p>
                   <textarea rows={3} value={sm.message || ""} onChange={e => update("sms", "message", e.target.value)} className={FIELD_CLS + " resize-y"} placeholder="Hi {{name}}, thanks for your interest! Our team will contact you soon." />
-                  <p className="text-[10px] text-[#8B92A9] mt-1">{(sm.message || "").length} chars · {Math.max(1, Math.ceil((sm.message || "").length / 160))} SMS</p>
+                  <p className="text-[10px] text-slate-400 mt-1">{(sm.message || "").length} chars · {Math.max(1, Math.ceil((sm.message || "").length / 160))} SMS</p>
                 </div>
               </div>
             )}
@@ -3726,12 +3737,12 @@ function AutoTemplateSettingsPanel({ activeTab, onClose }) {
         )}
 
         {testResults && (
-          <div className="rounded-xl border border-[#E4E7EF] dark:border-[#262A38] p-3 space-y-1.5 bg-[#FAFBFD] dark:bg-[#13151D]">
-            <p className="text-[11px] font-bold text-[#4B5168] dark:text-[#9DA3BB]">
+          <div className="rounded-xl border border-slate-200 dark:border-white/10 p-3 space-y-1.5 bg-slate-50 dark:bg-slate-900">
+            <p className="text-[11px] font-bold text-slate-600 dark:text-slate-300">
               Test blast → {testResults.lead?.name} ({testResults.lead?.mobile || "no phone"}{testResults.lead?.email ? `, ${testResults.lead.email}` : ", no email"})
             </p>
             {(testResults.results || []).map((r, i) => (
-              <p key={i} className={`text-[11px] ${r.status === "sent" ? "text-[#059669]" : r.status === "failed" ? "text-[#DC2626]" : "text-[#B45309]"}`}>
+              <p key={i} className={`text-[11px] ${r.status === "sent" ? "text-emerald-600" : r.status === "failed" ? "text-rose-600" : "text-amber-700"}`}>
                 {r.status === "sent" ? <Check className="w-3 h-3 inline" /> : r.status === "failed" ? <X className="w-3 h-3 inline" /> : <AlertTriangle className="w-3 h-3 inline" />} <span className="font-semibold uppercase">{r.channel}</span> — {r.status}: {r.detail}
               </p>
             ))}
@@ -3739,15 +3750,15 @@ function AutoTemplateSettingsPanel({ activeTab, onClose }) {
         )}
 
         {/* Footer */}
-        <div className="flex items-center justify-between pt-1 border-t border-[#E4E7EF] dark:border-[#262A38]">
-          {error  && <p className="text-[11px] text-[#DC2626] flex items-center gap-1"><AlertTriangle className="w-3 h-3" /> {error}</p>}
-          {saved  && <p className="text-[11px] text-[#059669] font-semibold flex items-center gap-1"><Check className="w-3 h-3" /> Settings saved</p>}
+        <div className="flex items-center justify-between pt-1 border-t border-slate-200 dark:border-white/10">
+          {error  && <p className="text-[11px] text-rose-600 flex items-center gap-1"><AlertTriangle className="w-3 h-3" /> {error}</p>}
+          {saved  && <p className="text-[11px] text-emerald-600 font-semibold flex items-center gap-1"><Check className="w-3 h-3" /> Settings saved</p>}
           {!error && !saved && <span />}
           <div className="flex items-center gap-2">
           <button
             onClick={handleTest}
             disabled={testing || saving}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl text-[13px] font-semibold border border-[#E4E7EF] dark:border-[#262A38] text-[#4B5168] dark:text-[#9DA3BB] hover:bg-[#F5F6FA] dark:hover:bg-[#262A38] transition disabled:opacity-50"
+            className="flex items-center gap-2 px-4 py-2 rounded-xl text-[13px] font-semibold border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10 transition disabled:opacity-50"
             title="Sends a real blast to your most recent lead and shows per-channel results"
           >
             {testing ? "Testing…" : "Send Test"}
@@ -3756,8 +3767,8 @@ function AutoTemplateSettingsPanel({ activeTab, onClose }) {
             onClick={handleSave}
             disabled={saving}
             className={`flex items-center gap-2 px-5 py-2 rounded-xl text-[13px] font-semibold text-white transition disabled:opacity-50 ${
-              activeTab === "email" ? "bg-[#7C3AED] hover:bg-purple-700" :
-              activeTab === "sms"   ? "bg-[#EA580C] hover:bg-orange-700" :
+              activeTab === "email" ? "bg-violet-600 hover:bg-purple-700" :
+              activeTab === "sms"   ? "bg-orange-600 hover:bg-orange-700" :
                                       "bg-[#25D366] hover:bg-[#1da851]"
             }`}
           >
@@ -3791,9 +3802,9 @@ const CHANNEL_LABEL = {
 
 function SendLogStatusBadge({ status }) {
   const cls =
-    status === "sent"   ? "bg-[#f0fdf4] dark:bg-[#052e1c] text-[#16A34A] border-[#bbf7d0] dark:border-[#166534]" :
-    status === "failed" ? "bg-[#FEF2F2] dark:bg-[#2D0A0A] text-[#DC2626] border-[#FECACA] dark:border-[#7F1D1D]" :
-                           "bg-[#F8F9FC] dark:bg-[#13161E] text-[#8B92A9] border-[#E4E7EF] dark:border-[#262A38]";
+    status === "sent"   ? "bg-[#f0fdf4] dark:bg-[#052e1c] text-emerald-600 border-emerald-200 dark:border-emerald-800" :
+    status === "failed" ? "bg-rose-50 dark:bg-rose-950 text-rose-600 border-rose-200 dark:border-rose-900" :
+                           "bg-slate-50 dark:bg-white/[0.04] text-slate-400 border-slate-200 dark:border-white/10";
   return (
     <span className={`inline-block px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide border ${cls}`}>
       {status}
@@ -3841,20 +3852,20 @@ function WhatsAppReportsPanel() {
   };
 
   return (
-    <div className="h-full overflow-y-auto rounded-2xl border border-[#E4E7EF] dark:border-[#262A38] bg-white dark:bg-[#1A1D27] p-4 sm:p-5">
+    <div className="h-full overflow-y-auto rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#181029] p-4 sm:p-5">
       {/* Summary cards */}
       <div className="grid grid-cols-3 gap-3 mb-5">
-        <div className="bg-[#f0fdf4] dark:bg-[#052e1c] rounded-xl p-3 text-center border border-[#bbf7d0] dark:border-[#166534]">
-          <div className="text-[22px] font-bold text-[#16A34A]">{summary.sent}</div>
-          <div className="text-[10px] text-[#166534] dark:text-[#4ADE80] uppercase mt-0.5 font-semibold">Sent</div>
+        <div className="bg-[#f0fdf4] dark:bg-[#052e1c] rounded-xl p-3 text-center border border-emerald-200 dark:border-emerald-800">
+          <div className="text-[22px] font-bold text-emerald-600">{summary.sent}</div>
+          <div className="text-[10px] text-emerald-700 dark:text-emerald-400 uppercase mt-0.5 font-semibold">Sent</div>
         </div>
-        <div className="bg-[#FEF2F2] dark:bg-[#2D0A0A] rounded-xl p-3 text-center border border-[#FECACA] dark:border-[#7F1D1D]">
-          <div className="text-[22px] font-bold text-[#DC2626]">{summary.failed}</div>
-          <div className="text-[10px] text-[#DC2626] uppercase mt-0.5 font-semibold">Failed</div>
+        <div className="bg-rose-50 dark:bg-rose-950 rounded-xl p-3 text-center border border-rose-200 dark:border-rose-900">
+          <div className="text-[22px] font-bold text-rose-600">{summary.failed}</div>
+          <div className="text-[10px] text-rose-600 uppercase mt-0.5 font-semibold">Failed</div>
         </div>
-        <div className="bg-[#F8F9FC] dark:bg-[#13161E] rounded-xl p-3 text-center border border-[#E4E7EF] dark:border-[#262A38]">
-          <div className="text-[22px] font-bold text-[#8B92A9]">{summary.skipped}</div>
-          <div className="text-[10px] text-[#8B92A9] uppercase mt-0.5 font-semibold">Skipped</div>
+        <div className="bg-slate-50 dark:bg-white/[0.04] rounded-xl p-3 text-center border border-slate-200 dark:border-white/10">
+          <div className="text-[22px] font-bold text-slate-400">{summary.skipped}</div>
+          <div className="text-[10px] text-slate-400 uppercase mt-0.5 font-semibold">Skipped</div>
         </div>
       </div>
 
@@ -3882,14 +3893,14 @@ function WhatsAppReportsPanel() {
       </div>
 
       {error && (
-        <div className="bg-[#FEF2F2] dark:bg-[#2D0A0A] border border-[#FECACA] dark:border-[#7F1D1D] rounded-xl px-4 py-3 text-[12px] text-[#DC2626] mb-4">{error}</div>
+        <div className="bg-rose-50 dark:bg-rose-950 border border-rose-200 dark:border-rose-900 rounded-xl px-4 py-3 text-[12px] text-rose-600 mb-4">{error}</div>
       )}
 
       {/* Table */}
-      <div className="overflow-x-auto rounded-xl border border-[#E4E7EF] dark:border-[#262A38]">
+      <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-white/10">
         <table className="w-full text-[12px]">
           <thead>
-            <tr className="bg-[#F8F9FC] dark:bg-[#13161E] text-left text-[#8B92A9] uppercase text-[10px] font-bold tracking-wide">
+            <tr className="bg-slate-50 dark:bg-white/[0.04] text-left text-slate-400 uppercase text-[10px] font-bold tracking-wide">
               <th className="px-3 py-2.5">When</th>
               <th className="px-3 py-2.5">Contact</th>
               <th className="px-3 py-2.5">Template</th>
@@ -3902,18 +3913,18 @@ function WhatsAppReportsPanel() {
             {loading ? (
               Array.from({ length: 6 }).map((_, i) => <SkeletonRow key={i} />)
             ) : rows.length === 0 ? (
-              <tr><td colSpan={6} className="px-3 py-10 text-center text-[#8B92A9]">No sends match these filters yet.</td></tr>
+              <tr><td colSpan={6} className="px-3 py-10 text-center text-slate-400">No sends match these filters yet.</td></tr>
             ) : rows.map((r) => (
-              <tr key={r._id} className="border-t border-[#F0F2FA] dark:border-[#1E2130] hover:bg-[#F8F9FC] dark:hover:bg-[#13161E]/50">
-                <td className="px-3 py-2.5 whitespace-nowrap text-[#4B5168] dark:text-[#9DA3BB]">{fmtDate(r.createdAt)}</td>
+              <tr key={r._id} className="border-t border-slate-200 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-white/[0.06]/50">
+                <td className="px-3 py-2.5 whitespace-nowrap text-slate-600 dark:text-slate-300">{fmtDate(r.createdAt)}</td>
                 <td className="px-3 py-2.5">
-                  <div className="font-semibold text-[#0F1117] dark:text-[#F0F2FA]">{r.name || "—"}</div>
-                  <div className="text-[10px] text-[#8B92A9] font-mono">{maskPhone(r.phone)}</div>
+                  <div className="font-semibold text-slate-900 dark:text-white">{r.name || "—"}</div>
+                  <div className="text-[10px] text-slate-400 font-mono">{maskPhone(r.phone)}</div>
                 </td>
-                <td className="px-3 py-2.5 font-mono text-[11px] text-[#4B5168] dark:text-[#9DA3BB]">{r.templateName || "—"}</td>
-                <td className="px-3 py-2.5 text-[#4B5168] dark:text-[#9DA3BB]">{CHANNEL_LABEL[r.channel] || r.channel}{r.ruleName ? ` · ${r.ruleName}` : ""}</td>
+                <td className="px-3 py-2.5 font-mono text-[11px] text-slate-600 dark:text-slate-300">{r.templateName || "—"}</td>
+                <td className="px-3 py-2.5 text-slate-600 dark:text-slate-300">{CHANNEL_LABEL[r.channel] || r.channel}{r.ruleName ? ` · ${r.ruleName}` : ""}</td>
                 <td className="px-3 py-2.5"><SendLogStatusBadge status={r.status} /></td>
-                <td className="px-3 py-2.5 text-[#8B92A9] max-w-[200px] truncate" title={r.reason}>{r.reason || "—"}</td>
+                <td className="px-3 py-2.5 text-slate-400 max-w-[200px] truncate" title={r.reason}>{r.reason || "—"}</td>
               </tr>
             ))}
           </tbody>
@@ -3922,18 +3933,18 @@ function WhatsAppReportsPanel() {
 
       {/* Pagination */}
       {pagination.totalPages > 1 && (
-        <div className="flex items-center justify-between mt-4 text-[12px] text-[#8B92A9]">
+        <div className="flex items-center justify-between mt-4 text-[12px] text-slate-400">
           <span>Page {pagination.page} of {pagination.totalPages} · {pagination.total} total</span>
           <div className="flex gap-2">
             <button
               onClick={() => fetchLog(pagination.page - 1)}
               disabled={pagination.page <= 1}
-              className="px-3 py-1.5 rounded-lg border border-[#E4E7EF] dark:border-[#262A38] font-semibold disabled:opacity-40"
+              className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-white/10 font-semibold disabled:opacity-40"
             >Prev</button>
             <button
               onClick={() => fetchLog(pagination.page + 1)}
               disabled={pagination.page >= pagination.totalPages}
-              className="px-3 py-1.5 rounded-lg border border-[#E4E7EF] dark:border-[#262A38] font-semibold disabled:opacity-40"
+              className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-white/10 font-semibold disabled:opacity-40"
             >Next</button>
           </div>
         </div>
@@ -3952,12 +3963,12 @@ export default function Communications({ currentUser }) {
   const isAdmin = currentUser?.role === "admin" || currentUser?.role === "super_admin" || currentUser?.role === "superadmin";
 
   return (
-    <div className="bg-[#F8F9FC] dark:bg-[#0D0F14] h-full font-poppins px-3 sm:px-6 py-3 sm:py-6 flex flex-col overflow-x-hidden">
+    <div className="bg-slate-50 dark:bg-[#181029] h-full font-poppins px-3 sm:px-6 py-3 sm:py-6 flex flex-col overflow-x-hidden">
       {/* Page header */}
       <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center sm:justify-between gap-2 sm:gap-4 mb-3 sm:mb-5 shrink-0">
         <div>
-          <h1 className="text-[20px] sm:text-[24px] font-bold text-[#0F1117] dark:text-[#F0F2FA]">Communications</h1>
-          <p className="text-[12px] sm:text-[13px] text-[#8B92A9] dark:text-[#565C75] mt-0.5">WhatsApp · Email · SMS — all in one place</p>
+          <h1 className="text-[20px] sm:text-[24px] font-bold text-slate-900 dark:text-white">Communications</h1>
+          <p className="text-[12px] sm:text-[13px] text-slate-400 dark:text-slate-500 mt-0.5">WhatsApp · Email · SMS — all in one place</p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <TabNav active={tab} onChange={(t) => { setTab(t); setShowSettings(false); }} showReports={isAdmin} />
@@ -3965,7 +3976,7 @@ export default function Communications({ currentUser }) {
             <button
               onClick={() => setShowIntegrations(true)}
               title="Manage Integrations (Brevo, MSG91)"
-              className="flex items-center gap-1.5 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] text-[12px] sm:text-[13px] font-semibold text-[#8B92A9] hover:text-[#0F1117] dark:hover:text-[#F0F2FA] hover:border-[#2563EB] transition"
+              className="flex items-center gap-1.5 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl border border-slate-200 dark:border-white/10 text-[12px] sm:text-[13px] font-semibold text-slate-400 hover:text-slate-900 dark:hover:text-white hover:border-launcher-600 transition"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
@@ -3979,10 +3990,10 @@ export default function Communications({ currentUser }) {
               title="Auto-Blast Settings — fires on New Lead creation and when a lead is marked Interested"
               className={`flex items-center gap-1.5 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl border text-[12px] sm:text-[13px] font-semibold transition ${
                 showSettings
-                  ? tab === "email"   ? "border-[#7C3AED] bg-[#f5f3ff] dark:bg-[#1e1040] text-[#7C3AED]"
-                  : tab === "sms"     ? "border-[#EA580C] bg-[#fff7ed] dark:bg-[#1c0a00] text-[#EA580C]"
+                  ? tab === "email"   ? "border-violet-600 bg-violet-50 dark:bg-violet-950 text-violet-600"
+                  : tab === "sms"     ? "border-orange-600 bg-orange-50 dark:bg-orange-950 text-orange-600"
                                       : "border-[#25D366] bg-[#f0fdf4] dark:bg-[#052e1c] text-[#25D366]"
-                  : "border-[#E4E7EF] dark:border-[#262A38] text-[#8B92A9] hover:text-[#0F1117] dark:hover:text-[#F0F2FA]"
+                  : "border-slate-200 dark:border-white/10 text-slate-400 hover:text-slate-900 dark:hover:text-white"
               }`}
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -3990,7 +4001,7 @@ export default function Communications({ currentUser }) {
               </svg>
               <span className="hidden sm:inline">New Lead</span>
               <span className={`w-1.5 h-1.5 rounded-full ${
-                tab === "email" ? "bg-[#7C3AED]" : tab === "sms" ? "bg-[#EA580C]" : "bg-[#25D366]"
+                tab === "email" ? "bg-violet-600" : tab === "sms" ? "bg-orange-600" : "bg-[#25D366]"
               } ${showSettings ? "opacity-100" : "opacity-50"}`} />
             </button>
           )}

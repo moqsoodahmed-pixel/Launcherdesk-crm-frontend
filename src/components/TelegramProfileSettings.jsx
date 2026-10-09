@@ -3,6 +3,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { createPortal } from "react-dom";
 import api from "../data/axiosConfig";
 import { getRole } from "../data/dataService";
+import { Pill } from "./ui/Primitives";
 
 const TelegramIcon = ({ className }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor">
@@ -144,7 +145,7 @@ export default function TelegramProfileSettings() {
     <div
       ref={popoverRef}
       style={{ ...popoverStyle, animation: "tgSlideDown 0.15s ease both" }}
-      className="bg-white dark:bg-[#1A1D27] border border-[#E4E7EF] dark:border-[#262A38] rounded-2xl shadow-xl overflow-hidden"
+      className="surface-card shadow-popover overflow-hidden"
     >
       <style>{`
         @keyframes tgSlideDown {
@@ -154,17 +155,17 @@ export default function TelegramProfileSettings() {
       `}</style>
 
       {/* Header */}
-      <div className="flex items-center gap-2.5 px-4 pt-4 pb-3 border-b border-[#F3F4F6] dark:border-[#262A38]">
+      <div className="flex items-center gap-2.5 px-4 pt-4 pb-3 border-b border-slate-100 dark:border-white/10">
         <div className="w-7 h-7 rounded-lg bg-sky-50 dark:bg-sky-500/10 flex items-center justify-center shrink-0">
           <TelegramIcon className="w-3.5 h-3.5 text-sky-500" />
         </div>
         <div className="flex-1 min-w-0">
-          <p className="text-[13px] font-bold text-[#0F1117] dark:text-[#F0F2FA]">Telegram Alerts</p>
-          <p className="text-[10px] text-[#8B92A9]">Get notified when a lead is assigned to you</p>
+          <p className="text-[13px] font-bold text-slate-900 dark:text-white">Telegram Alerts</p>
+          <p className="text-[10px] text-slate-400">Get notified when a lead is assigned to you</p>
         </div>
         <button
           onClick={() => setOpen(false)}
-          className="w-5 h-5 flex items-center justify-center rounded-lg text-[#8B92A9] hover:text-[#0F1117] dark:hover:text-[#F0F2FA] hover:bg-gray-100 dark:hover:bg-[#262A38] transition"
+          className="icon-btn w-5 h-5"
         >
           <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
@@ -182,10 +183,10 @@ export default function TelegramProfileSettings() {
 
         {/* Input */}
         <div>
-          <label className="block text-[11px] font-semibold text-[#4B5168] dark:text-[#9DA3BB] mb-1">
+          <label className="flex items-center gap-1.5 text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1">
             Your Chat ID
             {isConfigured && !isDirty && (
-              <span className="ml-1.5 text-[10px] font-normal text-emerald-500">● connected</span>
+              <Pill tone="emerald" className="!text-[10px] !py-0.5">connected</Pill>
             )}
           </label>
           <input
@@ -195,15 +196,13 @@ export default function TelegramProfileSettings() {
             onChange={(e) => setDraft(e.target.value)}
             onKeyDown={(e) => { if (e.key === "Enter") handleSave(); }}
             placeholder="e.g. 987654321"
-            className="w-full px-3 py-2 rounded-xl border border-[#E4E7EF] dark:border-[#262A38]
-              bg-[#F8F9FC] dark:bg-[#13161E] text-[12px] text-[#0F1117] dark:text-[#F0F2FA]
-              placeholder:text-[#8B92A9] focus:outline-none focus:border-[#2563EB] font-mono transition"
+            className="input-field px-3 py-2 text-[12px] font-mono"
           />
         </div>
 
         {/* Feedback */}
         {msg.text && (
-          <p className={`text-[11px] font-medium ${msg.type === "ok" ? "text-emerald-500" : "text-red-500"}`}>
+          <p className={`text-[11px] font-medium ${msg.type === "ok" ? "text-emerald-500" : "text-rose-500"}`}>
             {msg.text}
           </p>
         )}
@@ -213,8 +212,7 @@ export default function TelegramProfileSettings() {
           <button
             onClick={handleSave}
             disabled={saving || !draft.trim()}
-            className="flex-1 py-2 rounded-xl bg-[#2563EB] hover:bg-blue-700 disabled:opacity-50
-              text-white text-[12px] font-semibold transition flex items-center justify-center gap-1.5"
+            className="btn-primary btn-sm flex-1"
           >
             {saving ? (
               <svg className="w-3.5 h-3.5 animate-spin" fill="none" viewBox="0 0 24 24">
@@ -233,10 +231,7 @@ export default function TelegramProfileSettings() {
             onClick={handleTest}
             disabled={testing || !chatId}
             title={!chatId ? "Save your Chat ID first" : "Send a test message"}
-            className="px-3 py-2 rounded-xl border border-[#E4E7EF] dark:border-[#262A38]
-              text-[11px] font-semibold text-[#4B5168] dark:text-[#9DA3BB]
-              hover:border-sky-400 hover:text-sky-600 dark:hover:text-sky-400
-              disabled:opacity-40 disabled:cursor-not-allowed transition flex items-center gap-1"
+            className="btn-secondary btn-sm"
           >
             {testing ? (
               <svg className="w-3 h-3 animate-spin" fill="none" viewBox="0 0 24 24">
@@ -265,13 +260,13 @@ export default function TelegramProfileSettings() {
         className={`relative w-8 h-8 rounded-xl flex items-center justify-center transition-all
           ${open
             ? "bg-sky-100 dark:bg-sky-500/20 text-sky-600 dark:text-sky-400"
-            : "bg-gray-100 dark:bg-white/[0.05] text-gray-400 dark:text-gray-500 hover:bg-sky-50 dark:hover:bg-sky-500/10 hover:text-sky-500 dark:hover:text-sky-400"
+            : "bg-slate-100 dark:bg-white/[0.05] text-slate-400 dark:text-slate-500 hover:bg-sky-50 dark:hover:bg-sky-500/10 hover:text-sky-500 dark:hover:text-sky-400"
           }`}
       >
         <TelegramIcon className="w-4 h-4" />
         {/* Green dot — Chat ID is saved */}
         {isConfigured && (
-          <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-500 border-2 border-white dark:border-[#1A1D27]" />
+          <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-500 border-2 border-white dark:border-[#181029]" />
         )}
       </button>
 

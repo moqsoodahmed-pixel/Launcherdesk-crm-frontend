@@ -47,19 +47,19 @@ function Toggle({ enabled, onToggle, label, description }) {
       className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl border transition-all text-left ${
         enabled
           ? "border-emerald-200 dark:border-emerald-700 bg-emerald-50 dark:bg-emerald-500/10"
-          : "border-[#E4E7EF] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E] hover:border-[#CBD5E1] dark:hover:border-[#3E4257]"
+          : "border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.04] hover:border-slate-300 dark:hover:border-white/20"
       }`}
     >
       {/* Toggle pill — fixed size, always on right, never pushed out */}
-      <div className={`relative w-10 h-5 rounded-full transition-colors shrink-0 ${enabled ? "bg-emerald-500" : "bg-[#D1D5DB] dark:bg-[#3E4257]"}`}>
+      <div className={`relative w-10 h-5 rounded-full transition-colors shrink-0 ${enabled ? "bg-emerald-500" : "bg-slate-300 dark:bg-white/10"}`}>
         <span className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow-sm transition-transform duration-200 ${enabled ? "translate-x-5" : "translate-x-0.5"}`} />
       </div>
       {/* Text — takes remaining space, truncates cleanly */}
       <div className="flex-1 min-w-0">
-        <p className={`text-[13px] font-semibold leading-tight ${enabled ? "text-emerald-700 dark:text-emerald-400" : "text-[#0F1117] dark:text-[#F0F2FA]"}`}>
+        <p className={`text-[13px] font-semibold leading-tight ${enabled ? "text-emerald-700 dark:text-emerald-400" : "text-slate-900 dark:text-white"}`}>
           {label}
         </p>
-        <p className="text-[11px] text-[#8B92A9] mt-0.5 leading-snug">{description}</p>
+        <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-0.5 leading-snug">{description}</p>
       </div>
     </button>
   );
@@ -67,15 +67,15 @@ function Toggle({ enabled, onToggle, label, description }) {
 
 function PanelHeader({ icon: Icon, title, subtitle, onClose, iconColor = "text-violet-500", iconBg = "bg-violet-50 dark:bg-violet-500/10" }) {
   return (
-    <div className="flex items-center gap-3 px-5 pt-4 pb-3.5 border-b border-[#F0F2FA] dark:border-[#262A38]">
+    <div className="flex items-center gap-3 px-5 pt-4 pb-3.5 border-b border-slate-100 dark:border-white/10">
       <div className={`w-8 h-8 rounded-xl ${iconBg} flex items-center justify-center shrink-0`}>
         <Icon size={15} className={iconColor} />
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-[14px] font-bold text-[#0F1117] dark:text-[#F0F2FA] leading-none">{title}</p>
-        <p className="text-[11px] text-[#8B92A9] mt-0.5">{subtitle}</p>
+        <p className="text-[14px] font-bold text-slate-900 dark:text-white leading-none">{title}</p>
+        <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-0.5">{subtitle}</p>
       </div>
-      <button onClick={onClose} className="w-7 h-7 flex items-center justify-center rounded-lg text-[#8B92A9] hover:bg-[#F1F4FF] dark:hover:bg-[#262A38] transition shrink-0">
+      <button onClick={onClose} className="w-7 h-7 flex items-center justify-center rounded-lg text-slate-400 dark:text-slate-500 hover:bg-slate-100 dark:hover:bg-white/[0.08] transition shrink-0">
         <X size={15} />
       </button>
     </div>
@@ -185,7 +185,7 @@ function ClockInLocationSettings() {
         className={`flex items-center gap-2 px-3.5 py-2 rounded-xl border text-[12px] font-semibold transition-all ${
           open
             ? "bg-violet-50 dark:bg-violet-500/15 border-violet-300 dark:border-violet-700 text-violet-700 dark:text-violet-300"
-            : "border-white/30 bg-white/15 text-white hover:bg-white/25"
+            : "!border-white/20 !bg-white/15 !text-white hover:!bg-white/25"
         }`}
       >
         <MapPin size={15} className="shrink-0" />
@@ -197,7 +197,7 @@ function ClockInLocationSettings() {
         <>
         {/* Mobile backdrop */}
         <div className="fixed inset-0 bg-black/40 z-[199] sm:hidden" onClick={() => setOpen(false)} />
-        <div className="fixed sm:absolute left-1/2 sm:left-0 -translate-x-1/2 sm:translate-x-0 top-auto sm:top-full bottom-0 sm:bottom-auto sm:mt-2 w-[calc(100vw-1rem)] max-w-[360px] bg-white dark:bg-[#1A1D27] border border-[#E4E7EF] dark:border-[#262A38] rounded-t-2xl sm:rounded-2xl shadow-2xl z-[200] overflow-x-hidden overflow-y-auto max-h-[85vh] sm:max-h-[80vh]">
+        <div className="fixed sm:absolute left-1/2 sm:left-0 -translate-x-1/2 sm:translate-x-0 top-auto sm:top-full bottom-0 sm:bottom-auto sm:mt-2 w-[calc(100vw-1rem)] max-w-[360px] bg-white dark:bg-[#181029] border border-slate-200 dark:border-white/10 rounded-t-2xl sm:rounded-2xl shadow-2xl z-[200] overflow-x-hidden overflow-y-auto max-h-[85vh] sm:max-h-[80vh]">
           <PanelHeader
             icon={MapPin}
             title="Clock-In Location"
@@ -207,7 +207,7 @@ function ClockInLocationSettings() {
 
           {loading ? (
             <div className="flex items-center justify-center py-8">
-              <Loader2 size={20} className="animate-spin text-[#8B92A9]" />
+              <Loader2 size={20} className="animate-spin text-slate-400 dark:text-slate-500" />
             </div>
           ) : (
             <div className="px-5 py-4 space-y-4">
@@ -222,7 +222,7 @@ function ClockInLocationSettings() {
               {/* Coordinates section */}
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <p className="text-[11px] font-semibold text-[#8B92A9] uppercase tracking-wide">Office Coordinates</p>
+                  <p className="text-[11px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wide">Office Coordinates</p>
                   <button
                     onClick={detectLocation}
                     disabled={detecting}
@@ -239,10 +239,10 @@ function ClockInLocationSettings() {
                     { label: "Longitude", val: longitude, set: setLongitude, ph: "e.g. 77.5946" },
                   ].map(({ label, val, set, ph }) => (
                     <div key={label}>
-                      <label className="block text-[10px] font-semibold text-[#8B92A9] mb-1.5">{label}</label>
+                      <label className="block text-[10px] font-semibold text-slate-400 dark:text-slate-500 mb-1.5">{label}</label>
                       <input
                         type="number" step="0.0000001" value={val} onChange={e => set(e.target.value)} placeholder={ph}
-                        className="w-full px-3 py-2 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E] text-[12px] text-[#0F1117] dark:text-[#F0F2FA] placeholder:text-[#8B92A9] font-mono focus:outline-none focus:border-violet-400 transition"
+                        className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.04] text-[12px] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 font-mono focus:outline-none focus:border-violet-400 transition"
                       />
                     </div>
                   ))}
@@ -251,10 +251,10 @@ function ClockInLocationSettings() {
                 {/* Radius — fixed at 100m */}
                 <div>
                   <div className="flex items-center justify-between mb-1.5">
-                    <label className="text-[11px] font-semibold text-[#8B92A9] uppercase tracking-wide">Radius</label>
+                    <label className="text-[11px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wide">Radius</label>
                     <span className="text-[12px] font-bold text-violet-600 dark:text-violet-400 font-mono bg-violet-50 dark:bg-violet-500/10 px-2 py-0.5 rounded-lg">100m</span>
                   </div>
-                  <p className="text-[10px] text-[#8B92A9]">Employees must clock in within 100 metres of the office. This radius is fixed.</p>
+                  <p className="text-[10px] text-slate-400 dark:text-slate-500">Employees must clock in within 100 metres of the office. This radius is fixed.</p>
                 </div>
 
                 {/* Map link */}
@@ -369,13 +369,13 @@ function AttendanceSettings() {
 
   const TimeField = ({ label, h, m, onH, onM, accent = "violet" }) => (
     <div>
-      <label className="block text-[11px] font-semibold text-[#8B92A9] uppercase tracking-wide mb-1.5">{label}</label>
+      <label className="block text-[11px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wide mb-1.5">{label}</label>
       <div className="flex items-center gap-1.5">
         <input type="number" min={0} max={23} value={h} onChange={e => onH(Number(e.target.value))}
-          className={`w-full px-2 py-2 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E] text-[13px] font-mono text-center text-[#0F1117] dark:text-[#F0F2FA] focus:outline-none focus:border-${accent}-400 transition`} />
-        <span className="text-[#8B92A9] font-bold">:</span>
+          className={`w-full px-2 py-2 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.04] text-[13px] font-mono text-center text-slate-900 dark:text-white focus:outline-none focus:border-${accent}-400 transition`} />
+        <span className="text-slate-400 dark:text-slate-500 font-bold">:</span>
         <input type="number" min={0} max={59} value={m} onChange={e => onM(Number(e.target.value))}
-          className={`w-full px-2 py-2 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E] text-[13px] font-mono text-center text-[#0F1117] dark:text-[#F0F2FA] focus:outline-none focus:border-${accent}-400 transition`} />
+          className={`w-full px-2 py-2 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.04] text-[13px] font-mono text-center text-slate-900 dark:text-white focus:outline-none focus:border-${accent}-400 transition`} />
       </div>
     </div>
   );
@@ -388,7 +388,7 @@ function AttendanceSettings() {
         className={`flex items-center gap-2 px-3.5 py-2 rounded-xl border text-[12px] font-semibold transition-all ${
           open
             ? "bg-amber-50 dark:bg-amber-500/15 border-amber-300 dark:border-amber-700 text-amber-700 dark:text-amber-300"
-            : "border-white/30 bg-white/15 text-white hover:bg-white/25"
+            : "!border-white/20 !bg-white/15 !text-white hover:!bg-white/25"
         }`}
       >
         <Clock size={15} className="shrink-0" />
@@ -398,8 +398,8 @@ function AttendanceSettings() {
       {open && (
         <>
         <div className="fixed inset-0 bg-black/40 z-[199] sm:hidden" onClick={() => setOpen(false)} />
-        <div className="fixed sm:absolute left-1/2 sm:left-auto -translate-x-1/2 sm:translate-x-0 sm:right-0 top-auto sm:top-full bottom-0 sm:bottom-auto sm:mt-2 w-[calc(100vw-1rem)] max-w-[400px] max-h-[82vh] overflow-y-auto bg-white dark:bg-[#1A1D27] border border-[#E4E7EF] dark:border-[#262A38] rounded-t-2xl sm:rounded-2xl shadow-2xl z-[200]">
-          <div className="sticky top-0 bg-white dark:bg-[#1A1D27] z-10">
+        <div className="fixed sm:absolute left-1/2 sm:left-auto -translate-x-1/2 sm:translate-x-0 sm:right-0 top-auto sm:top-full bottom-0 sm:bottom-auto sm:mt-2 w-[calc(100vw-1rem)] max-w-[400px] max-h-[82vh] overflow-y-auto bg-white dark:bg-[#181029] border border-slate-200 dark:border-white/10 rounded-t-2xl sm:rounded-2xl shadow-2xl z-[200]">
+          <div className="sticky top-0 bg-white dark:bg-[#181029] z-10">
             <PanelHeader
               icon={Clock}
               title="Attendance Setup"
@@ -412,60 +412,60 @@ function AttendanceSettings() {
 
           {loading ? (
             <div className="flex items-center justify-center py-10">
-              <Loader2 size={20} className="animate-spin text-[#8B92A9]" />
+              <Loader2 size={20} className="animate-spin text-slate-400 dark:text-slate-500" />
             </div>
           ) : (
             <div className="px-5 py-4 space-y-5">
 
               {/* Shift timings */}
               <div>
-                <p className="text-[12px] font-bold text-[#0F1117] dark:text-[#F0F2FA] mb-2.5 flex items-center gap-1.5"><Clock className="w-3.5 h-3.5" /> Shift Timings</p>
+                <p className="text-[12px] font-bold text-slate-900 dark:text-white mb-2.5 flex items-center gap-1.5"><Clock className="w-3.5 h-3.5" /> Shift Timings</p>
                 <div className="grid grid-cols-2 gap-3">
                   <TimeField label="Shift Start" h={cfg.shiftStartHour} m={cfg.shiftStartMinute}
                     onH={v => set("shiftStartHour", v)} onM={v => set("shiftStartMinute", v)} accent="emerald" />
                   <TimeField label="Shift End" h={cfg.shiftEndHour} m={cfg.shiftEndMinute}
                     onH={v => set("shiftEndHour", v)} onM={v => set("shiftEndMinute", v)} accent="red" />
                 </div>
-                <p className="text-[10px] text-[#8B92A9] mt-1.5">
+                <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-1.5">
                   Standard working hours: {fmt(cfg.shiftStartHour, cfg.shiftStartMinute)} – {fmt(cfg.shiftEndHour, cfg.shiftEndMinute)}
                 </p>
               </div>
 
               {/* Late threshold */}
               <div>
-                <p className="text-[12px] font-bold text-[#0F1117] dark:text-[#F0F2FA] mb-2.5 flex items-center gap-1.5"><Clock className="w-3.5 h-3.5" /> Late Threshold</p>
+                <p className="text-[12px] font-bold text-slate-900 dark:text-white mb-2.5 flex items-center gap-1.5"><Clock className="w-3.5 h-3.5" /> Late Threshold</p>
                 <TimeField label="Mark Late After" h={cfg.lateLoginHour} m={cfg.lateLoginMinute}
                   onH={v => set("lateLoginHour", v)} onM={v => set("lateLoginMinute", v)} accent="amber" />
-                <p className="text-[10px] text-[#8B92A9] mt-1.5">
+                <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-1.5">
                   Clock-in after <span className="font-mono font-bold text-amber-600 dark:text-amber-400">{fmt(cfg.lateLoginHour, cfg.lateLoginMinute)}</span> is marked Late.
                 </p>
               </div>
 
               {/* Day rules */}
               <div>
-                <p className="text-[12px] font-bold text-[#0F1117] dark:text-[#F0F2FA] mb-2.5">⏱ Day Rules</p>
+                <p className="text-[12px] font-bold text-slate-900 dark:text-white mb-2.5">⏱ Day Rules</p>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-[11px] font-semibold text-[#8B92A9] uppercase tracking-wide mb-1.5">Half-Day (min hrs)</label>
+                    <label className="block text-[11px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wide mb-1.5">Half-Day (min hrs)</label>
                     <input type="number" min={0} value={(cfg.halfDayMinMinutes / 60).toFixed(1)}
                       onChange={e => set("halfDayMinMinutes", Math.round(Number(e.target.value) * 60))}
-                      className="w-full px-3 py-2 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E] text-[13px] font-mono text-center text-[#0F1117] dark:text-[#F0F2FA] focus:outline-none focus:border-blue-400 transition" />
+                      className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.04] text-[13px] font-mono text-center text-slate-900 dark:text-white focus:outline-none focus:border-blue-400 transition" />
                   </div>
                   <div>
-                    <label className="block text-[11px] font-semibold text-[#8B92A9] uppercase tracking-wide mb-1.5">Full-Day (min hrs)</label>
+                    <label className="block text-[11px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wide mb-1.5">Full-Day (min hrs)</label>
                     <input type="number" min={0} value={(cfg.fullDayMinMinutes / 60).toFixed(1)}
                       onChange={e => set("fullDayMinMinutes", Math.round(Number(e.target.value) * 60))}
-                      className="w-full px-3 py-2 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E] text-[13px] font-mono text-center text-[#0F1117] dark:text-[#F0F2FA] focus:outline-none focus:border-emerald-400 transition" />
+                      className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.04] text-[13px] font-mono text-center text-slate-900 dark:text-white focus:outline-none focus:border-emerald-400 transition" />
                   </div>
                 </div>
-                <p className="text-[10px] text-[#8B92A9] mt-1.5">
+                <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-1.5">
                   Work &lt; {(cfg.halfDayMinMinutes / 60).toFixed(1)}h = Half-Day · ≥ {(cfg.fullDayMinMinutes / 60).toFixed(1)}h = Present
                 </p>
               </div>
 
               {/* Weekly off days */}
               <div>
-                <p className="text-[12px] font-bold text-[#0F1117] dark:text-[#F0F2FA] mb-2.5 flex items-center gap-1.5"><CalendarDays className="w-3.5 h-3.5" /> Weekly Off Days</p>
+                <p className="text-[12px] font-bold text-slate-900 dark:text-white mb-2.5 flex items-center gap-1.5"><CalendarDays className="w-3.5 h-3.5" /> Weekly Off Days</p>
                 <div className="flex flex-wrap gap-1.5">
                   {DAYS.map(d => {
                     const isOff = cfg.weeklyOffDays.includes(d.n);
@@ -474,28 +474,28 @@ function AttendanceSettings() {
                         className={`w-11 py-2 rounded-lg text-[11px] font-bold border transition ${
                           isOff
                             ? "border-purple-400 bg-purple-50 dark:bg-purple-500/15 text-purple-700 dark:text-purple-400"
-                            : "border-[#E4E7EF] dark:border-[#262A38] text-[#8B92A9] hover:border-purple-300"
+                            : "border-slate-200 dark:border-white/10 text-slate-400 dark:text-slate-500 hover:border-purple-300"
                         }`}>
                         {d.label}
                       </button>
                     );
                   })}
                 </div>
-                <p className="text-[10px] text-[#8B92A9] mt-1.5">
+                <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-1.5">
                   {cfg.weeklyOffDays.length === 0 ? "No weekly off set" : `${cfg.weeklyOffDays.length} day(s) marked as weekly off`}
                 </p>
               </div>
 
               {/* Holidays */}
               <div>
-                <p className="text-[12px] font-bold text-[#0F1117] dark:text-[#F0F2FA] mb-2.5 flex items-center gap-1.5"><PartyPopper className="w-3.5 h-3.5" /> Holidays</p>
+                <p className="text-[12px] font-bold text-slate-900 dark:text-white mb-2.5 flex items-center gap-1.5"><PartyPopper className="w-3.5 h-3.5" /> Holidays</p>
 
                 {/* Add holiday row */}
                 <div className="flex gap-2 mb-2">
                   <input type="date" value={newHolidayDate} onChange={e => setNewHolidayDate(e.target.value)}
-                    className="flex-1 px-2.5 py-2 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E] text-[12px] text-[#0F1117] dark:text-[#F0F2FA] focus:outline-none focus:border-pink-400 transition" />
+                    className="flex-1 px-2.5 py-2 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.04] text-[12px] text-slate-900 dark:text-white focus:outline-none focus:border-pink-400 transition" />
                   <input type="text" placeholder="Name" value={newHolidayName} onChange={e => setNewHolidayName(e.target.value)}
-                    className="w-24 px-2.5 py-2 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E] text-[12px] text-[#0F1117] dark:text-[#F0F2FA] placeholder:text-[#8B92A9] focus:outline-none focus:border-pink-400 transition" />
+                    className="w-24 px-2.5 py-2 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.04] text-[12px] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-pink-400 transition" />
                   <button onClick={addHoliday}
                     className="px-3 py-2 rounded-xl bg-pink-600 hover:bg-pink-700 text-white text-[12px] font-bold transition shrink-0">+</button>
                 </div>
@@ -507,7 +507,7 @@ function AttendanceSettings() {
                       <div key={h.date} className="flex items-center justify-between px-3 py-2 rounded-lg bg-pink-50 dark:bg-pink-950/20 border border-pink-100 dark:border-pink-900/40">
                         <div className="min-w-0">
                           <p className="text-[12px] font-semibold text-pink-700 dark:text-pink-400 truncate">{h.name}</p>
-                          <p className="text-[10px] text-[#8B92A9] font-mono">{h.date}</p>
+                          <p className="text-[10px] text-slate-400 dark:text-slate-500 font-mono">{h.date}</p>
                         </div>
                         <button onClick={() => removeHoliday(h.date)}
                           className="w-6 h-6 flex items-center justify-center rounded-lg text-pink-400 hover:bg-pink-100 dark:hover:bg-pink-900/40 transition shrink-0">
@@ -517,7 +517,7 @@ function AttendanceSettings() {
                     ))}
                   </div>
                 ) : (
-                  <p className="text-[10px] text-[#8B92A9] italic">No holidays added yet.</p>
+                  <p className="text-[10px] text-slate-400 dark:text-slate-500 italic">No holidays added yet.</p>
                 )}
               </div>
 
@@ -575,7 +575,7 @@ function CallLogSyncSettings({ companyId }) {
         className={`flex items-center gap-2 px-3.5 py-2 rounded-xl border text-[12px] font-semibold transition-all ${
           open
             ? "bg-cyan-50 dark:bg-cyan-500/15 border-cyan-300 dark:border-cyan-700 text-cyan-700 dark:text-cyan-300"
-            : "border-white/30 bg-white/15 text-white hover:bg-white/25"
+            : "!border-white/20 !bg-white/15 !text-white hover:!bg-white/25"
         }`}
       >
         <PhoneCall size={15} className="shrink-0" />
@@ -587,7 +587,7 @@ function CallLogSyncSettings({ companyId }) {
       {open && (
         <>
         <div className="fixed inset-0 bg-black/40 z-[199] sm:hidden" onClick={() => setOpen(false)} />
-        <div className="fixed sm:absolute left-1/2 sm:left-auto -translate-x-1/2 sm:translate-x-0 sm:right-0 top-auto sm:top-full bottom-0 sm:bottom-auto sm:mt-2 w-[calc(100vw-1rem)] max-w-[340px] bg-white dark:bg-[#1A1D27] border border-[#E4E7EF] dark:border-[#262A38] rounded-t-2xl sm:rounded-2xl shadow-2xl z-[200] overflow-hidden">
+        <div className="fixed sm:absolute left-1/2 sm:left-auto -translate-x-1/2 sm:translate-x-0 sm:right-0 top-auto sm:top-full bottom-0 sm:bottom-auto sm:mt-2 w-[calc(100vw-1rem)] max-w-[340px] bg-white dark:bg-[#181029] border border-slate-200 dark:border-white/10 rounded-t-2xl sm:rounded-2xl shadow-2xl z-[200] overflow-hidden">
           <PanelHeader
             icon={PhoneCall}
             title="Device Call Log Sync"
@@ -599,7 +599,7 @@ function CallLogSyncSettings({ companyId }) {
 
           {loading ? (
             <div className="flex items-center justify-center py-8">
-              <Loader2 size={20} className="animate-spin text-[#8B92A9]" />
+              <Loader2 size={20} className="animate-spin text-slate-400 dark:text-slate-500" />
             </div>
           ) : (
             <div className="px-5 py-4 space-y-4">
@@ -625,9 +625,9 @@ function CallLogSyncSettings({ companyId }) {
                 </div>
               )}
 
-              <div className="flex items-start gap-2.5 px-3.5 py-3 rounded-xl bg-[#F8F9FC] dark:bg-[#13161E] border border-[#E4E7EF] dark:border-[#262A38]">
-                <Info size={13} className="text-[#8B92A9] shrink-0 mt-0.5" />
-                <p className="text-[10px] text-[#8B92A9] leading-relaxed">
+              <div className="flex items-start gap-2.5 px-3.5 py-3 rounded-xl bg-slate-50 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10">
+                <Info size={13} className="text-slate-400 dark:text-slate-500 shrink-0 mt-0.5" />
+                <p className="text-[10px] text-slate-400 dark:text-slate-500 leading-relaxed">
                   This setting is company-wide. Individual employee permissions are not affected.
                 </p>
               </div>
@@ -684,7 +684,7 @@ function MeetingTrackingSettings() {
         className={`flex items-center gap-2 px-3.5 py-2 rounded-xl border text-[12px] font-semibold transition-all ${
           open
             ? "bg-emerald-50 dark:bg-emerald-500/15 border-emerald-300 dark:border-emerald-700 text-emerald-700 dark:text-emerald-300"
-            : "border-white/30 bg-white/15 text-white hover:bg-white/25"
+            : "!border-white/20 !bg-white/15 !text-white hover:!bg-white/25"
         }`}
       >
         <Navigation size={15} className="shrink-0" />
@@ -695,7 +695,7 @@ function MeetingTrackingSettings() {
       {open && (
         <>
         <div className="fixed inset-0 bg-black/40 z-[199] sm:hidden" onClick={() => setOpen(false)} />
-        <div className="fixed sm:absolute left-1/2 sm:left-auto -translate-x-1/2 sm:translate-x-0 sm:right-0 top-auto sm:top-full bottom-0 sm:bottom-auto sm:mt-2 w-[calc(100vw-1rem)] max-w-[340px] bg-white dark:bg-[#1A1D27] border border-[#E4E7EF] dark:border-[#262A38] rounded-t-2xl sm:rounded-2xl shadow-2xl z-[200] overflow-hidden">
+        <div className="fixed sm:absolute left-1/2 sm:left-auto -translate-x-1/2 sm:translate-x-0 sm:right-0 top-auto sm:top-full bottom-0 sm:bottom-auto sm:mt-2 w-[calc(100vw-1rem)] max-w-[340px] bg-white dark:bg-[#181029] border border-slate-200 dark:border-white/10 rounded-t-2xl sm:rounded-2xl shadow-2xl z-[200] overflow-hidden">
           <PanelHeader
             icon={Navigation}
             title="Client Visit Tracking"
@@ -707,7 +707,7 @@ function MeetingTrackingSettings() {
 
           {loading ? (
             <div className="flex items-center justify-center py-8">
-              <Loader2 size={20} className="animate-spin text-[#8B92A9]" />
+              <Loader2 size={20} className="animate-spin text-slate-400 dark:text-slate-500" />
             </div>
           ) : (
             <div className="px-5 py-4 space-y-4">
@@ -722,7 +722,7 @@ function MeetingTrackingSettings() {
               {/* Interval */}
               <div>
                 <div className="flex items-center justify-between mb-1.5">
-                  <label className="text-[11px] font-semibold text-[#8B92A9] uppercase tracking-wide">Ping Interval</label>
+                  <label className="text-[11px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wide">Ping Interval</label>
                   <span className="text-[12px] font-bold text-emerald-600 dark:text-emerald-400 font-mono bg-emerald-50 dark:bg-emerald-500/10 px-2 py-0.5 rounded-lg">{interval} min</span>
                 </div>
                 <input
@@ -730,16 +730,16 @@ function MeetingTrackingSettings() {
                   onChange={e => setInterval(Number(e.target.value))}
                   className="w-full accent-emerald-600"
                 />
-                <div className="flex justify-between text-[9px] text-[#8B92A9] mt-1">
+                <div className="flex justify-between text-[9px] text-slate-400 dark:text-slate-500 mt-1">
                   <span>5 min (frequent)</span><span>30 min</span><span>60 min (light)</span>
                 </div>
               </div>
 
               {/* Info */}
-              <div className="flex items-start gap-2.5 px-3.5 py-3 rounded-xl bg-[#F8F9FC] dark:bg-[#13161E] border border-[#E4E7EF] dark:border-[#262A38]">
-                <Info size={13} className="text-[#8B92A9] shrink-0 mt-0.5" />
-                <div className="text-[10px] text-[#8B92A9] space-y-1 leading-relaxed">
-                  <p>Only activates after you <strong className="text-[#4B5168] dark:text-[#9DA3BB]">approve</strong> a remote clock-in request.</p>
+              <div className="flex items-start gap-2.5 px-3.5 py-3 rounded-xl bg-slate-50 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10">
+                <Info size={13} className="text-slate-400 dark:text-slate-500 shrink-0 mt-0.5" />
+                <div className="text-[10px] text-slate-400 dark:text-slate-500 space-y-1 leading-relaxed">
+                  <p>Only activates after you <strong className="text-slate-600 dark:text-slate-400">approve</strong> a remote clock-in request.</p>
                   <p>Employee must grant Location permission on their device.</p>
                   <p>Pings stored in database for 30 days.</p>
                 </div>
@@ -791,38 +791,39 @@ function LiveLocationsPanel({ open, onClose }) {
 
   return (
     <div className="fixed inset-0 z-[80] flex items-end sm:items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-      <div className="bg-white dark:bg-[#1A1D27] border border-[#E4E7EF] dark:border-[#262A38] rounded-2xl shadow-2xl w-full max-w-2xl max-h-[80vh] flex flex-col overflow-hidden">
+      <div className="bg-white dark:bg-[#181029] border border-slate-200 dark:border-white/10 rounded-2xl shadow-2xl w-full max-w-2xl max-h-[80vh] flex flex-col overflow-hidden">
 
         {/* Header */}
-        <div className="flex items-center gap-3 px-5 py-4 border-b border-[#F0F2FA] dark:border-[#262A38]">
+        <div className="flex items-center gap-3 px-5 py-4 border-b border-slate-100 dark:border-white/10">
           <div className="w-9 h-9 rounded-xl bg-violet-50 dark:bg-violet-500/10 flex items-center justify-center shrink-0">
             <MapPinned size={17} className="text-violet-500" />
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-[15px] font-bold text-[#0F1117] dark:text-[#F0F2FA]">Live Client Locations</p>
-            <p className="text-[11px] text-[#8B92A9] mt-0.5">
+            <p className="text-[15px] font-bold text-slate-900 dark:text-white">Live Client Locations</p>
+            <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-0.5">
               Today · {pings.length} ping{pings.length !== 1 ? "s" : ""} · {employees.length} employee{employees.length !== 1 ? "s" : ""}
             </p>
           </div>
           <button
             onClick={loadPings}
-            className={`w-8 h-8 flex items-center justify-center rounded-xl border border-[#E4E7EF] dark:border-[#262A38] text-[#8B92A9] hover:bg-[#F1F4FF] dark:hover:bg-[#262A38] transition ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
+            className={`w-8 h-8 flex items-center justify-center rounded-xl border border-slate-200 dark:border-white/10 text-slate-400 dark:text-slate-500 hover:bg-slate-100 dark:hover:bg-white/[0.08] transition ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
             disabled={loading}
             title="Refresh"
           >
             <RefreshCw size={14} className={loading ? "animate-spin" : ""} />
           </button>
-          <button onClick={onClose} className="w-8 h-8 flex items-center justify-center rounded-xl border border-[#E4E7EF] dark:border-[#262A38] text-[#8B92A9] hover:bg-[#F1F4FF] dark:hover:bg-[#262A38] transition">
+          <button onClick={onClose} className="w-8 h-8 flex items-center justify-center rounded-xl border border-slate-200 dark:border-white/10 text-slate-400 dark:text-slate-500 hover:bg-slate-100 dark:hover:bg-white/[0.08] transition">
             <X size={15} />
           </button>
         </div>
 
         {/* Search */}
-        <div className="px-5 py-3 border-b border-[#F0F2FA] dark:border-[#262A38]">
+        <div className="px-5 py-3 border-b border-slate-100 dark:border-white/10">
           <input
             type="text" placeholder="Filter by employee name…"
             value={filter} onChange={e => setFilter(e.target.value)}
-            className="w-full px-3 py-2 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E] text-[13px] text-[#0F1117] dark:text-[#F0F2FA] placeholder:text-[#8B92A9] focus:outline-none focus:border-violet-400 transition"
+            aria-label="Filter by employee name"
+            className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.04] text-[13px] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-violet-400 transition"
           />
         </div>
 
@@ -830,29 +831,29 @@ function LiveLocationsPanel({ open, onClose }) {
         <div className="flex-1 overflow-y-auto">
           {loading ? (
             <div className="flex items-center justify-center py-12">
-              <Loader2 size={24} className="animate-spin text-[#8B92A9]" />
+              <Loader2 size={24} className="animate-spin text-slate-400 dark:text-slate-500" />
             </div>
           ) : employees.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-14 gap-3">
-              <div className="w-12 h-12 rounded-2xl bg-[#F8F9FC] dark:bg-[#13161E] flex items-center justify-center">
-                <MapPin size={22} className="text-[#565C75]" />
+              <div className="w-12 h-12 rounded-2xl bg-slate-50 dark:bg-white/[0.04] flex items-center justify-center">
+                <MapPin size={22} className="text-slate-500 dark:text-slate-400" />
               </div>
-              <p className="text-[13px] font-semibold text-[#565C75]">No location pings today</p>
-              <p className="text-[11px] text-[#8B92A9] text-center max-w-xs leading-relaxed px-4">
+              <p className="text-[13px] font-semibold text-slate-500 dark:text-slate-400">No location pings today</p>
+              <p className="text-[11px] text-slate-400 dark:text-slate-500 text-center max-w-xs leading-relaxed px-4">
                 Pings appear here when employees with approved remote clock-in send GPS updates.
               </p>
             </div>
           ) : (
             employees.map(({ user, pings: empPings }) => (
-              <div key={user?._id || user} className="border-b border-[#F0F2FA] dark:border-[#262A38] last:border-0">
+              <div key={user?._id || user} className="border-b border-slate-100 dark:border-white/10 last:border-0">
                 {/* Employee row */}
-                <div className="flex items-center gap-3 px-5 py-3 bg-[#F8F9FC] dark:bg-[#13161E]">
+                <div className="flex items-center gap-3 px-5 py-3 bg-slate-50 dark:bg-white/[0.04]">
                   <div className="w-8 h-8 rounded-full bg-violet-100 dark:bg-violet-500/20 flex items-center justify-center text-[11px] font-bold text-violet-700 dark:text-violet-400 shrink-0">
                     {(user?.name || "?").slice(0, 2).toUpperCase()}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-[13px] font-semibold text-[#0F1117] dark:text-[#F0F2FA] truncate">{user?.name || "Unknown"}</p>
-                    <p className="text-[11px] text-[#8B92A9]">{empPings.length} ping{empPings.length !== 1 ? "s" : ""}</p>
+                    <p className="text-[13px] font-semibold text-slate-900 dark:text-white truncate">{user?.name || "Unknown"}</p>
+                    <p className="text-[11px] text-slate-400 dark:text-slate-500">{empPings.length} ping{empPings.length !== 1 ? "s" : ""}</p>
                   </div>
                   {empPings[0] && (
                     <a
@@ -871,22 +872,22 @@ function LiveLocationsPanel({ open, onClose }) {
                   {empPings.map((ping, idx) => (
                     <div key={ping._id} className="flex items-start gap-3 py-2">
                       <div className="flex flex-col items-center pt-1 shrink-0">
-                        <div className={`w-2 h-2 rounded-full ${idx === 0 ? "bg-emerald-500" : "bg-[#CBD5E1] dark:bg-[#3E4257]"}`} />
-                        {idx < empPings.length - 1 && <div className="w-px h-5 bg-[#E4E7EF] dark:bg-[#262A38] mt-0.5" />}
+                        <div className={`w-2 h-2 rounded-full ${idx === 0 ? "bg-emerald-500" : "bg-slate-300 dark:bg-white/10"}`} />
+                        {idx < empPings.length - 1 && <div className="w-px h-5 bg-slate-200 dark:bg-white/10 mt-0.5" />}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-[12px] font-semibold text-[#0F1117] dark:text-[#F0F2FA] font-mono">
+                        <p className="text-[12px] font-semibold text-slate-900 dark:text-white font-mono">
                           {ping.latitude.toFixed(5)}, {ping.longitude.toFixed(5)}
-                          {ping.accuracy && <span className="text-[10px] text-[#8B92A9] font-sans ml-1.5">±{Math.round(ping.accuracy)}m</span>}
+                          {ping.accuracy && <span className="text-[10px] text-slate-400 dark:text-slate-500 font-sans ml-1.5">±{Math.round(ping.accuracy)}m</span>}
                         </p>
-                        {ping.address && <p className="text-[11px] text-[#8B92A9] truncate">{ping.address}</p>}
-                        <p className="text-[10px] text-[#565C75] flex items-center gap-1 mt-0.5">
+                        {ping.address && <p className="text-[11px] text-slate-400 dark:text-slate-500 truncate">{ping.address}</p>}
+                        <p className="text-[10px] text-slate-500 dark:text-slate-400 flex items-center gap-1 mt-0.5">
                           <Clock size={9} />
                           {fmtTime(ping.capturedAt)}
                         </p>
                       </div>
                       <a href={mapUrl(ping.latitude, ping.longitude)} target="_blank" rel="noreferrer"
-                        className="w-7 h-7 flex items-center justify-center rounded-lg text-[#8B92A9] hover:text-violet-500 hover:bg-violet-50 dark:hover:bg-violet-500/10 transition shrink-0"
+                        className="w-7 h-7 flex items-center justify-center rounded-lg text-slate-400 dark:text-slate-500 hover:text-violet-500 hover:bg-violet-50 dark:hover:bg-violet-500/10 transition shrink-0"
                         title="Open in Maps"
                       >
                         <ExternalLink size={13} />
@@ -959,7 +960,7 @@ function LocationHistoryPanel({ open, onClose }) {
   return (
     <>
       <div className="fixed inset-0 bg-black/40 z-[199]" onClick={onClose} />
-      <div className="fixed right-0 top-0 bottom-0 w-full max-w-[440px] bg-white dark:bg-[#1A1D27] border-l border-[#E4E7EF] dark:border-[#262A38] shadow-2xl z-[200] flex flex-col">
+      <div className="fixed right-0 top-0 bottom-0 w-full max-w-[440px] bg-white dark:bg-[#181029] border-l border-slate-200 dark:border-white/10 shadow-2xl z-[200] flex flex-col">
         <PanelHeader
           icon={MapPinned}
           title="Location History"
@@ -968,23 +969,27 @@ function LocationHistoryPanel({ open, onClose }) {
         />
 
         {/* Filters */}
-        <div className="px-4 py-3 border-b border-[#E4E7EF] dark:border-[#262A38] space-y-2">
+        <div className="px-4 py-3 border-b border-slate-200 dark:border-white/10 space-y-2">
           <div className="flex items-center gap-2">
             <input type="date" value={from} onChange={(e) => setFrom(e.target.value)}
-              className="flex-1 px-2.5 py-1.5 rounded-lg border border-[#E4E7EF] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E] text-[12px] text-[#0F1117] dark:text-[#F0F2FA] focus:outline-none" />
-            <span className="text-[#C4C9DA]">→</span>
+              aria-label="Date range start"
+              className="flex-1 px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.04] text-[12px] text-slate-900 dark:text-white focus:outline-none" />
+            <span className="text-slate-300 dark:text-slate-600">→</span>
             <input type="date" value={to} onChange={(e) => setTo(e.target.value)}
-              className="flex-1 px-2.5 py-1.5 rounded-lg border border-[#E4E7EF] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E] text-[12px] text-[#0F1117] dark:text-[#F0F2FA] focus:outline-none" />
+              aria-label="Date range end"
+              className="flex-1 px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.04] text-[12px] text-slate-900 dark:text-white focus:outline-none" />
           </div>
           <div className="flex items-center gap-2">
             <select value={type} onChange={(e) => setType(e.target.value)}
-              className="px-2.5 py-1.5 rounded-lg border border-[#E4E7EF] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E] text-[12px] text-[#0F1117] dark:text-[#F0F2FA] focus:outline-none">
+              aria-label="Filter by event type"
+              className="px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.04] text-[12px] text-slate-900 dark:text-white focus:outline-none">
               <option value="">All events</option>
               <option value="clock_in">Clock In</option>
               <option value="clock_out">Clock Out</option>
             </select>
             <input value={nameFilter} onChange={(e) => setName(e.target.value)} placeholder="Filter by name…"
-              className="flex-1 px-2.5 py-1.5 rounded-lg border border-[#E4E7EF] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E] text-[12px] text-[#0F1117] dark:text-[#F0F2FA] focus:outline-none placeholder:text-[#8B92A9]" />
+              aria-label="Filter by employee name"
+              className="flex-1 px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.04] text-[12px] text-slate-900 dark:text-white focus:outline-none placeholder:text-slate-400 dark:placeholder:text-slate-500" />
             <button onClick={exportCSV} title="Export CSV"
               className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-[12px] font-semibold shrink-0">
               <Download size={13} /> CSV
@@ -995,25 +1000,25 @@ function LocationHistoryPanel({ open, onClose }) {
         {/* List */}
         <div className="flex-1 overflow-y-auto px-4 py-3">
           {loading ? (
-            <div className="flex items-center justify-center py-10"><Loader2 size={20} className="animate-spin text-[#8B92A9]" /></div>
+            <div className="flex items-center justify-center py-10"><Loader2 size={20} className="animate-spin text-slate-400 dark:text-slate-500" /></div>
           ) : filtered.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-14 gap-2 text-center">
-              <MapPinned className="w-8 h-8 text-[#C4C9DA]" strokeWidth={1.5} />
-              <p className="text-[13px] font-semibold text-[#565C75]">No location history for this range</p>
+              <MapPinned className="w-8 h-8 text-slate-300 dark:text-slate-600" strokeWidth={1.5} />
+              <p className="text-[13px] font-semibold text-slate-500 dark:text-slate-400">No location history for this range</p>
             </div>
           ) : (
             <div className="space-y-2">
               {filtered.map((r) => {
                 const isIn = r.type === "clock_in";
                 return (
-                  <div key={r._id} className="flex items-center gap-3 p-3 rounded-xl border border-[#E4E7EF] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E]">
+                  <div key={r._id} className="flex items-center gap-3 p-3 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.04]">
                     <span className={`w-2 h-2 rounded-full shrink-0 ${isIn ? "bg-emerald-500" : "bg-rose-500"}`} />
                     <div className="min-w-0 flex-1">
-                      <p className="text-[12px] font-bold text-[#0F1117] dark:text-[#F0F2FA] truncate">{r.user?.name || "Unknown"}</p>
-                      <p className="text-[11px] text-[#8B92A9]">
+                      <p className="text-[12px] font-bold text-slate-900 dark:text-white truncate">{r.user?.name || "Unknown"}</p>
+                      <p className="text-[11px] text-slate-400 dark:text-slate-500">
                         {isIn ? "Clock In" : "Clock Out"} · {r.date} · {r.capturedAt ? new Date(r.capturedAt).toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" }) : ""}
                       </p>
-                      <p className="text-[10px] text-[#8B92A9] font-mono">
+                      <p className="text-[10px] text-slate-400 dark:text-slate-500 font-mono">
                         {Number(r.latitude).toFixed(5)}, {Number(r.longitude).toFixed(5)}{r.accuracy != null ? ` (±${Math.round(r.accuracy)}m)` : ""}
                       </p>
                     </div>
@@ -1128,7 +1133,7 @@ function PendingRemoteClockInPanel() {
   if (!loading && requests.length === 0) return null;
 
   return (
-    <div className="bg-white dark:bg-[#1A1D27] border border-orange-200 dark:border-orange-900/40 rounded-2xl p-5 mb-4">
+    <div className="bg-white dark:bg-[#181029] border border-orange-200 dark:border-orange-900/40 rounded-2xl p-5 mb-4">
       <div className="flex items-center gap-3 mb-3">
         <div className="w-9 h-9 rounded-xl bg-orange-50 dark:bg-orange-500/10 flex items-center justify-center shrink-0">
           <Bell size={16} className="text-orange-500" />
@@ -1170,7 +1175,7 @@ function PendingRemoteClockInPanel() {
                   <button
                     onClick={() => respond(u, false)}
                     disabled={isBusy}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#E4E7EF] dark:border-[#262A38] text-[#4B5168] dark:text-[#9DA3BB] text-[11px] font-semibold hover:border-red-300 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30 transition disabled:opacity-50"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-400 text-[11px] font-semibold hover:border-red-300 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30 transition disabled:opacity-50"
                   >
                     <X size={12} />
                     Deny

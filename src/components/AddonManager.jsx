@@ -10,6 +10,7 @@
 
 import { useState } from "react";
 import api from "../data/axiosConfig";
+import { Pill } from "./ui/Primitives";
 import {
   Package,
   Plus,
@@ -84,16 +85,16 @@ const ADDON_ICONS = {
 
 // ─── Style maps ───────────────────────────────────────────────────────────────
 
-const STATUS_STYLE = {
-  active:   "bg-green-50 dark:bg-green-500/10 text-green-700 dark:text-green-400",
-  expired:  "bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400",
-  disabled: "bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400",
+const STATUS_TONE = {
+  active:   "emerald",
+  expired:  "amber",
+  disabled: "rose",
 };
 
-const PAYMENT_STYLE = {
-  paid:    "bg-blue-50 dark:bg-blue-500/10 text-blue-700 dark:text-blue-400",
-  free:    "bg-purple-50 dark:bg-purple-500/10 text-purple-600 dark:text-purple-400",
-  pending: "bg-gray-100 dark:bg-gray-500/10 text-gray-600 dark:text-gray-400",
+const PAYMENT_TONE = {
+  paid:    "cyan",
+  free:    "violet",
+  pending: "slate",
 };
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -189,20 +190,20 @@ export default function AddonManager({ companyId, addons: initialAddons = [], on
   // ── Render ──────────────────────────────────────────────────────────────────
 
   return (
-    <div className="bg-white dark:bg-[#1A1D27] border border-[#E5E7EB] dark:border-[#262A38] rounded-2xl overflow-hidden">
+    <div className="surface-card overflow-hidden">
 
       {/* Header */}
-      <div className="flex items-center justify-between px-5 py-4 border-b border-[#F0F2FA] dark:border-[#1E2130]">
+      <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100 dark:border-white/10">
         <div className="flex items-center gap-2.5">
-          <Package className="w-4 h-4 text-blue-500" />
-          <h3 className="text-[14px] font-bold text-[#0F1117] dark:text-[#F0F2FA]">Addons</h3>
-          <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-[#F0F2FA] dark:bg-[#13161E] text-[#6B7280] dark:text-[#9DA3BB]">
+          <Package className="w-4 h-4 text-violet-500" />
+          <h3 className="text-[14px] font-bold text-slate-900 dark:text-white">Addons</h3>
+          <Pill tone="slate" className="!text-[11px]">
             {addons.filter(a => a.status === "active").length} active
-          </span>
+          </Pill>
         </div>
         <button
           onClick={() => setShowGrant(true)}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-[12px] font-semibold transition"
+          className="btn-primary btn-sm"
         >
           <Plus className="w-3.5 h-3.5" /> Grant Addon
         </button>
@@ -218,12 +219,12 @@ export default function AddonManager({ companyId, addons: initialAddons = [], on
       {/* Grant Modal */}
       {showGrant && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
-          <div className="bg-white dark:bg-[#1A1D27] rounded-2xl p-6 w-full max-w-md border border-[#E5E7EB] dark:border-[#262A38] shadow-2xl">
+          <div className="surface-card shadow-elevated p-6 w-full max-w-md">
 
             <div className="flex items-center justify-between mb-4">
-              <h4 className="font-bold text-[#0F1117] dark:text-[#F0F2FA]">Grant Addon</h4>
-              <button onClick={() => { setShowGrant(false); setError(""); }}>
-                <X className="w-4 h-4 text-gray-400" />
+              <h4 className="font-bold text-slate-900 dark:text-white">Grant Addon</h4>
+              <button onClick={() => { setShowGrant(false); setError(""); }} className="icon-btn w-7 h-7">
+                <X className="w-4 h-4" />
               </button>
             </div>
 
@@ -231,44 +232,44 @@ export default function AddonManager({ companyId, addons: initialAddons = [], on
 
               {/* Addon Type */}
               <div>
-                <label className="text-[11px] font-semibold text-[#6B7280] uppercase tracking-wider block mb-1.5">
+                <label className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block mb-1.5">
                   Addon Type
                 </label>
                 <div className="relative">
                   <select
                     value={form.addonType}
                     onChange={e => setForm(p => ({ ...p, addonType: e.target.value }))}
-                    className="w-full px-3 py-2.5 rounded-xl border border-[#E5E7EB] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E] text-sm text-[#0F1117] dark:text-[#F0F2FA] appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                    className="input-field px-3 py-2.5 text-sm appearance-none"
                   >
                     {Object.entries(ADDON_LABELS).map(([k, v]) => (
                       <option key={k} value={k}>{v}</option>
                     ))}
                   </select>
-                  <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                  <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
                 </div>
               </div>
 
               {/* Quantity + Duration */}
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-[11px] font-semibold text-[#6B7280] uppercase tracking-wider block mb-1.5">
+                  <label className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block mb-1.5">
                     Quantity
                   </label>
                   <input
                     type="number" min={1} value={form.quantity}
                     onChange={e => setForm(p => ({ ...p, quantity: e.target.value }))}
-                    className="w-full px-3 py-2.5 rounded-xl border border-[#E5E7EB] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E] text-sm text-[#0F1117] dark:text-[#F0F2FA] focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                    className="input-field px-3 py-2.5 text-sm"
                   />
                 </div>
                 <div>
-                  <label className="text-[11px] font-semibold text-[#6B7280] uppercase tracking-wider block mb-1.5">
+                  <label className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block mb-1.5">
                     Duration (months)
                   </label>
                   <input
                     type="number" min={0} placeholder="Blank = forever"
                     value={form.durationMonths}
                     onChange={e => setForm(p => ({ ...p, durationMonths: e.target.value }))}
-                    className="w-full px-3 py-2.5 rounded-xl border border-[#E5E7EB] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E] text-sm text-[#0F1117] dark:text-[#F0F2FA] focus:outline-none focus:ring-2 focus:ring-blue-500/20 placeholder:text-[#C4C9DA]"
+                    className="input-field px-3 py-2.5 text-sm"
                   />
                 </div>
               </div>
@@ -276,24 +277,24 @@ export default function AddonManager({ companyId, addons: initialAddons = [], on
               {/* Price + Currency */}
               <div className="grid grid-cols-3 gap-3">
                 <div className="col-span-2">
-                  <label className="text-[11px] font-semibold text-[#6B7280] uppercase tracking-wider block mb-1.5">
-                    Price <span className="text-[#9DA3BB] font-normal normal-case">(0 = free)</span>
+                  <label className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block mb-1.5">
+                    Price <span className="text-slate-400 font-normal normal-case">(0 = free)</span>
                   </label>
                   <input
                     type="number" min={0} step="0.01" placeholder="0"
                     value={form.price}
                     onChange={e => setForm(p => ({ ...p, price: e.target.value }))}
-                    className="w-full px-3 py-2.5 rounded-xl border border-[#E5E7EB] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E] text-sm text-[#0F1117] dark:text-[#F0F2FA] focus:outline-none focus:ring-2 focus:ring-blue-500/20 placeholder:text-[#C4C9DA]"
+                    className="input-field px-3 py-2.5 text-sm"
                   />
                 </div>
                 <div>
-                  <label className="text-[11px] font-semibold text-[#6B7280] uppercase tracking-wider block mb-1.5">
+                  <label className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block mb-1.5">
                     Currency
                   </label>
                   <select
                     value={form.currency}
                     onChange={e => setForm(p => ({ ...p, currency: e.target.value }))}
-                    className="w-full px-3 py-2.5 rounded-xl border border-[#E5E7EB] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E] text-sm text-[#0F1117] dark:text-[#F0F2FA] focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                    className="input-field px-3 py-2.5 text-sm"
                   >
                     <option value="INR">INR ₹</option>
                     <option value="USD">USD $</option>
@@ -306,31 +307,31 @@ export default function AddonManager({ companyId, addons: initialAddons = [], on
 
               {/* Notes */}
               <div>
-                <label className="text-[11px] font-semibold text-[#6B7280] uppercase tracking-wider block mb-1.5">
+                <label className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block mb-1.5">
                   Notes (optional)
                 </label>
                 <input
                   type="text" placeholder="Reason or context"
                   value={form.notes}
                   onChange={e => setForm(p => ({ ...p, notes: e.target.value }))}
-                  className="w-full px-3 py-2.5 rounded-xl border border-[#E5E7EB] dark:border-[#262A38] bg-[#F8F9FC] dark:bg-[#13161E] text-sm text-[#0F1117] dark:text-[#F0F2FA] focus:outline-none focus:ring-2 focus:ring-blue-500/20 placeholder:text-[#C4C9DA]"
+                  className="input-field px-3 py-2.5 text-sm"
                 />
               </div>
             </div>
 
-            {error && <p className="mt-2 text-[12px] text-red-500">{error}</p>}
+            {error && <p className="mt-2 text-[12px] text-rose-500">{error}</p>}
 
             <div className="flex gap-3 mt-4">
               <button
                 onClick={() => { setShowGrant(false); setError(""); }}
-                className="flex-1 py-2.5 rounded-xl border border-[#E5E7EB] dark:border-[#262A38] text-[13px] font-semibold text-[#6B7280] dark:text-[#9DA3BB] hover:bg-[#F8F9FC] dark:hover:bg-[#13161E] transition"
+                className="btn-secondary flex-1 py-2.5 text-[13px]"
               >
                 Cancel
               </button>
               <button
                 onClick={handleGrant}
                 disabled={busy}
-                className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white text-[13px] font-semibold transition"
+                className="btn-primary flex-1 py-2.5 text-[13px]"
               >
                 {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : null} Grant
               </button>
@@ -341,43 +342,43 @@ export default function AddonManager({ companyId, addons: initialAddons = [], on
 
       {/* Addon List */}
       {addons.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-10 gap-2 text-[#9DA3BB]">
-          <Package className="w-7 h-7 text-[#D1D5DB] dark:text-[#374151]" />
+        <div className="flex flex-col items-center justify-center py-10 gap-2 text-slate-400">
+          <Package className="w-7 h-7 text-slate-300 dark:text-slate-600" />
           <p className="text-[13px]">No addons yet</p>
         </div>
       ) : (
-        <div className="divide-y divide-[#F0F2FA] dark:divide-[#1E2130]">
+        <div className="divide-y divide-white dark:divide-white/10">
           {addons.map(a => (
             <div key={a._id} className="px-5 py-4 flex flex-col sm:flex-row sm:items-center gap-3">
 
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 flex-wrap">
                   {/* Addon icon */}
-                  <span className="w-6 h-6 rounded-md bg-[#EEF3FF] dark:bg-[#1E2A4A] flex items-center justify-center flex-shrink-0">
-                    <AddonIcon addonType={a.addonType} className="w-3.5 h-3.5 text-[#2563EB]" />
+                  <span className="w-6 h-6 rounded-md bg-violet-50 dark:bg-violet-500/15 flex items-center justify-center flex-shrink-0">
+                    <AddonIcon addonType={a.addonType} className="w-3.5 h-3.5 text-violet-600" />
                   </span>
 
-                  <span className="text-[13px] font-semibold text-[#0F1117] dark:text-[#F0F2FA]">
+                  <span className="text-[13px] font-semibold text-slate-900 dark:text-white">
                     {ALL_ADDON_LABELS[a.addonType] || a.addonType}
                   </span>
 
                   {a.quantity > 1 && (
-                    <span className="text-[11px] text-[#8B92A9]">× {a.quantity}</span>
+                    <span className="text-[11px] text-slate-400">× {a.quantity}</span>
                   )}
 
-                  <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full capitalize ${STATUS_STYLE[a.status] || ""}`}>
+                  <Pill tone={STATUS_TONE[a.status] || "slate"} className="!text-[10px] capitalize">
                     {a.status}
-                  </span>
+                  </Pill>
 
-                  <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full capitalize ${PAYMENT_STYLE[a.paymentStatus] || ""}`}>
+                  <Pill tone={PAYMENT_TONE[a.paymentStatus] || "slate"} className="!text-[10px] capitalize">
                     {a.paymentStatus}
-                  </span>
+                  </Pill>
                 </div>
 
-                <p className="text-[11px] text-[#8B92A9] mt-0.5">
+                <p className="text-[11px] text-slate-400 mt-0.5">
                   Granted {fmtDate(a.startDate)} · Expires {fmtDate(a.expiryDate)}
                   {a.price > 0 && (
-                    <span className="ml-2 font-semibold text-[#059669]">
+                    <span className="ml-2 font-semibold text-emerald-600">
                       {a.currency || "INR"}{" "}
                       {Number(a.price).toLocaleString("en-IN", {
                         minimumFractionDigits: 0,
@@ -388,7 +389,7 @@ export default function AddonManager({ companyId, addons: initialAddons = [], on
                 </p>
 
                 {a.notes && (
-                  <p className="text-[11px] text-[#9DA3BB] italic mt-0.5">{a.notes}</p>
+                  <p className="text-[11px] text-slate-400 italic mt-0.5">{a.notes}</p>
                 )}
               </div>
 
@@ -399,13 +400,13 @@ export default function AddonManager({ companyId, addons: initialAddons = [], on
                     <input
                       type="number" min={1} value={renewMonths}
                       onChange={e => setRenewMonths(Number(e.target.value))}
-                      className="w-16 px-2 py-1 rounded-lg border border-[#E5E7EB] dark:border-[#262A38] text-sm bg-[#F8F9FC] dark:bg-[#13161E] text-[#0F1117] dark:text-[#F0F2FA]"
+                      className="input-field w-16 px-2 py-1 text-sm"
                     />
-                    <span className="text-[11px] text-[#8B92A9]">mo</span>
+                    <span className="text-[11px] text-slate-400">mo</span>
                     <button
                       onClick={() => handleRenew(a._id)}
                       disabled={actionId === a._id}
-                      className="text-[12px] font-semibold text-green-600 hover:text-green-700 dark:text-green-400 transition"
+                      className="text-[12px] font-semibold text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 transition"
                     >
                       {actionId === a._id
                         ? <Loader2 className="w-4 h-4 animate-spin" />
@@ -413,7 +414,7 @@ export default function AddonManager({ companyId, addons: initialAddons = [], on
                     </button>
                     <button
                       onClick={() => setRenewId(null)}
-                      className="text-[12px] text-[#8B92A9] hover:text-red-500 transition"
+                      className="text-[12px] text-slate-400 hover:text-rose-500 transition"
                     >
                       Cancel
                     </button>
@@ -423,7 +424,7 @@ export default function AddonManager({ companyId, addons: initialAddons = [], on
                     {a.status !== "disabled" && (
                       <button
                         onClick={() => { setRenewId(a._id); setRenewMonths(1); }}
-                        className="flex items-center gap-1 text-[12px] font-medium px-3 py-1.5 rounded-lg border border-blue-200 dark:border-blue-500/30 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-500/10 transition"
+                        className="flex items-center gap-1 text-[12px] font-medium px-3 py-1.5 rounded-lg border border-violet-200 dark:border-violet-500/30 text-violet-600 dark:text-violet-400 hover:bg-violet-50 dark:hover:bg-violet-500/10 transition"
                       >
                         <RefreshCw className="w-3 h-3" /> Renew
                       </button>
