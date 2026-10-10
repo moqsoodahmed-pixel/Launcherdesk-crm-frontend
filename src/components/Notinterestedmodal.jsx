@@ -71,7 +71,7 @@ export default function NotInterestedModal({ lead, onClose, onSuccess }) {
                   : "Lead Reassigned Successfully"}
           </h2>
           {result.reassignedTo && (
-            <p className="text-[13px] text-slate-400">
+            <p className="text-[13px] text-slate-500">
               {result.isVerification
                 ? "Sent to "
                 : result.isReturned
@@ -93,13 +93,13 @@ export default function NotInterestedModal({ lead, onClose, onSuccess }) {
           )}
           {(result.scheduledCalls || []).length > 0 && (
             <div className="text-left space-y-2 bg-slate-50 dark:bg-white/[0.04] rounded-2xl p-4">
-              <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wide mb-2">Scheduled Calls</p>
+              <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-wide mb-2">Scheduled Calls</p>
               {(result.scheduledCalls || []).map(function(sc, i) {
                 return (
                   <div key={i} className="flex items-center gap-2">
                     <span className={"w-2 h-2 rounded-full shrink-0 " + (sc.type === "follow-up" ? "bg-cyan-500" : "bg-violet-500")} />
                     <span className="text-[12px] text-slate-600 dark:text-slate-300 capitalize">{sc.type}</span>
-                    <span className="ml-auto text-[11px] text-slate-400">{fmt(sc.scheduledAt)}</span>
+                    <span className="ml-auto text-[11px] text-slate-500">{fmt(sc.scheduledAt)}</span>
                   </div>
                 );
               })}
@@ -138,7 +138,7 @@ export default function NotInterestedModal({ lead, onClose, onSuccess }) {
             </span>
             <div>
               <h2 className="text-[15px] font-bold text-slate-900 dark:text-white">Mark as Not Interested</h2>
-              <p className="text-[12px] text-slate-400">{lead.name} · {lead.mobile || lead.phone || ""}</p>
+              <p className="text-[12px] text-slate-500">{lead.name} · {lead.mobile || lead.phone || ""}</p>
             </div>
           </div>
           <button onClick={onClose} className="icon-btn">
@@ -166,7 +166,7 @@ export default function NotInterestedModal({ lead, onClose, onSuccess }) {
           {/* Previous call history */}
           {history.length > 0 && (
             <div>
-              <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wide mb-2">
+              <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-wide mb-2">
                 Previous Call History ({history.length})
               </p>
               <div className="space-y-2 max-h-36 overflow-y-auto pr-1 scrollbar-thin">
@@ -175,7 +175,7 @@ export default function NotInterestedModal({ lead, onClose, onSuccess }) {
                     <div key={i} className="px-3 py-2.5 rounded-xl bg-slate-50 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10">
                       <div className="flex items-center justify-between mb-1">
                         <span className="text-[12px] font-semibold text-slate-900 dark:text-white">{h.userName || "Unknown"}</span>
-                        <span className="text-[10px] text-slate-400">{fmt(h.calledAt)}</span>
+                        <span className="text-[10px] text-slate-500">{fmt(h.calledAt)}</span>
                       </div>
                       <p className="text-[11px] text-slate-500 dark:text-slate-400">{h.remark}</p>
                       {h.outcome && (
@@ -192,7 +192,7 @@ export default function NotInterestedModal({ lead, onClose, onSuccess }) {
 
           {/* Remark input */}
           <div>
-            <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wide mb-1.5">
+            <label className="block text-[11px] font-semibold text-slate-500 uppercase tracking-wide mb-1.5">
               Reason / Remark <span className="text-rose-500">*</span>
             </label>
             <textarea

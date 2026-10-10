@@ -83,7 +83,7 @@ function AddonCard({ addon, onAddToCart, inCart }) {
         </div>
       </div>
 
-      <p className="text-[12px] text-slate-400 mb-3 flex-1">{addon.description}</p>
+      <p className="text-[12px] text-slate-500 mb-3 flex-1">{addon.description}</p>
 
       {/* Combined pack pills */}
       {isCombined && (
@@ -101,9 +101,9 @@ function AddonCard({ addon, onAddToCart, inCart }) {
         <span className="text-[22px] font-bold text-slate-900 dark:text-white">
           ₹{(addon.price || 0).toLocaleString("en-IN")}
         </span>
-        {suffix && <span className="text-[12px] text-slate-400">{suffix}</span>}
-        {addon.billingPeriod === "one_time" && <span className="text-[11px] text-slate-400">one-time</span>}
-        {minuteCount && <span className="ml-1 text-[11px] font-semibold text-slate-400">· {minuteCount} mins</span>}
+        {suffix && <span className="text-[12px] text-slate-500">{suffix}</span>}
+        {addon.billingPeriod === "one_time" && <span className="text-[11px] text-slate-500">one-time</span>}
+        {minuteCount && <span className="ml-1 text-[11px] font-semibold text-slate-500">· {minuteCount} mins</span>}
       </div>
 
       {/* Renewal badge */}
@@ -119,7 +119,7 @@ function AddonCard({ addon, onAddToCart, inCart }) {
           <div className="flex items-center justify-between px-3 py-2.5 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.04]">
             <div>
               <p className="text-[12px] font-semibold text-slate-900 dark:text-white">Monthly auto-renew</p>
-              <p className="text-[10px] text-slate-400">
+              <p className="text-[10px] text-slate-500">
                 {autoRenew ? "Renews each month automatically" : "One-time — re-buy when needed"}
               </p>
             </div>
@@ -137,7 +137,7 @@ function AddonCard({ addon, onAddToCart, inCart }) {
       {/* Qty */}
       {max > 1 && (
         <div className="flex items-center gap-3 mb-4">
-          <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wide">Qty</span>
+          <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wide">Qty</span>
           <div className="flex items-center gap-2">
             <button onClick={() => setQty(q => Math.max(1, q - 1))}
               className="w-7 h-7 rounded-lg border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-500 hover:border-violet-600 hover:text-violet-600 transition">
@@ -242,7 +242,7 @@ export default function AddonStore({ onCartOpen }) {
       {addons.length === 0 ? (
         <div className="surface-card px-6 py-16 text-center">
           <Package className="w-8 h-8 text-slate-300 mx-auto mb-3" />
-          <p className="text-[13px] text-slate-400">No add-ons are available for your plan right now.</p>
+          <p className="text-[13px] text-slate-500">No add-ons are available for your plan right now.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">

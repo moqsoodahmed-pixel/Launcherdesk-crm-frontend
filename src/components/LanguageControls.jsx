@@ -42,8 +42,8 @@ export function LanguageFilter({ value, onChange, className = "" }) {
   }, []);
   return (
     <div className={`inline-flex items-center gap-1.5 ${className}`}>
-      <Languages className="w-3.5 h-3.5 text-slate-400" />
-      <select value={value || ""} onChange={(e) => onChange(e.target.value)}
+      <Languages className="w-3.5 h-3.5 text-slate-500" />
+      <select aria-label="Filter by language" value={value || ""} onChange={(e) => onChange(e.target.value)}
         className="input-field px-2.5 py-1.5 text-[12px] font-semibold w-auto">
         <option value="">All languages</option>
         {langs.map((l) => <option key={l} value={l}>{l}</option>)}
@@ -74,7 +74,7 @@ export function LeadLanguageBadge({ lead, onChange, editable = true }) {
           placeholder="Language" className="input-field w-24 text-[11px] px-2 py-0.5" />
         <datalist id="lang-suggestions">{COMMON_LANGUAGES.map((l) => <option key={l} value={l} />)}</datalist>
         <button onClick={() => save(val.trim())} disabled={saving} className="text-emerald-600">{saving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Check className="w-3.5 h-3.5" />}</button>
-        <button onClick={() => setEditing(false)} className="text-slate-400"><X className="w-3.5 h-3.5" /></button>
+        <button onClick={() => setEditing(false)} className="text-slate-500"><X className="w-3.5 h-3.5" /></button>
       </span>
     );
   }
@@ -82,8 +82,8 @@ export function LeadLanguageBadge({ lead, onChange, editable = true }) {
     <span className="inline-flex items-center gap-1">
       {lead?.language
         ? <span className={`${chip} bg-violet-50 text-violet-600 dark:bg-violet-950/30`}>{lead.language}</span>
-        : <span className={`${chip} bg-slate-100 text-slate-400 dark:bg-white/5`}>—</span>}
-      {editable && <button onClick={() => { setVal(lead?.language || ""); setEditing(true); }} className="text-slate-400 hover:text-violet-600"><Pencil className="w-3 h-3" /></button>}
+        : <span className={`${chip} bg-slate-100 text-slate-500 dark:bg-white/5`}>—</span>}
+      {editable && <button onClick={() => { setVal(lead?.language || ""); setEditing(true); }} className="text-slate-500 hover:text-violet-600"><Pencil className="w-3 h-3" /></button>}
     </span>
   );
 }
@@ -111,7 +111,7 @@ export function EmployeeLanguages({ user, onSaved, compact = false }) {
   return (
     <div className={compact ? "" : "space-y-2"}>
       <div className="flex flex-wrap gap-1.5 items-center">
-        {langs.length === 0 && <span className="text-[11px] text-slate-400">No languages set</span>}
+        {langs.length === 0 && <span className="text-[11px] text-slate-500">No languages set</span>}
         {langs.map((l) => (
           <span key={l} className={`${chip} bg-violet-50 text-violet-600 dark:bg-violet-950/30 inline-flex items-center gap-1`}>
             {l}<button onClick={() => remove(l)} className="hover:text-rose-500"><X className="w-3 h-3" /></button>
@@ -119,7 +119,7 @@ export function EmployeeLanguages({ user, onSaved, compact = false }) {
         ))}
       </div>
       <div className="flex items-center gap-1.5">
-        <select value={input} onChange={(e) => { if (e.target.value) { add(e.target.value); } }}
+        <select aria-label="Add language" value={input} onChange={(e) => { if (e.target.value) { add(e.target.value); } }}
           className="input-field flex-1 px-2.5 py-1.5 text-[12px]">
           <option value="">Add language + Enter</option>
           {COMMON_LANGUAGES.filter((l) => !langs.some((x) => x.toLowerCase() === l.toLowerCase())).map((l) => <option key={l} value={l}>{l}</option>)}
@@ -127,7 +127,7 @@ export function EmployeeLanguages({ user, onSaved, compact = false }) {
         <input value={input} onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); add(input); } }}
           placeholder="Or type custom…" className="input-field w-24 px-2.5 py-1.5 text-[12px]" />
-        <button onClick={() => add(input)} className="icon-btn w-8 h-8 border border-slate-200 dark:border-white/10"><Plus className="w-3.5 h-3.5" /></button>
+        <button onClick={() => add(input)} aria-label="Add language" className="icon-btn w-8 h-8 border border-slate-200 dark:border-white/10"><Plus className="w-3.5 h-3.5" /></button>
         {dirty && <button onClick={save} disabled={saving} className="btn-primary btn-sm !px-3 !py-1.5 !text-[11px]">
           {saving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Check className="w-3.5 h-3.5" />} Save
         </button>}

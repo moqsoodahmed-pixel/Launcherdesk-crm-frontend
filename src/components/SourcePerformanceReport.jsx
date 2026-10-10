@@ -83,7 +83,7 @@ function StatCard({ label, value, icon: Icon, accent, bg }) {
         <Icon className={`w-4 h-4 ${accent}`} />
       </div>
       <div>
-        <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-0.5">{label}</p>
+        <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-0.5">{label}</p>
         <p className="text-[18px] font-bold text-slate-900 dark:text-white leading-none">{value}</p>
       </div>
     </div>
@@ -237,7 +237,7 @@ export default function SourcePerformanceReport({
             </div>
             <div>
               <h1 className="text-[18px] font-bold text-slate-900 dark:text-white">{title}</h1>
-              <p className="text-[12px] text-slate-400">{subtitle}</p>
+              <p className="text-[12px] text-slate-500">{subtitle}</p>
             </div>
           </div>
 
@@ -245,14 +245,14 @@ export default function SourcePerformanceReport({
           <div className="flex flex-wrap items-center gap-2 no-print">
             <div className="flex items-center gap-2 bg-slate-50 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 rounded-xl px-3 py-2">
               <div>
-                <label className="block text-[9px] font-bold uppercase tracking-wider text-slate-400 mb-0.5">From</label>
+                <label className="block text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-0.5">From</label>
                 <input type="date" value={from} onChange={(e) => setFrom(e.target.value)}
                   aria-label="From date"
                   className="text-[12px] font-semibold bg-transparent text-slate-900 dark:text-white focus:outline-none cursor-pointer" />
               </div>
               <span className="text-slate-300 dark:text-slate-600 text-sm">→</span>
               <div>
-                <label className="block text-[9px] font-bold uppercase tracking-wider text-slate-400 mb-0.5">To</label>
+                <label className="block text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-0.5">To</label>
                 <input type="date" value={to} onChange={(e) => setTo(e.target.value)}
                   aria-label="To date"
                   className="text-[12px] font-semibold bg-transparent text-slate-900 dark:text-white focus:outline-none cursor-pointer" />
@@ -287,7 +287,7 @@ export default function SourcePerformanceReport({
 
         {/* Error */}
         {error && (
-          <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800/50 text-rose-600 dark:text-rose-400 text-[13px] font-semibold">
+          <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800/50 text-rose-700 dark:text-rose-400 text-[13px] font-semibold">
             <AlertTriangle className="w-4 h-4 shrink-0" /> {error}
           </div>
         )}
@@ -326,7 +326,7 @@ export default function SourcePerformanceReport({
               {!data.aiAnalysis && !data.aiAnalysisError ? (
                 <div className="flex flex-col items-center justify-center py-8 gap-2 text-center">
                   <Sparkles className="w-7 h-7 text-slate-300 dark:text-slate-600" />
-                  <p className="text-[13px] text-slate-400">No AI analysis yet.</p>
+                  <p className="text-[13px] text-slate-500">No AI analysis yet.</p>
                   <p className="text-[12px] text-slate-300 dark:text-slate-600">Click "Generate AI Report" above to run it.</p>
                 </div>
               ) : data.aiAnalysisError ? (
@@ -376,7 +376,7 @@ export default function SourcePerformanceReport({
                     <div className="bg-slate-50 dark:bg-white/[0.03] border border-slate-200 dark:border-white/10 rounded-xl p-4">
                       <div className="flex items-center gap-1.5 mb-3">
                         <Lightbulb className="w-3.5 h-3.5 text-amber-500" />
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Improvement Suggestions</span>
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Improvement Suggestions</span>
                       </div>
                       <ul className="space-y-2">
                         {data.aiAnalysis.suggestions.map((s, i) => (
@@ -397,7 +397,7 @@ export default function SourcePerformanceReport({
         {/* ── Per-campaign cards ──────────────────────────────────────────── */}
         {data?.campaigns?.length > 0 && (
           <div>
-            <h2 className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-3">
+            <h2 className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-3">
               {withCost ? "Campaign Breakdown" : "Source Breakdown"}
             </h2>
             <div className="space-y-3">
@@ -430,7 +430,7 @@ export default function SourcePerformanceReport({
                         </div>
                         <div className="min-w-0">
                           <p className="text-[13px] font-bold text-slate-900 dark:text-white truncate">{c.campaignName}</p>
-                          {!c.configured && <p className="text-[11px] text-slate-400">Leads tagged to this name (no matching config)</p>}
+                          {!c.configured && <p className="text-[11px] text-slate-500">Leads tagged to this name (no matching config)</p>}
                         </div>
                       </div>
                       {!c.active && (
@@ -442,7 +442,7 @@ export default function SourcePerformanceReport({
                     <div className={`grid grid-cols-3 ${withCost ? "sm:grid-cols-6" : "sm:grid-cols-3"} bg-slate-50 dark:bg-white/[0.03]`}>
                       {metrics.map(([k, v]) => (
                         <div key={k} className="flex flex-col px-4 py-3 border-r border-b sm:border-b-0 border-slate-200 dark:border-white/10 last:border-r-0">
-                          <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400 mb-1">{k}</span>
+                          <span className="text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-1">{k}</span>
                           <span className="text-[12px] font-bold text-slate-900 dark:text-white">{v}</span>
                         </div>
                       ))}
@@ -501,7 +501,7 @@ export default function SourcePerformanceReport({
           <div className="flex flex-col items-center justify-center py-16 gap-3 surface-card">
             <BarChart3 className="w-9 h-9 text-slate-300 dark:text-slate-600" strokeWidth={1.5} />
             <p className="text-[14px] font-semibold text-slate-900 dark:text-white">No data in this period</p>
-            <p className="text-[12px] text-slate-400">
+            <p className="text-[12px] text-slate-500">
               {withCost
                 ? "No Google Ads leads or campaigns were found for the selected dates."
                 : "No website leads or sources were found for the selected dates."}

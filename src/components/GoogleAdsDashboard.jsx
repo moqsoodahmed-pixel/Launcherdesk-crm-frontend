@@ -32,12 +32,12 @@ const TL = {
 };
 
 const CARD = "surface-card";
-const TH = "text-[10px] font-bold uppercase tracking-wider text-slate-400 px-3 py-2.5 whitespace-nowrap";
+const TH = "text-[10px] font-bold uppercase tracking-wider text-slate-500 px-3 py-2.5 whitespace-nowrap";
 const TD = "text-[12px] text-slate-900 dark:text-white px-3 py-2.5 whitespace-nowrap";
 const SectionTitle = ({ children, sub }) => (
   <div className="mb-3">
     <h2 className="text-[13px] font-bold text-slate-900 dark:text-white">{children}</h2>
-    {sub && <p className="text-[11px] text-slate-400 mt-0.5">{sub}</p>}
+    {sub && <p className="text-[11px] text-slate-500 mt-0.5">{sub}</p>}
   </div>
 );
 
@@ -64,7 +64,7 @@ function KpiCard({ kpi }) {
         )}
       </div>
       <div>
-        <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-0.5">{kpi.label}</p>
+        <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-0.5">{kpi.label}</p>
         <p className="text-[18px] font-bold text-slate-900 dark:text-white leading-none">{fmt(kpi.value, kpi.format)}</p>
       </div>
     </div>
@@ -116,7 +116,7 @@ function SortableTable({ columns, rows, initialSort }) {
             </tr>
           ))}
           {sorted.length === 0 && (
-            <tr><td colSpan={columns.length} className="text-center text-[12px] text-slate-400 py-8">No data</td></tr>
+            <tr><td colSpan={columns.length} className="text-center text-[12px] text-slate-500 py-8">No data</td></tr>
           )}
         </tbody>
       </table>
@@ -188,7 +188,7 @@ export default function GoogleAdsDashboard() {
               </div>
               <div>
                 <h1 className="text-[18px] font-bold text-slate-900 dark:text-white">Google Ads Performance</h1>
-                <p className="text-[12px] text-slate-400">Where your ad budget becomes customers &amp; revenue</p>
+                <p className="text-[12px] text-slate-500">Where your ad budget becomes customers &amp; revenue</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
@@ -205,7 +205,7 @@ export default function GoogleAdsDashboard() {
           {/* Filters */}
           <div className="flex flex-wrap items-center gap-2">
             <div className="flex items-center gap-1.5 bg-slate-50 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 rounded-xl px-2.5 py-1.5">
-              <Filter className="w-3.5 h-3.5 text-slate-400" />
+              <Filter className="w-3.5 h-3.5 text-slate-500" />
               <input type="date" value={from} onChange={(e) => setFrom(e.target.value)} aria-label="From date" className="text-[12px] font-semibold bg-transparent focus:outline-none text-slate-900 dark:text-white" />
               <span className="text-slate-300 dark:text-slate-600">→</span>
               <input type="date" value={to} onChange={(e) => setTo(e.target.value)} aria-label="To date" className="text-[12px] font-semibold bg-transparent focus:outline-none text-slate-900 dark:text-white" />
@@ -236,7 +236,7 @@ export default function GoogleAdsDashboard() {
 
 
         {error && (
-          <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800/50 text-rose-600 dark:text-rose-400 text-[13px] font-semibold">
+          <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800/50 text-rose-700 dark:text-rose-400 text-[13px] font-semibold">
             <AlertTriangle className="w-4 h-4 shrink-0" /> {error}
           </div>
         )}
@@ -279,10 +279,10 @@ export default function GoogleAdsDashboard() {
                       <span className="text-[12px] font-bold text-slate-900 dark:text-white">{s.name}</span>
                       <div className="flex items-center gap-3 text-[11px]">
                         <span className="font-bold text-slate-900 dark:text-white">{int(s.count)}</span>
-                        {s.fromPrevPct != null && <span className="text-slate-400">{s.fromPrevPct}% of prev</span>}
+                        {s.fromPrevPct != null && <span className="text-slate-500">{s.fromPrevPct}% of prev</span>}
                         {s.conversionPct != null && <span className="text-indigo-600 dark:text-indigo-400">{s.conversionPct}% overall</span>}
                         {s.dropOffPct != null && (
-                          <span className={`font-semibold ${s.bigDropOff ? "text-rose-600 dark:text-rose-400" : "text-slate-400"}`}>
+                          <span className={`font-semibold ${s.bigDropOff ? "text-rose-600 dark:text-rose-400" : "text-slate-500"}`}>
                             ▼ {s.dropOffPct}%
                           </span>
                         )}
@@ -339,7 +339,7 @@ export default function GoogleAdsDashboard() {
                 ["Revenue / Customer", money(data.crmSales.revenuePerCustomer)],
               ].map(([label, val]) => (
                 <div key={label} className={`${CARD} p-4`}>
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">{label}</p>
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">{label}</p>
                   <p className="text-[16px] font-bold text-slate-900 dark:text-white">{val}</p>
                 </div>
               ))}
@@ -395,7 +395,7 @@ export default function GoogleAdsDashboard() {
 
         {/* Unavailable-sections note (honest) */}
         {data?.notes?.unavailable && (
-          <p className="text-[11px] text-slate-400 border-t border-slate-200 dark:border-white/10 pt-4">
+          <p className="text-[11px] text-slate-500 border-t border-slate-200 dark:border-white/10 pt-4">
             {data.notes.unavailable} {data.notes.qualified} {data.notes.revenue}
           </p>
         )}

@@ -71,7 +71,7 @@ function KpiCard({ icon: Icon, label, value, tint, trend, sparkData }) {
       </div>
       <p className="text-[20px] font-extrabold text-slate-900 dark:text-white leading-none mb-1">{value}</p>
       <div className="flex items-center justify-between">
-        <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">{label}</p>
+        <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">{label}</p>
         <Sparkline data={sparkData} color={tint} />
       </div>
     </div>
@@ -81,7 +81,7 @@ function KpiCard({ icon: Icon, label, value, tint, trend, sparkData }) {
 // ── Funnel chart (SVG trapezoids) ─────────────────────────────────────────────
 function FunnelChart({ stages }) {
   const data = (stages || []).filter((s) => s.count > 0);
-  if (!data.length) return <p className="text-center text-[12px] text-slate-400 py-8">No data</p>;
+  if (!data.length) return <p className="text-center text-[12px] text-slate-500 py-8">No data</p>;
   const max = data[0].count;
   return (
     <div className="space-y-1.5">
@@ -113,7 +113,7 @@ function AreaChart({ series, points, height = 180 }) {
   const [hover, setHover] = useState(null);
   const svgRef = useRef(null);
   const n = points.length;
-  if (!n) return <div className="text-center text-[12px] text-slate-400 py-10">No data</div>;
+  if (!n) return <div className="text-center text-[12px] text-slate-500 py-10">No data</div>;
   const w = 640, h = height, pL = 36, pR = 8, pT = 10, pB = 22;
   const allMax = Math.max(1, ...series.flatMap((s) => s.data));
   const x = (i) => pL + (i / Math.max(1, n - 1)) * (w - pL - pR);
@@ -162,7 +162,7 @@ function DonutChart({ data, onSliceClick }) {
   let acc = 0;
   const R = 54, C = 2 * Math.PI * R;
   const [hov, setHov] = useState(null);
-  if (!rows.length) return <div className="text-center text-[12px] text-slate-400 py-8">No data</div>;
+  if (!rows.length) return <div className="text-center text-[12px] text-slate-500 py-8">No data</div>;
   return (
     <div className="flex items-center gap-5 flex-wrap">
       <div className="relative w-[130px] h-[130px] shrink-0">
@@ -181,7 +181,7 @@ function DonutChart({ data, onSliceClick }) {
           </g>
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-          <span className="text-[9px] text-slate-400 uppercase tracking-wide">Total</span>
+          <span className="text-[9px] text-slate-500 uppercase tracking-wide">Total</span>
           <span className="text-[16px] font-extrabold text-slate-900 dark:text-white">{num(total)}</span>
         </div>
       </div>
@@ -191,7 +191,7 @@ function DonutChart({ data, onSliceClick }) {
             <span className="w-2.5 h-2.5 rounded-sm shrink-0" style={{ background: d.color }} />
             <span className="flex-1 text-[11px] text-slate-600 dark:text-slate-300">{d.stage}</span>
             <span className="text-[11px] font-bold text-slate-900 dark:text-white">{num(d.count)}</span>
-            <span className="text-[10px] text-slate-400 w-10 text-right">{Math.round((d.count / total) * 100)}%</span>
+            <span className="text-[10px] text-slate-500 w-10 text-right">{Math.round((d.count / total) * 100)}%</span>
           </div>
         ))}
       </div>
@@ -203,7 +203,7 @@ function DonutChart({ data, onSliceClick }) {
 function RankBars({ rows, valueKey, labelKey, format }) {
   const data = (rows || []).slice(0, 8);
   const max = Math.max(1, ...data.map((d) => Number(d[valueKey]) || 0));
-  if (!data.length) return <div className="text-center text-[12px] text-slate-400 py-6">No data</div>;
+  if (!data.length) return <div className="text-center text-[12px] text-slate-500 py-6">No data</div>;
   return (
     <div className="space-y-2.5">
       {data.map((d, i) => (
@@ -252,18 +252,18 @@ function SortableTable({ columns, rows, initialSort }) {
     <div className="space-y-2">
       <div className="flex items-center gap-2">
         <div className="relative flex-1 max-w-xs">
-          <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
+          <Search className="w-3.5 h-3.5 text-slate-500 absolute left-2.5 top-1/2 -translate-y-1/2" />
           <input value={search} onChange={(e) => { setSearch(e.target.value); setPage(1); }} placeholder="Search…"
             aria-label="Search table"
             className="w-full text-[12px] pl-7 pr-3 py-1.5 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-[#181029] focus:outline-none text-slate-900 dark:text-white" />
         </div>
-        <span className="text-[11px] text-slate-400 ml-auto">{sorted.length} rows</span>
+        <span className="text-[11px] text-slate-500 ml-auto">{sorted.length} rows</span>
       </div>
       <div className={`${CARD} overflow-x-auto`}>
         <table className="w-full border-collapse">
           <thead><tr className="border-b border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.03]">
             {columns.map((c) => (
-              <th key={c.key} onClick={() => toggle(c.key)} className={`text-[10px] font-bold uppercase tracking-wider text-slate-400 px-3 py-2.5 cursor-pointer whitespace-nowrap select-none hover:text-slate-600 dark:hover:text-slate-300 ${c.align === "right" ? "text-right" : "text-left"}`}>
+              <th key={c.key} onClick={() => toggle(c.key)} className={`text-[10px] font-bold uppercase tracking-wider text-slate-500 px-3 py-2.5 cursor-pointer whitespace-nowrap select-none hover:text-slate-600 dark:hover:text-slate-300 ${c.align === "right" ? "text-right" : "text-left"}`}>
                 <span className="inline-flex items-center gap-1">{c.label}{sort.key === c.key ? (sort.dir === "asc" ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />) : <ArrowUpDown className="w-3 h-3 opacity-30" />}</span>
               </th>
             ))}
@@ -274,7 +274,7 @@ function SortableTable({ columns, rows, initialSort }) {
                 {columns.map((c) => <td key={c.key} className={`px-3 py-2.5 text-[12px] text-slate-900 dark:text-white whitespace-nowrap ${c.align === "right" ? "text-right tabular-nums" : ""}`}>{c.render ? c.render(r) : r[c.key]}</td>)}
               </tr>
             ))}
-            {!paged.length && <tr><td colSpan={columns.length} className="px-3 py-8 text-center text-[12px] text-slate-400">No rows</td></tr>}
+            {!paged.length && <tr><td colSpan={columns.length} className="px-3 py-8 text-center text-[12px] text-slate-500">No rows</td></tr>}
           </tbody>
         </table>
       </div>
@@ -293,7 +293,7 @@ function Panel({ title, icon: Icon, children, className = "" }) {
   return (
     <div className={`${CARD} p-4 ${className}`}>
       <div className="flex items-center gap-2 mb-3">
-        {Icon && <Icon className="w-4 h-4 text-slate-400" />}
+        {Icon && <Icon className="w-4 h-4 text-slate-500" />}
         <p className="text-[13px] font-bold text-slate-900 dark:text-white">{title}</p>
       </div>
       {children}
@@ -367,7 +367,7 @@ export default function PerformanceMarketingDashboard() {
           </span>
           <div>
             <h1 className="text-[18px] font-extrabold text-slate-900 dark:text-white leading-tight">Performance Marketing</h1>
-            <p className="text-[11px] text-slate-400">Ad performance · Lead funnel · Conversion analytics</p>
+            <p className="text-[11px] text-slate-500">Ad performance · Lead funnel · Conversion analytics</p>
           </div>
         </div>
         <div className="ml-auto flex items-center gap-2 flex-wrap">
@@ -403,7 +403,7 @@ export default function PerformanceMarketingDashboard() {
             <input type="date" value={from} onChange={(e) => { setFrom(e.target.value); setPreset("Custom"); }}
               aria-label="From date"
               className="input-field w-auto px-2 py-1.5 text-[11px] font-semibold" />
-            <span className="text-slate-400 text-[11px]">→</span>
+            <span className="text-slate-500 text-[11px]">→</span>
             <input type="date" value={to} onChange={(e) => { setTo(e.target.value); setPreset("Custom"); }}
               aria-label="To date"
               className="input-field w-auto px-2 py-1.5 text-[11px] font-semibold" />
@@ -424,7 +424,7 @@ export default function PerformanceMarketingDashboard() {
             </select>
             {(source || campaign) && (
               <button onClick={() => { setSource(""); setCampaign(""); }}
-                className="text-slate-400 hover:text-rose-500 transition-colors p-1">
+                className="text-slate-500 hover:text-rose-500 transition-colors p-1">
                 <X className="w-3.5 h-3.5" />
               </button>
             )}
@@ -433,11 +433,11 @@ export default function PerformanceMarketingDashboard() {
       </div>
 
       {error && (
-        <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800/50 text-rose-600 dark:text-rose-400 text-[13px] font-semibold">
+        <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800/50 text-rose-700 dark:text-rose-400 text-[13px] font-semibold">
           <AlertTriangle className="w-4 h-4 shrink-0" /> {error}
         </div>
       )}
-      {loading && !data && <div className={`${CARD} p-12 flex justify-center`}><Loader2 className="w-6 h-6 animate-spin text-slate-400" /></div>}
+      {loading && !data && <div className={`${CARD} p-12 flex justify-center`}><Loader2 className="w-6 h-6 animate-spin text-slate-500" /></div>}
 
       {data && (
         <>
@@ -510,7 +510,7 @@ export default function PerformanceMarketingDashboard() {
                 { key: "newLeads",   label: "New",        align: "right", render: (r) => num(r.newLeads) },
                 { key: "inProgress", label: "In Progress",align: "right", render: (r) => num(r.inProgress) },
                 { key: "converted",  label: "Converted",  align: "right", render: (r) => <span className="text-emerald-600 font-semibold">{num(r.converted)}</span> },
-                { key: "convRate",   label: "Conv %",     align: "right", render: (r) => <span className={`font-semibold ${r.convRate >= 10 ? "text-emerald-600" : r.convRate >= 5 ? "text-amber-600" : "text-slate-400"}`}>{pct(r.convRate)}</span> },
+                { key: "convRate",   label: "Conv %",     align: "right", render: (r) => <span className={`font-semibold ${r.convRate >= 10 ? "text-emerald-600" : r.convRate >= 5 ? "text-amber-600" : "text-slate-500"}`}>{pct(r.convRate)}</span> },
                 { key: "notInt",     label: "Not Int.",   align: "right", render: (r) => <span className="text-rose-500">{num(r.notInt)}</span> },
               ]}
             />
@@ -568,7 +568,7 @@ export default function PerformanceMarketingDashboard() {
                   <f.icon className="w-4 h-4" style={{ color: f.color }} />
                 </div>
                 <p className="text-[22px] font-extrabold text-slate-900 dark:text-white leading-none mb-0.5">{num(f.count)}</p>
-                <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">{f.label}</p>
+                <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">{f.label}</p>
               </div>
             ))}
           </div>

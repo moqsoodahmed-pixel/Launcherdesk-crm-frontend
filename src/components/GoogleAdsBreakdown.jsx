@@ -39,10 +39,10 @@ function Kpi({ icon: Icon, label, value, tint, hint }) {
         <span className="w-7 h-7 rounded-xl flex items-center justify-center shrink-0" style={{ background: `${tint}22` }}>
           <Icon className="w-4 h-4" style={{ color: tint }} />
         </span>
-        <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">{label}</span>
+        <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">{label}</span>
       </div>
       <p className="text-[22px] font-extrabold text-slate-900 dark:text-white leading-none relative">{value}</p>
-      {hint && <p className="text-[10px] text-slate-400 mt-1 relative">{hint}</p>}
+      {hint && <p className="text-[10px] text-slate-500 mt-1 relative">{hint}</p>}
     </div>
   );
 }
@@ -52,7 +52,7 @@ function AreaLineChart({ points, series, height = 190, fmt }) {
   const [hover, setHover] = useState(null);
   const svgRef = useRef(null);
   const n = points.length;
-  if (!n) return <div className="text-[12px] text-slate-400 py-12 text-center">No data in this range</div>;
+  if (!n) return <div className="text-[12px] text-slate-500 py-12 text-center">No data in this range</div>;
   const w = 640, h = height, padL = 42, padR = 12, padT = 12, padB = 24;
   const allMax = Math.max(1, ...series.flatMap((s) => s.data));
   const x = (i) => padL + (i * (w - padL - padR)) / Math.max(1, n - 1);
@@ -133,7 +133,7 @@ function AreaLineChart({ points, series, height = 190, fmt }) {
 // ── Ranked gradient bars ─────────────────────────────────────────────────────
 function RankBars({ rows, valueKey, labelKey, format }) {
   const data = (rows || []).slice(0, 7);
-  if (!data.length) return <div className="text-[12px] text-slate-400 py-8 text-center">No data</div>;
+  if (!data.length) return <div className="text-[12px] text-slate-500 py-8 text-center">No data</div>;
   const max = Math.max(1, ...data.map((d) => Number(d[valueKey]) || 0));
   return (
     <div className="space-y-2.5">
@@ -161,7 +161,7 @@ function Donut({ data, format, centerLabel }) {
   const total = rows.reduce((s, d) => s + (Number(d.value) || 0), 0) || 1;
   let acc = 0;
   const R = 54, C = 2 * Math.PI * R;
-  if (!rows.length) return <div className="text-[12px] text-slate-400 py-8 text-center">No data</div>;
+  if (!rows.length) return <div className="text-[12px] text-slate-500 py-8 text-center">No data</div>;
   return (
     <div className="flex items-center gap-4">
       <div className="relative w-[130px] h-[130px] shrink-0">
@@ -176,7 +176,7 @@ function Donut({ data, format, centerLabel }) {
           </g>
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="text-[9px] text-slate-400 uppercase tracking-wide">{centerLabel || "Total"}</span>
+          <span className="text-[9px] text-slate-500 uppercase tracking-wide">{centerLabel || "Total"}</span>
           <span className="text-[14px] font-extrabold text-slate-900 dark:text-white">{format ? format(total) : num(total)}</span>
         </div>
       </div>
@@ -186,7 +186,7 @@ function Donut({ data, format, centerLabel }) {
           return (
             <div key={i} className="flex items-center gap-2 text-[11px]">
               <span className="w-2.5 h-2.5 rounded-sm shrink-0" style={{ background: COLORS[i % COLORS.length] }} />
-              {DIcon && <DIcon className="w-3 h-3 text-slate-400 shrink-0" />}
+              {DIcon && <DIcon className="w-3 h-3 text-slate-500 shrink-0" />}
               <span className="truncate text-slate-600 dark:text-slate-300 capitalize">{String(d.label).toLowerCase().replace(/_/g, " ")}</span>
               <span className="ml-auto font-bold text-slate-900 dark:text-white">{Math.round((d.value / total) * 100)}%</span>
             </div>
@@ -210,14 +210,14 @@ function SortableTable({ columns, rows, initialSort }) {
     return arr;
   }, [rows, sort]);
   const toggle = (k) => setSort((s) => (s.key === k ? { key: k, dir: s.dir === "asc" ? "desc" : "asc" } : { key: k, dir: "desc" }));
-  if (!rows || !rows.length) return <div className={`${CARD} py-6 text-center text-[12px] text-slate-400`}>No rows</div>;
+  if (!rows || !rows.length) return <div className={`${CARD} py-6 text-center text-[12px] text-slate-500`}>No rows</div>;
   return (
     <div className={`${CARD} overflow-x-auto`}>
       <table className="w-full border-collapse">
         <thead><tr className="border-b border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.03]">
           {columns.map((c) => (
             <th key={c.key} onClick={() => toggle(c.key)}
-              className={`text-[10px] font-bold uppercase tracking-wider text-slate-400 px-3 py-2.5 cursor-pointer whitespace-nowrap select-none hover:text-slate-600 dark:hover:text-slate-300 ${c.align === "right" ? "text-right" : "text-left"}`}>
+              className={`text-[10px] font-bold uppercase tracking-wider text-slate-500 px-3 py-2.5 cursor-pointer whitespace-nowrap select-none hover:text-slate-600 dark:hover:text-slate-300 ${c.align === "right" ? "text-right" : "text-left"}`}>
               <span className="inline-flex items-center gap-1">{c.label}{sort.key === c.key ? (sort.dir === "asc" ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />) : <ArrowUpDown className="w-3 h-3 opacity-30" />}</span>
             </th>
           ))}
@@ -242,10 +242,10 @@ function Panel({ title, sub, icon: Icon, children }) {
   return (
     <div className={`${CARD} p-4`}>
       <div className="mb-3 flex items-center gap-2">
-        {Icon && <Icon className="w-4 h-4 text-slate-400" />}
+        {Icon && <Icon className="w-4 h-4 text-slate-500" />}
         <div>
           <p className="text-[13px] font-bold text-slate-900 dark:text-white">{title}</p>
-          {sub && <p className="text-[11px] text-slate-400">{sub}</p>}
+          {sub && <p className="text-[11px] text-slate-500">{sub}</p>}
         </div>
       </div>
       {children}
@@ -291,15 +291,15 @@ export default function GoogleAdsBreakdown({ from, to }) {
         <span className="w-8 h-8 rounded-xl bg-brand-gradient shadow-glow-brand flex items-center justify-center"><BarChart3 className="w-4 h-4 text-white" /></span>
         <div>
           <p className="text-[15px] font-extrabold text-slate-900 dark:text-white leading-tight">Google Ads Analytics</p>
-          {report?.account?.customerName && <p className="text-[11px] text-slate-400">{report.account.customerName} · {report.range?.from} → {report.range?.to}</p>}
+          {report?.account?.customerName && <p className="text-[11px] text-slate-500">{report.account.customerName} · {report.range?.from} → {report.range?.to}</p>}
         </div>
         <button onClick={load} disabled={loading} className="ml-auto btn-primary btn-sm">
           {loading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <RefreshCw className="w-3.5 h-3.5" />} Refresh
         </button>
       </div>
 
-      {note && <div className={`${CARD} p-6 text-center`}><p className="text-[12px] text-slate-400">{note}</p></div>}
-      {loading && !report && <div className={`${CARD} p-12 flex justify-center`}><Loader2 className="w-6 h-6 animate-spin text-slate-400" /></div>}
+      {note && <div className={`${CARD} p-6 text-center`}><p className="text-[12px] text-slate-500">{note}</p></div>}
+      {loading && !report && <div className={`${CARD} p-12 flex justify-center`}><Loader2 className="w-6 h-6 animate-spin text-slate-500" /></div>}
 
       {report && !note && (
         <>

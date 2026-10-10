@@ -238,20 +238,20 @@ function TranscriptionPanel({ callLogId, recording, contactName }) {
             </span>
           )}
         </div>
-        <ChevronDown className={`w-3.5 h-3.5 text-[#7D7296] transition-transform ${expanded ? "rotate-180" : ""}`} />
+        <ChevronDown className={`w-3.5 h-3.5 text-[#716787] transition-transform ${expanded ? "rotate-180" : ""}`} />
       </button>
 
       {expanded && (
         <div className="px-3 py-3 space-y-3 bg-white dark:bg-[#120B22]">
           {summary?.summary && (
             <div>
-              <p className="text-[12px] font-bold text-[#7D7296] uppercase tracking-widest mb-1">Summary</p>
+              <p className="text-[12px] font-bold text-[#716787] uppercase tracking-widest mb-1">Summary</p>
               <p className="text-[14px] text-[#4A3F66] dark:text-white leading-relaxed">{summary.summary}</p>
             </div>
           )}
           {Array.isArray(summary?.keyPoints) && summary.keyPoints.length > 0 && (
             <div>
-              <p className="text-[12px] font-bold text-[#7D7296] uppercase tracking-widest mb-1">Key Points</p>
+              <p className="text-[12px] font-bold text-[#716787] uppercase tracking-widest mb-1">Key Points</p>
               <ul className="space-y-1">
                 {summary.keyPoints.map((pt, i) => (
                   <li key={i} className="flex items-start gap-1.5 text-[14px] text-[#4A3F66] dark:text-white">
@@ -273,7 +273,7 @@ function TranscriptionPanel({ callLogId, recording, contactName }) {
           )}
           {transcript && (
             <details className="group">
-              <summary className="cursor-pointer text-[12px] font-bold text-[#7D7296] uppercase tracking-widest select-none list-none flex items-center gap-1">
+              <summary className="cursor-pointer text-[12px] font-bold text-[#716787] uppercase tracking-widest select-none list-none flex items-center gap-1">
                 <ChevronRight className="w-3 h-3 group-open:rotate-90 transition-transform" />
                 Full Transcript
               </summary>
@@ -377,10 +377,10 @@ function LeadCombinedSummaryPanel({ leadId }) {
           )}
           {data && !cs && !loading && !error && (
             <div className="flex items-start gap-2 px-3 py-3 rounded-lg bg-[#FAF7FF] dark:bg-[#120B22] border border-[#E7DCFA] dark:border-[#2B1E48]">
-              <Mic className="w-3.5 h-3.5 text-[#7D7296] shrink-0 mt-0.5" />
+              <Mic className="w-3.5 h-3.5 text-[#716787] shrink-0 mt-0.5" />
               <div>
                 <p className="text-[14px] text-[#4A3F66] dark:text-[#9A8DB6]">{data.message}</p>
-                <p className="text-[12px] text-[#7D7296] mt-1">
+                <p className="text-[12px] text-[#716787] mt-1">
                   {data.totalCalls} call{data.totalCalls !== 1 ? "s" : ""} logged · 0 transcribed
                 </p>
               </div>
@@ -398,7 +398,7 @@ function LeadCombinedSummaryPanel({ leadId }) {
               </div>
               {cs.overallSummary && (
                 <div>
-                  <p className="text-[12px] font-bold text-[#7D7296] uppercase tracking-widest mb-1.5">Overall Summary</p>
+                  <p className="text-[12px] font-bold text-[#716787] uppercase tracking-widest mb-1.5">Overall Summary</p>
                   <p className="text-[15px] text-[#4A3F66] dark:text-[#9A8DB6] leading-relaxed">{cs.overallSummary}</p>
                 </div>
               )}
@@ -413,7 +413,7 @@ function LeadCombinedSummaryPanel({ leadId }) {
               )}
               {Array.isArray(cs.keyInsights) && cs.keyInsights.length > 0 && (
                 <div>
-                  <p className="text-[12px] font-bold text-[#7D7296] uppercase tracking-widest mb-1.5">Key Insights</p>
+                  <p className="text-[12px] font-bold text-[#716787] uppercase tracking-widest mb-1.5">Key Insights</p>
                   <ul className="space-y-1.5">
                     {cs.keyInsights.map((pt, i) => (
                       <li key={i} className="flex items-start gap-2 text-[14px] text-[#4A3F66] dark:text-[#9A8DB6]">
@@ -490,7 +490,7 @@ function RecordingsTab({ lead }) {
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center py-16 gap-3 text-[#7D7296]">
+      <div className="flex flex-col items-center justify-center py-16 gap-3 text-[#716787]">
         <Loader2 className="w-5 h-5 animate-spin text-[#7E14FF]" />
         <span className="text-[15px]">Loading recordings…</span>
       </div>
@@ -509,7 +509,7 @@ function RecordingsTab({ lead }) {
       <div className="flex flex-col items-center justify-center py-16 gap-3 px-6 text-center">
         <Mic className="w-10 h-10 text-[#E7DCFA] dark:text-[#2B1E48]" />
         <p className="text-[15px] font-semibold text-[#4A3F66] dark:text-white">No recordings found</p>
-        <p className="text-[13px] text-[#7D7296]">
+        <p className="text-[13px] text-[#716787]">
           Recordings upload automatically from the mobile app after calls.
         </p>
         <button
@@ -526,7 +526,7 @@ function RecordingsTab({ lead }) {
   return (
     <div className="px-6 py-4 space-y-5">
       <div className="flex items-center justify-between">
-        <p className="text-[13px] font-bold text-[#7D7296] dark:text-gray-400 uppercase tracking-widest">
+        <p className="text-[13px] font-bold text-[#716787] dark:text-gray-400 uppercase tracking-widest">
           {callLogs.length} Call Log{callLogs.length > 1 ? "s" : ""} with Recordings
         </p>
         <button
@@ -553,7 +553,7 @@ function RecordingsTab({ lead }) {
                   })}
                 </p>
                 {log.user?.name && (
-                  <p className="text-[12px] text-[#7D7296] mt-0.5">Employee: {log.user.name}</p>
+                  <p className="text-[12px] text-[#716787] mt-0.5">Employee: {log.user.name}</p>
                 )}
               </div>
             </div>
@@ -596,7 +596,7 @@ function RecordingsTab({ lead }) {
                     ) : r.transcribeStatus === "processing" ? (
                       <span className="text-[12px] font-semibold text-amber-600 bg-amber-50 dark:bg-amber-950/30 px-2 py-0.5 rounded-full">Processing…</span>
                     ) : (
-                      <span className="text-[12px] font-semibold text-[#7D7296] bg-[#F3EBFF] dark:bg-[#1D1333] px-2 py-0.5 rounded-full">Not transcribed</span>
+                      <span className="text-[12px] font-semibold text-[#716787] bg-[#F3EBFF] dark:bg-[#1D1333] px-2 py-0.5 rounded-full">Not transcribed</span>
                     )}
                   </div>
                   <div className="px-3 pt-2.5 pb-1">
@@ -611,7 +611,7 @@ function RecordingsTab({ lead }) {
                         onError={e => { e.target.style.display = "none"; }}
                       />
                     ) : (
-                      <p className="text-[13px] text-[#7D7296] italic py-1">Audio file not available</p>
+                      <p className="text-[13px] text-[#716787] italic py-1">Audio file not available</p>
                     )}
                   </div>
                   <div className="px-3 pb-3">
@@ -628,7 +628,7 @@ function RecordingsTab({ lead }) {
                 <audio controls controlsList="nodownload noplaybackrate" onContextMenu={e => e.preventDefault()} src={audioUrl(log.recordingUrl)} className="w-full h-8 rounded-xl accent-[#7E14FF]" preload="none" />
               </div>
             ) : (
-              <p className="text-[13px] text-[#7D7296] italic">Recording file not available</p>
+              <p className="text-[13px] text-[#716787] italic">Recording file not available</p>
             )}
           </div>
         </div>
@@ -664,13 +664,13 @@ function RecordingsDrawer({ lead, onClose, isSuperAdmin, onLeadUpdated, onToast 
               <div className="min-w-0">
                 {/* MOBILE CHANGE: truncate long names with ellipsis */}
                 <p className="text-[17px] font-bold text-[#170B29] dark:text-white leading-none truncate max-w-[200px] sm:max-w-none" title={lead.name}>{lead.name}</p>
-                <p className="text-[14px] text-[#7D7296] mt-0.5 truncate">{lead.agent || "Unassigned"}</p>
+                <p className="text-[14px] text-[#716787] mt-0.5 truncate">{lead.agent || "Unassigned"}</p>
               </div>
             </div>
             <div className="flex items-center gap-2 mt-2 flex-wrap">
               <StatusBadge lead={lead} />
               {lead.Quality && <TempBadge temp={lead.Quality} />}
-              <span className="text-[12px] text-[#7D7296] truncate">{lead.source}</span>
+              <span className="text-[12px] text-[#716787] truncate">{lead.source}</span>
             </div>
             {lead.leadScore != null && (
               <div className="mt-2">
@@ -680,7 +680,7 @@ function RecordingsDrawer({ lead, onClose, isSuperAdmin, onLeadUpdated, onToast 
           </div>
           <button
             onClick={onClose}
-            className="w-7 h-7 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-center text-[#7D7296] hover:text-[#170B29] dark:hover:text-white transition shrink-0"
+            className="w-7 h-7 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-center text-[#716787] hover:text-[#170B29] dark:hover:text-white transition shrink-0"
           >
             <X className="w-3.5 h-3.5" />
           </button>
@@ -693,7 +693,7 @@ function RecordingsDrawer({ lead, onClose, isSuperAdmin, onLeadUpdated, onToast 
             className={`flex items-center gap-1.5 px-3 py-3 text-[14px] font-semibold border-b-2 transition -mb-px ${
               drawerTab === "recordings"
                 ? "border-[#7E14FF] text-[#7E14FF]"
-                : "border-transparent text-[#7D7296] hover:text-[#4A3F66] dark:hover:text-white"
+                : "border-transparent text-[#716787] hover:text-[#4A3F66] dark:hover:text-white"
             }`}
           >
             <Mic className="w-3 h-3" />
@@ -704,7 +704,7 @@ function RecordingsDrawer({ lead, onClose, isSuperAdmin, onLeadUpdated, onToast 
             className={`flex items-center gap-1.5 px-3 py-3 text-[14px] font-semibold border-b-2 transition -mb-px ${
               drawerTab === "meeting"
                 ? "border-[#7E14FF] text-[#7E14FF]"
-                : "border-transparent text-[#7D7296] hover:text-[#4A3F66] dark:hover:text-white"
+                : "border-transparent text-[#716787] hover:text-[#4A3F66] dark:hover:text-white"
             }`}
           >
             <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
@@ -769,26 +769,26 @@ function AgentSelect({ value, onChange, agents, className }) {
         className={`${className} flex items-center justify-between gap-2 min-w-[140px]`}
       >
         <span className="truncate">{label}</span>
-        <ChevronDown className={`w-3 h-3 shrink-0 text-[#7D7296] transition-transform ${open ? "rotate-180" : ""}`} />
+        <ChevronDown className={`w-3 h-3 shrink-0 text-[#716787] transition-transform ${open ? "rotate-180" : ""}`} />
       </button>
       {open && (
         <div className="absolute z-50 top-full mt-1.5 right-0 w-56 max-w-[calc(100vw-2rem)] bg-white dark:bg-[#181029] border border-[#E7DCFA] dark:border-[#2B1E48] rounded-xl shadow-lg overflow-hidden">
           <div className="p-2 border-b border-[#E7DCFA] dark:border-[#2B1E48]">
             <div className="relative">
-              <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#7D7296] pointer-events-none" />
+              <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#716787] pointer-events-none" />
               <input
                 ref={inputRef}
                 type="text"
                 value={query}
                 onChange={e => setQuery(e.target.value)}
                 placeholder="Search employee…"
-                className="w-full pl-7 pr-3 py-1.5 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] bg-[#FAF7FF] dark:bg-[#120B22] text-[14px] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#7D7296] focus:outline-none focus:border-[#7E14FF] transition"
+                className="w-full pl-7 pr-3 py-1.5 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] bg-[#FAF7FF] dark:bg-[#120B22] text-[14px] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#716787] focus:outline-none focus:border-[#7E14FF] transition"
               />
             </div>
           </div>
           <div className="max-h-52 overflow-y-auto py-1">
             {filtered.length === 0 ? (
-              <p className="px-3 py-2.5 text-[14px] text-[#7D7296] italic">No employees found</p>
+              <p className="px-3 py-2.5 text-[14px] text-[#716787] italic">No employees found</p>
             ) : filtered.map(agent => {
               const isSelected  = agent === value;
               const displayName = agent === "All" ? "All employees" : agent;
@@ -955,7 +955,7 @@ const [merging,    setMerging]      = useState(false);
   return (
     <div className="rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] overflow-hidden">
       <div className="px-4 py-3 bg-[#FAF7FF] dark:bg-[#120B22] border-b border-[#E7DCFA] dark:border-[#2B1E48]">
-        <p className="text-[12px] font-bold text-[#7D7296] uppercase tracking-widest mb-2">Phone Numbers</p>
+        <p className="text-[12px] font-bold text-[#716787] uppercase tracking-widest mb-2">Phone Numbers</p>
         <div className="space-y-1.5">
           <div className="flex items-center gap-2">
             <span className="text-[12px] font-semibold px-2 py-0.5 rounded-full bg-violet-100 dark:bg-violet-950/40 text-violet-600 dark:text-violet-300">Primary</span>
@@ -971,7 +971,7 @@ const [merging,    setMerging]      = useState(false);
               </span>
             </div>
           ) : (
-            <p className="text-[13px] text-[#7D7296] italic">No secondary number</p>
+            <p className="text-[13px] text-[#716787] italic">No secondary number</p>
           )}
         </div>
       </div>
@@ -1006,7 +1006,7 @@ const [merging,    setMerging]      = useState(false);
 
       {mode === "add" && (
         <div className="px-4 pb-4 pt-1 bg-white dark:bg-[#181029] border-t border-[#E7DCFA] dark:border-[#2B1E48] space-y-2">
-          <label className="text-[12px] font-bold text-[#7D7296] uppercase tracking-widest">
+          <label className="text-[12px] font-bold text-[#716787] uppercase tracking-widest">
             {secondaryPhone ? "New Secondary Number" : "Secondary Number"}
           </label>
           <input
@@ -1014,7 +1014,7 @@ const [merging,    setMerging]      = useState(false);
             placeholder="9876543210 or +91..."
             value={secInput}
             onChange={e => { setSecInput(e.target.value); setError(""); }}
-            className="w-full px-3 py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-[#FAF7FF] dark:bg-[#120B22] text-[15px] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#7D7296] focus:outline-none focus:border-[#7E14FF] transition"
+            className="w-full px-3 py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-[#FAF7FF] dark:bg-[#120B22] text-[15px] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#716787] focus:outline-none focus:border-[#7E14FF] transition"
           />
           {error && (
             <p className="text-[13px] text-red-500 flex items-center gap-1">
@@ -1089,7 +1089,7 @@ const [merging,    setMerging]      = useState(false);
             <p className="text-[14px] text-amber-700 dark:text-amber-300 font-semibold">Confirm phone swap</p>
           </div>
           <div className="space-y-1 px-1">
-            <p className="text-[13px] text-[#7D7296]">After swap:</p>
+            <p className="text-[13px] text-[#716787]">After swap:</p>
             <div className="flex items-center gap-2">
               <span className="text-[12px] font-semibold px-2 py-0.5 rounded-full bg-violet-100 dark:bg-violet-950/40 text-violet-600 dark:text-violet-300 shrink-0">New Primary</span>
               <span className="font-mono text-[14px] text-[#170B29] dark:text-[#F4EEFF]">{maskPhone(secondaryPhone, isSuperAdmin)}</span>
@@ -1353,7 +1353,7 @@ function AddLeadModal({ onClose, onAdd, isSuperAdmin }) {
     dupCheck.state !== "duplicate" && dupCheck.state !== "checking";
 
   const inp = (key) =>
-    `w-full px-3 py-2.5 rounded-xl border text-[15px] bg-white dark:bg-[#120B22] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#7D7296] focus:outline-none transition
+    `w-full px-3 py-2.5 rounded-xl border text-[15px] bg-white dark:bg-[#120B22] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#716787] focus:outline-none transition
     ${errors[key] ? "border-red-400 dark:border-red-500 focus:border-red-500" : "border-[#E7DCFA] dark:border-[#2B1E48] focus:border-[#7E14FF]"}`;
 
   const ErrMsg = ({ k }) => errors[k]
@@ -1374,20 +1374,20 @@ function AddLeadModal({ onClose, onAdd, isSuperAdmin }) {
       <div className="bg-white dark:bg-[#181029] border border-[#E7DCFA] dark:border-[#2B1E48] rounded-2xl p-6 w-full max-w-lg shadow-2xl">
         <div className="flex items-center justify-between mb-5">
           <h2 className="text-[18px] font-bold text-[#170B29] dark:text-[#F4EEFF]">Add New Lead</h2>
-          <button onClick={onClose} className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-[#F3EBFF] dark:hover:bg-[#2B1E48] text-[#7D7296]">
+          <button onClick={onClose} className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-[#F3EBFF] dark:hover:bg-[#2B1E48] text-[#716787]">
             <X className="w-4 h-4" />
           </button>
         </div>
         <div className="space-y-3">
           <div>
-            <label className="text-[13px] font-semibold text-[#7D7296] uppercase tracking-wide">Lead Name <span className="text-red-500">*</span></label>
+            <label className="text-[13px] font-semibold text-[#716787] uppercase tracking-wide">Lead Name <span className="text-red-500">*</span></label>
             <input type="text" placeholder="Full name" value={form.name} onChange={e => set("name", e.target.value)} className={inp("name")} />
             <ErrMsg k="name" />
           </div>
           <div>
-            <label className="text-[13px] font-semibold text-[#7D7296] uppercase tracking-wide">
+            <label className="text-[13px] font-semibold text-[#716787] uppercase tracking-wide">
               Mobile Number <span className="text-red-500">*</span>
-              <span className="ml-1 normal-case text-[12px] font-normal text-[#7D7296]">(with or without +91 prefix)</span>
+              <span className="ml-1 normal-case text-[12px] font-normal text-[#716787]">(with or without +91 prefix)</span>
             </label>
             <input type="tel" placeholder="9876543210 or +919876543210" value={form.mobile} onChange={e => set("mobile", e.target.value)} className={inp("mobile")} />
             <ErrMsg k="mobile" />
@@ -1479,7 +1479,7 @@ function AddLeadModal({ onClose, onAdd, isSuperAdmin }) {
             )}
           </div>
           <div>
-            <label className="text-[13px] font-semibold text-[#7D7296] uppercase tracking-wide">
+            <label className="text-[13px] font-semibold text-[#716787] uppercase tracking-wide">
               Secondary Phone <span className="normal-case font-normal text-[12px]">(optional)</span>
             </label>
             <input
@@ -1492,9 +1492,9 @@ function AddLeadModal({ onClose, onAdd, isSuperAdmin }) {
             <ErrMsg k="secondaryPhone" />
           </div>
           <div>
-            <label className="text-[13px] font-semibold text-[#7D7296] uppercase tracking-wide">Assign to Employee <span className="text-red-500">*</span></label>
+            <label className="text-[13px] font-semibold text-[#716787] uppercase tracking-wide">Assign to Employee <span className="text-red-500">*</span></label>
             {loading ? (
-              <div className={`${inp("userId")} flex items-center gap-2 text-[#7D7296]`}><Spinner /> Loading employees…</div>
+              <div className={`${inp("userId")} flex items-center gap-2 text-[#716787]`}><Spinner /> Loading employees…</div>
             ) : users.length === 0 ? (
               <div className={`${inp("userId")} text-red-500`}>No employees found. Add employees first.</div>
             ) : (
@@ -1508,19 +1508,19 @@ function AddLeadModal({ onClose, onAdd, isSuperAdmin }) {
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="text-[13px] font-semibold text-[#7D7296] uppercase tracking-wide">Source</label>
+              <label className="text-[13px] font-semibold text-[#716787] uppercase tracking-wide">Source</label>
               <select value={form.source} onChange={e => set("source", e.target.value)}
                 className="w-full px-3 py-2.5 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-white dark:bg-[#120B22] text-[15px] text-[#170B29] dark:text-[#F4EEFF] focus:outline-none focus:border-[#7E14FF]">
                 {ALL_SOURCES.map(o => <option key={o} value={o}>{o}</option>)}
               </select>
               {form.source === "Other" && (
                 <input type="text" placeholder="Enter custom source" value={customSource} onChange={e => setCustomSource(e.target.value)}
-                  className="mt-2 w-full px-3 py-2.5 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-white dark:bg-[#120B22] text-[15px] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#7D7296] focus:outline-none focus:border-[#7E14FF]" />
+                  className="mt-2 w-full px-3 py-2.5 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-white dark:bg-[#120B22] text-[15px] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#716787] focus:outline-none focus:border-[#7E14FF]" />
               )}
               <ErrMsg k="source" />
             </div>
             <div>
-              <label className="text-[13px] font-semibold text-[#7D7296] uppercase tracking-wide">Status</label>
+              <label className="text-[13px] font-semibold text-[#716787] uppercase tracking-wide">Status</label>
               <select value={form.status} onChange={e => set("status", e.target.value)}
                 className="w-full px-3 py-2.5 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-white dark:bg-[#120B22] text-[15px] text-[#170B29] dark:text-[#F4EEFF] focus:outline-none focus:border-[#7E14FF]">
                 {ALL_STATUSES.map(o => <option key={o}>{o}</option>)}
@@ -1529,19 +1529,19 @@ function AddLeadModal({ onClose, onAdd, isSuperAdmin }) {
           </div>
           <div className="grid grid-cols-3 gap-3">
             <div>
-              <label className="text-[13px] font-semibold text-[#7D7296] uppercase tracking-wide">Email</label>
+              <label className="text-[13px] font-semibold text-[#716787] uppercase tracking-wide">Email</label>
               <input type="email" placeholder="email@example.com" value={form.email} onChange={e => set("email", e.target.value)}
-                className="w-full px-3 py-2.5 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-white dark:bg-[#120B22] text-[15px] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#7D7296] focus:outline-none focus:border-[#7E14FF]" />
+                className="w-full px-3 py-2.5 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-white dark:bg-[#120B22] text-[15px] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#716787] focus:outline-none focus:border-[#7E14FF]" />
             </div>
             <div>
-              <label className="text-[13px] font-semibold text-[#7D7296] uppercase tracking-wide">Campaign</label>
+              <label className="text-[13px] font-semibold text-[#716787] uppercase tracking-wide">Campaign</label>
               <input type="text" placeholder="Campaign name" value={form.campaign} onChange={e => set("campaign", e.target.value)}
-                className="w-full px-3 py-2.5 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-white dark:bg-[#120B22] text-[15px] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#7D7296] focus:outline-none focus:border-[#7E14FF]" />
+                className="w-full px-3 py-2.5 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-white dark:bg-[#120B22] text-[15px] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#716787] focus:outline-none focus:border-[#7E14FF]" />
             </div>
             <div>
-              <label className="text-[13px] font-semibold text-[#7D7296] uppercase tracking-wide">Remark</label>
+              <label className="text-[13px] font-semibold text-[#716787] uppercase tracking-wide">Remark</label>
               <input type="text" placeholder="Notes" value={form.remark} onChange={e => set("remark", e.target.value)}
-                className="w-full px-3 py-2.5 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-white dark:bg-[#120B22] text-[15px] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#7D7296] focus:outline-none focus:border-[#7E14FF]" />
+                className="w-full px-3 py-2.5 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-white dark:bg-[#120B22] text-[15px] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#716787] focus:outline-none focus:border-[#7E14FF]" />
             </div>
           </div>
         </div>
@@ -1653,7 +1653,7 @@ function ImportCSVModal({ onClose, onImported, existingLeads = [] }) {
       <div className="bg-white dark:bg-[#181029] border border-[#E7DCFA] dark:border-[#2B1E48] rounded-2xl p-6 w-full max-w-lg shadow-2xl">
         <div className="flex items-center justify-between mb-5">
           <h2 className="text-[18px] font-bold text-[#170B29] dark:text-[#F4EEFF]">Import CSV</h2>
-          <button onClick={onClose} className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-[#F3EBFF] dark:hover:bg-[#2B1E48] text-[#7D7296]">
+          <button onClick={onClose} className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-[#F3EBFF] dark:hover:bg-[#2B1E48] text-[#716787]">
             <X className="w-4 h-4" />
           </button>
         </div>
@@ -1668,7 +1668,7 @@ function ImportCSVModal({ onClose, onImported, existingLeads = [] }) {
               <p className="text-[14px] text-[#4A3F66] dark:text-[#9A8DB6]">
                 Optional: <code className="font-mono bg-white dark:bg-[#0B0715] px-1 rounded">Secondary Number</code>, Email, Source, Campaign, Status, Remark
               </p>
-              <p className="text-[13px] text-[#7D7296] mt-2">
+              <p className="text-[13px] text-[#716787] mt-2">
                 Duplicate numbers (primary or secondary, with or without +91) are automatically skipped. Leads round-robin assigned to your team.
               </p>
             </div>
@@ -1692,13 +1692,13 @@ function ImportCSVModal({ onClose, onImported, existingLeads = [] }) {
                 <p className="text-[14px] text-emerald-600 dark:text-emerald-400 font-semibold">Imported</p>
               </div>
               <div className={`border rounded-xl p-3 text-center ${result.errorCount > 0 ? "bg-red-50 dark:bg-red-950/30 border-red-100 dark:border-red-900/40" : "bg-gray-50 dark:bg-gray-900/20 border-gray-100 dark:border-gray-800"}`}>
-                <p className={`text-[26px] font-bold ${result.errorCount > 0 ? "text-red-600 dark:text-red-400" : "text-[#7D7296]"}`}>{result.errorCount}</p>
-                <p className={`text-[14px] font-semibold ${result.errorCount > 0 ? "text-red-600 dark:text-red-400" : "text-[#7D7296]"}`}>Skipped</p>
+                <p className={`text-[26px] font-bold ${result.errorCount > 0 ? "text-red-600 dark:text-red-400" : "text-[#716787]"}`}>{result.errorCount}</p>
+                <p className={`text-[14px] font-semibold ${result.errorCount > 0 ? "text-red-600 dark:text-red-400" : "text-[#716787]"}`}>Skipped</p>
               </div>
             </div>
             {result.errors?.length > 0 && (
               <div className="bg-[#FAF7FF] dark:bg-[#120B22] border border-[#E7DCFA] dark:border-[#2B1E48] rounded-xl p-3 mb-4 max-h-48 overflow-y-auto">
-                <p className="text-[13px] font-bold text-[#7D7296] uppercase tracking-widest mb-2">Skipped rows</p>
+                <p className="text-[13px] font-bold text-[#716787] uppercase tracking-widest mb-2">Skipped rows</p>
                 <div className="space-y-1.5">
                   {result.errors.map((e, i) => (
                     <div key={i} className="flex items-start gap-2 text-[14px]">
@@ -2132,9 +2132,9 @@ export default function AdminLeadsPage() {
         {[
           { label: "Total",          value: kpi.total,      color: "#3F0A7A", bg: "bg-violet-50 dark:bg-violet-950/30",       text: "text-violet-800 dark:text-violet-200",       filter: "All" },
           { label: "New",            value: kpi.newLeads,   color: "#7E14FF", bg: "bg-violet-50 dark:bg-violet-950/30",       text: "text-violet-600 dark:text-violet-300",       filter: "New" },
-          { label: "In Progress",    value: kpi.inProgress, color: "#D97706", bg: "bg-amber-50 dark:bg-amber-950/30",     text: "text-amber-600 dark:text-amber-400",     filter: "In Progress" },
-          { label: "Converted",      value: kpi.converted,  color: "#059669", bg: "bg-emerald-50 dark:bg-emerald-950/30", text: "text-emerald-600 dark:text-emerald-400", filter: "Converted" },
-          { label: "Not Interested", value: kpi.notInt,     color: "#DC2626", bg: "bg-red-50 dark:bg-red-950/30",         text: "text-red-600 dark:text-red-400",         filter: "Not Interested" },
+          { label: "In Progress",    value: kpi.inProgress, color: "#D97706", bg: "bg-amber-50 dark:bg-amber-950/30",     text: "text-amber-700 dark:text-amber-400",     filter: "In Progress" },
+          { label: "Converted",      value: kpi.converted,  color: "#059669", bg: "bg-emerald-50 dark:bg-emerald-950/30", text: "text-emerald-700 dark:text-emerald-400", filter: "Converted" },
+          { label: "Not Interested", value: kpi.notInt,     color: "#DC2626", bg: "bg-red-50 dark:bg-red-950/30",         text: "text-red-700 dark:text-red-400",         filter: "Not Interested" },
           { label: "Merged",         value: kpi.merged,     color: "#D97706", bg: "bg-yellow-50 dark:bg-yellow-950/30",   text: "text-yellow-700 dark:text-yellow-400",   filter: "Merged" },
           { label: "Closed",         value: kpi.closed,     color: "#DC2626", bg: "bg-red-50 dark:bg-red-950/30",         text: "text-red-700 dark:text-red-400",         filter: "Closed" },
         ].map(s => (
@@ -2154,7 +2154,7 @@ export default function AdminLeadsPage() {
         {/* Row 1 — always visible: search + employee + quality + sort */}
         <div className="flex flex-wrap gap-3 items-center">
           <div className="relative flex-1 min-w-[160px]">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#7D7296]" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#716787]" />
             <input value={search} onChange={e => { setSearch(e.target.value); setPage(1); }}
               placeholder="Search name, phone, email…" className={INP + " pl-9 w-full"} />
           </div>
@@ -2192,8 +2192,8 @@ export default function AdminLeadsPage() {
           </select>
 
           {/* Desktop-only: Date range */}
-          <input type="date" value={dateFrom} onChange={e => { setDateFrom(e.target.value); setPage(1); }} className={`${INP} hidden sm:block`} title="From date" />
-          <input type="date" value={dateTo}   onChange={e => { setDateTo(e.target.value);   setPage(1); }} className={`${INP} hidden sm:block`} title="To date" />
+          <input type="date" value={dateFrom} onChange={e => { setDateFrom(e.target.value); setPage(1); }} className={`${INP} hidden sm:block`} title="From date" aria-label="From date" />
+          <input type="date" value={dateTo}   onChange={e => { setDateTo(e.target.value);   setPage(1); }} className={`${INP} hidden sm:block`} title="To date" aria-label="To date" />
 
           {/* MOBILE CHANGE: "More filters" toggle button — only visible on mobile */}
           <button
@@ -2226,7 +2226,7 @@ export default function AdminLeadsPage() {
           <div className="sm:hidden mt-3 pt-3 border-t border-[#E7DCFA] dark:border-[#2B1E48] flex flex-col gap-3">
             {/* Source */}
             <div>
-              <p className="text-[11px] font-bold text-[#7D7296] uppercase tracking-widest mb-1.5">Source</p>
+              <p className="text-[11px] font-bold text-[#716787] uppercase tracking-widest mb-1.5">Source</p>
               <select aria-label="Filter by source" value={filterSrc} onChange={e => { setFilterSrc(e.target.value); setPage(1); }} className={INP + " w-full"}>
                 <option value="All">All sources</option>
                 {uniqueSources.map(s => <option key={s}>{s}</option>)}
@@ -2235,7 +2235,7 @@ export default function AdminLeadsPage() {
 
             {/* Project */}
             <div>
-              <p className="text-[11px] font-bold text-[#7D7296] uppercase tracking-widest mb-1.5">Project</p>
+              <p className="text-[11px] font-bold text-[#716787] uppercase tracking-widest mb-1.5">Project</p>
               <select aria-label="Filter by project" value={filterProject} onChange={e => { setFilterProject(e.target.value); setPage(1); }} className={INP + " w-full"}>
                 <option value="All">All Projects</option>
                 {projects.map(p => (
@@ -2246,10 +2246,10 @@ export default function AdminLeadsPage() {
 
             {/* Date range — two inputs side by side on mobile */}
             <div>
-              <p className="text-[11px] font-bold text-[#7D7296] uppercase tracking-widest mb-1.5">Date Range</p>
+              <p className="text-[11px] font-bold text-[#716787] uppercase tracking-widest mb-1.5">Date Range</p>
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <p className="text-[11px] text-[#7D7296] mb-1">From</p>
+                  <p className="text-[11px] text-[#716787] mb-1">From</p>
                   <input
                     type="date"
                     aria-label="From date"
@@ -2259,7 +2259,7 @@ export default function AdminLeadsPage() {
                   />
                 </div>
                 <div>
-                  <p className="text-[11px] text-[#7D7296] mb-1">To</p>
+                  <p className="text-[11px] text-[#716787] mb-1">To</p>
                   <input
                     type="date"
                     aria-label="To date"
@@ -2273,7 +2273,7 @@ export default function AdminLeadsPage() {
 
             {/* Sort — mobile */}
             <div>
-              <p className="text-[11px] font-bold text-[#7D7296] uppercase tracking-widest mb-1.5">Sort</p>
+              <p className="text-[11px] font-bold text-[#716787] uppercase tracking-widest mb-1.5">Sort</p>
               <select aria-label="Sort leads" value={sortBy} onChange={e => setSortBy(e.target.value)} className={INP + " w-full"}>
                 <option value="date_desc">Newest first</option>
                 <option value="date_asc">Oldest first</option>
@@ -2292,7 +2292,7 @@ export default function AdminLeadsPage() {
           </div>
         )}
 
-        <p className="text-[13px] text-[#7D7296] dark:text-[#564C70] mt-2">
+        <p className="text-[13px] text-[#716787] dark:text-[#564C70] mt-2">
           {displayed.length} leads found{displayed.length !== allLeads.length ? ` (filtered from ${allLeads.length})` : ""}
         </p>
       </div>
@@ -2309,7 +2309,7 @@ export default function AdminLeadsPage() {
       {/* Table */}
       <div className="bg-white dark:bg-[#181029] border border-[#E7DCFA] dark:border-[#2B1E48] rounded-2xl overflow-hidden">
         {loading ? (
-          <div className="flex flex-col items-center justify-center py-16 gap-3 text-[#7D7296]">
+          <div className="flex flex-col items-center justify-center py-16 gap-3 text-[#716787]">
             <Loader2 className="w-6 h-6 animate-spin" />
             <span className="text-[15px]">Loading leads…</span>
           </div>
@@ -2386,7 +2386,7 @@ export default function AdminLeadsPage() {
                             </div>
                             <div className="min-w-0">
                               <p className="font-semibold text-[#170B29] dark:text-[#F4EEFF] truncate text-[14px]">{l.name}</p>
-                              <p className="text-[11px] text-[#7D7296]">{daysSince(l._raw_date) || "—"}</p>
+                              <p className="text-[11px] text-[#716787]">{daysSince(l._raw_date) || "—"}</p>
                               {l.leadScore != null && (
                                 <div className="mt-0.5">
                                   <QualificationScore lead={l} showCategory={false} />
@@ -2412,7 +2412,7 @@ export default function AdminLeadsPage() {
                               </div>
                             ) : (
                               <button onClick={(e) => handleRevealPhone(e, l.id)} className="flex items-center gap-1 group/phone" title="Click to reveal number">
-                                <span className="font-mono text-[#7D7296] dark:text-[#564C70] tracking-widest text-[13px] select-none">{maskedPhone}</span>
+                                <span className="font-mono text-[#716787] dark:text-[#564C70] tracking-widest text-[13px] select-none">{maskedPhone}</span>
                                 <Eye className="w-3 h-3 text-[#CBBDE4] dark:text-[#3B295E] group-hover/phone:text-[#7E14FF] transition shrink-0" />
                               </button>
                             )}
@@ -2437,7 +2437,7 @@ export default function AdminLeadsPage() {
                                 <p className="text-[11px] text-[#170B29] dark:text-[#F4EEFF] truncate font-mono animate-pulse">{l.email}</p>
                               ) : (
                                 <button onClick={(e) => handleRevealEmail(e, l.id)} className="flex items-center gap-0.5 group/email" title="Reveal email">
-                                  <p className="text-[11px] text-[#7D7296] truncate font-mono select-none">{maskEmail(l.email, isSuperAdmin)}</p>
+                                  <p className="text-[11px] text-[#716787] truncate font-mono select-none">{maskEmail(l.email, isSuperAdmin)}</p>
                                   <Eye className="w-2.5 h-2.5 text-[#CBBDE4] group-hover/email:text-[#7E14FF] transition shrink-0" />
                                 </button>
                               )}
@@ -2461,7 +2461,7 @@ export default function AdminLeadsPage() {
                           <td className="px-2.5 py-2.5">
                             <p className="text-[#170B29] dark:text-[#F4EEFF] truncate text-[13px]">{l.source}</p>
                             {l.campaign !== "—" && (
-                              <p className="text-[11px] text-[#7D7296] truncate">{l.campaign}</p>
+                              <p className="text-[11px] text-[#716787] truncate">{l.campaign}</p>
                             )}
                             {l.adSetName && (
                               <p className="text-[11px] text-[#E1306C] truncate flex items-center gap-1"><Megaphone className="w-3 h-3 shrink-0" /> {l.adSetName}</p>
@@ -2516,11 +2516,11 @@ export default function AdminLeadsPage() {
                                   ? "bg-red-100 dark:bg-red-950/40 text-red-600 dark:text-red-400"
                                   : "bg-amber-100 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400"
                               }`}>{l.lastOutcome}</span>
-                              {l.lastCalledAt && <p className="text-[11px] text-[#7D7296] mt-0.5">{daysSince(l.lastCalledAt)}</p>}
-                              {l.lastRemark && <p className="text-[11px] text-[#7D7296] truncate italic mt-0.5">"{l.lastRemark}"</p>}
+                              {l.lastCalledAt && <p className="text-[11px] text-[#716787] mt-0.5">{daysSince(l.lastCalledAt)}</p>}
+                              {l.lastRemark && <p className="text-[11px] text-[#716787] truncate italic mt-0.5">"{l.lastRemark}"</p>}
                             </div>
                           ) : (
-                            <span className="text-[12px] text-[#7D7296]">No calls</span>
+                            <span className="text-[12px] text-[#716787]">No calls</span>
                           )}
                         </td>
 
@@ -2564,25 +2564,25 @@ export default function AdminLeadsPage() {
             {/* Pagination */}
             {totalPages > 1 && (
               <div className="px-5 py-3 border-t border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-between bg-[#FAF7FF] dark:bg-[#120B22]">
-                <span className="text-[13px] text-[#7D7296]">
+                <span className="text-[13px] text-[#716787]">
                   Showing {(page - 1) * PER_PAGE + 1}–{Math.min(page * PER_PAGE, displayed.length)} of {displayed.length}
                 </span>
                 <div className="flex items-center gap-1">
                   <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}
-                    className="w-7 h-7 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-center text-[#7D7296] hover:bg-white dark:hover:bg-[#181029] disabled:opacity-40 transition">
+                    className="w-7 h-7 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-center text-[#716787] hover:bg-white dark:hover:bg-[#181029] disabled:opacity-40 transition">
                     <ChevronLeft className="w-3 h-3" />
                   </button>
                   {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
                     const n = Math.max(1, Math.min(totalPages - 4, page - 2)) + i;
                     return (
                       <button key={n} onClick={() => setPage(n)}
-                        className={`w-7 h-7 rounded-lg text-[13px] font-semibold transition ${page === n ? "bg-[#7E14FF] text-white" : "border border-[#E7DCFA] dark:border-[#2B1E48] text-[#7D7296] hover:bg-white dark:hover:bg-[#181029]"}`}>
+                        className={`w-7 h-7 rounded-lg text-[13px] font-semibold transition ${page === n ? "bg-[#7E14FF] text-white" : "border border-[#E7DCFA] dark:border-[#2B1E48] text-[#716787] hover:bg-white dark:hover:bg-[#181029]"}`}>
                         {n}
                       </button>
                     );
                   })}
                   <button onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages}
-                    className="w-7 h-7 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-center text-[#7D7296] hover:bg-white dark:hover:bg-[#181029] disabled:opacity-40 transition">
+                    className="w-7 h-7 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-center text-[#716787] hover:bg-white dark:hover:bg-[#181029] disabled:opacity-40 transition">
                     <ChevronRight className="w-3 h-3" />
                   </button>
                 </div>

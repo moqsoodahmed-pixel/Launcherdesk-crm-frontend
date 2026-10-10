@@ -153,7 +153,7 @@ export default function PipelineBoard() {
                   <div className="flex items-center gap-2">
                     <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: cfg.dot }} />
                     <span className="text-[13px] font-bold text-slate-900 dark:text-white">{stage}</span>
-                    <span className="text-[11px] text-slate-400">({items.length})</span>
+                    <span className="text-[11px] text-slate-500">({items.length})</span>
                   </div>
                   {stalled > 0 && (
                     <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-rose-100 dark:bg-rose-500/15 text-rose-600 dark:text-rose-400">
@@ -182,7 +182,7 @@ export default function PipelineBoard() {
                           <GripVertical className="w-4 h-4 text-slate-300 dark:text-slate-600 mt-0.5 shrink-0" />
                           <div className="min-w-0 flex-1">
                             <div className="text-[13px] font-semibold text-slate-900 dark:text-white truncate">{l.name || "Unknown"}</div>
-                            <div className="text-[11.5px] text-slate-400 truncate">{l.campaign || l.source || "—"}</div>
+                            <div className="text-[11.5px] text-slate-500 truncate">{l.campaign || l.source || "—"}</div>
                             <div className="flex items-center gap-1.5 mt-1.5">
                               <Clock className="w-3 h-3" style={{ color: ac.dot }} />
                               <span className={`text-[11px] font-semibold ${ac.text}`}>
@@ -195,7 +195,7 @@ export default function PipelineBoard() {
                     );
                   })}
                   {items.length === 0 && (
-                    <div className="text-center text-[12px] text-slate-400 py-8">No leads</div>
+                    <div className="text-center text-[12px] text-slate-500 py-8">No leads</div>
                   )}
                 </div>
               </div>

@@ -116,7 +116,7 @@ function AgentSelect({ value, onChange, agents, className }) {
       >
         <span className="truncate">{label}</span>
         <svg
-          className={`w-3 h-3 shrink-0 text-[#7D7296] transition-transform ${open ? "rotate-180" : ""}`}
+          className={`w-3 h-3 shrink-0 text-[#716787] transition-transform ${open ? "rotate-180" : ""}`}
           fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
         >
           <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7"/>
@@ -127,7 +127,7 @@ function AgentSelect({ value, onChange, agents, className }) {
         <div className="absolute z-50 top-full mt-1.5 right-0 w-56 max-w-[calc(100vw-2rem)] bg-white dark:bg-[#181029] border border-[#E7DCFA] dark:border-[#2B1E48] rounded-xl shadow-lg overflow-hidden">
           <div className="p-2 border-b border-[#E7DCFA] dark:border-[#2B1E48]">
             <div className="relative">
-              <svg className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#7D7296] pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <svg className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#716787] pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
               </svg>
               <input
@@ -137,13 +137,13 @@ function AgentSelect({ value, onChange, agents, className }) {
                 onChange={e => setQuery(e.target.value)}
                 placeholder="Search agent…"
                 aria-label="Search agent"
-                className="w-full pl-7 pr-3 py-1.5 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] bg-[#FAF7FF] dark:bg-[#120B22] text-[12px] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#7D7296] focus:outline-none focus:border-[#7E14FF] transition"
+                className="w-full pl-7 pr-3 py-1.5 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] bg-[#FAF7FF] dark:bg-[#120B22] text-[12px] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#716787] focus:outline-none focus:border-[#7E14FF] transition"
               />
             </div>
           </div>
           <div className="max-h-52 overflow-y-auto py-1">
             {filtered.length === 0 ? (
-              <p className="px-3 py-2.5 text-[12px] text-[#7D7296] italic">No employees found</p>
+              <p className="px-3 py-2.5 text-[12px] text-[#716787] italic">No employees found</p>
             ) : filtered.map(agent => {
               const isSelected = agent === value;
               const displayName = agent === "All" ? "All employees" : agent;
@@ -196,7 +196,7 @@ function MiniBar({ value, max, color }) {
       <div className="flex-1 h-1.5 bg-[#F3EBFF] dark:bg-[#2B1E48] rounded-full overflow-hidden">
         <div className="h-full rounded-full transition-all" style={{ width: `${pct}%`, background: color }} />
       </div>
-      <span className="text-[12px] text-[#7D7296] dark:text-[#564C70] w-8 text-right">{value}</span>
+      <span className="text-[12px] text-[#716787] dark:text-[#564C70] w-8 text-right">{value}</span>
     </div>
   );
 }
@@ -316,7 +316,7 @@ function ManageProjectsModal({ projects, onClose, onProjectsChange }) {
         <div className="flex items-center justify-between px-6 pt-5 pb-4 border-b border-[#F4EEFF] dark:border-[#2B1E48] shrink-0">
           <div className="flex items-center gap-2.5">
             {detail && (
-              <button onClick={() => setDetail(null)} className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-[#F3EBFF] dark:hover:bg-[#2B1E48] text-[#7D7296] transition">
+              <button onClick={() => setDetail(null)} className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-[#F3EBFF] dark:hover:bg-[#2B1E48] text-[#716787] transition">
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7"/>
                 </svg>
@@ -326,12 +326,12 @@ function ManageProjectsModal({ projects, onClose, onProjectsChange }) {
               <h2 className="text-[15px] font-bold text-[#170B29] dark:text-[#F4EEFF]">
                 {detail ? detail.name : "Manage Projects"}
               </h2>
-              <p className="text-[10px] text-[#7D7296] dark:text-[#564C70] mt-0.5">
+              <p className="text-[10px] text-[#716787] dark:text-[#564C70] mt-0.5">
                 {detail ? "Project details & settings" : "Create colour-coded tags to categorise leads"}
               </p>
             </div>
           </div>
-          <button onClick={onClose} className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-[#F3EBFF] dark:hover:bg-[#2B1E48] text-[#7D7296] transition">
+          <button onClick={onClose} className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-[#F3EBFF] dark:hover:bg-[#2B1E48] text-[#716787] transition">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
             </svg>
@@ -347,14 +347,14 @@ function ManageProjectsModal({ projects, onClose, onProjectsChange }) {
               <span className="w-5 h-5 rounded-full shrink-0 ring-2 ring-white dark:ring-[#181029]" style={{ background: editColor }} />
               <div className="flex-1 min-w-0">
                 <p className="text-[13px] font-bold text-[#170B29] dark:text-[#F4EEFF] truncate">{detail.name}</p>
-                <p className="text-[10px] text-[#7D7296]">{detail.isGlobal ? "Visible to everyone" : "Admin only"}</p>
+                <p className="text-[10px] text-[#716787]">{detail.isGlobal ? "Visible to everyone" : "Admin only"}</p>
               </div>
               <button
                 onClick={() => handleToggleGlobal(detail)}
                 className={`px-2.5 py-1 rounded-full text-[10px] font-semibold shrink-0 transition ${
                   detail.isGlobal
                     ? "bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400"
-                    : "bg-[#FAF7FF] dark:bg-[#181029] text-[#7D7296] border border-[#E7DCFA] dark:border-[#2B1E48]"
+                    : "bg-[#FAF7FF] dark:bg-[#181029] text-[#716787] border border-[#E7DCFA] dark:border-[#2B1E48]"
                 }`}
               >
                 {detail.isGlobal ? "Global" : "Admin only"}
@@ -363,7 +363,7 @@ function ManageProjectsModal({ projects, onClose, onProjectsChange }) {
 
             {/* Edit Name */}
             <div>
-              <label className="block text-[11px] font-semibold text-[#7D7296] dark:text-[#564C70] uppercase tracking-wide mb-1.5">Project Name</label>
+              <label className="block text-[11px] font-semibold text-[#716787] dark:text-[#564C70] uppercase tracking-wide mb-1.5">Project Name</label>
               <input
                 type="text"
                 value={editName}
@@ -375,19 +375,19 @@ function ManageProjectsModal({ projects, onClose, onProjectsChange }) {
 
             {/* Edit Description */}
             <div>
-              <label className="block text-[11px] font-semibold text-[#7D7296] dark:text-[#564C70] uppercase tracking-wide mb-1.5">Description</label>
+              <label className="block text-[11px] font-semibold text-[#716787] dark:text-[#564C70] uppercase tracking-wide mb-1.5">Description</label>
               <textarea
                 rows={3}
                 value={editDesc}
                 onChange={e => setEditDesc(e.target.value)}
                 placeholder="Add a description for this project…"
-                className="w-full px-3 py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-white dark:bg-[#120B22] text-[13px] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#7D7296] focus:outline-none focus:border-[#7E14FF] transition resize-none"
+                className="w-full px-3 py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-white dark:bg-[#120B22] text-[13px] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#716787] focus:outline-none focus:border-[#7E14FF] transition resize-none"
               />
             </div>
 
             {/* Edit Color */}
             <div>
-              <label className="block text-[11px] font-semibold text-[#7D7296] dark:text-[#564C70] uppercase tracking-wide mb-1.5">Color</label>
+              <label className="block text-[11px] font-semibold text-[#716787] dark:text-[#564C70] uppercase tracking-wide mb-1.5">Color</label>
               <div className="flex items-center gap-2 flex-wrap">
                 {PRESET_COLORS.map(c => (
                   <button
@@ -408,7 +408,7 @@ function ManageProjectsModal({ projects, onClose, onProjectsChange }) {
             </div>
 
             {/* Created info */}
-            <div className="text-[10px] text-[#7D7296] dark:text-[#564C70]">
+            <div className="text-[10px] text-[#716787] dark:text-[#564C70]">
               Created {detail.createdAt ? new Date(detail.createdAt).toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" }) : "—"}
             </div>
 
@@ -446,7 +446,7 @@ function ManageProjectsModal({ projects, onClose, onProjectsChange }) {
           <>
             {/* Create new project form */}
             <div className="bg-[#FAF7FF] dark:bg-[#120B22] border-b border-[#E7DCFA] dark:border-[#2B1E48] px-6 py-4 shrink-0">
-              <p className="text-[11px] font-bold text-[#7D7296] dark:text-[#564C70] uppercase tracking-wide mb-3">New Project</p>
+              <p className="text-[11px] font-bold text-[#716787] dark:text-[#564C70] uppercase tracking-wide mb-3">New Project</p>
 
               <div className="flex gap-2 mb-2.5">
                 <input
@@ -456,7 +456,7 @@ function ManageProjectsModal({ projects, onClose, onProjectsChange }) {
                   onChange={e => { setName(e.target.value); setError(""); }}
                   onKeyDown={e => { if (e.key === "Enter") handleCreate(); }}
                   aria-label="Project name"
-                  className="flex-1 px-3 py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-white dark:bg-[#181029] text-[13px] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#7D7296] focus:outline-none focus:border-[#7E14FF] transition"
+                  className="flex-1 px-3 py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-white dark:bg-[#181029] text-[13px] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#716787] focus:outline-none focus:border-[#7E14FF] transition"
                 />
                 <button
                   onClick={handleCreate}
@@ -473,7 +473,7 @@ function ManageProjectsModal({ projects, onClose, onProjectsChange }) {
                 placeholder="Description (optional)"
                 value={description}
                 onChange={e => setDescription(e.target.value)}
-                className="w-full px-3 py-2 mb-2.5 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-white dark:bg-[#181029] text-[12px] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#7D7296] focus:outline-none focus:border-[#7E14FF] transition resize-none"
+                className="w-full px-3 py-2 mb-2.5 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-white dark:bg-[#181029] text-[12px] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#716787] focus:outline-none focus:border-[#7E14FF] transition resize-none"
               />
 
               {/* Color presets */}
@@ -517,7 +517,7 @@ function ManageProjectsModal({ projects, onClose, onProjectsChange }) {
                   <svg className="w-8 h-8 text-[#CBBDE4] dark:text-[#3B295E]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A2 2 0 013 12V7a4 4 0 014-4z"/>
                   </svg>
-                  <p className="text-[13px] text-[#7D7296] dark:text-[#564C70]">No projects yet</p>
+                  <p className="text-[13px] text-[#716787] dark:text-[#564C70]">No projects yet</p>
                 </div>
               ) : projects.map(p => (
                 <div key={p._id} className="flex items-center gap-3 px-3 py-2.5 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-white dark:bg-[#120B22] group hover:border-[#7E14FF]/40 transition">
@@ -530,7 +530,7 @@ function ManageProjectsModal({ projects, onClose, onProjectsChange }) {
                   >
                     <p className="text-[13px] font-semibold text-[#170B29] dark:text-[#F4EEFF] truncate group-hover:text-[#7E14FF] transition">{p.name}</p>
                     {p.description && (
-                      <p className="text-[10px] text-[#7D7296] dark:text-[#564C70] truncate mt-0.5">{p.description}</p>
+                      <p className="text-[10px] text-[#716787] dark:text-[#564C70] truncate mt-0.5">{p.description}</p>
                     )}
                   </button>
 
@@ -540,7 +540,7 @@ function ManageProjectsModal({ projects, onClose, onProjectsChange }) {
                     className={`px-2 py-0.5 rounded-full text-[10px] font-semibold transition shrink-0 ${
                       p.isGlobal
                         ? "bg-[#ECFDF5] dark:bg-[#052E1C] text-[#059669] dark:text-[#34D399]"
-                        : "bg-[#FAF7FF] dark:bg-[#181029] text-[#7D7296] dark:text-[#564C70] border border-[#E7DCFA] dark:border-[#2B1E48]"
+                        : "bg-[#FAF7FF] dark:bg-[#181029] text-[#716787] dark:text-[#564C70] border border-[#E7DCFA] dark:border-[#2B1E48]"
                     }`}
                   >
                     {p.isGlobal ? "Global" : "Admin"}
@@ -594,7 +594,7 @@ function ProjectDropdown({ projects, selectedProjects, toggleProject }) {
 
   return (
     <div ref={ref} className="relative pt-3 mt-2">
-      <label className="block text-[11px] font-medium text-[#7D7296] mb-1 uppercase tracking-wide">
+      <label className="block text-[11px] font-medium text-[#716787] mb-1 uppercase tracking-wide">
         Projects
       </label>
       <button
@@ -604,7 +604,7 @@ function ProjectDropdown({ projects, selectedProjects, toggleProject }) {
       >
         <div className="flex flex-wrap gap-1 flex-1 min-w-0">
           {selectedNames.length === 0 ? (
-            <span className="text-[#7D7296]">Select projects…</span>
+            <span className="text-[#716787]">Select projects…</span>
           ) : (
             selectedNames.map(p => (
               <span
@@ -623,7 +623,7 @@ function ProjectDropdown({ projects, selectedProjects, toggleProject }) {
           )}
         </div>
         <svg
-          className={"w-3.5 h-3.5 shrink-0 ml-2 text-[#7D7296] transition-transform " + (open ? "rotate-180" : "")}
+          className={"w-3.5 h-3.5 shrink-0 ml-2 text-[#716787] transition-transform " + (open ? "rotate-180" : "")}
           fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
         >
           <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
@@ -693,7 +693,7 @@ function EditLeadModal({ lead, agents, projects = [], onClose, onSave }) {
       <div className="bg-white dark:bg-[#181029] border border-[#E7DCFA] dark:border-[#2B1E48] rounded-2xl p-6 w-full max-w-md mx-4 shadow-2xl">
         <div className="flex items-center justify-between mb-5">
           <h2 className="text-[16px] font-bold text-[#170B29] dark:text-[#F4EEFF]">Edit Lead</h2>
-          <button onClick={onClose} className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-[#F3EBFF] dark:hover:bg-[#2B1E48] text-[#7D7296]">
+          <button onClick={onClose} className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-[#F3EBFF] dark:hover:bg-[#2B1E48] text-[#716787]">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
           </button>
         </div>
@@ -704,17 +704,17 @@ function EditLeadModal({ lead, agents, projects = [], onClose, onSave }) {
             { label: "Remark",    key: "remark" },
           ].map(f => (
             <div key={f.key} className="flex flex-col gap-1">
-              <label className="text-[11px] font-medium text-[#7D7296] dark:text-[#564C70] uppercase tracking-wide">{f.label}</label>
+              <label className="text-[11px] font-medium text-[#716787] dark:text-[#564C70] uppercase tracking-wide">{f.label}</label>
               <input type="text" value={form[f.key] || ""} onChange={e => set(f.key, e.target.value)}
                 aria-label={f.label}
                 className="px-3 py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-white dark:bg-[#120B22] text-[13px] text-[#170B29] dark:text-[#F4EEFF] focus:outline-none focus:border-[#7E14FF]" />
             </div>
           ))}
           <div className="flex flex-col gap-1">
-            <label className="text-[11px] font-medium text-[#7D7296] dark:text-[#564C70] uppercase tracking-wide">Date</label>
+            <label className="text-[11px] font-medium text-[#716787] dark:text-[#564C70] uppercase tracking-wide">Date</label>
             <input type="text" value={form.date || "—"} readOnly
               aria-label="Date"
-              className="px-3 py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-[#FAF7FF] dark:bg-[#120B22] text-[13px] text-[#7D7296] dark:text-[#564C70] cursor-not-allowed" />
+              className="px-3 py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-[#FAF7FF] dark:bg-[#120B22] text-[13px] text-[#716787] dark:text-[#564C70] cursor-not-allowed" />
           </div>
           {[
             { label: "Source",   key: "source",  options: ALL_SOURCES },
@@ -722,7 +722,7 @@ function EditLeadModal({ lead, agents, projects = [], onClose, onSave }) {
             { label: "Status",   key: "status",  options: ALL_STATUSES },
           ].map(f => (
             <div key={f.key} className="flex flex-col gap-1">
-              <label className="text-[11px] font-medium text-[#7D7296] dark:text-[#564C70] uppercase tracking-wide">{f.label}</label>
+              <label className="text-[11px] font-medium text-[#716787] dark:text-[#564C70] uppercase tracking-wide">{f.label}</label>
               <select value={form[f.key]} onChange={e => set(f.key, e.target.value)}
                 aria-label={f.label}
                 className="px-3 py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-white dark:bg-[#120B22] text-[13px] text-[#4A3F66] dark:text-[#9A8DB6] focus:outline-none">
@@ -751,7 +751,7 @@ function EditLeadModal({ lead, agents, projects = [], onClose, onSave }) {
               value={reassignReason}
               onChange={e => setReassignReason(e.target.value)}
               placeholder="Why is this lead being reassigned? (required)"
-              className="px-3 py-2 rounded-xl border border-[#D97706] dark:border-[#92400E] bg-[#FFFBEB] dark:bg-[#2D1F00] text-[13px] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#7D7296] focus:outline-none focus:border-[#D97706] resize-none"
+              className="px-3 py-2 rounded-xl border border-[#D97706] dark:border-[#92400E] bg-[#FFFBEB] dark:bg-[#2D1F00] text-[13px] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#716787] focus:outline-none focus:border-[#D97706] resize-none"
             />
           </div>
         )}
@@ -856,12 +856,12 @@ function RemarksHistoryModal({ lead, role, onClose }) {
             </div>
             <div>
               <p className="text-[14px] font-bold text-[#170B29] dark:text-[#F4EEFF] leading-none">{lead.name}</p>
-              <p className="text-[12px] text-[#7D7296] dark:text-[#564C70] mt-0.5">
+              <p className="text-[12px] text-[#716787] dark:text-[#564C70] mt-0.5">
                 {displayPhone(lead.primaryPhone || lead.phone, role)} · {lead.source}
               </p>
             </div>
           </div>
-          <button onClick={onClose} className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-[#F3EBFF] dark:hover:bg-[#2B1E48] text-[#7D7296]">
+          <button onClick={onClose} className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-[#F3EBFF] dark:hover:bg-[#2B1E48] text-[#716787]">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
           </button>
         </div>
@@ -878,7 +878,7 @@ function RemarksHistoryModal({ lead, role, onClose }) {
             <path strokeLinecap="round" strokeLinejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-3 3v-3z"/>
           </svg>
           <span className="text-[13px] font-bold text-[#170B29] dark:text-[#F4EEFF]">Call History & Remarks</span>
-          <span className="ml-auto text-[11px] text-[#7D7296] dark:text-[#564C70] bg-[#F3EBFF] dark:bg-[#271449] px-2 py-0.5 rounded-full">
+          <span className="ml-auto text-[11px] text-[#716787] dark:text-[#564C70] bg-[#F3EBFF] dark:bg-[#271449] px-2 py-0.5 rounded-full">
             {mergedTimeline.length} {mergedTimeline.length === 1 ? "entry" : "entries"}
           </span>
         </div>
@@ -889,7 +889,7 @@ function RemarksHistoryModal({ lead, role, onClose }) {
               <svg className="w-8 h-8 text-[#CBBDE4] dark:text-[#3B295E]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-3 3v-3z"/>
               </svg>
-              <p className="text-[13px] text-[#7D7296] dark:text-[#564C70]">No call history yet</p>
+              <p className="text-[13px] text-[#716787] dark:text-[#564C70]">No call history yet</p>
               <p className="text-[11px] text-[#CBBDE4] dark:text-[#3B295E]">Remarks appear here after employee interactions</p>
             </div>
           ) : mergedTimeline.map((entry, i) => {
@@ -905,7 +905,7 @@ function RemarksHistoryModal({ lead, role, onClose }) {
                       </div>
                       <div>
                         <p className="text-[12px] font-semibold text-[#D97706] dark:text-[#FCD34D] leading-none">Lead Reassigned</p>
-                        <p className="text-[10px] text-[#7D7296] mt-0.5">{fmtDateTime(entry.timestamp)}</p>
+                        <p className="text-[10px] text-[#716787] mt-0.5">{fmtDateTime(entry.timestamp)}</p>
                       </div>
                     </div>
                     <span className="text-[9px] text-[#D97706] bg-[#FEF3C7] dark:bg-[#3D2800] px-1.5 py-0.5 rounded-md font-semibold uppercase shrink-0">
@@ -936,7 +936,7 @@ function RemarksHistoryModal({ lead, role, onClose }) {
                       </div>
                       <div>
                         <p className="text-[12px] font-semibold text-[#059669] dark:text-[#34D399] leading-none">Duplicate Lead Merged</p>
-                        <p className="text-[10px] text-[#7D7296] mt-0.5">{fmtDateTime(entry.timestamp)}</p>
+                        <p className="text-[10px] text-[#716787] mt-0.5">{fmtDateTime(entry.timestamp)}</p>
                       </div>
                     </div>
                     <span className="text-[9px] text-[#059669] bg-[#D1FAE5] dark:bg-[#064E3B] px-1.5 py-0.5 rounded-md font-semibold uppercase shrink-0">
@@ -963,13 +963,13 @@ function RemarksHistoryModal({ lead, role, onClose }) {
                     </div>
                     <div>
                       <p className="text-[12px] font-semibold text-[#170B29] dark:text-[#F4EEFF] leading-none">{entry.userName || "Employee"}</p>
-                      <p className="text-[10px] text-[#7D7296] mt-0.5">{fmtDateTime(entry.calledAt)}</p>
+                      <p className="text-[10px] text-[#716787] mt-0.5">{fmtDateTime(entry.calledAt)}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-1.5 shrink-0">
                     <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${os.bg} ${os.text}`}>{outcome}</span>
                     {entry.calledAt && (
-                      <span className="text-[9px] text-[#7D7296] bg-[#F4EEFF] dark:bg-[#1D1333] px-1.5 py-0.5 rounded-md">
+                      <span className="text-[9px] text-[#716787] bg-[#F4EEFF] dark:bg-[#1D1333] px-1.5 py-0.5 rounded-md">
                         {daysSince(entry.calledAt)}
                       </span>
                     )}
@@ -1033,12 +1033,12 @@ function RecordingModal({ lead, role, onClose }) {
             </div>
             <div>
               <p className="text-[14px] font-bold text-[#170B29] dark:text-[#F4EEFF] leading-none">{lead.name}</p>
-              <p className="text-[12px] text-[#7D7296] mt-0.5 font-mono">
+              <p className="text-[12px] text-[#716787] mt-0.5 font-mono">
                 {displayPhone(lead.primaryPhone || lead.phone, role)}
               </p>
             </div>
           </div>
-          <button onClick={onClose} className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-[#F3EBFF] dark:hover:bg-[#2B1E48] text-[#7D7296]">
+          <button onClick={onClose} className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-[#F3EBFF] dark:hover:bg-[#2B1E48] text-[#716787]">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
           </button>
         </div>
@@ -1051,18 +1051,18 @@ function RecordingModal({ lead, role, onClose }) {
             { label: "Date",     value: lead.date },
           ].map(({ label, value }) => (
             <div key={label} className="bg-[#FAF7FF] dark:bg-[#120B22] rounded-xl px-3 py-2.5">
-              <p className="text-[10px] font-medium text-[#7D7296] uppercase tracking-wide mb-1">{label}</p>
+              <p className="text-[10px] font-medium text-[#716787] uppercase tracking-wide mb-1">{label}</p>
               <div className="text-[13px] font-semibold text-[#170B29] dark:text-[#F4EEFF]">{value}</div>
             </div>
           ))}
         </div>
 
         <div className="mb-4">
-          <p className="text-[11px] font-bold text-[#7D7296] uppercase tracking-widest mb-2">
+          <p className="text-[11px] font-bold text-[#716787] uppercase tracking-widest mb-2">
             All Remarks ({allCallHistory.length})
           </p>
           {allCallHistory.length === 0 ? (
-            <p className="text-[12px] text-[#7D7296] italic px-1">No remarks recorded yet.</p>
+            <p className="text-[12px] text-[#716787] italic px-1">No remarks recorded yet.</p>
           ) : (
             <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
               {[...allCallHistory]
@@ -1071,7 +1071,7 @@ function RecordingModal({ lead, role, onClose }) {
                 <div key={i} className="bg-[#FAF7FF] dark:bg-[#120B22] rounded-xl px-3 py-2.5 border border-[#E7DCFA] dark:border-[#2B1E48]">
                   <div className="flex items-center justify-between mb-1">
                     <span className="text-[11px] font-semibold text-[#7E14FF]">{h.userName || "Employee"}</span>
-                    <span className="text-[10px] text-[#7D7296]">
+                    <span className="text-[10px] text-[#716787]">
                       {h.calledAt ? new Date(h.calledAt).toLocaleString("en-IN", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" }) : ""}
                     </span>
                   </div>
@@ -1109,16 +1109,16 @@ function RecordingModal({ lead, role, onClose }) {
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
               </svg>
-              <span className="text-[12px] text-[#7D7296]">Loading call recordings...</span>
+              <span className="text-[12px] text-[#716787]">Loading call recordings...</span>
             </div>
           )}
           {error && !loading && <p className="text-[12px] text-red-500 py-2">{error}</p>}
           {!loading && !error && recordingsFromMobile.length === 0 && (
             <div className="flex items-center gap-2 py-2">
-              <svg className="w-3.5 h-3.5 text-[#7D7296]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <svg className="w-3.5 h-3.5 text-[#716787]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
               </svg>
-              <p className="text-[12px] text-[#7D7296]">No mobile recordings uploaded for this lead.</p>
+              <p className="text-[12px] text-[#716787]">No mobile recordings uploaded for this lead.</p>
             </div>
           )}
           {!loading && recordingsFromMobile.length > 0 && (
@@ -1129,7 +1129,7 @@ function RecordingModal({ lead, role, onClose }) {
                     <span className="text-[11px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6]">
                       {log.user?.name || "Employee"} · {log.callType}
                     </span>
-                    <span className="text-[10px] text-[#7D7296]">
+                    <span className="text-[10px] text-[#716787]">
                       {log.timestamp ? new Date(log.timestamp).toLocaleString("en-IN", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" }) : ""}
                       {log.duration > 0 ? ` · ${fmtDur(log.duration)}` : ""}
                     </span>
@@ -1300,9 +1300,9 @@ const [merging,   setMerging]   = useState(false);
         <div className="flex items-center justify-between mb-5">
           <div>
             <h2 className="text-[15px] font-bold text-[#170B29] dark:text-[#F4EEFF]">Phone Numbers</h2>
-            <p className="text-[11px] text-[#7D7296] dark:text-[#564C70] mt-0.5">{lead.name}</p>
+            <p className="text-[11px] text-[#716787] dark:text-[#564C70] mt-0.5">{lead.name}</p>
           </div>
-          <button onClick={onClose} className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-[#F3EBFF] dark:hover:bg-[#2B1E48] text-[#7D7296]">
+          <button onClick={onClose} className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-[#F3EBFF] dark:hover:bg-[#2B1E48] text-[#716787]">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
             </svg>
@@ -1311,7 +1311,7 @@ const [merging,   setMerging]   = useState(false);
 
         {/* Primary number */}
         <div className="mb-3">
-          <p className="text-[11px] font-semibold text-[#7D7296] dark:text-[#564C70] uppercase tracking-wide mb-1.5">Primary Number</p>
+          <p className="text-[11px] font-semibold text-[#716787] dark:text-[#564C70] uppercase tracking-wide mb-1.5">Primary Number</p>
           <div className="flex items-center gap-2.5 bg-[#FAF7FF] dark:bg-[#120B22] border border-[#E7DCFA] dark:border-[#2B1E48] rounded-xl px-3 py-2.5">
             <PhoneIcon className="text-[#7E14FF]" />
             <span className="text-[13px] font-semibold font-mono text-[#170B29] dark:text-[#F4EEFF] flex-1">
@@ -1325,7 +1325,7 @@ const [merging,   setMerging]   = useState(false);
 
         {/* Secondary number */}
         <div className="mb-4">
-          <p className="text-[11px] font-semibold text-[#7D7296] dark:text-[#564C70] uppercase tracking-wide mb-1.5">Secondary Number</p>
+          <p className="text-[11px] font-semibold text-[#716787] dark:text-[#564C70] uppercase tracking-wide mb-1.5">Secondary Number</p>
 
           {secondaryPhone ? (
             <>
@@ -1374,7 +1374,7 @@ const [merging,   setMerging]   = useState(false);
           ) : (
             <div className="flex items-center gap-2.5 bg-[#FAF7FF] dark:bg-[#120B22] border border-dashed border-[#CBBDE4] dark:border-[#3B295E] rounded-xl px-3 py-2.5">
               <PhoneIcon className="text-[#CBBDE4] dark:text-[#3B295E]" />
-              <span className="text-[12px] text-[#7D7296] dark:text-[#564C70] italic">No secondary number added</span>
+              <span className="text-[12px] text-[#716787] dark:text-[#564C70] italic">No secondary number added</span>
             </div>
           )}
         </div>
@@ -1382,7 +1382,7 @@ const [merging,   setMerging]   = useState(false);
         {/* Add secondary form — only shown when no secondary exists */}
         {!secondaryPhone && (
           <div className="border-t border-[#E7DCFA] dark:border-[#2B1E48] pt-4">
-            <p className="text-[11px] font-semibold text-[#7D7296] dark:text-[#564C70] uppercase tracking-wide mb-2">
+            <p className="text-[11px] font-semibold text-[#716787] dark:text-[#564C70] uppercase tracking-wide mb-2">
               Add Secondary Number
             </p>
             <div className="flex gap-2">
@@ -1499,10 +1499,10 @@ function CloseLeadModal({ lead, onClose, onClosed }) {
             </div>
             <div>
               <h2 className="text-[15px] font-bold text-[#170B29] dark:text-[#F4EEFF] leading-none">Close Lead — Wrong Entry</h2>
-              <p className="text-[12px] text-[#7D7296] dark:text-[#564C70] mt-0.5">{lead.name}</p>
+              <p className="text-[12px] text-[#716787] dark:text-[#564C70] mt-0.5">{lead.name}</p>
             </div>
           </div>
-          <button onClick={onClose} className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-[#F3EBFF] dark:hover:bg-[#2B1E48] text-[#7D7296]">
+          <button onClick={onClose} className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-[#F3EBFF] dark:hover:bg-[#2B1E48] text-[#716787]">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
           </button>
         </div>
@@ -1514,7 +1514,7 @@ function CloseLeadModal({ lead, onClose, onClosed }) {
         </div>
 
         <div className="flex flex-col gap-1 mb-4">
-          <label className="text-[11px] font-medium text-[#7D7296] dark:text-[#564C70] uppercase tracking-wide">
+          <label className="text-[11px] font-medium text-[#716787] dark:text-[#564C70] uppercase tracking-wide">
             Reason / Remark <span className="text-red-500">*</span>
           </label>
           <textarea
@@ -1523,7 +1523,7 @@ function CloseLeadModal({ lead, onClose, onClosed }) {
             value={reason}
             onChange={e => setReason(e.target.value)}
             placeholder="e.g. Duplicate entry, wrong phone number, test lead…"
-            className="px-3 py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-white dark:bg-[#120B22] text-[13px] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#7D7296] focus:outline-none focus:border-[#DC2626] resize-none"
+            className="px-3 py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-white dark:bg-[#120B22] text-[13px] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#716787] focus:outline-none focus:border-[#DC2626] resize-none"
           />
         </div>
 
@@ -1706,8 +1706,8 @@ function LeadReportPage() {
   if (fetchError) return (
     <div className="min-h-screen flex items-center justify-center bg-[#FAF7FF] dark:bg-[#0B0715]">
       <div className="bg-white dark:bg-[#181029] border border-[#E7DCFA] dark:border-[#2B1E48] rounded-2xl p-8 max-w-sm text-center">
-        <div className="text-red-500 text-[14px] font-semibold mb-2">Failed to load data</div>
-        <p className="text-[13px] text-[#7D7296] dark:text-[#564C70] mb-4">{fetchError}</p>
+        <div className="text-red-600 text-[14px] font-semibold mb-2">Failed to load data</div>
+        <p className="text-[13px] text-[#716787] dark:text-[#564C70] mb-4">{fetchError}</p>
       </div>
     </div>
   );
@@ -1792,8 +1792,8 @@ function LeadReportPage() {
                     <div className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold text-white shrink-0" style={{ background: a.color }}>{a.avatar}</div>
                     <span className="text-[13px] font-medium text-[#170B29] dark:text-[#F4EEFF]">{a.name}</span>
                   </div>
-                  <div className="flex items-center gap-3 text-[12px] text-[#7D7296] dark:text-[#564C70]">
-                    <span className="text-[#059669] dark:text-[#34D399] font-semibold">{a.converted} conv</span>
+                  <div className="flex items-center gap-3 text-[12px] text-[#716787] dark:text-[#564C70]">
+                    <span className="text-[#047857] dark:text-[#34D399] font-semibold">{a.converted} conv</span>
                     <span>{a.leads} leads</span>
                   </div>
                 </div>
@@ -1814,12 +1814,12 @@ function LeadReportPage() {
                   <div className="h-full rounded-full" style={{ width: `${Math.round(s.count / leads.length * 100)}%`, background: s.color }} />
                 </div>
                 <span className="text-[12px] font-semibold text-[#170B29] dark:text-[#F4EEFF] w-5 text-right">{s.count}</span>
-                <span className="text-[11px] text-[#7D7296] dark:text-[#564C70] w-8 text-right">{Math.round(s.count / leads.length * 100)}%</span>
+                <span className="text-[11px] text-[#716787] dark:text-[#564C70] w-8 text-right">{Math.round(s.count / leads.length * 100)}%</span>
               </div>
             ))}
           </div>
           <div className="mt-6 pt-5 border-t border-[#E7DCFA] dark:border-[#2B1E48]">
-            <h3 className="text-[12px] font-semibold text-[#7D7296] dark:text-[#564C70] uppercase tracking-wide mb-3">Pipeline status</h3>
+            <h3 className="text-[12px] font-semibold text-[#716787] dark:text-[#564C70] uppercase tracking-wide mb-3">Pipeline status</h3>
             <div className="grid grid-cols-2 gap-2">
               {ALL_STATUSES.map(s => {
                 const count = leads.filter(l => getLeadDisplayStatus(l).label === s).length;
@@ -1827,7 +1827,7 @@ function LeadReportPage() {
                 return (
                   <div key={s} className={`rounded-xl px-3 py-2.5 ${st.bg}`}>
                     <div className={`text-[18px] font-bold ${st.text}`}>{count}</div>
-                    <div className={`text-[10px] font-medium ${st.text} opacity-80`}>{s}</div>
+                    <div className={`text-[10px] font-medium ${st.text}`}>{s}</div>
                   </div>
                 );
               })}
@@ -1842,7 +1842,7 @@ function LeadReportPage() {
           <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
             <h2 className="text-[14px] font-bold text-[#170B29] dark:text-[#F4EEFF]">
               All leads
-              <span className="ml-2 text-[12px] font-medium text-[#7D7296] dark:text-[#564C70]">{filtered.length} results</span>
+              <span className="ml-2 text-[12px] font-medium text-[#716787] dark:text-[#564C70]">{filtered.length} results</span>
             </h2>
             <div className="flex items-center gap-2">
               <select value={timeFilter} onChange={e => { setTimeFilter(e.target.value); setPage(1); }}
@@ -1861,19 +1861,19 @@ function LeadReportPage() {
                 <option value="name">Sort: Name A–Z</option>
               </select>
               <div className="relative">
-                <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#7D7296]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#716787]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/>
                 </svg>
                 <input type="text" placeholder="Search..." value={search} onChange={e => { setSearch(e.target.value); setPage(1); }}
                   aria-label="Search"
-                  className="pl-8 pr-3 py-1.5 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-white dark:bg-[#120B22] text-[12px] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#7D7296] focus:outline-none focus:border-[#7E14FF] w-36 sm:w-44" />
+                  className="pl-8 pr-3 py-1.5 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-white dark:bg-[#120B22] text-[12px] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#716787] focus:outline-none focus:border-[#7E14FF] w-36 sm:w-44" />
               </div>
             </div>
           </div>
           <div className="flex flex-wrap gap-1.5">{filterBtn(statusFilter, setStatus, statuses)}</div>
           <div className="flex flex-wrap items-center gap-3 mt-2">
             <div className="flex items-center gap-2">
-              <span className="text-[11px] text-[#7D7296] dark:text-[#564C70] self-center">Employee:</span>
+              <span className="text-[11px] text-[#716787] dark:text-[#564C70] self-center">Employee:</span>
               <AgentSelect
                 value={agentFilter}
                 onChange={(val) => { setAgent(val); setPage(1); }}
@@ -1883,7 +1883,7 @@ function LeadReportPage() {
             </div>
             {projects.length > 0 && (
               <div className="flex items-center gap-2">
-                <span className="text-[11px] text-[#7D7296] dark:text-[#564C70] self-center">Project:</span>
+                <span className="text-[11px] text-[#716787] dark:text-[#564C70] self-center">Project:</span>
                 <select
                   value={projectFilter}
                   onChange={e => { setProjectFilter(e.target.value); setPage(1); }}
@@ -1905,13 +1905,13 @@ function LeadReportPage() {
               <thead>
                 <tr className="bg-[#FAF7FF] dark:bg-[#120B22] border-b border-[#E7DCFA] dark:border-[#2B1E48]">
                   {["#", "Lead Name", "Phone", "Source", "Campaign", "Employee", "Status", "Date", "Calls", "Remark", "Actions"].map(h => (
-                    <th key={h} className="text-left px-4 py-3 text-[11px] font-semibold text-[#7D7296] dark:text-[#564C70] uppercase tracking-wide whitespace-nowrap">{h}</th>
+                    <th key={h} className="text-left px-4 py-3 text-[11px] font-semibold text-[#716787] dark:text-[#564C70] uppercase tracking-wide whitespace-nowrap">{h}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {paged.length === 0 ? (
-                  <tr><td colSpan={11} className="px-4 py-12 text-center text-[13px] text-[#7D7296] dark:text-[#564C70]">No leads match your filters.</td></tr>
+                  <tr><td colSpan={11} className="px-4 py-12 text-center text-[13px] text-[#716787] dark:text-[#564C70]">No leads match your filters.</td></tr>
                 ) : paged.map((lead, i) => {
                   const { label: displayLabel, config: st } = getLeadDisplayStatus(lead);
                   const callCount  = (lead.callHistory || []).length;
@@ -1921,7 +1921,7 @@ function LeadReportPage() {
 
                   return (
                     <tr key={lead.id || lead._id} className={`border-b border-[#E7DCFA] dark:border-[#2B1E48] hover:bg-[#F3EBFF] dark:hover:bg-[#21253A] transition ${i % 2 === 0 ? "" : "bg-[#FAFBFF] dark:bg-[#1D1333]"}`}>
-                      <td className="px-4 py-3 text-[#7D7296] dark:text-[#564C70]">{(page - 1) * PER_PAGE + i + 1}</td>
+                      <td className="px-4 py-3 text-[#716787] dark:text-[#564C70]">{(page - 1) * PER_PAGE + i + 1}</td>
 
                       {/* Lead name + avatar */}
                       <td className="px-4 py-3">
@@ -1956,7 +1956,7 @@ function LeadReportPage() {
                       <td className="px-4 py-3">
                         <span className={`inline-flex px-2.5 py-0.5 rounded-full text-[11px] font-semibold whitespace-nowrap ${st.bg} ${st.text}`}>{displayLabel}</span>
                       </td>
-                      <td className="px-4 py-3 text-[#7D7296] dark:text-[#564C70] whitespace-nowrap">{displayDate(lead.date)}</td>
+                      <td className="px-4 py-3 text-[#716787] dark:text-[#564C70] whitespace-nowrap">{displayDate(lead.date)}</td>
 
                       {/* Call count badge */}
                       <td className="px-4 py-3">
@@ -1965,7 +1965,7 @@ function LeadReportPage() {
                           className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold transition
                             ${callCount > 0
                               ? "bg-[#F3EBFF] dark:bg-[#271449] text-[#7E14FF] dark:text-[#A46BFF] hover:bg-[#DBEAFE]"
-                              : "bg-[#FAF7FF] dark:bg-[#120B22] text-[#7D7296] dark:text-[#564C70] hover:bg-[#F3EBFF]"
+                              : "bg-[#FAF7FF] dark:bg-[#120B22] text-[#716787] dark:text-[#564C70] hover:bg-[#F3EBFF]"
                             }`}
                           title={callCount > 0 ? "View call history & remarks" : "No calls yet"}
                         >
@@ -1985,7 +1985,7 @@ function LeadReportPage() {
                           {/* Edit lead */}
                           <button
                             onClick={() => setEditLead(lead)}
-                            className="w-7 h-7 flex items-center justify-center rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] hover:border-[#7E14FF] hover:text-[#7E14FF] text-[#7D7296] transition"
+                            className="w-7 h-7 flex items-center justify-center rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] hover:border-[#7E14FF] hover:text-[#7E14FF] text-[#716787] transition"
                             title="Edit lead"
                           >
                             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
@@ -1997,7 +1997,7 @@ function LeadReportPage() {
                             className={`w-7 h-7 flex items-center justify-center rounded-lg border transition
                               ${secondary
                                 ? "border-[#059669] text-[#059669] bg-[#ECFDF5] dark:bg-[#052E1C] hover:bg-[#D1FAE5]"
-                                : "border-[#E7DCFA] dark:border-[#2B1E48] hover:border-[#059669] hover:text-[#059669] text-[#7D7296]"
+                                : "border-[#E7DCFA] dark:border-[#2B1E48] hover:border-[#059669] hover:text-[#059669] text-[#716787]"
                               }`}
                             title={secondary ? "View / manage phone numbers (has secondary)" : "Manage phone numbers"}
                           >
@@ -2009,7 +2009,7 @@ function LeadReportPage() {
                           {/* Call history & remarks */}
                           <button
                             onClick={() => setRemarksLead(lead)}
-                            className="w-7 h-7 flex items-center justify-center rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] hover:border-[#7E14FF] hover:text-[#7E14FF] text-[#7D7296] transition"
+                            className="w-7 h-7 flex items-center justify-center rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] hover:border-[#7E14FF] hover:text-[#7E14FF] text-[#716787] transition"
                             title="Call History & Remarks"
                           >
                             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -2020,7 +2020,7 @@ function LeadReportPage() {
                           {/* Call recording */}
                           <button
                             onClick={() => setRecordingLead(lead)}
-                            className="w-7 h-7 flex items-center justify-center rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] hover:border-[#0891B2] hover:text-[#0891B2] text-[#7D7296] transition"
+                            className="w-7 h-7 flex items-center justify-center rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] hover:border-[#0891B2] hover:text-[#0891B2] text-[#716787] transition"
                             title="Call Recording"
                           >
                             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -2032,7 +2032,7 @@ function LeadReportPage() {
                           {(role === "admin" || role === "superadmin") && (
                             <button
                               onClick={() => setCloseLead(lead)}
-                              className="w-7 h-7 flex items-center justify-center rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] hover:border-[#DC2626] hover:text-[#DC2626] text-[#7D7296] transition"
+                              className="w-7 h-7 flex items-center justify-center rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] hover:border-[#DC2626] hover:text-[#DC2626] text-[#716787] transition"
                               title="Close Lead (Wrong Entry)"
                             >
                               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -2052,7 +2052,7 @@ function LeadReportPage() {
           {/* Pagination */}
           {totalPages > 1 && (
             <div className="flex items-center justify-between px-5 py-3 border-t border-[#E7DCFA] dark:border-[#2B1E48]">
-              <span className="text-[12px] text-[#7D7296] dark:text-[#564C70]">
+              <span className="text-[12px] text-[#716787] dark:text-[#564C70]">
                 Showing {(page - 1) * PER_PAGE + 1}–{Math.min(page * PER_PAGE, filtered.length)} of {filtered.length}
               </span>
               <div className="flex items-center gap-1.5">
@@ -2085,7 +2085,7 @@ function LeadReportPage() {
                 ))}
 
                 {totalPages > 3 && (
-                  <span className="px-2 text-[#7D7296]">...</span>
+                  <span className="px-2 text-[#716787]">...</span>
                 )}
 
                 <button
@@ -2135,7 +2135,7 @@ export default function ReportPage() {
               className={`px-4 py-2.5 text-[13px] font-semibold whitespace-nowrap border-b-2 -mb-px transition ${
                 active
                   ? "border-blue-600 text-violet-600"
-                  : "border-transparent text-[#7D7296] hover:text-[#170B29] dark:hover:text-[#F4EEFF]"
+                  : "border-transparent text-[#716787] hover:text-[#170B29] dark:hover:text-[#F4EEFF]"
               }`}
             >
               {t.label}

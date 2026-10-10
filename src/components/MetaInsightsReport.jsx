@@ -50,7 +50,7 @@ function StatCard({ label, value, icon: Icon, accent, bg }) {
         <Icon className={`w-4 h-4 ${accent}`} />
       </div>
       <div>
-        <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-0.5">{label}</p>
+        <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-0.5">{label}</p>
         <p className="text-[20px] font-extrabold text-slate-900 dark:text-white leading-none">{value}</p>
       </div>
     </div>
@@ -65,7 +65,7 @@ const CHART_COLORS = ["#6366F1", "#10B981", "#F59E0B", "#EF4444", "#0EA5E9", "#8
 // Ranked gradient bars
 function RankBars({ rows, valueKey, labelKey, format }) {
   const data = (rows || []).filter((r) => (Number(r[valueKey]) || 0) > 0).slice(0, 8);
-  if (!data.length) return <div className="text-[12px] text-slate-400 py-8 text-center">No data in this range</div>;
+  if (!data.length) return <div className="text-[12px] text-slate-500 py-8 text-center">No data in this range</div>;
   const max = Math.max(1, ...data.map((d) => Number(d[valueKey]) || 0));
   return (
     <div className="space-y-2.5">
@@ -93,7 +93,7 @@ function Donut({ data, format, centerLabel }) {
   const total = rows.reduce((s, d) => s + (Number(d.value) || 0), 0) || 1;
   let acc = 0;
   const R = 54, C = 2 * Math.PI * R;
-  if (!rows.length) return <div className="text-[12px] text-slate-400 py-8 text-center">No data</div>;
+  if (!rows.length) return <div className="text-[12px] text-slate-500 py-8 text-center">No data</div>;
   return (
     <div className="flex items-center gap-4">
       <div className="relative w-[130px] h-[130px] shrink-0">
@@ -108,7 +108,7 @@ function Donut({ data, format, centerLabel }) {
           </g>
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="text-[9px] text-slate-400 uppercase tracking-wide">{centerLabel || "Total"}</span>
+          <span className="text-[9px] text-slate-500 uppercase tracking-wide">{centerLabel || "Total"}</span>
           <span className="text-[13px] font-extrabold text-slate-900 dark:text-white">{format ? format(total) : numfmt(total)}</span>
         </div>
       </div>
@@ -129,7 +129,7 @@ function ChartCard({ title, icon: Icon, children }) {
   return (
     <div className="surface-card p-4">
       <div className="flex items-center gap-2 mb-3">
-        {Icon && <Icon className="w-4 h-4 text-slate-400" />}
+        {Icon && <Icon className="w-4 h-4 text-slate-500" />}
         <p className="text-[13px] font-bold text-slate-900 dark:text-white">{title}</p>
       </div>
       {children}
@@ -248,7 +248,7 @@ export default function MetaInsightsReport() {
               </div>
               <div>
                 <h1 className="text-[18px] font-bold text-slate-900 dark:text-white">Meta Ad Performance</h1>
-                <p className="text-[12px] text-slate-400">Spend, CPM, CPC, CTR, reach and cost-per-lead per campaign</p>
+                <p className="text-[12px] text-slate-500">Spend, CPM, CPC, CTR, reach and cost-per-lead per campaign</p>
               </div>
             </div>
 
@@ -257,14 +257,14 @@ export default function MetaInsightsReport() {
               {/* Date range picker */}
               <div className="flex items-center gap-2 bg-slate-50 dark:bg-white/[0.03] border border-slate-200 dark:border-white/10 rounded-xl px-3 py-2">
                 <div>
-                  <label className="block text-[9px] font-bold uppercase tracking-wider text-slate-400 mb-0.5">From</label>
+                  <label className="block text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-0.5">From</label>
                   <input type="date" value={from} onChange={(e) => setFrom(e.target.value)}
                     aria-label="From date"
                     className="text-[12px] font-semibold bg-transparent text-slate-900 dark:text-white focus:outline-none cursor-pointer" />
                 </div>
                 <span className="text-slate-300 dark:text-slate-600 text-sm">→</span>
                 <div>
-                  <label className="block text-[9px] font-bold uppercase tracking-wider text-slate-400 mb-0.5">To</label>
+                  <label className="block text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-0.5">To</label>
                   <input type="date" value={to} onChange={(e) => setTo(e.target.value)}
                     aria-label="To date"
                     className="text-[12px] font-semibold bg-transparent text-slate-900 dark:text-white focus:outline-none cursor-pointer" />
@@ -306,7 +306,7 @@ export default function MetaInsightsReport() {
               ].map((k) => (
                 <div key={k.label} className="relative overflow-hidden rounded-xl border border-slate-200 dark:border-white/10 px-3 py-2.5 hover:shadow-sm transition-all"
                   style={{ background: `linear-gradient(135deg, ${k.tint}12 0%, transparent 70%)` }}>
-                  <p className="text-[9px] font-bold uppercase tracking-wider text-slate-400 mb-1">{k.label}</p>
+                  <p className="text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-1">{k.label}</p>
                   <p className="text-[15px] font-extrabold text-slate-900 dark:text-white leading-none tabular-nums">{k.value}</p>
                   <div className="absolute right-2 top-2 text-[14px] opacity-20 select-none">{k.icon}</div>
                 </div>
@@ -338,8 +338,8 @@ export default function MetaInsightsReport() {
               <div className="border border-slate-200 dark:border-white/10 rounded-2xl overflow-hidden">
                 {/* Section header */}
                 <div className="flex items-center justify-between px-4 py-2.5 bg-slate-50 dark:bg-white/[0.03] border-b border-slate-200 dark:border-white/10">
-                  <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Category-wise Spend</p>
-                  <p className="text-[10px] text-slate-400">{cats.length} categories</p>
+                  <p className="text-[11px] font-bold uppercase tracking-wider text-slate-500">Category-wise Spend</p>
+                  <p className="text-[10px] text-slate-500">{cats.length} categories</p>
                 </div>
                 {/* Category rows */}
                 <div className="divide-y divide-slate-100 dark:divide-white/5">
@@ -356,7 +356,7 @@ export default function MetaInsightsReport() {
                           <div className="flex items-center gap-2 flex-1 min-w-0">
                             <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: COLORS_CAT[i % COLORS_CAT.length] }} />
                             <span className="text-[12px] font-semibold text-slate-900 dark:text-white truncate">{cat}</span>
-                            <span className="text-[9px] text-slate-400 shrink-0 hidden sm:inline">{v.count} config{v.count !== 1 ? "s" : ""}</span>
+                            <span className="text-[9px] text-slate-500 shrink-0 hidden sm:inline">{v.count} config{v.count !== 1 ? "s" : ""}</span>
                           </div>
                           {/* Metrics */}
                           <div className="flex items-center gap-4 shrink-0">
@@ -364,15 +364,15 @@ export default function MetaInsightsReport() {
                               <p className="text-[13px] font-extrabold text-slate-900 dark:text-white tabular-nums">
                                 ₹{Number(v.spend).toLocaleString("en-IN", { maximumFractionDigits: 0 })}
                               </p>
-                              <p className="text-[9px] text-slate-400">{spendPct}% of total</p>
+                              <p className="text-[9px] text-slate-500">{spendPct}% of total</p>
                             </div>
                             <div className="text-right hidden sm:block">
                               <p className="text-[12px] font-bold text-indigo-600 tabular-nums">{v.leads}</p>
-                              <p className="text-[9px] text-slate-400">Leads</p>
+                              <p className="text-[9px] text-slate-500">Leads</p>
                             </div>
                             <div className="text-right hidden md:block">
                               <p className="text-[12px] font-bold text-emerald-600 tabular-nums">{v.converted}</p>
-                              <p className="text-[9px] text-slate-400">Conv.</p>
+                              <p className="text-[9px] text-slate-500">Conv.</p>
                             </div>
                             {convRate !== null && (
                               <div className="text-right hidden md:block">
@@ -380,7 +380,7 @@ export default function MetaInsightsReport() {
                                   style={{ color: convRate >= 10 ? "#10B981" : convRate >= 5 ? "#F59E0B" : "#EF4444" }}>
                                   {convRate}%
                                 </p>
-                                <p className="text-[9px] text-slate-400">Conv%</p>
+                                <p className="text-[9px] text-slate-500">Conv%</p>
                               </div>
                             )}
                             {cpl !== null && (
@@ -388,13 +388,13 @@ export default function MetaInsightsReport() {
                                 <p className="text-[12px] font-bold text-purple-600 tabular-nums">
                                   ₹{Number(cpl).toLocaleString("en-IN", { maximumFractionDigits: 0 })}
                                 </p>
-                                <p className="text-[9px] text-slate-400">CPL</p>
+                                <p className="text-[9px] text-slate-500">CPL</p>
                               </div>
                             )}
                             {ctr !== null && (
                               <div className="text-right hidden lg:block">
                                 <p className="text-[12px] font-bold text-amber-600 tabular-nums">{ctr}%</p>
-                                <p className="text-[9px] text-slate-400">CTR</p>
+                                <p className="text-[9px] text-slate-500">CTR</p>
                               </div>
                             )}
                           </div>
@@ -418,7 +418,7 @@ export default function MetaInsightsReport() {
 
         {/* Error */}
         {error && (
-          <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800/50 text-rose-600 dark:text-rose-400 text-[13px] font-semibold">
+          <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800/50 text-rose-700 dark:text-rose-400 text-[13px] font-semibold">
             <AlertTriangle className="w-4 h-4 shrink-0" /> {error}
           </div>
         )}
@@ -503,7 +503,7 @@ export default function MetaInsightsReport() {
         {/* ── Per-campaign cards ──────────────────────────────────────────── */}
         {data?.campaigns?.length > 0 && (
           <div>
-            <h2 className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-3">Campaign Breakdown</h2>
+            <h2 className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-3">Campaign Breakdown</h2>
             <div className="space-y-3">
               {data.campaigns.map((c) => (
                 <div key={c.configId} className="surface-card overflow-hidden">
@@ -515,11 +515,11 @@ export default function MetaInsightsReport() {
                       </div>
                       <div className="min-w-0">
                         <p className="text-[13px] font-bold text-slate-900 dark:text-white truncate">{c.campaignName}</p>
-                        {c.adSetName && <p className="text-[11px] text-slate-400">Ad set: {c.adSetName}</p>}
+                        {c.adSetName && <p className="text-[11px] text-slate-500">Ad set: {c.adSetName}</p>}
                       </div>
                     </div>
                     {!c.configured && (
-                      <span className="text-[10px] font-semibold px-2.5 py-1 rounded-full bg-slate-100 dark:bg-white/10 text-slate-400">Not configured</span>
+                      <span className="text-[10px] font-semibold px-2.5 py-1 rounded-full bg-slate-100 dark:bg-white/10 text-slate-500">Not configured</span>
                     )}
                   </div>
 
@@ -538,7 +538,7 @@ export default function MetaInsightsReport() {
                         ["Reach",     numfmt(c.metrics.reach)],
                       ].map(([k, v]) => (
                         <div key={k} className="flex flex-col px-4 py-3 border-r border-b md:border-b-0 border-slate-200 dark:border-white/10 last:border-r-0">
-                          <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400 mb-1">{k}</span>
+                          <span className="text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-1">{k}</span>
                           <span className="text-[12px] font-bold text-slate-900 dark:text-white">{v}</span>
                         </div>
                       ))}
@@ -588,7 +588,7 @@ export default function MetaInsightsReport() {
           <div className="flex flex-col items-center justify-center py-16 gap-3 surface-card">
             <BarChart3 className="w-9 h-9 text-slate-300 dark:text-slate-600" strokeWidth={1.5} />
             <p className="text-[14px] font-semibold text-slate-900 dark:text-white">No campaigns found</p>
-            <p className="text-[12px] text-slate-400">No Meta campaigns are configured for this company.</p>
+            <p className="text-[12px] text-slate-500">No Meta campaigns are configured for this company.</p>
           </div>
         )}
       </div>

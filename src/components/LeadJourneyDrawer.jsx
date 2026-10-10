@@ -63,7 +63,7 @@ function SectionLabel({ icon, label }) {
   return (
     <div className="flex items-center gap-2 mb-3">
       <span className="text-launcher-600 dark:text-launcher-400">{icon}</span>
-      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{label}</p>
+      <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{label}</p>
       <div className="flex-1 h-px bg-slate-200 dark:bg-white/10" />
     </div>
   );
@@ -121,7 +121,7 @@ function CallCard({ call, displayIndex }) {
             <p className="text-[12px] font-semibold text-slate-900 dark:text-white">
               {call.userName || "Employee"}
             </p>
-            <p className="text-[10px] text-slate-400">{fmtDateTime(call.calledAt)}</p>
+            <p className="text-[10px] text-slate-500">{fmtDateTime(call.calledAt)}</p>
           </div>
         </div>
         <div className="flex items-center gap-1.5 shrink-0">
@@ -129,7 +129,7 @@ function CallCard({ call, displayIndex }) {
             {outcome}
           </span>
           {call.calledAt && (
-            <span className="text-[9px] text-slate-400 bg-slate-100 dark:bg-white/[0.06] px-1.5 py-0.5 rounded-md font-medium">
+            <span className="text-[9px] text-slate-500 bg-slate-100 dark:bg-white/[0.06] px-1.5 py-0.5 rounded-md font-medium">
               {daysSince(call.calledAt)}
             </span>
           )}
@@ -138,7 +138,7 @@ function CallCard({ call, displayIndex }) {
       {call.remark && (
         <div className="ml-8 mt-1">
           <div className="flex items-start gap-1.5">
-            <span className="text-[10px] text-slate-400 shrink-0 mt-0.5">Remark:</span>
+            <span className="text-[10px] text-slate-500 shrink-0 mt-0.5">Remark:</span>
             <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed italic">"{call.remark}"</p>
           </div>
         </div>
@@ -159,7 +159,7 @@ function CallCard({ call, displayIndex }) {
       )}
       {call.duration && (
         <div className="ml-8 mt-1">
-          <span className="text-[9px] text-slate-400">Duration: {call.duration}</span>
+          <span className="text-[9px] text-slate-500">Duration: {call.duration}</span>
         </div>
       )}
     </div>
@@ -187,12 +187,12 @@ function ScheduledCard({ sc: call }) {
     }`}>
       <div className="flex items-start justify-between gap-2">
         <div className="flex items-center gap-2">
-          <span className="text-slate-400"><Icon className="w-3.5 h-3.5" /></span>
+          <span className="text-slate-500"><Icon className="w-3.5 h-3.5" /></span>
           <div>
             <p className="text-[12px] font-semibold text-slate-900 dark:text-white">
               {call.type === "follow-up" ? "Follow-up Call" : "Verification Call"}
             </p>
-            <p className="text-[10px] text-slate-400">Scheduled: {fmtDate(call.scheduledAt)}</p>
+            <p className="text-[10px] text-slate-500">Scheduled: {fmtDate(call.scheduledAt)}</p>
             {call.done && call.doneAt && (
               <p className="text-[10px] text-emerald-600 dark:text-emerald-400">
                 Completed: {fmtDateTime(call.doneAt)}
@@ -233,9 +233,9 @@ function MeetingCard({ visit }) {
           <div className="min-w-0">
             <p className="text-[12px] font-semibold text-slate-900 dark:text-white">
               {visit.meetingType || "Visit"}
-              {visit.userName ? <span className="font-normal text-slate-400"> · {visit.userName}</span> : null}
+              {visit.userName ? <span className="font-normal text-slate-500"> · {visit.userName}</span> : null}
             </p>
-            <p className="text-[10px] text-slate-400">{fmtDateTime(visit.metAt)}</p>
+            <p className="text-[10px] text-slate-500">{fmtDateTime(visit.metAt)}</p>
           </div>
         </div>
         {visit.outcome ? (
@@ -250,7 +250,7 @@ function MeetingCard({ visit }) {
       ) : null}
 
       {visit.location ? (
-        <p className="mt-1.5 text-[10px] text-slate-400 flex items-center gap-1">
+        <p className="mt-1.5 text-[10px] text-slate-500 flex items-center gap-1">
           <MapPin className="w-3 h-3 shrink-0" /><span className="truncate">{visit.location}</span>
         </p>
       ) : null}
@@ -302,7 +302,7 @@ function EmployeeCard({ agent, isCurrent }) {
       <div className="flex-1 min-w-0">
         <p className="text-[12px] font-semibold text-slate-900 dark:text-white truncate">{name}</p>
         {assignedAt && (
-          <p className="text-[10px] text-slate-400">{fmtDate(assignedAt)}</p>
+          <p className="text-[10px] text-slate-500">{fmtDate(assignedAt)}</p>
         )}
       </div>
       {isCurrent
@@ -478,17 +478,17 @@ export default function LeadJourneyDrawer({ lead, onClose, isSuperAdmin = false,
                   {displayPhone && (
                     <span className="inline-flex items-center gap-1.5">
                       <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-600 dark:text-emerald-400">PRIMARY</span>
-                      <span className="text-[11px] font-mono text-slate-400">{displayPhone}</span>
+                      <span className="text-[11px] font-mono text-slate-500">{displayPhone}</span>
                     </span>
                   )}
                   {displaySecondaryPhone && (
                     <span className="inline-flex items-center gap-1.5">
                       <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-cyan-500/15 text-cyan-600 dark:text-cyan-400">SECONDARY</span>
-                      <span className="text-[11px] font-mono text-slate-400">{displaySecondaryPhone}</span>
+                      <span className="text-[11px] font-mono text-slate-500">{displaySecondaryPhone}</span>
                     </span>
                   )}
                   {displayEmail && (
-                    <span className="text-[11px] text-slate-400 font-mono">{displayEmail}</span>
+                    <span className="text-[11px] text-slate-500 font-mono">{displayEmail}</span>
                   )}
                 </div>
               </div>
@@ -548,7 +548,7 @@ export default function LeadJourneyDrawer({ lead, onClose, isSuperAdmin = false,
             { label: "Last Activity", value: lastCallAt ? daysSince(lastCallAt) : "—", color: "#7E14FF" },
           ].map(item => (
             <div key={item.label} className="bg-slate-50 dark:bg-white/[0.04] rounded-xl p-2.5 text-center">
-              <p className="text-[9px] font-bold text-slate-400 uppercase tracking-wide mb-1">{item.label}</p>
+              <p className="text-[9px] font-bold text-slate-500 uppercase tracking-wide mb-1">{item.label}</p>
               <p className="text-[14px] font-black" style={{ color: item.color }}>{item.value}</p>
             </div>
           ))}
@@ -622,7 +622,7 @@ export default function LeadJourneyDrawer({ lead, onClose, isSuperAdmin = false,
                   {!!aiSummary.suggestedTemp && (
                     <Pill tone="amber">Suggested: {aiSummary.suggestedTemp}</Pill>
                   )}
-                  <span className="text-[10px] text-slate-400 ml-auto">
+                  <span className="text-[10px] text-slate-500 ml-auto">
                     {aiSummary.basedOn === "remarks+calls" ? "From remarks + calls" : "From remarks"}
                   </span>
                 </div>
@@ -653,8 +653,8 @@ export default function LeadJourneyDrawer({ lead, onClose, isSuperAdmin = false,
                 </div>
               ) : (
                 <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-dashed border-slate-200 dark:border-white/10">
-                  <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-slate-100 dark:bg-white/[0.06] text-slate-400">ADDITIONAL</span>
-                  <span className="text-[12px] text-slate-400 italic">Not set</span>
+                  <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-slate-100 dark:bg-white/[0.06] text-slate-500">ADDITIONAL</span>
+                  <span className="text-[12px] text-slate-500 italic">Not set</span>
                 </div>
               )}
             </div>
@@ -681,7 +681,7 @@ export default function LeadJourneyDrawer({ lead, onClose, isSuperAdmin = false,
                   key={row.label}
                   className={`flex items-center justify-between px-4 py-2.5 ${i > 0 ? "border-t border-slate-100 dark:border-white/[0.06]" : ""}`}
                 >
-                  <span className="text-[11px] text-slate-400">{row.label}</span>
+                  <span className="text-[11px] text-slate-500">{row.label}</span>
                   <span className="text-[12px] font-semibold text-slate-900 dark:text-white text-right max-w-[220px] truncate">
                     {row.value}
                   </span>
@@ -690,7 +690,7 @@ export default function LeadJourneyDrawer({ lead, onClose, isSuperAdmin = false,
 
               {lead.projects && lead.projects.length > 0 && (
                 <div className="border-t border-slate-100 dark:border-white/[0.06] px-4 py-2.5">
-                  <span className="text-[11px] text-slate-400 block mb-1.5">Projects</span>
+                  <span className="text-[11px] text-slate-500 block mb-1.5">Projects</span>
                   <div className="flex flex-wrap gap-1.5">
                     {lead.projects.map((p, i) => {
                       const pName  = p?.name  || "Project";
@@ -712,7 +712,7 @@ export default function LeadJourneyDrawer({ lead, onClose, isSuperAdmin = false,
 
               {lead.remark && (
                 <div className="border-t border-slate-100 dark:border-white/[0.06] px-4 py-2.5">
-                  <span className="text-[11px] text-slate-400 block mb-1">Latest Remark</span>
+                  <span className="text-[11px] text-slate-500 block mb-1">Latest Remark</span>
                   <p className="text-[12px] text-slate-600 dark:text-slate-300 italic leading-relaxed">"{lead.remark}"</p>
                 </div>
               )}
@@ -729,7 +729,7 @@ export default function LeadJourneyDrawer({ lead, onClose, isSuperAdmin = false,
             ) : (
               <div className="flex flex-col items-center justify-center py-6 gap-2 bg-slate-50 dark:bg-white/[0.04] rounded-xl border border-dashed border-slate-200 dark:border-white/10">
                 <span className="text-slate-300 dark:text-slate-600"><Inbox className="w-7 h-7" strokeWidth={1.5} /></span>
-                <p className="text-[12px] text-slate-400">No calls recorded yet</p>
+                <p className="text-[12px] text-slate-500">No calls recorded yet</p>
               </div>
             )}
           </div>
@@ -785,7 +785,7 @@ export default function LeadJourneyDrawer({ lead, onClose, isSuperAdmin = false,
                 </div>
                 <div>
                   <p className="text-[13px] font-bold" style={{ color: sc.dot }}>{lead.status}</p>
-                  <p className="text-[10px] text-slate-400">
+                  <p className="text-[10px] text-slate-500">
                     {lead.status === "Converted"      ? "Successfully converted to customer" :
                      lead.status === "Not Interested" ? "Lead declined the offer" :
                      lead.status === "In Progress"    ? `Active — ${totalCalls} call${totalCalls !== 1 ? "s" : ""} made` :
@@ -796,13 +796,13 @@ export default function LeadJourneyDrawer({ lead, onClose, isSuperAdmin = false,
 
               <div className="grid grid-cols-2 gap-2 text-[11px]">
                 <div className="bg-white/60 dark:bg-black/20 rounded-lg p-2.5">
-                  <p className="text-[9px] text-slate-400 uppercase tracking-wide mb-1">Total Interactions</p>
+                  <p className="text-[9px] text-slate-500 uppercase tracking-wide mb-1">Total Interactions</p>
                   <p className="font-bold text-slate-900 dark:text-white">
                     {totalCalls} call{totalCalls !== 1 ? "s" : ""} + {scheduledCalls.length} scheduled
                   </p>
                 </div>
                 <div className="bg-white/60 dark:bg-black/20 rounded-lg p-2.5">
-                  <p className="text-[9px] text-slate-400 uppercase tracking-wide mb-1">Lead Age</p>
+                  <p className="text-[9px] text-slate-500 uppercase tracking-wide mb-1">Lead Age</p>
                   <p className="font-bold text-slate-900 dark:text-white">
                     {lead._raw_date || lead.createdAt ? daysSince(lead._raw_date || lead.createdAt) : "—"}
                   </p>

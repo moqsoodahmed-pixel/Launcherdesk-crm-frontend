@@ -166,6 +166,38 @@ function WebhookUrlBox() {
 function IntegrationsModal({ onClose }) {
   const [activeTab, setActiveTab] = useState("whatsapp");
 
+  // ── Multi-company switcher (platform super admin only) ────────────────────
+  // isPlatformSuperAdmin / companies / currentCompanyId come from the server
+  // — req.admin.isSuperAdmin is only ever true for the legacy platform
+  // SuperAdmin login, never for a company's own super_admin-role Admin, so a
+  // regular company admin always gets back an empty list here and never sees
+  // this switcher. selectedCompanyId stays local to this modal only — it is
+  // NOT written to localStorage/session state, so switching it here never
+  // changes which company the rest of the app (Dashboard, Leads, etc.) shows.
+  const [isPlatformSuperAdmin, setIsPlatformSuperAdmin] = useState(false);
+  const [companies, setCompanies]                       = useState([]);
+  const [selectedCompanyId, setSelectedCompanyId]       = useState("");
+  const [contextLoaded, setContextLoaded]               = useState(false);
+
+  useEffect(() => {
+    api.get("/admin/company/integrations-context").then(r => {
+      const data = r.data || {};
+      setIsPlatformSuperAdmin(!!data.isPlatformSuperAdmin);
+      setCompanies(Array.isArray(data.companies) ? data.companies : []);
+      setSelectedCompanyId(data.currentCompanyId || "");
+    }).catch(() => {
+      setIsPlatformSuperAdmin(false);
+      setCompanies([]);
+    }).finally(() => setContextLoaded(true));
+  }, []);
+
+  // Per-call axios config carrying the selected company override. Empty
+  // object (no header) for a normal company admin, so their requests behave
+  // exactly as before this feature existed.
+  const tenantCfg = isPlatformSuperAdmin && selectedCompanyId
+    ? { headers: { "x-company-id": selectedCompanyId } }
+    : {};
+
   // ── MSG91 state ────────────────────────────────────────────────────────────
   const [msg91, setMsg91]             = useState(null);
   const [msg91Key, setMsg91Key]       = useState("");
@@ -201,9 +233,21 @@ function IntegrationsModal({ onClose }) {
   const [m91EmailOk, setM91EmailOk]               = useState("");
   const [m91EmailDisc, setM91EmailDisc]           = useState(false);
 
-  // ── Load configs on mount ──────────────────────────────────────────────────
+  // ── Load configs — re-runs whenever the selected company changes ──────────
+  // Waits for contextLoaded so a platform super admin doesn't briefly fetch
+  // with no x-company-id header before their default company is known.
   useEffect(() => {
-    api.get("/admin/company/msg91-config").then(r => {
+    if (!contextLoaded) return;
+
+    // Reset visible state immediately so switching companies never shows the
+    // previous company's masked key/values for a flash while the new
+    // company's config is still loading.
+    setMsg91(null); setMsg91Key(""); setMsg91Num(""); setMsg91NS(""); setMsg91Brochure("");
+    setBrevo(null); setBrevoKey(""); setBrevoEmail(""); setBrevoName("");
+    setM91Email(null); setM91EmailKey(""); setM91EmailDomain(""); setM91EmailSender(""); setM91EmailName("");
+    setMsg91Err(""); setMsg91Ok(""); setBrevoErr(""); setBrevoOk(""); setM91EmailErr(""); setM91EmailOk("");
+
+    api.get("/admin/company/msg91-config", tenantCfg).then(r => {
       setMsg91(r.data || {});
       setMsg91Key(r.data?.authKey ? "••••••••••••••••" : "");
       setMsg91Num(r.data?.integratedNumber || "");
@@ -211,21 +255,22 @@ function IntegrationsModal({ onClose }) {
       setMsg91Brochure(r.data?.brochureUrl || "");
     }).catch(() => setMsg91({}));
 
-    api.get("/admin/company/brevo-config").then(r => {
+    api.get("/admin/company/brevo-config", tenantCfg).then(r => {
       setBrevo(r.data || {});
       setBrevoKey(r.data?.apiKey ? "••••••••••••••••" : "");
       setBrevoEmail(r.data?.senderEmail || "");
       setBrevoName(r.data?.senderName || "");
     }).catch(() => setBrevo({}));
 
-    api.get("/admin/company/msg91-email-config").then(r => {
+    api.get("/admin/company/msg91-email-config", tenantCfg).then(r => {
       setM91Email(r.data || {});
       setM91EmailKey(r.data?.connected ? "••••••••••••••••" : "");
       setM91EmailDomain(r.data?.domain || "");
       setM91EmailSender(r.data?.senderEmail || "");
       setM91EmailName(r.data?.senderName || "");
     }).catch(() => setM91Email({}));
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [contextLoaded, selectedCompanyId]);
 
   // ── Save MSG91 ─────────────────────────────────────────────────────────────
   const saveMsg91 = async () => {
@@ -233,7 +278,7 @@ function IntegrationsModal({ onClose }) {
     if (!msg91Num.trim()) { setMsg91Err("Enter your MSG91 integrated WhatsApp number"); return; }
     setMsg91Saving(true); setMsg91Err(""); setMsg91Ok("");
     try {
-      const r = await api.put("/admin/company/msg91-config", { authKey: msg91Key.trim(), integratedNumber: msg91Num.trim(), namespace: msg91NS.trim(), brochureUrl: msg91Brochure.trim() });
+      const r = await api.put("/admin/company/msg91-config", { authKey: msg91Key.trim(), integratedNumber: msg91Num.trim(), namespace: msg91NS.trim(), brochureUrl: msg91Brochure.trim() }, tenantCfg);
       setMsg91(r.data); setMsg91Key("••••••••••••••••");
       setMsg91Ok("MSG91 connected! WhatsApp and SMS are now active.");
       setTimeout(() => setMsg91Ok(""), 4000);
@@ -244,7 +289,7 @@ function IntegrationsModal({ onClose }) {
   const disconnectMsg91 = async () => {
     if (!window.confirm("Disconnect MSG91? WhatsApp and SMS blasts will stop working.")) return;
     setMsg91Disc(true);
-    try { await api.delete("/admin/company/msg91-config"); setMsg91({}); setMsg91Key(""); setMsg91Num(""); }
+    try { await api.delete("/admin/company/msg91-config", tenantCfg); setMsg91({}); setMsg91Key(""); setMsg91Num(""); }
     catch { setMsg91Err("Failed to disconnect MSG91"); }
     finally { setMsg91Disc(false); }
   };
@@ -259,7 +304,7 @@ function IntegrationsModal({ onClose }) {
         apiKey: brevoKey.trim(),
         senderEmail: brevoEmail.trim(),
         senderName: brevoName.trim() || "CRM",
-      });
+      }, tenantCfg);
       setBrevo(r.data); setBrevoKey("••••••••••••••••");
       setBrevoOk("Brevo connected! Email blasts are now active.");
       setTimeout(() => setBrevoOk(""), 4000);
@@ -270,7 +315,7 @@ function IntegrationsModal({ onClose }) {
   const disconnectBrevo = async () => {
     if (!window.confirm("Disconnect Brevo? Email blasts will stop working.")) return;
     setBrevoDisc(true);
-    try { await api.delete("/admin/company/brevo-config"); setBrevo({}); setBrevoKey(""); setBrevoEmail(""); setBrevoName(""); }
+    try { await api.delete("/admin/company/brevo-config", tenantCfg); setBrevo({}); setBrevoKey(""); setBrevoEmail(""); setBrevoName(""); }
     catch { setBrevoErr("Failed to disconnect Brevo"); }
     finally { setBrevoDisc(false); }
   };
@@ -287,7 +332,7 @@ function IntegrationsModal({ onClose }) {
         domain: m91EmailDomain.trim(),
         senderEmail: m91EmailSender.trim(),
         senderName: m91EmailName.trim() || "CRM",
-      });
+      }, tenantCfg);
       setM91Email(r.data); setM91EmailKey("••••••••••••••••");
       setM91EmailOk("MSG91 Email connected! Email blasts will now use MSG91 (up to 5,000/day), then fallback to Brevo.");
       setTimeout(() => setM91EmailOk(""), 5000);
@@ -298,7 +343,7 @@ function IntegrationsModal({ onClose }) {
   const disconnectM91Email = async () => {
     if (!window.confirm("Disconnect MSG91 Email? Email blasts will fall back to Brevo only.")) return;
     setM91EmailDisc(true);
-    try { await api.delete("/admin/company/msg91-email-config"); setM91Email({}); setM91EmailKey(""); setM91EmailDomain(""); setM91EmailSender(""); setM91EmailName(""); }
+    try { await api.delete("/admin/company/msg91-email-config", tenantCfg); setM91Email({}); setM91EmailKey(""); setM91EmailDomain(""); setM91EmailSender(""); setM91EmailName(""); }
     catch { setM91EmailErr("Failed to disconnect MSG91 Email"); }
     finally { setM91EmailDisc(false); }
   };
@@ -330,14 +375,36 @@ function IntegrationsModal({ onClose }) {
         <div className="px-5 py-4 border-b border-slate-200 dark:border-white/10 flex items-center justify-between shrink-0">
           <div>
             <h2 className="text-[16px] font-bold text-slate-900 dark:text-white">Integrations</h2>
-            <p className="text-[11px] text-slate-400 mt-0.5">Connect your messaging and email providers</p>
+            <p className="text-[11px] text-slate-500 mt-0.5">Connect your messaging and email providers</p>
           </div>
-          <button onClick={onClose} className="w-8 h-8 flex items-center justify-center rounded-xl hover:bg-gray-100 dark:hover:bg-white/10 text-slate-400 transition">
+          <button onClick={onClose} className="w-8 h-8 flex items-center justify-center rounded-xl hover:bg-gray-100 dark:hover:bg-white/10 text-slate-500 transition">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
             </svg>
           </button>
         </div>
+
+        {/* ── Company switcher — platform super admin only ── */}
+        {isPlatformSuperAdmin && companies.length > 0 && (
+          <div className="px-5 py-3 border-b border-slate-200 dark:border-white/10 bg-violet-50/60 dark:bg-violet-500/[0.06] shrink-0">
+            <label className="block text-[10px] font-bold text-violet-700 dark:text-violet-300 uppercase tracking-widest mb-1.5">
+              Viewing integrations for
+            </label>
+            <select
+              value={selectedCompanyId}
+              onChange={e => setSelectedCompanyId(e.target.value)}
+              aria-label="Select company to view integrations for"
+              className="w-full px-3 py-2 rounded-lg border border-violet-200 dark:border-violet-800/50 bg-white dark:bg-[#1E1430] text-[13px] font-semibold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-500"
+            >
+              {companies.map(c => (
+                <option key={c._id} value={c._id}>{c.name}</option>
+              ))}
+            </select>
+            <p className="text-[10px] text-violet-600/80 dark:text-violet-400/70 mt-1.5">
+              Super admin view — credentials shown/saved below belong to the selected company only. Switching here does not change any other page.
+            </p>
+          </div>
+        )}
 
         {/* ── Service tabs ── */}
         <div className="flex border-b border-slate-200 dark:border-white/10 shrink-0">
@@ -348,7 +415,7 @@ function IntegrationsModal({ onClose }) {
               className={`flex-1 flex flex-col items-center gap-1 py-3 text-[12px] font-semibold transition border-b-2 ${
                 activeTab === t.key
                   ? "border-current"
-                  : "border-transparent text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
+                  : "border-transparent text-slate-500 hover:text-slate-600 dark:hover:text-slate-300"
               }`}
               style={{ color: activeTab === t.key ? t.color : undefined }}
             >
@@ -407,7 +474,7 @@ function IntegrationsModal({ onClose }) {
                   "Paste both below and click Connect — this enables both WhatsApp and SMS",
                 ].map((s, i) => (
                   <div key={i} className="flex items-start gap-2.5">
-                    <span className="w-5 h-5 rounded-full bg-[#25D366]/10 text-[#25D366] text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">{i + 1}</span>
+                    <span className="w-5 h-5 rounded-full bg-[#0F7A6C]/10 text-[#0F7A6C] text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">{i + 1}</span>
                     <p className="text-[12px] text-slate-600 dark:text-slate-300">{s}</p>
                   </div>
                 ))}
@@ -423,7 +490,7 @@ function IntegrationsModal({ onClose }) {
                     placeholder="Paste your MSG91 auth key here"
                     className={FIELD + " pr-10 font-mono"} autoComplete="off"/>
                   <button type="button" onClick={() => setMsg91Show(s => !s)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition">
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-600 transition">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       {msg91Show
                         ? <path strokeLinecap="round" strokeLinejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/>
@@ -432,7 +499,7 @@ function IntegrationsModal({ onClose }) {
                     </svg>
                   </button>
                 </div>
-                <p className="text-[10px] text-slate-400 mt-1">msg91.com → Profile → API → Your Auth Key</p>
+                <p className="text-[10px] text-slate-500 mt-1">msg91.com → Profile → API → Your Auth Key</p>
               </div>
 
               {/* Integrated number */}
@@ -443,29 +510,29 @@ function IntegrationsModal({ onClose }) {
                 <input type="text" value={msg91Num} onChange={e => setMsg91Num(e.target.value)}
                   placeholder="e.g. 919876543210 (country code, no +)"
                   className={FIELD + " font-mono"}/>
-                <p className="text-[10px] text-slate-400 mt-1">msg91.com → WhatsApp → Integrated Numbers</p>
+                <p className="text-[10px] text-slate-500 mt-1">msg91.com → WhatsApp → Integrated Numbers</p>
               </div>
 
               {/* Namespace */}
               <div>
                 <label className="block text-[12px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">
-                  WhatsApp Namespace <span className="text-[10px] font-normal text-slate-400">(required for templates)</span>
+                  WhatsApp Namespace <span className="text-[10px] font-normal text-slate-500">(required for templates)</span>
                 </label>
                 <input type="text" value={msg91NS} onChange={e => setMsg91NS(e.target.value)}
                   placeholder="e.g. 68bcef67_e185_4e55_94df_52c26cb0bc37"
                   className={FIELD + " font-mono"}/>
-                <p className="text-[10px] text-slate-400 mt-1">MSG91 → Templates → click any template → Code JSON → copy "namespace" value</p>
+                <p className="text-[10px] text-slate-500 mt-1">MSG91 → Templates → click any template → Code JSON → copy "namespace" value</p>
               </div>
 
               {/* Brochure / document header URL */}
               <div>
                 <label className="block text-[12px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">
-                  Brochure PDF URL <span className="text-[10px] font-normal text-slate-400">(only for templates with a document header, e.g. crm_followup_leads)</span>
+                  Brochure PDF URL <span className="text-[10px] font-normal text-slate-500">(only for templates with a document header, e.g. crm_followup_leads)</span>
                 </label>
                 <input type="text" value={msg91Brochure} onChange={e => setMsg91Brochure(e.target.value)}
                   placeholder="https://your-domain.com/brochure.pdf"
                   className={FIELD + " font-mono"}/>
-                <p className="text-[10px] text-slate-400 mt-1">
+                <p className="text-[10px] text-slate-500 mt-1">
                   Must be a public PDF link. Templates with an approved document header will fail with a 404 until this is set.
                 </p>
               </div>
@@ -493,11 +560,11 @@ function IntegrationsModal({ onClose }) {
                   </p>
                   <div className="grid grid-cols-2 gap-2 mb-2">
                     <div className="bg-white dark:bg-[#111B21] rounded-lg p-2">
-                      <p className="text-[10px] text-slate-400 mb-0.5">Sender ID</p>
+                      <p className="text-[10px] text-slate-500 mb-0.5">Sender ID</p>
                       <code className="font-mono font-bold text-orange-600 text-[12px]">695382</code>
                     </div>
                     <div className="bg-white dark:bg-[#111B21] rounded-lg p-2">
-                      <p className="text-[10px] text-slate-400 mb-0.5">DLT Template ID</p>
+                      <p className="text-[10px] text-slate-500 mb-0.5">DLT Template ID</p>
                       <code className="font-mono font-bold text-orange-600 text-[10px]">1007503933418344595</code>
                     </div>
                   </div>
@@ -581,7 +648,7 @@ function IntegrationsModal({ onClose }) {
                     placeholder="Paste your MSG91 auth key here"
                     className={FIELD + " pr-10 font-mono"} autoComplete="off"/>
                   <button type="button" onClick={() => setM91EmailShow(s => !s)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition">
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-600 transition">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       {m91EmailShow
                         ? <path strokeLinecap="round" strokeLinejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/>
@@ -590,7 +657,7 @@ function IntegrationsModal({ onClose }) {
                     </svg>
                   </button>
                 </div>
-                <p className="text-[10px] text-slate-400 mt-1">msg91.com → Profile → API → Your Auth Key (same key used for WhatsApp/SMS)</p>
+                <p className="text-[10px] text-slate-500 mt-1">msg91.com → Profile → API → Your Auth Key (same key used for WhatsApp/SMS)</p>
               </div>
 
               {/* Sending domain */}
@@ -601,7 +668,7 @@ function IntegrationsModal({ onClose }) {
                 <input type="text" value={m91EmailDomain} onChange={e => setM91EmailDomain(e.target.value)}
                   placeholder="e.g. mail.launcherdesk.com"
                   className={FIELD}/>
-                <p className="text-[10px] text-slate-400 mt-1">Must be verified in MSG91 Email → Domains</p>
+                <p className="text-[10px] text-slate-500 mt-1">Must be verified in MSG91 Email → Domains</p>
               </div>
 
               {/* Sender email */}
@@ -612,13 +679,13 @@ function IntegrationsModal({ onClose }) {
                 <input type="email" value={m91EmailSender} onChange={e => setM91EmailSender(e.target.value)}
                   placeholder="noreply@mail.launcherdesk.com"
                   className={FIELD}/>
-                <p className="text-[10px] text-slate-400 mt-1">Must be a verified sender under your MSG91 domain</p>
+                <p className="text-[10px] text-slate-500 mt-1">Must be a verified sender under your MSG91 domain</p>
               </div>
 
               {/* Sender name */}
               <div>
                 <label className="block text-[12px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">
-                  Sender Name <span className="text-slate-400 font-normal">(optional)</span>
+                  Sender Name <span className="text-slate-500 font-normal">(optional)</span>
                 </label>
                 <input type="text" value={m91EmailName} onChange={e => setM91EmailName(e.target.value)}
                   placeholder="e.g. LAUNCHERDESK CRM"
@@ -667,7 +734,7 @@ function IntegrationsModal({ onClose }) {
                     placeholder="xkeysib-…"
                     className={FIELD + " pr-10 font-mono"} autoComplete="off"/>
                   <button type="button" onClick={() => setBrevoShow(s => !s)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition">
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-600 transition">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       {brevoShow
                         ? <path strokeLinecap="round" strokeLinejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/>
@@ -676,7 +743,7 @@ function IntegrationsModal({ onClose }) {
                     </svg>
                   </button>
                 </div>
-                <p className="text-[10px] text-slate-400 mt-1">app.brevo.com → Settings → API Keys</p>
+                <p className="text-[10px] text-slate-500 mt-1">app.brevo.com → Settings → API Keys</p>
               </div>
 
               {/* Sender email */}
@@ -687,18 +754,18 @@ function IntegrationsModal({ onClose }) {
                 <input type="email" value={brevoEmail} onChange={e => setBrevoEmail(e.target.value)}
                   placeholder="you@yourdomain.com"
                   className={FIELD}/>
-                <p className="text-[10px] text-slate-400 mt-1">Must be verified in your Brevo account</p>
+                <p className="text-[10px] text-slate-500 mt-1">Must be verified in your Brevo account</p>
               </div>
 
               {/* Sender name */}
               <div>
                 <label className="block text-[12px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">
-                  Sender Name <span className="text-slate-400 font-normal">(optional)</span>
+                  Sender Name <span className="text-slate-500 font-normal">(optional)</span>
                 </label>
                 <input type="text" value={brevoName} onChange={e => setBrevoName(e.target.value)}
                   placeholder="e.g. LAUNCHERDESK CRM"
                   className={FIELD}/>
-                <p className="text-[10px] text-slate-400 mt-1">Shown as the From name in recipients' inboxes</p>
+                <p className="text-[10px] text-slate-500 mt-1">Shown as the From name in recipients' inboxes</p>
               </div>
 
               {brevoErr && <div className="px-3 py-2 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-[12px] text-red-600 dark:text-red-400">{brevoErr}</div>}
@@ -732,7 +799,7 @@ function TabNav({ active, onChange, showReports }) {
           <path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.121 1.531 5.845L.057 23.286a.5.5 0 0 0 .64.64l5.431-1.47A11.952 11.952 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.849 0-3.576-.498-5.066-1.367l-.363-.214-3.765 1.018 1.022-3.734-.234-.376A9.967 9.967 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
         </svg>
       ),
-      activeColor: "text-[#25D366] border-[#25D366]",
+      activeColor: "text-[#0F7A6C] border-[#0F7A6C]",
       activeBg: "bg-[#f0fdf4] dark:bg-[#052e1c]",
     },
     {
@@ -779,7 +846,7 @@ function TabNav({ active, onChange, showReports }) {
           className={`flex items-center gap-1.5 px-3 sm:px-5 py-2 sm:py-2.5 rounded-xl text-[12px] sm:text-[13px] font-semibold transition-all whitespace-nowrap shrink-0 ${
             active === t.key
               ? `${t.activeBg} ${t.activeColor.split(" ")[0]} shadow-sm`
-              : "text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
+              : "text-slate-600 hover:text-slate-700 dark:hover:text-slate-300"
           }`}
         >
           {t.icon}
@@ -846,10 +913,10 @@ function NewConversationModal({ onClose, onSuccess, authHeaders }) {
             </div>
             <div>
               <h2 className="text-[15px] font-bold text-slate-900 dark:text-white leading-none">New WhatsApp Chat</h2>
-              <p className="text-[11px] text-slate-400 mt-0.5">Start a conversation with any client number</p>
+              <p className="text-[11px] text-slate-500 mt-0.5">Start a conversation with any client number</p>
             </div>
           </div>
-          <button onClick={onClose} className="w-7 h-7 rounded-lg border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-400 hover:text-slate-900 transition">
+          <button onClick={onClose} className="w-7 h-7 rounded-lg border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-500 hover:text-slate-900 transition">
             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
           </button>
         </div>
@@ -879,13 +946,13 @@ function NewConversationModal({ onClose, onSuccess, authHeaders }) {
               className={FIELD_CLS}
               autoFocus
             />
-            <p className="text-[10px] text-slate-400 mt-1">Include country code — e.g. 91 for India, 1 for USA</p>
+            <p className="text-[10px] text-slate-500 mt-1">Include country code — e.g. 91 for India, 1 for USA</p>
           </div>
 
           {/* Contact name */}
           <div>
             <label className="block text-[12px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">
-              Client Name <span className="text-slate-400 font-normal">(optional)</span>
+              Client Name <span className="text-slate-500 font-normal">(optional)</span>
             </label>
             <input
               type="text"
@@ -908,7 +975,7 @@ function NewConversationModal({ onClose, onSuccess, authHeaders }) {
               placeholder="crm_followup_leads"
               className={FIELD_CLS}
             />
-            <p className="text-[10px] text-slate-400 mt-1">
+            <p className="text-[10px] text-slate-500 mt-1">
               Must match exactly the approved template name in your MSG91 / Meta dashboard
             </p>
           </div>
@@ -947,7 +1014,7 @@ function NewConversationModal({ onClose, onSuccess, authHeaders }) {
           <button
             onClick={handleStart}
             disabled={!phone.trim() || !templateName.trim() || loading}
-            className="flex-1 py-2.5 rounded-xl bg-[#25D366] text-white text-[13px] font-semibold hover:bg-[#1da851] disabled:opacity-40 transition flex items-center justify-center gap-2"
+            className="flex-1 py-2.5 rounded-xl bg-[#0F7A6C] text-white text-[13px] font-semibold hover:bg-[#0B5D52] disabled:opacity-40 transition flex items-center justify-center gap-2"
           >
             {loading ? (
               <><svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/></svg>Starting…</>
@@ -1012,7 +1079,7 @@ function ReEngageModal({ conversationId, authHeaders, onSent }) {
         <button
           onClick={handleSend}
           disabled={!templateName.trim() || loading}
-          className="px-4 py-2 rounded-xl bg-[#25D366] hover:bg-[#1da851] text-white text-[12px] font-semibold disabled:opacity-40 transition shrink-0 flex items-center gap-1.5"
+          className="px-4 py-2 rounded-xl bg-[#0F7A6C] hover:bg-[#0B5D52] text-white text-[12px] font-semibold disabled:opacity-40 transition shrink-0 flex items-center gap-1.5"
         >
           {loading
             ? <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/></svg>
@@ -1160,15 +1227,15 @@ function WhatsAppBlastModal({ onClose, authHeaders }) {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" onClick={onClose}>
       <div className="w-full max-w-md bg-white dark:bg-[#181029] rounded-2xl border border-slate-200 dark:border-white/10 p-8 text-center" onClick={(e) => e.stopPropagation()}>
         <div className="w-14 h-14 rounded-full bg-[#f0fdf4] dark:bg-[#052e1c] flex items-center justify-center mx-auto mb-4">
-          <svg className="w-7 h-7 text-[#25D366]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
+          <svg className="w-7 h-7 text-[#0F7A6C]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
         </div>
         <h2 className="text-[16px] font-bold text-slate-900 dark:text-white mb-1">WhatsApp Blast Complete!</h2>
-        <p className="text-[12px] text-slate-400 mb-5">Template messages dispatched successfully.</p>
+        <p className="text-[12px] text-slate-500 mb-5">Template messages dispatched successfully.</p>
         <div className="grid grid-cols-3 gap-3 mb-5">
-          {[{ label: "Sent", value: result.sent ?? 1, color: "#25D366" }, { label: "Failed", value: result.failed ?? 0, color: "#DC2626" }, { label: "Total", value: result.total ?? 1, color: "#2563EB" }].map((s) => (
+          {[{ label: "Sent", value: result.sent ?? 1, color: "#0F7A6C" }, { label: "Failed", value: result.failed ?? 0, color: "#DC2626" }, { label: "Total", value: result.total ?? 1, color: "#2563EB" }].map((s) => (
             <div key={s.label} className="bg-slate-50 dark:bg-white/[0.04] rounded-xl p-3 text-center border border-slate-200 dark:border-white/10">
               <div className="text-[22px] font-bold" style={{ color: s.color }}>{s.value}</div>
-              <div className="text-[10px] text-slate-400 uppercase mt-0.5">{s.label}</div>
+              <div className="text-[10px] text-slate-500 uppercase mt-0.5">{s.label}</div>
             </div>
           ))}
         </div>
@@ -1179,7 +1246,7 @@ function WhatsAppBlastModal({ onClose, authHeaders }) {
             ))}
           </div>
         )}
-        <button onClick={onClose} className="w-full py-2.5 rounded-xl bg-[#25D366] text-white text-[13px] font-semibold hover:bg-[#1da851] transition">Done</button>
+        <button onClick={onClose} className="w-full py-2.5 rounded-xl bg-[#0F7A6C] text-white text-[13px] font-semibold hover:bg-[#0B5D52] transition">Done</button>
       </div>
     </div>
   );
@@ -1196,10 +1263,10 @@ function WhatsAppBlastModal({ onClose, authHeaders }) {
             </div>
             <div>
               <h2 className="text-[15px] font-bold text-slate-900 dark:text-white leading-none">Send WhatsApp Blast</h2>
-              <p className="text-[11px] text-slate-400 mt-0.5">Personalized bulk messages via MSG91</p>
+              <p className="text-[11px] text-slate-500 mt-0.5">Personalized bulk messages via MSG91</p>
             </div>
           </div>
-          <button onClick={onClose} className="w-7 h-7 rounded-lg border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-400 hover:text-slate-900 transition">
+          <button onClick={onClose} className="w-7 h-7 rounded-lg border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-500 hover:text-slate-900 transition">
             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
           </button>
         </div>
@@ -1209,7 +1276,7 @@ function WhatsAppBlastModal({ onClose, authHeaders }) {
           <div className="grid grid-cols-3 gap-1.5 sm:gap-2">
             {[{ key: "campaign", label: "Campaign leads" }, { key: "single", label: "Single lead" }, { key: "csv", label: "CSV import" }].map((m) => (
               <button key={m.key} onClick={() => { setMode(m.key); setError(""); }}
-                className={`py-2 rounded-xl border text-[12px] font-semibold transition ${mode === m.key ? "border-[#25D366] bg-[#f0fdf4] dark:bg-[#052e1c] text-[#25D366]" : "border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:border-[#25D366]/50"}`}>
+                className={`py-2 rounded-xl border text-[12px] font-semibold transition ${mode === m.key ? "border-[#0F7A6C] bg-[#f0fdf4] dark:bg-[#052e1c] text-[#0F7A6C]" : "border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:border-[#0F7A6C]/50"}`}>
                 {m.label}
               </button>
             ))}
@@ -1229,15 +1296,15 @@ function WhatsAppBlastModal({ onClose, authHeaders }) {
                   {[...new Set(campaigns.map((c) => c).filter(Boolean))].map((n) => <option key={n} value={n}>{n}</option>)}
                 </select>
                 <button onClick={handlePreview} disabled={!campaign || previewing}
-                  className="px-4 py-2.5 rounded-xl border border-slate-200 dark:border-white/10 text-[12px] font-semibold text-[#25D366] hover:border-[#25D366] disabled:opacity-40 transition shrink-0">
+                  className="px-4 py-2.5 rounded-xl border border-slate-200 dark:border-white/10 text-[12px] font-semibold text-[#0F7A6C] hover:border-[#0F7A6C] disabled:opacity-40 transition shrink-0">
                   {previewing ? "…" : "Preview"}
                 </button>
               </div>
               {leadCount !== null && (
                 <div className="mt-2 flex items-center gap-1.5 text-[12px]">
-                  <span className="w-2 h-2 rounded-full bg-[#25D366]" />
-                  <span className="text-[#25D366] font-semibold">{leadCount} leads</span>
-                  <span className="text-slate-400">with mobile numbers will receive this</span>
+                  <span className="w-2 h-2 rounded-full bg-[#0F7A6C]" />
+                  <span className="text-[#0F7A6C] font-semibold">{leadCount} leads</span>
+                  <span className="text-slate-500">with mobile numbers will receive this</span>
                 </div>
               )}
             </div>
@@ -1247,13 +1314,13 @@ function WhatsAppBlastModal({ onClose, authHeaders }) {
           {mode === "single" && (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block text-[12px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">Contact name <span className="text-slate-400 font-normal">(optional)</span></label>
+                <label className="block text-[12px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">Contact name <span className="text-slate-500 font-normal">(optional)</span></label>
                 <input type="text" value={singleName} onChange={(e) => setSingleName(e.target.value)} placeholder="Rahul Sharma" className={FIELD_CLS} />
               </div>
               <div>
                 <label className="block text-[12px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">WhatsApp number <span className="text-rose-600">*</span></label>
                 <input type="tel" value={singlePhone} onChange={(e) => setSinglePhone(e.target.value)} placeholder="919876543210 (with country code)" className={FIELD_CLS} />
-                <p className="text-[10px] text-slate-400 mt-1">Include country code, no + sign</p>
+                <p className="text-[10px] text-slate-500 mt-1">Include country code, no + sign</p>
               </div>
             </div>
           )}
@@ -1261,16 +1328,16 @@ function WhatsAppBlastModal({ onClose, authHeaders }) {
           {/* CSV mode */}
           {mode === "csv" && (
             <div>
-              <label className="flex items-center justify-center gap-2 w-full px-4 py-3 mb-2 rounded-xl border-2 border-dashed border-[#25D366]/40 bg-[#f0fdf4] dark:bg-[#052e1c] text-[#25D366] text-[12px] font-semibold cursor-pointer hover:border-[#25D366] transition">
+              <label className="flex items-center justify-center gap-2 w-full px-4 py-3 mb-2 rounded-xl border-2 border-dashed border-[#0F7A6C]/40 bg-[#f0fdf4] dark:bg-[#052e1c] text-[#0F7A6C] text-[12px] font-semibold cursor-pointer hover:border-[#0F7A6C] transition">
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
                 Upload CSV file
                 <input type="file" accept=".csv" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (!f) return; const r = new FileReader(); r.onload = (ev) => { setCsvText(ev.target.result); setCsvParsed(null); setCsvError(""); }; r.readAsText(f); e.target.value = ""; }} />
               </label>
               <textarea value={csvText} onChange={(e) => { setCsvText(e.target.value); setCsvParsed(null); setCsvError(""); }} rows={4} className={FIELD_CLS + " font-mono text-[12px] resize-y"} placeholder={"name,phone\nRahul Sharma,919876543210"} />
-              <p className="text-[10px] text-slate-400 mt-1 mb-2">Required column: <code className="bg-[#f0fdf4] dark:bg-[#052e1c] text-[#25D366] px-1 rounded">phone</code> or <code className="bg-[#f0fdf4] dark:bg-[#052e1c] text-[#25D366] px-1 rounded">mobile</code>. Optional: <code className="bg-[#f0fdf4] dark:bg-[#052e1c] text-[#25D366] px-1 rounded">name</code>. Include country code.</p>
+              <p className="text-[10px] text-slate-500 mt-1 mb-2">Required column: <code className="bg-[#f0fdf4] dark:bg-[#052e1c] text-[#0F7A6C] px-1 rounded">phone</code> or <code className="bg-[#f0fdf4] dark:bg-[#052e1c] text-[#0F7A6C] px-1 rounded">mobile</code>. Optional: <code className="bg-[#f0fdf4] dark:bg-[#052e1c] text-[#0F7A6C] px-1 rounded">name</code>. Include country code.</p>
               <div className="flex items-center gap-2 mt-2">
-                <button onClick={parseCSV} className="px-4 py-2 rounded-xl bg-[#f0fdf4] dark:bg-[#052e1c] text-[#25D366] text-[12px] font-semibold hover:bg-emerald-100 transition border border-[#25D366]/30">Parse CSV</button>
-                {csvParsed && <span className="text-[12px] text-[#25D366] font-semibold inline-flex items-center gap-1"><Check className="w-3 h-3" /> {csvParsed.length} recipients found</span>}
+                <button onClick={parseCSV} className="px-4 py-2 rounded-xl bg-[#f0fdf4] dark:bg-[#052e1c] text-[#0F7A6C] text-[12px] font-semibold hover:bg-emerald-100 transition border border-[#0F7A6C]/30">Parse CSV</button>
+                {csvParsed && <span className="text-[12px] text-[#0F7A6C] font-semibold inline-flex items-center gap-1"><Check className="w-3 h-3" /> {csvParsed.length} recipients found</span>}
               </div>
               {csvError && <p className="text-[11px] text-rose-600 mt-1 flex items-center gap-1"><AlertTriangle className="w-3 h-3" /> {csvError}</p>}
             </div>
@@ -1284,7 +1351,7 @@ function WhatsAppBlastModal({ onClose, authHeaders }) {
   </p>
   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
     <div>
-      <label className="text-[11px] font-semibold text-slate-400 mb-1 block">Lead Status</label>
+      <label className="text-[11px] font-semibold text-slate-500 mb-1 block">Lead Status</label>
       <select value={blastFilter.status}
         onChange={(e) => setBlastFilter(f => ({ ...f, status: e.target.value }))}
         className={FIELD_CLS}>
@@ -1296,7 +1363,7 @@ function WhatsAppBlastModal({ onClose, authHeaders }) {
       </select>
     </div>
     <div>
-      <label className="text-[11px] font-semibold text-slate-400 mb-1 block">Lead Source</label>
+      <label className="text-[11px] font-semibold text-slate-500 mb-1 block">Lead Source</label>
       <select value={blastFilter.source}
         onChange={(e) => setBlastFilter(f => ({ ...f, source: e.target.value }))}
         className={FIELD_CLS}>
@@ -1308,13 +1375,13 @@ function WhatsAppBlastModal({ onClose, authHeaders }) {
       </select>
     </div>
     <div>
-      <label className="text-[11px] font-semibold text-slate-400 mb-1 block">Date From</label>
+      <label className="text-[11px] font-semibold text-slate-500 mb-1 block">Date From</label>
       <input type="date" value={blastFilter.dateFrom}
         onChange={(e) => setBlastFilter(f => ({ ...f, dateFrom: e.target.value }))}
         className={FIELD_CLS} />
     </div>
     <div>
-      <label className="text-[11px] font-semibold text-slate-400 mb-1 block">Date To</label>
+      <label className="text-[11px] font-semibold text-slate-500 mb-1 block">Date To</label>
       <input type="date" value={blastFilter.dateTo}
         onChange={(e) => setBlastFilter(f => ({ ...f, dateTo: e.target.value }))}
         className={FIELD_CLS} />
@@ -1324,7 +1391,7 @@ function WhatsAppBlastModal({ onClose, authHeaders }) {
           {/* Template section */}
           <div className="pt-1 border-t border-slate-200 dark:border-white/10">
             
-            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-3">WhatsApp Template</p>
+            <p className="text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-3">WhatsApp Template</p>
             <div className="flex gap-2.5 bg-amber-50 dark:bg-amber-950 border border-amber-200 dark:border-amber-900 rounded-xl px-4 py-3 mb-4">
               <span className="shrink-0 mt-0.5 text-amber-500"><Lightbulb className="w-3.5 h-3.5" /></span>
               <p className="text-[11px] text-amber-800 dark:text-amber-300 leading-relaxed">
@@ -1335,7 +1402,7 @@ function WhatsAppBlastModal({ onClose, authHeaders }) {
               <div>
                 <label className="block text-[12px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">Template name <span className="text-rose-600">*</span></label>
                 <input type="text" value={templateName} onChange={(e) => setTemplateName(e.target.value)} placeholder="crm_followup_leads" className={FIELD_CLS} />
-                <p className="text-[10px] text-slate-400 mt-1">Must match exactly — case-sensitive</p>
+                <p className="text-[10px] text-slate-500 mt-1">Must match exactly — case-sensitive</p>
               </div>
               <div>
                 <label className="block text-[12px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">Template language</label>
@@ -1368,7 +1435,7 @@ function WhatsAppBlastModal({ onClose, authHeaders }) {
             Cancel
           </button>
           <button onClick={handleSend} disabled={!isValid || loading}
-            className="flex-1 py-2.5 rounded-xl bg-[#25D366] text-white text-[13px] font-semibold hover:bg-[#1da851] disabled:opacity-40 transition flex items-center justify-center gap-2">
+            className="flex-1 py-2.5 rounded-xl bg-[#0F7A6C] text-white text-[13px] font-semibold hover:bg-[#0B5D52] disabled:opacity-40 transition flex items-center justify-center gap-2">
             {loading ? (
               <><svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/></svg>Sending…</>
             ) : (
@@ -1700,18 +1767,18 @@ function WhatsAppPanel({ currentUser }) {
       <div className={`w-full sm:w-[300px] shrink-0 flex flex-col border-r border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.04] ${selected ? 'hidden sm:flex' : 'flex'}`}>
         <div className="p-3 border-b border-slate-200 dark:border-white/10">
           <div className="relative mb-2">
-            <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg>
-            <input type="text" placeholder="Search by name or number..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-8 pr-3 py-2 w-full rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#181029] text-[12px] text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-[#25D366] transition" />
+            <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg>
+            <input type="text" placeholder="Search by name or number..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-8 pr-3 py-2 w-full rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#181029] text-[12px] text-slate-900 dark:text-white placeholder:text-slate-500 focus:outline-none focus:border-[#0F7A6C] transition" />
           </div>
           <div className="flex gap-1">
             {["all","open","waiting","closed"].map((f) => (
-              <button key={f} onClick={() => setFilter(f)} className={`flex-1 text-[10px] py-1 rounded-lg font-semibold capitalize transition ${filter === f ? "bg-[#25D366] text-white" : "bg-white dark:bg-[#181029] border border-slate-200 dark:border-white/10 text-slate-400 hover:text-slate-600"}`}>{f}</button>
+              <button key={f} onClick={() => setFilter(f)} className={`flex-1 text-[10px] py-1 rounded-lg font-semibold capitalize transition ${filter === f ? "bg-[#0F7A6C] text-white" : "bg-white dark:bg-[#181029] border border-slate-200 dark:border-white/10 text-slate-500 hover:text-slate-600"}`}>{f}</button>
             ))}
           </div>
           {isAdmin && (
             <button
               onClick={() => setBulkModal(true)}
-              className="w-full mt-2 flex items-center justify-center gap-2 py-2 rounded-xl bg-[#25D366] hover:bg-[#1da851] text-white text-[12px] font-semibold transition"
+              className="w-full mt-2 flex items-center justify-center gap-2 py-2 rounded-xl bg-[#0F7A6C] hover:bg-[#0B5D52] text-white text-[12px] font-semibold transition"
             >
               <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
               Bulk WhatsApp
@@ -1723,7 +1790,7 @@ function WhatsAppPanel({ currentUser }) {
         <div className="flex border-b border-slate-200 dark:border-white/10">
           {[{key:"chats",label:"Chats"},{key:"leads",label:`Leads (${leads.length})`}].map(t => (
             <button key={t.key} onClick={() => { setSideTab(t.key); if(t.key==="leads" && leads.length===0) loadLeads(); }}
-              className={`flex-1 py-2 text-[11px] font-semibold transition border-b-2 ${sideTab===t.key ? "border-[#25D366] text-[#25D366]" : "border-transparent text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"}`}>
+              className={`flex-1 py-2 text-[11px] font-semibold transition border-b-2 ${sideTab===t.key ? "border-[#0F7A6C] text-[#0F7A6C]" : "border-transparent text-slate-500 hover:text-slate-600 dark:hover:text-slate-300"}`}>
               {t.label}
             </button>
           ))}
@@ -1733,9 +1800,9 @@ function WhatsAppPanel({ currentUser }) {
         {sideTab === "chats" && <div className="flex-1 overflow-y-auto">
           {filtered.length === 0 && (
             <div className="flex flex-col items-center justify-center py-10 gap-3">
-              <span className="text-slate-400"><MessageCircle className="w-8 h-8" strokeWidth={1.5} /></span>
-              <p className="text-slate-400 text-[12px]">No conversations yet</p>
-              <button onClick={() => setSideTab("leads")} className="text-[11px] text-[#25D366] hover:underline font-semibold">Go to Leads →</button>
+              <span className="text-slate-500"><MessageCircle className="w-8 h-8" strokeWidth={1.5} /></span>
+              <p className="text-slate-500 text-[12px]">No conversations yet</p>
+              <button onClick={() => setSideTab("leads")} className="text-[11px] text-[#0F7A6C] hover:underline font-semibold">Go to Leads →</button>
             </div>
           )}
           {filtered.map((conv) => {
@@ -1753,18 +1820,18 @@ function WhatsAppPanel({ currentUser }) {
                     <span className={`text-[12px] truncate max-w-[120px] ${hasUnread ? "font-semibold text-slate-900 dark:text-white" : "font-medium text-slate-600 dark:text-slate-300"}`}>
                       {conv.contactName || conv.lead?.name || `+${conv.waPhone}`}
                     </span>
-                    <span className="text-[10px] text-slate-400 shrink-0">{timeAgo(conv.lastMessageAt)}</span>
+                    <span className="text-[10px] text-slate-500 shrink-0">{timeAgo(conv.lastMessageAt)}</span>
                   </div>
                   <div className="flex items-center justify-between mt-0.5">
-                    <span className={`text-[11px] truncate max-w-[130px] ${isZombie ? "text-rose-600" : "text-slate-400"}`}>
+                    <span className={`text-[11px] truncate max-w-[130px] ${isZombie ? "text-rose-600" : "text-slate-500"}`}>
                       {isZombie ? <span className="inline-flex items-center gap-1"><AlertTriangle className="w-3 h-3" /> Template failed — tap to delete</span> : conv.lastMessage || "No messages yet"}
                     </span>
                     <div className="flex items-center gap-1.5 shrink-0">
                       <span className="w-1.5 h-1.5 rounded-full" style={{ background: conv.status === "waiting" ? "#f59e0b" : conv.status === "open" ? "#22c55e" : "#9ca3af" }} />
-                      {hasUnread && <span className="bg-[#25D366] text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full min-w-[16px] text-center">{conv.unreadCount}</span>}
+                      {hasUnread && <span className="bg-[#0F7A6C] text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full min-w-[16px] text-center">{conv.unreadCount}</span>}
                     </div>
                   </div>
-                  {isAdmin && conv.assignedAgent?.name && <div className="text-[10px] text-slate-400 mt-0.5">{conv.assignedAgent.name}</div>}
+                  {isAdmin && conv.assignedAgent?.name && <div className="text-[10px] text-slate-500 mt-0.5">{conv.assignedAgent.name}</div>}
                 </div>
                 {/* Delete button — only visible on hover for zombie conversations */}
                 {isZombie && (
@@ -1785,9 +1852,9 @@ function WhatsAppPanel({ currentUser }) {
         {sideTab === "leads" && <div className="flex-1 overflow-y-auto">
           <div className="p-2 border-b border-slate-200 dark:border-white/10">
             <input type="text" placeholder="Search name or phone..." value={leadsSearch} onChange={e => setLeadsSearch(e.target.value)}
-              className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-[#181029] text-[12px] text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-[#25D366] transition" />
+              className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-[#181029] text-[12px] text-slate-900 dark:text-white placeholder:text-slate-500 focus:outline-none focus:border-[#0F7A6C] transition" />
           </div>
-          {leadsLoading && <div className="p-6 text-center text-slate-400 text-[12px]">Loading leads...</div>}
+          {leadsLoading && <div className="p-6 text-center text-slate-500 text-[12px]">Loading leads...</div>}
           {!leadsLoading && leads.filter(l => !leadsSearch || l.name?.toLowerCase().includes(leadsSearch.toLowerCase()) || l.mobile?.includes(leadsSearch)).map(lead => {
             const hasConv = !!lead.existingConversationId;
             return (
@@ -1797,7 +1864,7 @@ function WhatsAppPanel({ currentUser }) {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="text-[12px] font-medium text-slate-900 dark:text-white truncate">{lead.name}</div>
-                  <div className="text-[11px] text-slate-400 font-mono">{maskPhone(lead.mobile, isSuperAdmin)}</div>
+                  <div className="text-[11px] text-slate-500 font-mono">{maskPhone(lead.mobile, isSuperAdmin)}</div>
                   <Pill
                     tone={lead.status==="Converted"?"emerald":lead.status==="In Progress"?"amber":lead.status==="Not Interested"?"rose":"cyan"}
                     className="!text-[10px] !py-0 mt-0.5"
@@ -1812,14 +1879,14 @@ function WhatsAppPanel({ currentUser }) {
                   </button>
                 ) : (
                   <button onClick={() => { setStartModal(lead); setTmplName("crm_followup_leads"); setTmplLang("en"); setStartErr(""); }}
-                    title="Start WhatsApp chat" className="w-8 h-8 rounded-full bg-[#25D366] flex items-center justify-center text-white hover:bg-[#1da851] transition shrink-0">
+                    title="Start WhatsApp chat" className="w-8 h-8 rounded-full bg-[#0F7A6C] flex items-center justify-center text-white hover:bg-[#0B5D52] transition shrink-0">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.121 1.531 5.845L.057 23.286a.5.5 0 0 0 .64.64l5.431-1.47A11.952 11.952 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.849 0-3.576-.498-5.066-1.367l-.363-.214-3.765 1.018 1.022-3.734-.234-.376A9.967 9.967 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
                   </button>
                 )}
               </div>
             );
           })}
-          {!leadsLoading && leads.length === 0 && <div className="p-6 text-center text-slate-400 text-[12px]">No leads found</div>}
+          {!leadsLoading && leads.length === 0 && <div className="p-6 text-center text-slate-500 text-[12px]">No leads found</div>}
         </div>}
       </div>
 
@@ -1828,18 +1895,18 @@ function WhatsAppPanel({ currentUser }) {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" onClick={()=>setStartModal(null)}>
           <div className="bg-white dark:bg-[#181029] rounded-2xl p-6 w-full max-w-[360px] mx-4 shadow-2xl" onClick={e=>e.stopPropagation()}>
             <h3 className="text-[15px] font-semibold text-slate-900 dark:text-white mb-1">Start WhatsApp Chat</h3>
-            <p className="text-[12px] text-slate-400 mb-4 font-mono">{startModal.name} · {maskPhone(startModal.mobile, isSuperAdmin)}</p>
+            <p className="text-[12px] text-slate-500 mb-4 font-mono">{startModal.name} · {maskPhone(startModal.mobile, isSuperAdmin)}</p>
             <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1">Template Name <span className="text-rose-600">*</span></label>
-            <input value={tmplName} onChange={e=>setTmplName(e.target.value)} placeholder="crm_followup_leads" className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.04] text-[13px] text-slate-900 dark:text-white focus:outline-none focus:border-[#25D366] mb-1 transition" />
-            <p className="text-[10px] text-slate-400 mb-3">Must match exactly the approved template name in MSG91</p>
+            <input value={tmplName} onChange={e=>setTmplName(e.target.value)} placeholder="crm_followup_leads" className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.04] text-[13px] text-slate-900 dark:text-white focus:outline-none focus:border-[#0F7A6C] mb-1 transition" />
+            <p className="text-[10px] text-slate-500 mb-3">Must match exactly the approved template name in MSG91</p>
             <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1">Language</label>
-            <select value={tmplLang} onChange={e=>setTmplLang(e.target.value)} className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.04] text-[13px] text-slate-900 dark:text-white focus:outline-none focus:border-[#25D366] mb-3 transition">
+            <select value={tmplLang} onChange={e=>setTmplLang(e.target.value)} className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.04] text-[13px] text-slate-900 dark:text-white focus:outline-none focus:border-[#0F7A6C] mb-3 transition">
               <option value="en">English (en) — MSG91 default</option>
               <option value="en_US">English (en_US)</option>
             </select>
             {startErr && <p className="text-[11px] text-rose-600 mb-3">{startErr}</p>}
             <div className="flex gap-2 mt-2">
-              <button onClick={()=>setStartModal(null)} className="flex-1 py-2 rounded-xl border border-slate-200 dark:border-white/10 text-[12px] text-slate-400 hover:bg-slate-50 dark:hover:bg-white/[0.06] transition">Cancel</button>
+              <button onClick={()=>setStartModal(null)} className="flex-1 py-2 rounded-xl border border-slate-200 dark:border-white/10 text-[12px] text-slate-500 hover:bg-slate-50 dark:hover:bg-white/[0.06] transition">Cancel</button>
               <button disabled={starting||!tmplName.trim()} onClick={async()=>{
                 setStarting(true); setStartErr("");
                 try {
@@ -1851,7 +1918,7 @@ function WhatsAppPanel({ currentUser }) {
                   setStartModal(null); selectConversation(conv); setSideTab("chats");
                 }catch(e){setStartErr(e.response?.data?.error||"Failed to start conversation");}
                 finally{setStarting(false);}
-              }} className="flex-1 py-2 rounded-xl bg-[#25D366] hover:bg-[#1da851] disabled:opacity-50 text-white text-[12px] font-semibold transition">
+              }} className="flex-1 py-2 rounded-xl bg-[#0F7A6C] hover:bg-[#0B5D52] disabled:opacity-50 text-white text-[12px] font-semibold transition">
                 {starting?"Sending…":"Send Template"}
               </button>
             </div>
@@ -1861,7 +1928,7 @@ function WhatsAppPanel({ currentUser }) {
 
       {/* Chat window */}
       {!selected ? (
-        <div className="hidden sm:flex flex-1 flex-col items-center justify-center text-slate-400 bg-white dark:bg-[#181029]">
+        <div className="hidden sm:flex flex-1 flex-col items-center justify-center text-slate-500 bg-white dark:bg-[#181029]">
           <div className="w-14 h-14 rounded-full bg-[#f0fdf4] dark:bg-[#052e1c] flex items-center justify-center mb-4">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="#25D366">
               <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
@@ -1878,7 +1945,7 @@ function WhatsAppPanel({ currentUser }) {
             {/* Mobile back button */}
             <button
               onClick={() => setSelected(null)}
-              className="sm:hidden w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-slate-400 shrink-0 transition"
+              className="sm:hidden w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-slate-500 shrink-0 transition"
               title="Back to conversations"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -1892,7 +1959,7 @@ function WhatsAppPanel({ currentUser }) {
               <div className="font-semibold text-[14px] text-slate-900 dark:text-white">
                 {selected.contactName || selected.lead?.name || `+${selected.waPhone}`}
               </div>
-              <div className="text-[11px] text-slate-400 font-mono">
+              <div className="text-[11px] text-slate-500 font-mono">
                 {isSuperAdmin ? `+${selected.waPhone}` : maskPhone(selected.waPhone, false)}
                 {selected.lead?.status ? ` · ${selected.lead.status}` : ""}
                 {isAdmin && selected.assignedAgent?.name ? ` · Employee: ${selected.assignedAgent.name}` : ""}
@@ -1902,7 +1969,7 @@ function WhatsAppPanel({ currentUser }) {
               onClick={refreshSelected}
               disabled={refreshing}
               title="Refresh this chat"
-              className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-slate-400 shrink-0 transition disabled:opacity-50"
+              className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 text-slate-500 shrink-0 transition disabled:opacity-50"
             >
               <RefreshCw className={`w-4 h-4 ${refreshing ? "animate-spin" : ""}`} />
             </button>
@@ -1916,7 +1983,7 @@ function WhatsAppPanel({ currentUser }) {
 
           {/* Messages */}
           <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-2" style={{ background: "linear-gradient(to bottom, #f0fdf4 0%, #fafffe 100%)" }}>
-            {loading && <div className="text-center text-slate-400 text-[13px] py-8">Loading messages…</div>}
+            {loading && <div className="text-center text-slate-500 text-[13px] py-8">Loading messages…</div>}
             {messages.map((msg) => {
               const isOut = msg.direction === "outbound";
               return (
@@ -1964,7 +2031,7 @@ function WhatsAppPanel({ currentUser }) {
           {/* Input — show Re-engage button when session expired, normal input otherwise */}
           {session?.expired && selected.status !== "closed" ? (
             <div className="px-4 py-3 border-t border-slate-200 dark:border-white/10 bg-white dark:bg-[#181029]">
-              <p className="text-[11px] text-slate-400 mb-2 text-center">24-hour session expired. Send a pre-approved template to re-open the conversation.</p>
+              <p className="text-[11px] text-slate-500 mb-2 text-center">24-hour session expired. Send a pre-approved template to re-open the conversation.</p>
               <ReEngageModal conversationId={selected._id} authHeaders={authHeaders} onSent={(msg) => {
                 setMessages((prev) => [...prev, msg]);
                 const newExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000);
@@ -1983,9 +2050,9 @@ function WhatsAppPanel({ currentUser }) {
                 placeholder={selected.status === "closed" ? "Conversation is closed" : "Type a message… (Enter to send)"}
                 disabled={selected.status === "closed" || sending}
                 rows={1}
-                className="flex-1 resize-none text-[13px] px-3 py-2.5 rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.04] text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-[#25D366] transition leading-[1.5] max-h-[120px] overflow-y-auto"
+                className="flex-1 resize-none text-[13px] px-3 py-2.5 rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.04] text-slate-900 dark:text-white placeholder:text-slate-500 focus:outline-none focus:border-[#0F7A6C] transition leading-[1.5] max-h-[120px] overflow-y-auto"
               />
-              <button onClick={sendMessage} disabled={!text.trim() || sending || selected.status === "closed"} className={`w-9 h-9 rounded-full flex items-center justify-center transition shrink-0 ${text.trim() && !sending ? "bg-[#25D366] hover:bg-[#1da851]" : "bg-slate-200 dark:bg-white/10"}`}>
+              <button onClick={sendMessage} disabled={!text.trim() || sending || selected.status === "closed"} className={`w-9 h-9 rounded-full flex items-center justify-center transition shrink-0 ${text.trim() && !sending ? "bg-[#0F7A6C] hover:bg-[#0B5D52]" : "bg-slate-200 dark:bg-white/10"}`}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill={text.trim() && !sending ? "white" : "#9ca3af"}>
                   <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
                 </svg>
@@ -2061,18 +2128,18 @@ function LogDetailModal({ logId, onClose }) {
             </div>
             <h2 className="text-[15px] font-bold text-slate-900 dark:text-white">Email Details</h2>
           </div>
-          <button onClick={onClose} className="w-7 h-7 rounded-lg border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-400 hover:text-slate-900 transition">
+          <button onClick={onClose} className="w-7 h-7 rounded-lg border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-500 hover:text-slate-900 transition">
             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
           </button>
         </div>
         <div className="overflow-y-auto px-6 py-5 space-y-4">
           {loading ? (
-            <div className="flex items-center justify-center py-12 text-slate-400 gap-2">
+            <div className="flex items-center justify-center py-12 text-slate-500 gap-2">
               <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/></svg>
               Loading…
             </div>
           ) : !log ? (
-            <p className="text-center text-slate-400 py-8">Could not load log details.</p>
+            <p className="text-center text-slate-500 py-8">Could not load log details.</p>
           ) : (
             <>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -2083,13 +2150,13 @@ function LogDetailModal({ logId, onClose }) {
                   { label: "Sent At", value: fmtDate(log.sentAt) },
                 ].map(({ label, value }) => (
                   <div key={label} className="bg-slate-50 dark:bg-white/[0.04] rounded-xl px-4 py-3">
-                    <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wide mb-1">{label}</p>
+                    <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-wide mb-1">{label}</p>
                     <div className="text-[13px] font-medium text-slate-900 dark:text-white">{value}</div>
                   </div>
                 ))}
               </div>
               <div className="bg-slate-50 dark:bg-white/[0.04] rounded-xl px-4 py-3">
-                <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wide mb-1">Subject</p>
+                <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-wide mb-1">Subject</p>
                 <p className="text-[13px] font-medium text-slate-900 dark:text-white">{log.subject}</p>
               </div>
               {log.errorMessage && (
@@ -2100,7 +2167,7 @@ function LogDetailModal({ logId, onClose }) {
               )}
               {log.body && (
                 <div>
-                  <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wide mb-2">Email Body</p>
+                  <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-wide mb-2">Email Body</p>
                   <div className="border border-slate-200 dark:border-white/10 rounded-xl p-4 bg-white dark:bg-[#181029] text-[13px] text-slate-900 dark:text-white max-h-64 overflow-y-auto" dangerouslySetInnerHTML={{ __html: sanitizeHtml(log.body) }} />
                 </div>
               )}
@@ -2208,13 +2275,13 @@ function EmailBlastModal({ onClose }) {
           {result.queued ? "Campaign Queued!" : "Campaign Sent!"}
         </h2>
         {result.queued && (
-          <p className="text-[12px] text-slate-400 mb-3">{result.message || "Emails are being sent in the background."}</p>
+          <p className="text-[12px] text-slate-500 mb-3">{result.message || "Emails are being sent in the background."}</p>
         )}
         <div className="grid grid-cols-3 gap-3 my-5">
           {[{ label: "Sent", value: result.sent ?? 1, color: "#059669" }, { label: "Failed", value: result.failed ?? 0, color: "#DC2626" }, { label: "Total", value: result.total ?? 1, color: "#2563EB" }].map((s) => (
             <div key={s.label} className="bg-slate-50 dark:bg-white/[0.04] rounded-xl p-3 text-center border border-slate-200 dark:border-white/10">
               <div className="text-[22px] font-bold" style={{ color: s.color }}>{s.value}</div>
-              <div className="text-[10px] text-slate-400 uppercase mt-0.5">{s.label}</div>
+              <div className="text-[10px] text-slate-500 uppercase mt-0.5">{s.label}</div>
             </div>
           ))}
         </div>
@@ -2241,10 +2308,10 @@ function EmailBlastModal({ onClose }) {
             </div>
             <div>
               <h2 className="text-[15px] font-bold text-slate-900 dark:text-white leading-none">Send Email Blast</h2>
-              <p className="text-[11px] text-slate-400 mt-0.5">Personalized bulk emails via Brevo</p>
+              <p className="text-[11px] text-slate-500 mt-0.5">Personalized bulk emails via Brevo</p>
             </div>
           </div>
-          <button onClick={onClose} className="w-7 h-7 rounded-lg border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-400 hover:text-slate-900 transition">
+          <button onClick={onClose} className="w-7 h-7 rounded-lg border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-500 hover:text-slate-900 transition">
             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
           </button>
         </div>
@@ -2280,7 +2347,7 @@ function EmailBlastModal({ onClose }) {
                 <div className="mt-2 flex items-center gap-1.5 text-[12px]">
                   <span className="w-2 h-2 rounded-full bg-violet-600" />
                   <span className="text-violet-600 font-semibold">{leadCount} leads</span>
-                  <span className="text-slate-400">with email addresses will receive this</span>
+                  <span className="text-slate-500">with email addresses will receive this</span>
                 </div>
               )}
             </div>
@@ -2330,7 +2397,7 @@ function EmailBlastModal({ onClose }) {
 
           {/* Merge tags */}
           <div>
-            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-2">Merge tags — click to insert</p>
+            <p className="text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-2">Merge tags — click to insert</p>
             <div className="flex flex-wrap gap-1.5">
               {MERGE_TAGS.map((tag) => (
                 <button key={tag} onClick={() => insertTag(tag)} className="px-2.5 py-1 rounded-lg bg-violet-50 dark:bg-violet-950 text-violet-600 text-[11px] font-mono font-semibold hover:bg-violet-100 transition">{tag}</button>
@@ -2346,7 +2413,7 @@ function EmailBlastModal({ onClose }) {
 
           {bodyTemplate && (
             <div>
-              <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-2">Preview (sample data)</p>
+              <p className="text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-2">Preview (sample data)</p>
               <div className="border border-slate-200 dark:border-white/10 rounded-xl p-4 bg-white dark:bg-[#181029] text-[13px] text-slate-900 dark:text-white max-h-44 overflow-y-auto" dangerouslySetInnerHTML={{ __html: sanitizeHtml(bodyTemplate.replace(/{{name}}/g, "<strong>Rahul Sharma</strong>").replace(/{{campaign}}/g, form.campaign || "Summer Sale").replace(/{{mobile}}/g, "9876543210").replace(/{{email}}/g, "rahul@example.com")) }} />
             </div>
           )}
@@ -2445,15 +2512,15 @@ function EmailPanel() {
       {/* Toolbar */}
       <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center sm:justify-between gap-2 sm:gap-3 mb-4 shrink-0">
         <div>
-          <p className="text-[13px] text-slate-400 dark:text-slate-500">
+          <p className="text-[13px] text-slate-500 dark:text-slate-500">
             {loading ? "Loading…" : `${pagination.total.toLocaleString()} total emails logged`}
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          <button onClick={() => fetchLogs(pagination.page)} className="w-9 h-9 rounded-xl border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-400 hover:text-launcher-600 hover:border-launcher-600 transition" title="Refresh">
+          <button onClick={() => fetchLogs(pagination.page)} className="w-9 h-9 rounded-xl border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-500 hover:text-launcher-600 hover:border-launcher-600 transition" title="Refresh">
             <svg className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
           </button>
-          <button onClick={handleExportCSV} disabled={exportLoading} className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 text-white text-[13px] font-semibold hover:bg-green-700 disabled:opacity-50 transition">
+          <button onClick={handleExportCSV} disabled={exportLoading} className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-700 text-white text-[13px] font-semibold hover:bg-emerald-800 disabled:opacity-50 transition">
             {exportLoading ? <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/></svg> : <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>}
             Export CSV
           </button>
@@ -2475,7 +2542,7 @@ function EmailPanel() {
           <div key={s.label} className="flex items-center gap-2 bg-white dark:bg-[#181029] border border-slate-200 dark:border-white/10 rounded-xl px-3 py-2">
             <span className="w-2 h-2 rounded-full shrink-0" style={{ background: s.color }} />
             <span className="text-[13px] font-bold text-slate-900 dark:text-white">{s.value.toLocaleString()}</span>
-            <span className="text-[11px] text-slate-400 dark:text-slate-500">{s.label}</span>
+            <span className="text-[11px] text-slate-500 dark:text-slate-500">{s.label}</span>
           </div>
         ))}
       </div>
@@ -2483,9 +2550,9 @@ function EmailPanel() {
       {/* Filters */}
       <div className="flex flex-wrap items-center gap-2 mb-4 shrink-0">
         <div className="relative w-full sm:flex-1 sm:min-w-[180px] sm:max-w-xs">
-          <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg>
-          <input type="text" value={search} onChange={(e) => handleSearchChange(e.target.value)} placeholder="Search by recipient…" className="pl-8 pr-4 py-2 w-full rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#181029] text-[12px] text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-launcher-600 transition" />
-          {search && <button onClick={() => handleSearchChange("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400"><svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>}
+          <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg>
+          <input type="text" value={search} onChange={(e) => handleSearchChange(e.target.value)} placeholder="Search by recipient…" className="pl-8 pr-4 py-2 w-full rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#181029] text-[12px] text-slate-900 dark:text-white placeholder:text-slate-500 focus:outline-none focus:border-launcher-600 transition" />
+          {search && <button onClick={() => handleSearchChange("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500"><svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>}
         </div>
         <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
           <select value={campaignFilter} onChange={(e) => { setCampaignFilter(e.target.value); fetchLogs(1, search, e.target.value, sortOrder); }} className="flex-1 sm:flex-none px-3 py-2 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#181029] text-[12px] text-slate-900 dark:text-white focus:outline-none focus:border-launcher-600 transition">
@@ -2493,9 +2560,9 @@ function EmailPanel() {
             {campaigns.map((c) => <option key={c} value={c}>{c}</option>)}
           </select>
           <input type="date" value={dateFrom} max={dateTo || undefined} onChange={(e) => { setDateFrom(e.target.value); fetchLogs(1, search, campaignFilter, sortOrder, e.target.value, dateTo); }} className="flex-1 sm:flex-none px-3 py-2 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#181029] text-[12px] text-slate-900 dark:text-white focus:outline-none focus:border-launcher-600 transition sm:w-[140px]" title="From date" />
-          <span className="text-[12px] text-slate-400 hidden sm:inline">to</span>
+          <span className="text-[12px] text-slate-500 hidden sm:inline">to</span>
           <input type="date" value={dateTo} min={dateFrom || undefined} onChange={(e) => { setDateTo(e.target.value); fetchLogs(1, search, campaignFilter, sortOrder, dateFrom, e.target.value); }} className="flex-1 sm:flex-none px-3 py-2 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#181029] text-[12px] text-slate-900 dark:text-white focus:outline-none focus:border-launcher-600 transition sm:w-[140px]" title="To date" />
-          {(dateFrom || dateTo) && <button onClick={() => { setDateFrom(""); setDateTo(""); fetchLogs(1, search, campaignFilter, sortOrder, "", ""); }} className="px-3 py-2 rounded-xl border border-slate-200 dark:border-white/10 text-[12px] text-slate-400 hover:text-rose-600 hover:border-rose-600 transition"><span className="inline-flex items-center gap-1"><X className="w-3 h-3" /> Clear</span></button>}
+          {(dateFrom || dateTo) && <button onClick={() => { setDateFrom(""); setDateTo(""); fetchLogs(1, search, campaignFilter, sortOrder, "", ""); }} className="px-3 py-2 rounded-xl border border-slate-200 dark:border-white/10 text-[12px] text-slate-500 hover:text-rose-600 hover:border-rose-600 transition"><span className="inline-flex items-center gap-1"><X className="w-3 h-3" /> Clear</span></button>}
           <select value={sortOrder} onChange={(e) => { setSortOrder(e.target.value); fetchLogs(1, search, campaignFilter, e.target.value, dateFrom, dateTo); }} className="flex-1 sm:flex-none px-3 py-2 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#181029] text-[12px] text-slate-900 dark:text-white focus:outline-none focus:border-launcher-600 transition">
             <option value="desc">Newest first</option>
             <option value="asc">Oldest first</option>
@@ -2511,16 +2578,16 @@ function EmailPanel() {
           <thead>
             <tr className="border-b border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.04]">
               {["Recipient","Subject","Source","Status","Sent At",""].map((h, i) => (
-                <th key={h} className={`px-4 py-3 text-left text-[11px] font-bold text-slate-400 uppercase tracking-wide whitespace-nowrap ${i === 2 ? "hidden sm:table-cell" : ""}`}>{h}</th>
+                <th key={h} className={`px-4 py-3 text-left text-[11px] font-bold text-slate-500 uppercase tracking-wide whitespace-nowrap ${i === 2 ? "hidden sm:table-cell" : ""}`}>{h}</th>
               ))}
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-200 dark:divide-white/10">
             {loading ? Array.from({ length: 6 }).map((_, i) => <SkeletonRow key={i} />) : logs.length === 0 ? (
               <tr><td colSpan={6} className="px-4 py-16 text-center">
-                <div className="mb-3 flex justify-center text-slate-400"><Inbox className="w-9 h-9" strokeWidth={1.5} /></div>
+                <div className="mb-3 flex justify-center text-slate-500"><Inbox className="w-9 h-9" strokeWidth={1.5} /></div>
                 <p className="text-[14px] font-semibold text-slate-600 dark:text-slate-300">No email logs found</p>
-                <p className="text-[12px] text-slate-400 mt-1">{search || campaignFilter || dateFrom || dateTo ? "Try clearing your filters." : "Send emails to start tracking history."}</p>
+                <p className="text-[12px] text-slate-500 mt-1">{search || campaignFilter || dateFrom || dateTo ? "Try clearing your filters." : "Send emails to start tracking history."}</p>
               </td></tr>
             ) : logs.map((log) => (
               <tr key={log._id} className="hover:bg-slate-50 dark:hover:bg-white/[0.06] transition-colors cursor-pointer" onClick={() => setSelectedLogId(log._id)}>
@@ -2532,12 +2599,12 @@ function EmailPanel() {
                 </td>
                 <td className="px-4 py-3"><span className="text-[12px] text-slate-600 dark:text-slate-300 max-w-[200px] truncate block">{log.subject}</span></td>
                 <td className="px-4 py-3 hidden sm:table-cell">
-                  {log.campaignId ? <span className="inline-block px-2.5 py-1 rounded-full bg-sky-50 dark:bg-sky-900 text-launcher-600 dark:text-sky-500 text-[11px] font-semibold max-w-[140px] truncate">{log.campaignId}</span> : <span className="text-[12px] text-slate-400">—</span>}
+                  {log.campaignId ? <span className="inline-block px-2.5 py-1 rounded-full bg-sky-50 dark:bg-sky-900 text-launcher-600 dark:text-sky-500 text-[11px] font-semibold max-w-[140px] truncate">{log.campaignId}</span> : <span className="text-[12px] text-slate-500">—</span>}
                 </td>
                 <td className="px-4 py-3"><StatusBadge status={log.status} /></td>
-                <td className="px-4 py-3"><span className="text-[12px] text-slate-400 whitespace-nowrap">{fmtDate(log.sentAt)}</span></td>
+                <td className="px-4 py-3"><span className="text-[12px] text-slate-500 whitespace-nowrap">{fmtDate(log.sentAt)}</span></td>
                 <td className="px-4 py-3" onClick={(e) => e.stopPropagation()}>
-                  {/* <button onClick={() => handleDelete(log._id)} disabled={deletingId === log._id} className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950 transition disabled:opacity-40" title="Delete log">
+                  {/* <button onClick={() => handleDelete(log._id)} disabled={deletingId === log._id} className="p-1.5 rounded-lg text-slate-500 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950 transition disabled:opacity-40" title="Delete log">
                     {deletingId === log._id ? <svg className="w-3.5 h-3.5 animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/></svg> : <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>}
                   </button> */}
                 </td>
@@ -2549,7 +2616,7 @@ function EmailPanel() {
         {/* Pagination */}
         {pagination.totalPages > 1 && (
           <div className="px-4 py-3 border-t border-slate-200 dark:border-white/10 flex items-center justify-between">
-            <span className="text-[12px] text-slate-400">Page {pagination.page} of {pagination.totalPages} · {pagination.total} total</span>
+            <span className="text-[12px] text-slate-500">Page {pagination.page} of {pagination.totalPages} · {pagination.total} total</span>
             <div className="flex items-center gap-1.5">
               <button disabled={pagination.page <= 1} onClick={() => fetchLogs(pagination.page - 1)} className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-white/10 text-[12px] font-semibold text-slate-600 disabled:opacity-40 hover:border-launcher-600 hover:text-launcher-600 transition">← Prev</button>
               {Array.from({ length: Math.min(5, pagination.totalPages) }, (_, i) => {
@@ -2586,7 +2653,7 @@ function SmsStatusTick({ status }) {
       </svg>
     );
   return (
-    <svg className="w-3.5 h-3.5 text-slate-400 inline-block" viewBox="0 0 16 11" fill="currentColor">
+    <svg className="w-3.5 h-3.5 text-slate-500 inline-block" viewBox="0 0 16 11" fill="currentColor">
       <path d="M11.071.653a.75.75 0 0 1 .025 1.06l-6.5 7a.75.75 0 0 1-1.092-.013l-3-3.5a.75.75 0 1 1 1.14-.977l2.46 2.87 5.908-6.415a.75.75 0 0 1 1.059-.025z"/>
     </svg>
   );
@@ -2646,7 +2713,7 @@ function SmsLeadRow({ lead, isActive, onClick }) {
       <div className="relative shrink-0">
         <SmsAvatar name={lead.recipientName || lead.to} />
         {hasSms && (
-          <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-[#25D366] border-2 border-white dark:border-[#111B21] flex items-center justify-center">
+          <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-[#0F7A6C] border-2 border-white dark:border-[#111B21] flex items-center justify-center">
             <svg className="w-2 h-2 text-white" viewBox="0 0 16 11" fill="currentColor">
               <path d="M11.071.653a.75.75 0 0 1 .025 1.06l-6.5 7a.75.75 0 0 1-1.092-.013l-3-3.5a.75.75 0 1 1 1.14-.977l2.46 2.87 5.908-6.415a.75.75 0 0 1 1.059-.025z"/>
             </svg>
@@ -2659,7 +2726,7 @@ function SmsLeadRow({ lead, isActive, onClick }) {
             {lead.recipientName || maskPhone(lead.to)}
           </span>
           {lastTime && (
-            <span className={`text-[11px] shrink-0 ${failedCount > 0 ? "text-rose-600" : "text-slate-400 dark:text-slate-500"}`}>
+            <span className={`text-[11px] shrink-0 ${failedCount > 0 ? "text-rose-600" : "text-slate-500 dark:text-slate-500"}`}>
               {lastTime}
             </span>
           )}
@@ -2680,7 +2747,7 @@ function SmsLeadRow({ lead, isActive, onClick }) {
             <span className="shrink-0 text-[10px] text-emerald-600 font-semibold inline-flex items-center gap-1">{sentCount} <Check className="w-2.5 h-2.5" /></span>
           )}
           {!hasSms && (
-            <span className="shrink-0 text-[10px] text-slate-400 italic">no SMS</span>
+            <span className="shrink-0 text-[10px] text-slate-500 italic">no SMS</span>
           )}
         </div>
         {lead.campaignId && (
@@ -2799,8 +2866,8 @@ function SmsBlastComposer({ onSent }) {
 
   if (result) return (
     <div className="flex-1 flex flex-col items-center justify-center bg-[#EFEAE2] dark:bg-[#0B141A] gap-4">
-      <div className="w-20 h-20 rounded-full bg-[#25D366]/10 flex items-center justify-center mb-2">
-        <svg className="w-10 h-10 text-[#25D366]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <div className="w-20 h-20 rounded-full bg-[#0F7A6C]/10 flex items-center justify-center mb-2">
+        <svg className="w-10 h-10 text-[#0F7A6C]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
         </svg>
       </div>
@@ -2808,7 +2875,7 @@ function SmsBlastComposer({ onSent }) {
       <p className="text-[13px] text-[#667781] dark:text-[#8696A0] text-center max-w-xs">{result.message}</p>
       <button
         onClick={() => setResult(null)}
-        className="mt-2 px-6 py-2.5 rounded-full bg-[#25D366] text-white text-[13px] font-semibold hover:bg-[#20B858] transition"
+        className="mt-2 px-6 py-2.5 rounded-full bg-[#0F7A6C] text-white text-[13px] font-semibold hover:bg-[#0B5D52] transition"
       >
         Send Another
       </button>
@@ -2855,8 +2922,8 @@ function SmsBlastComposer({ onSent }) {
               <button key={m.key} onClick={() => setMode(m.key)}
                 className={`flex-1 py-2 px-2 rounded-xl text-[11px] font-semibold border transition ${
                   mode === m.key
-                    ? "bg-[#DCF8C6] dark:bg-[#005C4B] border-[#25D366] text-[#075E54] dark:text-[#E9EDEF]"
-                    : "border-slate-200 dark:border-[#2A3942] text-slate-400 hover:border-[#25D366] hover:text-[#075E54]"
+                    ? "bg-[#DCF8C6] dark:bg-[#005C4B] border-[#0F7A6C] text-[#075E54] dark:text-[#E9EDEF]"
+                    : "border-slate-200 dark:border-[#2A3942] text-slate-500 hover:border-[#0F7A6C] hover:text-[#075E54]"
                 }`}>
                 <span className="inline-flex items-center gap-1"><m.Icon className="w-3.5 h-3.5" />{m.label}</span>
               </button>
@@ -2876,7 +2943,7 @@ function SmsBlastComposer({ onSent }) {
                 {campaigns.map((c) => <option key={c} value={c}>{c}</option>)}
               </select>
               {leadCount !== null && (
-                <p className="text-[11px] text-slate-400 mt-1">
+                <p className="text-[11px] text-slate-500 mt-1">
                   <span className="font-bold text-orange-600">{leadCount}</span> leads with mobile numbers
                 </p>
               )}
@@ -2901,7 +2968,7 @@ function SmsBlastComposer({ onSent }) {
               <label className="block text-[11px] font-semibold text-[#667781] dark:text-[#8696A0] mb-1.5">Paste CSV (name, mobile) <span className="text-rose-600">*</span></label>
               <textarea value={csvText} onChange={(e) => { setCsvText(e.target.value); setCsvParsed(null); setCsvError(""); }} rows={4} className={FIELD_CLS + " font-mono text-[11px] resize-y"} />
               <div className="flex items-center gap-2 mt-1.5">
-                <button onClick={parseCsv} className="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-[#2A3942] text-[11px] font-semibold text-slate-600 hover:border-[#25D366] hover:text-[#075E54] border border-slate-200 dark:border-[#2A3942] transition">Parse CSV</button>
+                <button onClick={parseCsv} className="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-[#2A3942] text-[11px] font-semibold text-slate-600 hover:border-[#0F7A6C] hover:text-[#075E54] border border-slate-200 dark:border-[#2A3942] transition">Parse CSV</button>
                 {csvParsed && <span className="text-[11px] text-emerald-600 font-semibold inline-flex items-center gap-1"><Check className="w-3 h-3" /> {csvParsed.length} valid rows</span>}
                 {csvError  && <span className="text-[11px] text-rose-600 inline-flex items-center gap-1"><AlertTriangle className="w-3 h-3" /> {csvError}</span>}
               </div>
@@ -2913,12 +2980,12 @@ function SmsBlastComposer({ onSent }) {
             <div>
               <label className="block text-[11px] font-semibold text-[#667781] dark:text-[#8696A0] mb-1.5">DLT Template ID</label>
               <input type="text" value={templateId} onChange={(e) => setTemplateId(e.target.value)} placeholder="1234567890123456789" className={FIELD_CLS} />
-              <p className="text-[10px] text-slate-400 mt-0.5">MSG91 → DLT dashboard</p>
+              <p className="text-[10px] text-slate-500 mt-0.5">MSG91 → DLT dashboard</p>
             </div>
             <div>
               <label className="block text-[11px] font-semibold text-[#667781] dark:text-[#8696A0] mb-1.5">Sender ID</label>
               <input type="text" maxLength={6} value={senderId} onChange={(e) => setSenderId(e.target.value.toUpperCase())} placeholder="SKYCRM" className={FIELD_CLS} />
-              <p className="text-[10px] text-slate-400 mt-0.5">6-char DLT-approved</p>
+              <p className="text-[10px] text-slate-500 mt-0.5">6-char DLT-approved</p>
             </div>
           </div>
         </div>
@@ -2968,11 +3035,11 @@ function SmsBlastComposer({ onSent }) {
             placeholder={`Hi {{name}}, this is a message from Launcherdesk CRM.`}
           />
           <div className="flex items-center justify-between mt-1.5">
-            <p className="text-[10px] text-slate-400">
+            <p className="text-[10px] text-slate-500">
               <span className={charCount > 160 ? "text-orange-600 font-bold" : ""}>{charCount}</span> chars ·{" "}
               <span className={smsCount > 1 ? "text-orange-600 font-bold" : ""}>{smsCount} SMS</span>/recipient
             </p>
-            <p className="text-[10px] text-slate-400">→ <strong className="text-orange-600">{recipientLabel}</strong></p>
+            <p className="text-[10px] text-slate-500">→ <strong className="text-orange-600">{recipientLabel}</strong></p>
           </div>
         </div>
 
@@ -3011,7 +3078,7 @@ function SmsBlastComposer({ onSent }) {
         <button
           onClick={handleSend}
           disabled={loading || !isValid}
-          className="w-11 h-11 rounded-full bg-[#25D366] hover:bg-[#20B858] disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center transition shadow-md"
+          className="w-11 h-11 rounded-full bg-[#0F7A6C] hover:bg-[#0B5D52] disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center transition shadow-md"
         >
           {loading
             ? <svg className="w-5 h-5 animate-spin text-white" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/></svg>
@@ -3157,7 +3224,7 @@ function SmsLeadThread({ lead, onBack, onSend }) {
                 placeholder="447171TxxxXXXX67f2b4e5"
                 className={FIELD_CLS}
               />
-              <p className="text-[9px] text-slate-400 mt-0.5">MSG91 Dashboard → API → Auth Key</p>
+              <p className="text-[9px] text-slate-500 mt-0.5">MSG91 Dashboard → API → Auth Key</p>
             </div>
             {/* Sender ID */}
             <div className="w-28">
@@ -3170,7 +3237,7 @@ function SmsLeadThread({ lead, onBack, onSend }) {
                 placeholder="SKYCRM"
                 className={FIELD_CLS}
               />
-              <p className="text-[9px] text-slate-400 mt-0.5">6-char DLT</p>
+              <p className="text-[9px] text-slate-500 mt-0.5">6-char DLT</p>
             </div>
             {/* DLT Template ID */}
             <div className="flex-1 min-w-[160px]">
@@ -3183,7 +3250,7 @@ function SmsLeadThread({ lead, onBack, onSend }) {
                 className={FIELD_CLS}
               />
               <div className="flex items-center gap-2 mt-0.5">
-                <p className="text-[9px] text-slate-400">Launcherdesk_greetings: <code className="font-mono">1007503933418344595</code></p>
+                <p className="text-[9px] text-slate-500">Launcherdesk_greetings: <code className="font-mono">1007503933418344595</code></p>
                 <button
                   type="button"
                   onClick={() => {
@@ -3201,7 +3268,7 @@ function SmsLeadThread({ lead, onBack, onSend }) {
               <button
                 onClick={handleSaveConfig}
                 disabled={configSaving || !authKey.trim()}
-                className="px-4 py-2 rounded-lg bg-[#25D366] hover:bg-[#20B858] disabled:opacity-40 text-white text-[11px] font-semibold transition whitespace-nowrap"
+                className="px-4 py-2 rounded-lg bg-[#0F7A6C] hover:bg-[#0B5D52] disabled:opacity-40 text-white text-[11px] font-semibold transition whitespace-nowrap"
               >
                 {configSaving ? "Saving…" : configSaved ? "Saved!" : "Save"}
               </button>
@@ -3217,7 +3284,7 @@ function SmsLeadThread({ lead, onBack, onSend }) {
       >
         {loading ? (
           <div className="flex justify-center items-center h-full">
-            <svg className="w-6 h-6 animate-spin text-[#25D366]" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/></svg>
+            <svg className="w-6 h-6 animate-spin text-[#0F7A6C]" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/></svg>
           </div>
         ) : logs.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full gap-2 opacity-60">
@@ -3239,14 +3306,14 @@ function SmsLeadThread({ lead, onBack, onSend }) {
             onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleSend(); } }}
             rows={1}
             placeholder="Type a message"
-            className="w-full bg-transparent text-[13px] text-[#111B21] dark:text-[#E9EDEF] placeholder:text-slate-400 resize-none focus:outline-none leading-relaxed"
+            className="w-full bg-transparent text-[13px] text-[#111B21] dark:text-[#E9EDEF] placeholder:text-slate-500 resize-none focus:outline-none leading-relaxed"
             style={{ maxHeight: "100px", overflowY: "auto" }}
           />
         </div>
         <button
           onClick={handleSend}
           disabled={sending || !message.trim()}
-          className="w-11 h-11 rounded-full bg-[#25D366] hover:bg-[#20B858] disabled:opacity-40 flex items-center justify-center transition shadow-md shrink-0"
+          className="w-11 h-11 rounded-full bg-[#0F7A6C] hover:bg-[#0B5D52] disabled:opacity-40 flex items-center justify-center transition shadow-md shrink-0"
         >
           {sending
             ? <svg className="w-4 h-4 animate-spin text-white" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/></svg>
@@ -3397,7 +3464,7 @@ function SmsPanel() {
           </div>
           <button
             onClick={() => { setSelectedLead(null); setShowComposer(true); }}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#25D366] hover:bg-[#20B858] text-white text-[12px] font-semibold transition"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#0F7A6C] hover:bg-[#0B5D52] text-white text-[12px] font-semibold transition"
           >
             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
             Blast
@@ -3426,13 +3493,13 @@ function SmsPanel() {
         {/* Search + campaign filter */}
         <div className="px-3 py-2 bg-[#F0F2F5] dark:bg-[#202C33] flex gap-2 border-b border-slate-200 dark:border-[#2A3942] shrink-0">
           <div className="relative flex-1">
-            <svg className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg>
+            <svg className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg>
             <input
               type="text"
               value={search}
               onChange={(e) => handleSearchChange(e.target.value)}
               placeholder="Search contacts…"
-              className="w-full pl-8 pr-3 py-2 bg-white dark:bg-[#2A3942] rounded-xl text-[12px] text-[#111B21] dark:text-[#E9EDEF] placeholder:text-slate-400 focus:outline-none"
+              className="w-full pl-8 pr-3 py-2 bg-white dark:bg-[#2A3942] rounded-xl text-[12px] text-[#111B21] dark:text-[#E9EDEF] placeholder:text-slate-500 focus:outline-none"
             />
           </div>
           <select
@@ -3459,7 +3526,7 @@ function SmsPanel() {
             ))
           ) : filteredLeads.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full gap-3 p-8 opacity-60">
-              <div className="text-slate-400"><Smartphone className="w-9 h-9" strokeWidth={1.5} /></div>
+              <div className="text-slate-500"><Smartphone className="w-9 h-9" strokeWidth={1.5} /></div>
               <p className="text-[13px] text-[#667781] text-center">No SMS contacts yet. Send your first blast!</p>
             </div>
           ) : (
@@ -3499,7 +3566,7 @@ function SmsPanel() {
             </div>
             <button
               onClick={() => setShowComposer(true)}
-              className="flex items-center gap-2 px-6 py-3 rounded-full bg-[#25D366] hover:bg-[#20B858] text-white text-[13px] font-semibold transition shadow-md"
+              className="flex items-center gap-2 px-6 py-3 rounded-full bg-[#0F7A6C] hover:bg-[#0B5D52] text-white text-[13px] font-semibold transition shadow-md"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
               Send SMS Blast
@@ -3561,7 +3628,7 @@ function AutoTemplateSettingsPanel({ activeTab, onClose }) {
   };
 
   if (!settings) return (
-    <div className="flex items-center justify-center py-8 gap-2 text-slate-400">
+    <div className="flex items-center justify-center py-8 gap-2 text-slate-500">
       <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/></svg>
       Loading…
     </div>
@@ -3573,7 +3640,7 @@ function AutoTemplateSettingsPanel({ activeTab, onClose }) {
 
   // Channel colour tokens
   const tokens = {
-    whatsapp: { ring: "#25D366", bg: "bg-[#f0fdf4] dark:bg-[#052e1c]", text: "text-[#25D366]", border: "border-[#25D366]" },
+    whatsapp: { ring: "#25D366", bg: "bg-[#f0fdf4] dark:bg-[#052e1c]", text: "text-[#0F7A6C]", border: "border-[#0F7A6C]" },
     email:    { ring: "#7C3AED", bg: "bg-violet-50 dark:bg-violet-950", text: "text-violet-600", border: "border-violet-600" },
     sms:      { ring: "#EA580C", bg: "bg-orange-50 dark:bg-orange-950", text: "text-orange-600", border: "border-orange-600" },
   };
@@ -3591,10 +3658,10 @@ function AutoTemplateSettingsPanel({ activeTab, onClose }) {
           </div>
           <div>
             <p className={`text-[13px] font-bold ${tok.text} leading-none`}>Auto-Blast Settings</p>
-            <p className="text-[11px] text-slate-400 mt-0.5">Fires when a new lead is added, and again when a lead is marked Interested</p>
+            <p className="text-[11px] text-slate-500 mt-0.5">Fires when a new lead is added, and again when a lead is marked Interested</p>
           </div>
         </div>
-        <button onClick={onClose} className="w-7 h-7 rounded-lg border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-400 hover:text-slate-900 dark:hover:text-white transition">
+        <button onClick={onClose} className="w-7 h-7 rounded-lg border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-500 hover:text-slate-900 dark:hover:text-white transition">
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
@@ -3607,11 +3674,11 @@ function AutoTemplateSettingsPanel({ activeTab, onClose }) {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-[13px] font-semibold text-slate-900 dark:text-white">Send WhatsApp Template to New Leads</p>
-                <p className="text-[11px] text-slate-400 mt-0.5">Every new lead will automatically receive the template below</p>
+                <p className="text-[11px] text-slate-500 mt-0.5">Every new lead will automatically receive the template below</p>
               </div>
               <button
                 onClick={() => update("whatsapp", "enabled", !wa.enabled)}
-                className={`relative w-11 h-6 rounded-full transition-colors duration-200 focus:outline-none ${wa.enabled ? "bg-[#25D366]" : "bg-slate-200 dark:bg-white/10"}`}
+                className={`relative w-11 h-6 rounded-full transition-colors duration-200 focus:outline-none ${wa.enabled ? "bg-[#0F7A6C]" : "bg-slate-200 dark:bg-white/10"}`}
               >
                 <span className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow-sm transition-transform duration-200 ${wa.enabled ? "translate-x-5" : "translate-x-0"}`} />
               </button>
@@ -3635,7 +3702,7 @@ function AutoTemplateSettingsPanel({ activeTab, onClose }) {
                       placeholder="crm_followup_leads"
                       className={FIELD_CLS}
                     />
-                    <p className="text-[10px] text-slate-400 mt-0.5">Enter the exact approved template name you already use in WhatsApp chat / bulk blast — it must exist in your MSG91 account.</p>
+                    <p className="text-[10px] text-slate-500 mt-0.5">Enter the exact approved template name you already use in WhatsApp chat / bulk blast — it must exist in your MSG91 account.</p>
                   </div>
                   <div>
                     <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">Template Language</label>
@@ -3663,7 +3730,7 @@ function AutoTemplateSettingsPanel({ activeTab, onClose }) {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-[13px] font-semibold text-slate-900 dark:text-white">Send Email to New Leads</p>
-                <p className="text-[11px] text-slate-400 mt-0.5">Every new lead with an email address will receive this automatically</p>
+                <p className="text-[11px] text-slate-500 mt-0.5">Every new lead with an email address will receive this automatically</p>
               </div>
               <button
                 onClick={() => update("email", "enabled", !em.enabled)}
@@ -3687,7 +3754,7 @@ function AutoTemplateSettingsPanel({ activeTab, onClose }) {
                 </div>
                 <div>
                   <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1">Email Body (HTML)</label>
-                  <p className="text-[10px] text-slate-400 mb-1.5">Use <code className="bg-violet-50 dark:bg-violet-950 text-violet-600 px-1 rounded">{"{{name}}"}</code> <code className="bg-violet-50 dark:bg-violet-950 text-violet-600 px-1 rounded">{"{{mobile}}"}</code> <code className="bg-violet-50 dark:bg-violet-950 text-violet-600 px-1 rounded">{"{{campaign}}"}</code> as merge tags</p>
+                  <p className="text-[10px] text-slate-500 mb-1.5">Use <code className="bg-violet-50 dark:bg-violet-950 text-violet-600 px-1 rounded">{"{{name}}"}</code> <code className="bg-violet-50 dark:bg-violet-950 text-violet-600 px-1 rounded">{"{{mobile}}"}</code> <code className="bg-violet-50 dark:bg-violet-950 text-violet-600 px-1 rounded">{"{{campaign}}"}</code> as merge tags</p>
                   <textarea rows={5} value={em.bodyTemplate || ""} onChange={e => update("email", "bodyTemplate", e.target.value)} className={FIELD_CLS + " font-mono text-[12px] resize-y"} placeholder="<p>Hi {{name}},</p><p>Thank you for your interest!</p>" />
                 </div>
               </div>
@@ -3701,7 +3768,7 @@ function AutoTemplateSettingsPanel({ activeTab, onClose }) {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-[13px] font-semibold text-slate-900 dark:text-white">Send SMS to New Leads</p>
-                <p className="text-[11px] text-slate-400 mt-0.5">Every new lead with a mobile number will receive this automatically via MSG91</p>
+                <p className="text-[11px] text-slate-500 mt-0.5">Every new lead with a mobile number will receive this automatically via MSG91</p>
               </div>
               <button
                 onClick={() => update("sms", "enabled", !sm.enabled)}
@@ -3715,21 +3782,21 @@ function AutoTemplateSettingsPanel({ activeTab, onClose }) {
               <div className="space-y-3 pt-1 border-t border-slate-200 dark:border-white/10">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">MSG91 Flow ID <span className="font-normal text-slate-400">(optional)</span></label>
+                    <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">MSG91 Flow ID <span className="font-normal text-slate-500">(optional)</span></label>
                     <input type="text" value={sm.templateId || ""} onChange={e => update("sms", "templateId", e.target.value)} placeholder="6a1ffe028c6272147b00b233" className={FIELD_CLS} />
-                    <p className="text-[10px] text-slate-400 mt-0.5">From MSG91 → SMS → Flows (24-char ID, NOT the 19-digit DLT number). Leave blank to use your saved Greetings flow.</p>
+                    <p className="text-[10px] text-slate-500 mt-0.5">From MSG91 → SMS → Flows (24-char ID, NOT the 19-digit DLT number). Leave blank to use your saved Greetings flow.</p>
                   </div>
                   <div>
-                    <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">Sender ID <span className="font-normal text-slate-400">(optional)</span></label>
+                    <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">Sender ID <span className="font-normal text-slate-500">(optional)</span></label>
                     <input type="text" maxLength={6} value={sm.senderId || ""} onChange={e => update("sms", "senderId", e.target.value.toUpperCase())} placeholder="695382" className={FIELD_CLS} />
-                    <p className="text-[10px] text-slate-400 mt-0.5">Must match the sender registered for the flow above. Leave blank to use your saved Greetings sender.</p>
+                    <p className="text-[10px] text-slate-500 mt-0.5">Must match the sender registered for the flow above. Leave blank to use your saved Greetings sender.</p>
                   </div>
                 </div>
                 <div>
                   <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1">Message <span className="text-rose-600">*</span></label>
-                  <p className="text-[10px] text-slate-400 mb-1.5">Use <code className="bg-orange-50 dark:bg-orange-950 text-orange-600 px-1 rounded">{"{{name}}"}</code> <code className="bg-orange-50 dark:bg-orange-950 text-orange-600 px-1 rounded">{"{{mobile}}"}</code> <code className="bg-orange-50 dark:bg-orange-950 text-orange-600 px-1 rounded">{"{{campaign}}"}</code> as merge tags</p>
+                  <p className="text-[10px] text-slate-500 mb-1.5">Use <code className="bg-orange-50 dark:bg-orange-950 text-orange-600 px-1 rounded">{"{{name}}"}</code> <code className="bg-orange-50 dark:bg-orange-950 text-orange-600 px-1 rounded">{"{{mobile}}"}</code> <code className="bg-orange-50 dark:bg-orange-950 text-orange-600 px-1 rounded">{"{{campaign}}"}</code> as merge tags</p>
                   <textarea rows={3} value={sm.message || ""} onChange={e => update("sms", "message", e.target.value)} className={FIELD_CLS + " resize-y"} placeholder="Hi {{name}}, thanks for your interest! Our team will contact you soon." />
-                  <p className="text-[10px] text-slate-400 mt-1">{(sm.message || "").length} chars · {Math.max(1, Math.ceil((sm.message || "").length / 160))} SMS</p>
+                  <p className="text-[10px] text-slate-500 mt-1">{(sm.message || "").length} chars · {Math.max(1, Math.ceil((sm.message || "").length / 160))} SMS</p>
                 </div>
               </div>
             )}
@@ -3769,7 +3836,7 @@ function AutoTemplateSettingsPanel({ activeTab, onClose }) {
             className={`flex items-center gap-2 px-5 py-2 rounded-xl text-[13px] font-semibold text-white transition disabled:opacity-50 ${
               activeTab === "email" ? "bg-violet-600 hover:bg-purple-700" :
               activeTab === "sms"   ? "bg-orange-600 hover:bg-orange-700" :
-                                      "bg-[#25D366] hover:bg-[#1da851]"
+                                      "bg-[#0F7A6C] hover:bg-[#0B5D52]"
             }`}
           >
             {saving
@@ -3804,7 +3871,7 @@ function SendLogStatusBadge({ status }) {
   const cls =
     status === "sent"   ? "bg-[#f0fdf4] dark:bg-[#052e1c] text-emerald-600 border-emerald-200 dark:border-emerald-800" :
     status === "failed" ? "bg-rose-50 dark:bg-rose-950 text-rose-600 border-rose-200 dark:border-rose-900" :
-                           "bg-slate-50 dark:bg-white/[0.04] text-slate-400 border-slate-200 dark:border-white/10";
+                           "bg-slate-50 dark:bg-white/[0.04] text-slate-500 border-slate-200 dark:border-white/10";
   return (
     <span className={`inline-block px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide border ${cls}`}>
       {status}
@@ -3864,8 +3931,8 @@ function WhatsAppReportsPanel() {
           <div className="text-[10px] text-rose-600 uppercase mt-0.5 font-semibold">Failed</div>
         </div>
         <div className="bg-slate-50 dark:bg-white/[0.04] rounded-xl p-3 text-center border border-slate-200 dark:border-white/10">
-          <div className="text-[22px] font-bold text-slate-400">{summary.skipped}</div>
-          <div className="text-[10px] text-slate-400 uppercase mt-0.5 font-semibold">Skipped</div>
+          <div className="text-[22px] font-bold text-slate-500">{summary.skipped}</div>
+          <div className="text-[10px] text-slate-500 uppercase mt-0.5 font-semibold">Skipped</div>
         </div>
       </div>
 
@@ -3900,7 +3967,7 @@ function WhatsAppReportsPanel() {
       <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-white/10">
         <table className="w-full text-[12px]">
           <thead>
-            <tr className="bg-slate-50 dark:bg-white/[0.04] text-left text-slate-400 uppercase text-[10px] font-bold tracking-wide">
+            <tr className="bg-slate-50 dark:bg-white/[0.04] text-left text-slate-500 uppercase text-[10px] font-bold tracking-wide">
               <th className="px-3 py-2.5">When</th>
               <th className="px-3 py-2.5">Contact</th>
               <th className="px-3 py-2.5">Template</th>
@@ -3913,18 +3980,18 @@ function WhatsAppReportsPanel() {
             {loading ? (
               Array.from({ length: 6 }).map((_, i) => <SkeletonRow key={i} />)
             ) : rows.length === 0 ? (
-              <tr><td colSpan={6} className="px-3 py-10 text-center text-slate-400">No sends match these filters yet.</td></tr>
+              <tr><td colSpan={6} className="px-3 py-10 text-center text-slate-500">No sends match these filters yet.</td></tr>
             ) : rows.map((r) => (
               <tr key={r._id} className="border-t border-slate-200 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-white/[0.06]/50">
                 <td className="px-3 py-2.5 whitespace-nowrap text-slate-600 dark:text-slate-300">{fmtDate(r.createdAt)}</td>
                 <td className="px-3 py-2.5">
                   <div className="font-semibold text-slate-900 dark:text-white">{r.name || "—"}</div>
-                  <div className="text-[10px] text-slate-400 font-mono">{maskPhone(r.phone)}</div>
+                  <div className="text-[10px] text-slate-500 font-mono">{maskPhone(r.phone)}</div>
                 </td>
                 <td className="px-3 py-2.5 font-mono text-[11px] text-slate-600 dark:text-slate-300">{r.templateName || "—"}</td>
                 <td className="px-3 py-2.5 text-slate-600 dark:text-slate-300">{CHANNEL_LABEL[r.channel] || r.channel}{r.ruleName ? ` · ${r.ruleName}` : ""}</td>
                 <td className="px-3 py-2.5"><SendLogStatusBadge status={r.status} /></td>
-                <td className="px-3 py-2.5 text-slate-400 max-w-[200px] truncate" title={r.reason}>{r.reason || "—"}</td>
+                <td className="px-3 py-2.5 text-slate-500 max-w-[200px] truncate" title={r.reason}>{r.reason || "—"}</td>
               </tr>
             ))}
           </tbody>
@@ -3933,7 +4000,7 @@ function WhatsAppReportsPanel() {
 
       {/* Pagination */}
       {pagination.totalPages > 1 && (
-        <div className="flex items-center justify-between mt-4 text-[12px] text-slate-400">
+        <div className="flex items-center justify-between mt-4 text-[12px] text-slate-500">
           <span>Page {pagination.page} of {pagination.totalPages} · {pagination.total} total</span>
           <div className="flex gap-2">
             <button
@@ -3968,7 +4035,7 @@ export default function Communications({ currentUser }) {
       <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center sm:justify-between gap-2 sm:gap-4 mb-3 sm:mb-5 shrink-0">
         <div>
           <h1 className="text-[20px] sm:text-[24px] font-bold text-slate-900 dark:text-white">Communications</h1>
-          <p className="text-[12px] sm:text-[13px] text-slate-400 dark:text-slate-500 mt-0.5">WhatsApp · Email · SMS — all in one place</p>
+          <p className="text-[12px] sm:text-[13px] text-slate-500 dark:text-slate-500 mt-0.5">WhatsApp · Email · SMS — all in one place</p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <TabNav active={tab} onChange={(t) => { setTab(t); setShowSettings(false); }} showReports={isAdmin} />
@@ -3976,7 +4043,7 @@ export default function Communications({ currentUser }) {
             <button
               onClick={() => setShowIntegrations(true)}
               title="Manage Integrations (Brevo, MSG91)"
-              className="flex items-center gap-1.5 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl border border-slate-200 dark:border-white/10 text-[12px] sm:text-[13px] font-semibold text-slate-400 hover:text-slate-900 dark:hover:text-white hover:border-launcher-600 transition"
+              className="flex items-center gap-1.5 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl border border-slate-200 dark:border-white/10 text-[12px] sm:text-[13px] font-semibold text-slate-500 hover:text-slate-900 dark:hover:text-white hover:border-launcher-600 transition"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
@@ -3992,8 +4059,8 @@ export default function Communications({ currentUser }) {
                 showSettings
                   ? tab === "email"   ? "border-violet-600 bg-violet-50 dark:bg-violet-950 text-violet-600"
                   : tab === "sms"     ? "border-orange-600 bg-orange-50 dark:bg-orange-950 text-orange-600"
-                                      : "border-[#25D366] bg-[#f0fdf4] dark:bg-[#052e1c] text-[#25D366]"
-                  : "border-slate-200 dark:border-white/10 text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                                      : "border-[#0F7A6C] bg-[#f0fdf4] dark:bg-[#052e1c] text-[#0F7A6C]"
+                  : "border-slate-200 dark:border-white/10 text-slate-500 hover:text-slate-900 dark:hover:text-white"
               }`}
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -4001,7 +4068,7 @@ export default function Communications({ currentUser }) {
               </svg>
               <span className="hidden sm:inline">New Lead</span>
               <span className={`w-1.5 h-1.5 rounded-full ${
-                tab === "email" ? "bg-violet-600" : tab === "sms" ? "bg-orange-600" : "bg-[#25D366]"
+                tab === "email" ? "bg-violet-600" : tab === "sms" ? "bg-orange-600" : "bg-[#0F7A6C]"
               } ${showSettings ? "opacity-100" : "opacity-50"}`} />
             </button>
           )}

@@ -85,14 +85,14 @@ export default function MSG91ConnectSettings({ onConnected }) {
       {/* Header */}
       <div className="px-5 py-4 border-b border-slate-100 dark:border-white/10 flex items-center gap-3">
         <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${isConnected ? "bg-emerald-50 dark:bg-emerald-500/10" : "bg-slate-50 dark:bg-white/[0.04]"}`}>
-          <MessageSquare className={`w-5 h-5 ${isConnected ? "text-emerald-600 dark:text-emerald-400" : "text-slate-400"}`} />
+          <MessageSquare className={`w-5 h-5 ${isConnected ? "text-emerald-600 dark:text-emerald-400" : "text-slate-500"}`} />
         </div>
         <div className="flex-1">
           <div className="flex items-center gap-2">
             <h3 className="text-[14px] font-bold text-slate-900 dark:text-white">MSG91 Integration</h3>
             {isConnected && <Pill tone="emerald">Connected</Pill>}
           </div>
-          <p className="text-[11px] text-slate-400 mt-0.5">Required for WhatsApp blast and SMS blast</p>
+          <p className="text-[11px] text-slate-500 mt-0.5">Required for WhatsApp blast and SMS blast</p>
         </div>
         {isConnected && (
           <button
@@ -139,12 +139,12 @@ export default function MSG91ConnectSettings({ onConnected }) {
             <button
               type="button"
               onClick={() => setShowKey(s => !s)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition"
             >
               {showKey ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
             </button>
           </div>
-          <p className="text-[10px] text-slate-400 mt-1">msg91.com → Settings → API → Your Auth Key</p>
+          <p className="text-[10px] text-slate-500 mt-1">msg91.com → Settings → API → Your Auth Key</p>
         </div>
 
         {/* Integrated Number */}
@@ -159,13 +159,13 @@ export default function MSG91ConnectSettings({ onConnected }) {
             placeholder="e.g. 919876543210 (with country code, no +)"
             className={FIELD_CLS}
           />
-          <p className="text-[10px] text-slate-400 mt-1">msg91.com → WhatsApp → Integrated Numbers</p>
+          <p className="text-[10px] text-slate-500 mt-1">msg91.com → WhatsApp → Integrated Numbers</p>
         </div>
 
         {/* Namespace */}
         <div>
           <label className="block text-[12px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5">
-            MSG91 WhatsApp Namespace <span className="text-slate-400 font-normal">(optional)</span>
+            MSG91 WhatsApp Namespace <span className="text-slate-500 font-normal">(optional)</span>
           </label>
           <input
             type="text"
@@ -174,7 +174,7 @@ export default function MSG91ConnectSettings({ onConnected }) {
             placeholder="e.g. 68bcef67_e185_4e55_94df_52c26cb0bc37"
             className={FIELD_CLS}
           />
-          <p className="text-[10px] text-slate-400 mt-1">
+          <p className="text-[10px] text-slate-500 mt-1">
             MSG91 dashboard → WhatsApp → Templates → Namespace. Required for auto-template delivery.
           </p>
         </div>

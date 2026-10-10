@@ -121,7 +121,7 @@ export default function GoogleOAuthSetupForm({ onSaved, compact = false, onCance
   const LABEL = "block text-[12px] font-semibold text-slate-600 dark:text-slate-300 mb-1.5";
 
   if (loading) {
-    return <div className="flex items-center justify-center py-6"><Loader2 className="w-4 h-4 animate-spin text-slate-400" /></div>;
+    return <div className="flex items-center justify-center py-6"><Loader2 className="w-4 h-4 animate-spin text-slate-500" /></div>;
   }
 
   return (
@@ -132,7 +132,7 @@ export default function GoogleOAuthSetupForm({ onSaved, compact = false, onCance
         </div>
         <div className="min-w-0">
           <p className="text-[13px] font-bold text-slate-900 dark:text-white">{cfg.title}</p>
-          <p className="text-[11px] text-slate-400 mt-0.5">
+          <p className="text-[11px] text-slate-500 mt-0.5">
             {cfg.blurb}{" "}
             {source === "env" && " Server env credentials are active; saving here overrides them for this company."}
           </p>
@@ -163,11 +163,11 @@ export default function GoogleOAuthSetupForm({ onSaved, compact = false, onCance
         <div className="relative">
           <input type="text" value={redirectUri} onChange={(e) => setRedirectUri(e.target.value)}
             placeholder={`https://your-api-host/api${cfg.callbackPath}`} className="input-field px-3 py-2.5 pr-10" />
-          <button type="button" onClick={copyRedirect} title="Copy" className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400">
+          <button type="button" onClick={copyRedirect} title="Copy" className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-emerald-600 dark:hover:text-emerald-400">
             {copied ? <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-400" /> : <Copy className="w-4 h-4" />}
           </button>
         </div>
-        <p className="text-[10px] text-slate-400 mt-1">Must match a redirect URI registered on your OAuth client, character-for-character.</p>
+        <p className="text-[10px] text-slate-500 mt-1">Must match a redirect URI registered on your OAuth client, character-for-character.</p>
       </div>
 
       {/* Client ID */}
@@ -183,11 +183,11 @@ export default function GoogleOAuthSetupForm({ onSaved, compact = false, onCance
         <div className="relative">
           <input type={showSecret ? "text" : "password"} value={clientSecret} onChange={(e) => setClientSecret(e.target.value)}
             placeholder={hasSecret ? "••••••••••••••••" : "GOCSPX-…"} className="input-field px-3 py-2.5 pr-10" />
-          <button type="button" onClick={() => setShowSecret((v) => !v)} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300">
+          <button type="button" onClick={() => setShowSecret((v) => !v)} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-600 dark:hover:text-slate-300">
             {showSecret ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
           </button>
         </div>
-        <p className="text-[10px] text-slate-400 mt-1">Stored encrypted on the server. Never shown again after saving.</p>
+        <p className="text-[10px] text-slate-500 mt-1">Stored encrypted on the server. Never shown again after saving.</p>
       </div>
 
       {/* Google Ads only — Developer token + Login customer ID */}
@@ -198,18 +198,18 @@ export default function GoogleOAuthSetupForm({ onSaved, compact = false, onCance
             <div className="relative">
               <input type={showDevToken ? "text" : "password"} value={developerToken} onChange={(e) => setDeveloperToken(e.target.value)}
                 placeholder={hasDeveloperToken ? "••••••••••••••••" : "from your Manager account → API Center"} className="input-field px-3 py-2.5 pr-10" />
-              <button type="button" onClick={() => setShowDevToken((v) => !v)} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300">
+              <button type="button" onClick={() => setShowDevToken((v) => !v)} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-600 dark:hover:text-slate-300">
                 {showDevToken ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
             </div>
-            <p className="text-[10px] text-slate-400 mt-1">Google Ads → Manager account → Admin → API Center. Needs Basic access to read live accounts.</p>
+            <p className="text-[10px] text-slate-500 mt-1">Google Ads → Manager account → Admin → API Center. Needs Basic access to read live accounts.</p>
           </div>
 
           <div>
-            <label className={LABEL}>Login Customer ID <span className="text-[10px] font-normal text-slate-400">(manager ID — optional)</span></label>
+            <label className={LABEL}>Login Customer ID <span className="text-[10px] font-normal text-slate-500">(manager ID — optional)</span></label>
             <input type="text" value={loginCustomerId} onChange={(e) => setLoginCustomerId(e.target.value)}
               placeholder="e.g. 9578092037 (digits only)" className="input-field px-3 py-2.5" />
-            <p className="text-[10px] text-slate-400 mt-1">Set this to your Manager (MCC) account ID when the Ads account is accessed through a manager.</p>
+            <p className="text-[10px] text-slate-500 mt-1">Set this to your Manager (MCC) account ID when the Ads account is accessed through a manager.</p>
           </div>
         </>
       )}

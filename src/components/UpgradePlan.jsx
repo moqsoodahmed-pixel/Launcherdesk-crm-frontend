@@ -147,7 +147,7 @@ const INVOICE_STATUS_TONE = {
 const invoiceTone = (status) => INVOICE_STATUS_TONE[String(status || "").toLowerCase()] || "slate";
 
 const PLAN_COLORS = {
-  basic:      "#6B7280",
+  basic:      "#475569",
   pro:        "#2563EB",
   advance:    "#7C3AED",
   enterprise: "#0E7490",
@@ -582,7 +582,7 @@ function PlanCard({ plan, billing, selected, onUpgrade }) {
 
       {/* Header */}
       <div className="px-6 pt-5 pb-4">
-        <h3 className="text-[18px] font-bold text-slate-900 dark:text-white mt-3">{plan.name}</h3>
+        <h2 className="text-[18px] font-bold text-slate-900 dark:text-white mt-3">{plan.name}</h2>
         <p className="text-[12px] text-slate-500 dark:text-slate-400 mt-0.5 mb-4">{plan.desc}</p>
 
         {/* Price */}
@@ -642,9 +642,9 @@ function PlanCard({ plan, billing, selected, onUpgrade }) {
           })}
           {/* Lock icons only shown on basic plan */}
           {locked.slice(0, 3).map((f) => (
-            <div key={f.key} className="flex items-center gap-2 opacity-40">
-              <LockMark />
-              <span className="text-[12px] text-slate-500 dark:text-slate-400 line-through">{f.label}</span>
+            <div key={f.key} className="flex items-center gap-2">
+              <span className="opacity-40"><LockMark /></span>
+              <span className="text-[12px] text-slate-600 dark:text-slate-400 line-through">{f.label}</span>
             </div>
           ))}
         </div>
@@ -995,7 +995,7 @@ function UsageMeter({ usage }) {
           return (
             <div key={k} className="bg-white dark:bg-[#181029] px-6 py-4">
               <div className="flex items-center gap-2 mb-1">
-                <Icon className="w-4 h-4 text-slate-400" strokeWidth={2} />
+                <Icon className="w-4 h-4 text-slate-500" strokeWidth={2} />
                 <p className="text-[12px] text-slate-500 dark:text-slate-400">{label}</p>
               </div>
               <p className="text-[18px] font-bold text-slate-900 dark:text-white">
@@ -1416,6 +1416,9 @@ export default function UpgradePlan({
             </button>
             <button
               onClick={() => setBilling((b) => (b === "monthly" ? "yearly" : "monthly"))}
+              role="switch"
+              aria-checked={billing === "yearly"}
+              aria-label="Toggle yearly billing"
               className={`relative w-12 h-6 rounded-full transition-colors ${
                 billing === "yearly" ? "bg-violet-600" : "bg-slate-200 dark:bg-white/10"
               }`}

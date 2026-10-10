@@ -245,7 +245,7 @@ export default function AddonManager({ companyId, addons: initialAddons = [], on
                       <option key={k} value={k}>{v}</option>
                     ))}
                   </select>
-                  <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                  <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 pointer-events-none" />
                 </div>
               </div>
 
@@ -278,7 +278,7 @@ export default function AddonManager({ companyId, addons: initialAddons = [], on
               <div className="grid grid-cols-3 gap-3">
                 <div className="col-span-2">
                   <label className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block mb-1.5">
-                    Price <span className="text-slate-400 font-normal normal-case">(0 = free)</span>
+                    Price <span className="text-slate-500 font-normal normal-case">(0 = free)</span>
                   </label>
                   <input
                     type="number" min={0} step="0.01" placeholder="0"
@@ -342,7 +342,7 @@ export default function AddonManager({ companyId, addons: initialAddons = [], on
 
       {/* Addon List */}
       {addons.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-10 gap-2 text-slate-400">
+        <div className="flex flex-col items-center justify-center py-10 gap-2 text-slate-500">
           <Package className="w-7 h-7 text-slate-300 dark:text-slate-600" />
           <p className="text-[13px]">No addons yet</p>
         </div>
@@ -363,7 +363,7 @@ export default function AddonManager({ companyId, addons: initialAddons = [], on
                   </span>
 
                   {a.quantity > 1 && (
-                    <span className="text-[11px] text-slate-400">× {a.quantity}</span>
+                    <span className="text-[11px] text-slate-500">× {a.quantity}</span>
                   )}
 
                   <Pill tone={STATUS_TONE[a.status] || "slate"} className="!text-[10px] capitalize">
@@ -375,7 +375,7 @@ export default function AddonManager({ companyId, addons: initialAddons = [], on
                   </Pill>
                 </div>
 
-                <p className="text-[11px] text-slate-400 mt-0.5">
+                <p className="text-[11px] text-slate-500 mt-0.5">
                   Granted {fmtDate(a.startDate)} · Expires {fmtDate(a.expiryDate)}
                   {a.price > 0 && (
                     <span className="ml-2 font-semibold text-emerald-600">
@@ -389,7 +389,7 @@ export default function AddonManager({ companyId, addons: initialAddons = [], on
                 </p>
 
                 {a.notes && (
-                  <p className="text-[11px] text-slate-400 italic mt-0.5">{a.notes}</p>
+                  <p className="text-[11px] text-slate-500 italic mt-0.5">{a.notes}</p>
                 )}
               </div>
 
@@ -402,7 +402,7 @@ export default function AddonManager({ companyId, addons: initialAddons = [], on
                       onChange={e => setRenewMonths(Number(e.target.value))}
                       className="input-field w-16 px-2 py-1 text-sm"
                     />
-                    <span className="text-[11px] text-slate-400">mo</span>
+                    <span className="text-[11px] text-slate-500">mo</span>
                     <button
                       onClick={() => handleRenew(a._id)}
                       disabled={actionId === a._id}
@@ -414,7 +414,7 @@ export default function AddonManager({ companyId, addons: initialAddons = [], on
                     </button>
                     <button
                       onClick={() => setRenewId(null)}
-                      className="text-[12px] text-slate-400 hover:text-rose-500 transition"
+                      className="text-[12px] text-slate-500 hover:text-rose-500 transition"
                     >
                       Cancel
                     </button>

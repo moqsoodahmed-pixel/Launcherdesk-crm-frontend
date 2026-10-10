@@ -113,7 +113,7 @@ export default function UpdatePaymentModal({ currentMethod, onSave, onClose }) {
           <div>
             <h2 className="text-[15px] font-bold text-slate-900 dark:text-white">Update Payment Method</h2>
             {currentMethod && (
-              <p className="text-[11px] text-slate-400 mt-0.5">
+              <p className="text-[11px] text-slate-500 mt-0.5">
                 Current: <span className="font-semibold text-slate-600 dark:text-slate-300">{currentMethod}</span>
               </p>
             )}
@@ -128,7 +128,7 @@ export default function UpdatePaymentModal({ currentMethod, onSave, onClose }) {
           <div className="flex flex-col items-center gap-4 py-16">
             <Loader2 className="animate-spin w-10 h-10 text-launcher-600" />
             <p className="text-[13px] font-semibold text-slate-900 dark:text-white">Saving your payment method…</p>
-            <p className="text-[11px] text-slate-400">Please wait</p>
+            <p className="text-[11px] text-slate-500">Please wait</p>
           </div>
         )}
 
@@ -140,10 +140,10 @@ export default function UpdatePaymentModal({ currentMethod, onSave, onClose }) {
             </div>
             <div className="text-center">
               <h3 className="text-[15px] font-bold text-slate-900 dark:text-white">Payment method updated!</h3>
-              <p className="text-[12px] text-slate-400 mt-1">Your new method is now on file</p>
+              <p className="text-[12px] text-slate-500 mt-1">Your new method is now on file</p>
             </div>
             <div className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 text-center">
-              <p className="text-[10px] text-slate-400 uppercase tracking-wide mb-0.5">Active Payment Method</p>
+              <p className="text-[10px] text-slate-500 uppercase tracking-wide mb-0.5">Active Payment Method</p>
               <p className="text-[13px] font-bold text-slate-900 dark:text-white">{savedMethod}</p>
             </div>
             <button onClick={onClose} className="btn-primary btn-md w-full">
@@ -168,7 +168,7 @@ export default function UpdatePaymentModal({ currentMethod, onSave, onClose }) {
                   className={`flex-1 py-3 text-[12px] font-semibold transition border-b-2 ${
                     tab === t.id
                       ? "border-launcher-600 text-launcher-600 bg-white dark:bg-white/[0.04]"
-                      : "border-transparent text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
+                      : "border-transparent text-slate-500 hover:text-slate-600 dark:hover:text-slate-300"
                   }`}
                 >
                   {t.label}
@@ -202,7 +202,7 @@ export default function UpdatePaymentModal({ currentMethod, onSave, onClose }) {
                         className={INPUT + " font-mono pr-16"}
                       />
                       {cardNum.replace(/\s/g,"").length >= 1 && (
-                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400">
+                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-500">
                           {detectNetwork(cardNum)}
                         </span>
                       )}
@@ -226,9 +226,9 @@ export default function UpdatePaymentModal({ currentMethod, onSave, onClose }) {
                   </div>
                   <div className="flex items-center gap-2 pt-1">
                     {["VISA", "MC", "RuPay", "Amex"].map((c) => (
-                      <span key={c} className="px-2 py-0.5 rounded border border-slate-200 dark:border-white/10 text-[9px] font-bold text-slate-400">{c}</span>
+                      <span key={c} className="px-2 py-0.5 rounded border border-slate-200 dark:border-white/10 text-[9px] font-bold text-slate-500">{c}</span>
                     ))}
-                    <span className="ml-auto flex items-center gap-1 text-[10px] text-slate-400">
+                    <span className="ml-auto flex items-center gap-1 text-[10px] text-slate-500">
                       <ShieldCheck className="w-3 h-3" />
                       256-bit SSL
                     </span>
@@ -274,10 +274,10 @@ export default function UpdatePaymentModal({ currentMethod, onSave, onClose }) {
                         <div className="w-8 h-8 rounded-xl flex items-center justify-center text-[8px] font-bold text-white" style={{ background: a.bg }}>
                           {a.label}
                         </div>
-                        <span className="text-[8px] text-slate-400">{a.label}</span>
+                        <span className="text-[8px] text-slate-500">{a.label}</span>
                       </div>
                     ))}
-                    <span className="text-[10px] text-slate-400 ml-1">& more</span>
+                    <span className="text-[10px] text-slate-500 ml-1">& more</span>
                   </div>
                 </div>
               )}
@@ -343,7 +343,7 @@ export default function UpdatePaymentModal({ currentMethod, onSave, onClose }) {
 function Field({ label, children, className = "" }) {
   return (
     <div className={className}>
-      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+      <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">
         {label}
       </label>
       {children}

@@ -67,12 +67,12 @@ function LogDetailModal({ logId, onClose }) {
         </div>
         <div className="overflow-y-auto px-6 py-5 space-y-4">
           {loading ? (
-            <div className="flex items-center justify-center py-12 text-slate-400 gap-2">
+            <div className="flex items-center justify-center py-12 text-slate-500 gap-2">
               <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" /></svg>
               Loading…
             </div>
           ) : !log ? (
-            <p className="text-center text-slate-400 py-8">Could not load log details.</p>
+            <p className="text-center text-slate-500 py-8">Could not load log details.</p>
           ) : (
             <>
               <div className="grid grid-cols-2 gap-3">
@@ -83,13 +83,13 @@ function LogDetailModal({ logId, onClose }) {
                   { label: "Sent At", value: fmtDate(log.sentAt) },
                 ].map(({ label, value }) => (
                   <div key={label} className="bg-slate-50 dark:bg-white/[0.04] rounded-xl px-4 py-3">
-                    <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wide mb-1">{label}</p>
+                    <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-wide mb-1">{label}</p>
                     <div className="text-[13px] font-medium text-slate-900 dark:text-white">{value}</div>
                   </div>
                 ))}
               </div>
               <div className="bg-slate-50 dark:bg-white/[0.04] rounded-xl px-4 py-3">
-                <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wide mb-1">Subject</p>
+                <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-wide mb-1">Subject</p>
                 <p className="text-[13px] font-medium text-slate-900 dark:text-white">{log.subject}</p>
               </div>
               {log.errorMessage && (
@@ -100,7 +100,7 @@ function LogDetailModal({ logId, onClose }) {
               )}
               {log.body && (
                 <div>
-                  <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wide mb-2">Email Body</p>
+                  <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-wide mb-2">Email Body</p>
                   <div
                     className="border border-slate-200 dark:border-white/10 rounded-xl p-4 bg-white dark:bg-[#0B0715] text-[13px] text-slate-900 dark:text-white max-h-64 overflow-y-auto"
                     dangerouslySetInnerHTML={{ __html: sanitizeHtml(log.body) }}
@@ -267,7 +267,7 @@ export default function EmailHistory() {
       <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
         <div>
           <h1 className="text-[24px] font-bold text-slate-900 dark:text-white">Email Source History</h1>
-          <p className="text-[13px] text-slate-400 mt-0.5">
+          <p className="text-[13px] text-slate-500 mt-0.5">
             {loading ? "Loading…" : `${pagination.total.toLocaleString()} total emails logged`}
           </p>
         </div>
@@ -307,7 +307,7 @@ export default function EmailHistory() {
           <div key={s.label} className="flex items-center gap-2 surface-card px-4 py-2.5">
             <span className={`w-2 h-2 rounded-full shrink-0 ${s.dot}`} />
             <span className="text-[13px] font-bold text-slate-900 dark:text-white">{s.value.toLocaleString()}</span>
-            <span className="text-[11px] text-slate-400">{s.label}</span>
+            <span className="text-[11px] text-slate-500">{s.label}</span>
           </div>
         ))}
       </div>
@@ -316,7 +316,7 @@ export default function EmailHistory() {
       <div className="flex flex-wrap items-center gap-3 mb-5">
         {/* Search */}
         <div className="relative flex-1 min-w-[200px] max-w-xs">
-          <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z" />
           </svg>
           <input
@@ -328,7 +328,7 @@ export default function EmailHistory() {
             className="input-field pl-8 pr-4 py-2.5"
           />
           {search && (
-            <button onClick={() => handleSearchChange("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-900 dark:hover:text-white">
+            <button onClick={() => handleSearchChange("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-900 dark:hover:text-white">
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
             </button>
           )}
@@ -348,7 +348,7 @@ export default function EmailHistory() {
 
         {/* Date From */}
         <div className="relative flex items-center">
-          <svg className="absolute left-3 w-3.5 h-3.5 text-slate-400 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <svg className="absolute left-3 w-3.5 h-3.5 text-slate-500 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
           </svg>
           <input
@@ -361,11 +361,11 @@ export default function EmailHistory() {
           />
         </div>
 
-        <span className="text-[12px] text-slate-400 shrink-0">to</span>
+        <span className="text-[12px] text-slate-500 shrink-0">to</span>
 
         {/* Date To */}
         <div className="relative flex items-center">
-          <svg className="absolute left-3 w-3.5 h-3.5 text-slate-400 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <svg className="absolute left-3 w-3.5 h-3.5 text-slate-500 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
           </svg>
           <input
@@ -415,7 +415,7 @@ export default function EmailHistory() {
             <thead>
               <tr className="border-b border-slate-100 dark:border-white/10 bg-slate-50 dark:bg-white/[0.03]">
                 {["Recipient", "Campaign Name", "Source", "Status", "Sent At", ""].map((h) => (
-                  <th key={h} className="px-4 py-3 text-left text-[11px] font-bold text-slate-400 uppercase tracking-wide whitespace-nowrap">
+                  <th key={h} className="px-4 py-3 text-left text-[11px] font-bold text-slate-500 uppercase tracking-wide whitespace-nowrap">
                     {h}
                   </th>
                 ))}
@@ -429,7 +429,7 @@ export default function EmailHistory() {
                   <td colSpan={6} className="px-4 py-16 text-center">
                     <div className="text-[36px] mb-3"></div>
                     <p className="text-[14px] font-semibold text-slate-600 dark:text-slate-300">No email logs found</p>
-                    <p className="text-[12px] text-slate-400 mt-1">
+                    <p className="text-[12px] text-slate-500 mt-1">
                       {search || campaignFilter || dateFrom || dateTo ? "Try clearing your filters." : "Send emails to start tracking history."}
                     </p>
                   </td>
@@ -458,14 +458,14 @@ export default function EmailHistory() {
                           {log.campaignId}
                         </span>
                       ) : (
-                        <span className="text-[12px] text-slate-400">—</span>
+                        <span className="text-[12px] text-slate-500">—</span>
                       )}
                     </td>
                     <td className="px-4 py-3">
                       <StatusBadge status={log.status} />
                     </td>
                     <td className="px-4 py-3">
-                      <span className="text-[12px] text-slate-400 whitespace-nowrap">{fmtDate(log.sentAt)}</span>
+                      <span className="text-[12px] text-slate-500 whitespace-nowrap">{fmtDate(log.sentAt)}</span>
                     </td>
                     <td className="px-4 py-3" onClick={(e) => e.stopPropagation()}>
                       <button
@@ -491,7 +491,7 @@ export default function EmailHistory() {
         {/* Pagination */}
         {pagination.totalPages > 1 && (
           <div className="px-4 py-3 border-t border-slate-100 dark:border-white/10 flex items-center justify-between">
-            <span className="text-[12px] text-slate-400">
+            <span className="text-[12px] text-slate-500">
               Page {pagination.page} of {pagination.totalPages} · {pagination.total} total
             </span>
             <div className="flex items-center gap-1.5">

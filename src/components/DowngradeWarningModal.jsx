@@ -60,7 +60,7 @@ function SelectableRow({ member, selected, onToggle, isLast }) {
         <p className="text-[12px] font-semibold text-slate-900 dark:text-white truncate">
           {member.name}
         </p>
-        <p className="text-[11px] text-slate-400 truncate">
+        <p className="text-[11px] text-slate-500 truncate">
           {member.email}
         </p>
       </div>
@@ -84,7 +84,7 @@ function SectionHeader({ label, sublabel, selected, needed }) {
           {label}
         </span>
         {sublabel && (
-          <span className="ml-1.5 text-[11px] text-slate-400">
+          <span className="ml-1.5 text-[11px] text-slate-500">
             {sublabel}
           </span>
         )}
@@ -287,7 +287,7 @@ export default function DowngradeWarningModal({
                     selected for removal.
                   </p>
                 ) : (
-                  <p className="text-[12px] text-slate-400">
+                  <p className="text-[12px] text-slate-500">
                     Select{" "}
                     <span className="font-semibold text-rose-500">
                       {statusParts.join(" and ")}
@@ -316,7 +316,7 @@ export default function DowngradeWarningModal({
         <div className="px-6 pb-6 shrink-0 bg-white dark:bg-[#181029]">
           {/* Plan chips */}
           <div className="flex items-center gap-2 flex-wrap mb-4">
-            <span className="text-[11px] text-slate-400">Switching to:</span>
+            <span className="text-[11px] text-slate-500">Switching to:</span>
             <span
               className="px-2.5 py-1 rounded-lg text-[11px] font-semibold"
               style={{
@@ -326,8 +326,8 @@ export default function DowngradeWarningModal({
             >
               {targetPlan.name}
             </span>
-            <span className="text-[11px] text-slate-400">·</span>
-            <span className="text-[11px] text-slate-400">
+            <span className="text-[11px] text-slate-500">·</span>
+            <span className="text-[11px] text-slate-500">
               Max {targetAdminLimit} admin{targetAdminLimit !== 1 ? "s" : ""} /{" "}
               {targetUserLimit} users
             </span>

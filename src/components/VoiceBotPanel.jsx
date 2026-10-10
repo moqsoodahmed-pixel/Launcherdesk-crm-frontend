@@ -37,7 +37,7 @@ export default function VoiceBotPanel({ leads = [], campaignName = '' }) {
           <Mic className="w-3.5 h-3.5 text-violet-600 dark:text-violet-400" />
           <span className="text-[13px] font-bold text-slate-900 dark:text-white">Voice Bot</span>
           {results.length > 0 && (
-            <span className="text-[11px] text-slate-400 dark:text-slate-500">
+            <span className="text-[11px] text-slate-500 dark:text-slate-500">
               {results.length}/{leads.length} called · {hotCount}  · {warmCount} 
             </span>
           )}
@@ -49,7 +49,7 @@ export default function VoiceBotPanel({ leads = [], campaignName = '' }) {
           )}
         </div>
         <ChevronDown
-          className={`w-4 h-4 text-slate-400 transition-transform ${expanded ? 'rotate-180' : ''}`}
+          className={`w-4 h-4 text-slate-500 transition-transform ${expanded ? 'rotate-180' : ''}`}
         />
       </div>
 
@@ -61,7 +61,7 @@ export default function VoiceBotPanel({ leads = [], campaignName = '' }) {
               <Phone className="w-3.5 h-3.5 animate-pulse" />
               Calling {currentCall.lead?.name || 'lead'} — {currentCall.status}
               {currentCall.callId && (
-                <span className="text-[10px] text-slate-400 ml-1">#{currentCall.callId}</span>
+                <span className="text-[10px] text-slate-500 ml-1">#{currentCall.callId}</span>
               )}
             </div>
           )}
@@ -95,11 +95,11 @@ export default function VoiceBotPanel({ leads = [], campaignName = '' }) {
           {/* Queue progress */}
           {callQueue.length > 0 && (
             <div className="space-y-1.5">
-              <p className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Queue</p>
+              <p className="text-[11px] font-bold text-slate-500 dark:text-slate-500 uppercase tracking-wider">Queue</p>
               <div className="space-y-1 max-h-48 overflow-y-auto pr-1">
                 {callQueue.map((item, i) => {
                   const statusColors = {
-                    pending:    'text-slate-400',
+                    pending:    'text-slate-500',
                     calling:    'text-violet-600 animate-pulse',
                     done:       'text-emerald-600',
                     failed:     'text-rose-600',
@@ -107,10 +107,10 @@ export default function VoiceBotPanel({ leads = [], campaignName = '' }) {
                   const icons = { pending: '', calling: '', done: '', failed: '' };
                   return (
                     <div key={i} className="flex items-center justify-between px-3 py-1.5 rounded-lg bg-slate-50 dark:bg-white/[0.04] text-[11px]">
-                      <span className={`font-medium ${statusColors[item.queueStatus] || 'text-slate-400'}`}>
+                      <span className={`font-medium ${statusColors[item.queueStatus] || 'text-slate-500'}`}>
                         {icons[item.queueStatus] || ''} {item.name || 'Lead'}
                       </span>
-                      <span className="text-slate-400 dark:text-slate-500">{item.phone || item.mobile || ''}</span>
+                      <span className="text-slate-500 dark:text-slate-500">{item.phone || item.mobile || ''}</span>
                     </div>
                   );
                 })}
@@ -121,7 +121,7 @@ export default function VoiceBotPanel({ leads = [], campaignName = '' }) {
           {/* Results */}
           {results.length > 0 && (
             <div className="space-y-1.5">
-              <p className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Results</p>
+              <p className="text-[11px] font-bold text-slate-500 dark:text-slate-500 uppercase tracking-wider">Results</p>
               <div className="space-y-2 max-h-64 overflow-y-auto pr-1">
                 {results.map((r, i) => {
                   const ts = TEMP_STYLE[r.Quality] || TEMP_STYLE.Cold;
@@ -136,9 +136,9 @@ export default function VoiceBotPanel({ leads = [], campaignName = '' }) {
                         </span>
                       </div>
                       {r.summary && (
-                        <p className="text-[11px] text-slate-400 dark:text-slate-500 italic leading-relaxed">{r.summary}</p>
+                        <p className="text-[11px] text-slate-500 dark:text-slate-500 italic leading-relaxed">{r.summary}</p>
                       )}
-                      <div className="flex items-center gap-3 mt-1 text-[10px] text-slate-400">
+                      <div className="flex items-center gap-3 mt-1 text-[10px] text-slate-500">
                         <span>Score: {r.score ?? '—'}</span>
                         {r.duration > 0 && <span>Duration: {r.duration}s</span>}
                         {r.status && <span className="capitalize">{r.status}</span>}

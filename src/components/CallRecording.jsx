@@ -134,7 +134,7 @@ function TranscriptionPanel({ callLogId, recording, contactName }) {
             </span>
           )}
         </div>
-        <svg className={`w-3.5 h-3.5 text-slate-400 transition-transform ${expanded ? 'rotate-180' : ''}`}
+        <svg className={`w-3.5 h-3.5 text-slate-500 transition-transform ${expanded ? 'rotate-180' : ''}`}
           fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7"/>
         </svg>
@@ -144,13 +144,13 @@ function TranscriptionPanel({ callLogId, recording, contactName }) {
         <div className="px-3 py-3 space-y-3 bg-white dark:bg-[#181029]">
           {summary?.summary && (
             <div>
-              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Summary</p>
+              <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Summary</p>
               <p className="text-[12px] text-slate-600 dark:text-slate-300 leading-relaxed">{summary.summary}</p>
             </div>
           )}
           {Array.isArray(summary?.keyPoints) && summary.keyPoints.length > 0 && (
             <div>
-              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Key Points</p>
+              <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Key Points</p>
               <ul className="space-y-1">
                 {summary.keyPoints.map((pt, i) => (
                   <li key={i} className="flex items-start gap-1.5 text-[12px] text-slate-600 dark:text-slate-300">
@@ -174,7 +174,7 @@ function TranscriptionPanel({ callLogId, recording, contactName }) {
           )}
           {transcript && (
             <details className="group">
-              <summary className="cursor-pointer text-[10px] font-bold text-slate-400 uppercase tracking-widest select-none list-none flex items-center gap-1">
+              <summary className="cursor-pointer text-[10px] font-bold text-slate-500 uppercase tracking-widest select-none list-none flex items-center gap-1">
                 <svg className="w-3 h-3 group-open:rotate-90 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"/>
                 </svg>
@@ -192,7 +192,7 @@ function TranscriptionPanel({ callLogId, recording, contactName }) {
                       const isSpk1  = speaker === 'Speaker 1';
                       return (
                         <div key={i} className={`flex flex-col ${isSpk1 ? 'items-start' : 'items-end'}`}>
-                          <span className="inline-flex items-center gap-1 text-[9px] font-semibold text-slate-400 uppercase tracking-wide mb-0.5 px-1">
+                          <span className="inline-flex items-center gap-1 text-[9px] font-semibold text-slate-500 uppercase tracking-wide mb-0.5 px-1">
                             {isSpk1 ? <><User className="w-2.5 h-2.5" /> Agent</> : <><UserRound className="w-2.5 h-2.5" /> Customer</>}
                           </span>
                           <div className={`max-w-[85%] px-2.5 py-1.5 rounded-xl text-[11px] leading-relaxed ${
@@ -321,12 +321,12 @@ function LeadCombinedSummaryPanel({ leadId, leadName }) {
               {/* No summaries yet */}
               {!cs && (
                 <div className="flex items-start gap-2 px-3 py-2 rounded-lg bg-slate-50 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10">
-                  <svg className="w-3.5 h-3.5 text-slate-400 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <svg className="w-3.5 h-3.5 text-slate-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                   </svg>
                   <div>
-                    <p className="text-[11px] text-slate-400">{data.message}</p>
-                    <p className="text-[10px] text-slate-400 mt-0.5">{data.totalCalls} call{data.totalCalls !== 1 ? 's' : ''} logged, 0 transcribed.</p>
+                    <p className="text-[11px] text-slate-500">{data.message}</p>
+                    <p className="text-[10px] text-slate-500 mt-0.5">{data.totalCalls} call{data.totalCalls !== 1 ? 's' : ''} logged, 0 transcribed.</p>
                   </div>
                 </div>
               )}
@@ -347,7 +347,7 @@ function LeadCombinedSummaryPanel({ leadId, leadName }) {
                   {/* Overall summary */}
                   {cs.overallSummary && (
                     <div>
-                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Overall Summary</p>
+                      <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Overall Summary</p>
                       <p className="text-[12px] text-slate-600 dark:text-slate-300 leading-relaxed">{cs.overallSummary}</p>
                     </div>
                   )}
@@ -368,7 +368,7 @@ function LeadCombinedSummaryPanel({ leadId, leadName }) {
                   {/* Key insights */}
                   {Array.isArray(cs.keyInsights) && cs.keyInsights.length > 0 && (
                     <div>
-                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Key Insights</p>
+                      <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1.5">Key Insights</p>
                       <ul className="space-y-1">
                         {cs.keyInsights.map((pt, i) => (
                           <li key={i} className="flex items-start gap-1.5 text-[12px] text-slate-600 dark:text-slate-300">
@@ -455,7 +455,7 @@ export default function CallRecording() {
     missed:   { bg: 'bg-rose-50 dark:bg-rose-500/10',       text: 'text-rose-600 dark:text-rose-400' },
     rejected: { bg: 'bg-amber-50 dark:bg-amber-500/10',     text: 'text-amber-600 dark:text-amber-400' },
     blocked:  { bg: 'bg-slate-100 dark:bg-white/[0.06]',    text: 'text-slate-500 dark:text-slate-400' },
-  }[type] || { bg: 'bg-slate-100 dark:bg-white/[0.06]', text: 'text-slate-400' });
+  }[type] || { bg: 'bg-slate-100 dark:bg-white/[0.06]', text: 'text-slate-500' });
 
   const audioUrl = (recordingUrl) => {
     if (!recordingUrl) return null;
@@ -475,7 +475,7 @@ export default function CallRecording() {
               <path strokeLinecap="round" strokeLinejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/>
             </svg>
             <h2 className="text-[14px] font-bold text-slate-900 dark:text-white">Call Recordings</h2>
-            <span className="badge bg-slate-100 dark:bg-white/[0.06] text-slate-400">
+            <span className="badge bg-slate-100 dark:bg-white/[0.06] text-slate-500">
               {recordings.length} total
             </span>
           </div>
@@ -496,7 +496,7 @@ export default function CallRecording() {
 
         {/* ── Search bar ───────────────────────────────────────────────────── */}
         <div className="relative">
-          <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
           </svg>
           <input type="text" placeholder="Search by number, contact or agent..."
@@ -514,7 +514,7 @@ export default function CallRecording() {
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
             </svg>
-            <span className="text-[13px] text-slate-400">Loading recordings...</span>
+            <span className="text-[13px] text-slate-500">Loading recordings...</span>
           </div>
         )}
 
@@ -530,7 +530,7 @@ export default function CallRecording() {
             <svg className="w-8 h-8 text-slate-200 dark:text-white/10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/>
             </svg>
-            <p className="text-[13px] text-slate-400">
+            <p className="text-[13px] text-slate-500">
               {recordings.length > 0 ? 'No matches for your search.' : 'No recordings yet. They upload automatically after calls on the mobile app.'}
             </p>
           </div>
@@ -547,9 +547,9 @@ export default function CallRecording() {
                     <span className="w-6 h-6 rounded-lg bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center text-[10px] font-bold text-indigo-600 dark:text-indigo-400 shrink-0">{i + 1}</span>
                     <div>
                       <p className="text-[13px] font-semibold text-slate-900 dark:text-white leading-none">{rec.matchedLead?.name || rec.phoneNumber}</p>
-                      {rec.matchedLead?.name && <p className="text-[11px] text-slate-400 mt-0.5">{rec.phoneNumber}</p>}
-                      <p className="text-[11px] text-slate-400 mt-0.5">Employee: <span className="font-medium text-slate-600 dark:text-slate-300">{rec.user?.name || '—'}</span></p>
-                      <p className="text-[10px] text-slate-400 mt-0.5">{fmtDate(rec.timestamp)}</p>
+                      {rec.matchedLead?.name && <p className="text-[11px] text-slate-500 mt-0.5">{rec.phoneNumber}</p>}
+                      <p className="text-[11px] text-slate-500 mt-0.5">Employee: <span className="font-medium text-slate-600 dark:text-slate-300">{rec.user?.name || '—'}</span></p>
+                      <p className="text-[10px] text-slate-500 mt-0.5">{fmtDate(rec.timestamp)}</p>
                     </div>
                   </div>
                   <div className="flex flex-col items-end gap-1">
@@ -590,7 +590,7 @@ export default function CallRecording() {
                     ))
                   : rec.recordingUrl
                     ? <audio controls controlsList="nodownload noplaybackrate" onContextMenu={(e) => e.preventDefault()} src={audioUrl(rec.recordingUrl)} className="w-full h-8 rounded-xl accent-indigo-600" preload="none"/>
-                    : <p className="text-[11px] text-slate-400 italic">Recording not available</p>
+                    : <p className="text-[11px] text-slate-500 italic">Recording not available</p>
                 }
 
                 {/* ── Lead-level combined summary ───────────────────────── */}
@@ -612,7 +612,7 @@ export default function CallRecording() {
             <button onClick={() => fetchRecordings(page - 1)} disabled={page <= 1} className="btn-secondary btn-sm">
               ← Prev
             </button>
-            <span className="text-[12px] text-slate-400">Page {page} of {totalPages}</span>
+            <span className="text-[12px] text-slate-500">Page {page} of {totalPages}</span>
             <button onClick={() => fetchRecordings(page + 1)} disabled={page >= totalPages} className="btn-secondary btn-sm">
               Next →
             </button>

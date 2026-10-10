@@ -306,7 +306,7 @@ export default function VoiceflowChat() {
                 <h3 className="text-[14px] font-bold text-slate-900 dark:text-white mb-1">
                   Voiceflow Configuration
                 </h3>
-                <p className="text-[11px] text-slate-400 dark:text-slate-500 leading-relaxed">
+                <p className="text-[11px] text-slate-500 dark:text-slate-500 leading-relaxed">
                   Enter your Voiceflow credentials below. These are saved locally in your browser.
                 </p>
               </div>
@@ -323,7 +323,7 @@ export default function VoiceflowChat() {
                   placeholder="VF.DM.xxxxxxxx.xxxxxxxx"
                   className="input-field px-3 py-2.5 text-[13px] font-mono"
                 />
-                <p className="text-[10px] text-slate-400">
+                <p className="text-[10px] text-slate-500">
                   Voiceflow Dashboard → Settings → API Keys
                 </p>
               </div>
@@ -340,7 +340,7 @@ export default function VoiceflowChat() {
                   placeholder="64xxxxxxxxxxxxxxxxxxxxxx"
                   className="input-field px-3 py-2.5 text-[13px] font-mono"
                 />
-                <p className="text-[10px] text-slate-400">
+                <p className="text-[10px] text-slate-500">
                   Found in your Voiceflow project URL
                 </p>
               </div>
@@ -357,7 +357,7 @@ export default function VoiceflowChat() {
                   placeholder="production"
                   className="input-field px-3 py-2.5 text-[13px] font-mono"
                 />
-                <p className="text-[10px] text-slate-400">
+                <p className="text-[10px] text-slate-500">
                   Leave as "production" unless using a test version
                 </p>
               </div>
@@ -414,7 +414,7 @@ export default function VoiceflowChat() {
                     </div>
                     <div>
                       <p className="text-[13px] font-bold text-slate-900 dark:text-white">Setup Required</p>
-                      <p className="text-[11px] text-slate-400 mt-1">Click the gear icon above to add your Voiceflow API Key.</p>
+                      <p className="text-[11px] text-slate-500 mt-1">Click the gear icon above to add your Voiceflow API Key.</p>
                     </div>
                     <button
                       onClick={() => { setFormKey(''); setFormProject(''); setFormVersion('production'); setSettingsOpen(true); }}
@@ -432,7 +432,7 @@ export default function VoiceflowChat() {
                         <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
                       </svg>
                     </div>
-                    <p className="text-[12px] text-slate-400">Connecting to your assistant…</p>
+                    <p className="text-[12px] text-slate-500">Connecting to your assistant…</p>
                   </div>
                 )}
 

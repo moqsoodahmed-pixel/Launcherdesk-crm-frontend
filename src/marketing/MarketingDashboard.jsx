@@ -42,7 +42,7 @@ function KpiCard({ icon:Icon, label, value, tint, trend, spark, sub }) {
         <span className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0" style={{background:`${tint}22`}}>
           <Icon className="w-4 h-4" style={{color:tint}}/>
         </span>
-        {trend!=null&&<span className={`inline-flex items-center gap-0.5 text-[10px] font-bold px-1.5 py-0.5 rounded-full ${up?"bg-emerald-50 text-emerald-600 dark:bg-emerald-950/30":dn?"bg-rose-50 text-rose-600 dark:bg-rose-950/30":"bg-slate-100 text-slate-400 dark:bg-white/5"}`}>
+        {trend!=null&&<span className={`inline-flex items-center gap-0.5 text-[10px] font-bold px-1.5 py-0.5 rounded-full ${up?"bg-emerald-50 text-emerald-600 dark:bg-emerald-950/30":dn?"bg-rose-50 text-rose-600 dark:bg-rose-950/30":"bg-slate-100 text-slate-500 dark:bg-white/5"}`}>
           {up?<TrendingUp className="w-2.5 h-2.5"/>:dn?<TrendingDown className="w-2.5 h-2.5"/>:<Minus className="w-2.5 h-2.5"/>}{Math.abs(trend)}%
         </span>}
       </div>

@@ -131,19 +131,19 @@ function CommandPalette({ open, onClose, items, roleLabel }) {
       <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm animate-fade-in" onClick={onClose} />
       <div className="relative w-full max-w-lg surface-card !rounded-2xl shadow-popover overflow-hidden animate-scale-in">
         <div className="flex items-center gap-3 px-4 py-3.5 border-b border-slate-100 dark:border-white/[0.06]">
-          <Search className="w-4 h-4 text-slate-400 shrink-0" />
+          <Search className="w-4 h-4 text-slate-500 shrink-0" />
           <input
             ref={inputRef}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder={`Jump to a page… (${roleLabel})`}
-            className="flex-1 bg-transparent text-[14px] text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none"
+            className="flex-1 bg-transparent text-[14px] text-slate-900 dark:text-white placeholder:text-slate-500 focus:outline-none"
           />
-          <kbd className="hidden sm:inline text-[10px] font-semibold text-slate-400 border border-slate-200 dark:border-white/10 rounded-md px-1.5 py-0.5">ESC</kbd>
+          <kbd className="hidden sm:inline text-[10px] font-semibold text-slate-500 border border-slate-200 dark:border-white/10 rounded-md px-1.5 py-0.5">ESC</kbd>
         </div>
         <div className="max-h-72 overflow-y-auto scrollbar-thin p-2">
           {results.length === 0 ? (
-            <p className="text-center text-[13px] text-slate-400 py-8">No pages match "{query}"</p>
+            <p className="text-center text-[13px] text-slate-500 py-8">No pages match "{query}"</p>
           ) : (
             results.map((it, i) => {
               const Icon = it.icon;
@@ -166,7 +166,7 @@ function CommandPalette({ open, onClose, items, roleLabel }) {
             })
           )}
         </div>
-        <div className="hidden sm:flex items-center gap-4 px-4 py-2.5 border-t border-slate-100 dark:border-white/[0.06] text-[11px] text-slate-400">
+        <div className="hidden sm:flex items-center gap-4 px-4 py-2.5 border-t border-slate-100 dark:border-white/[0.06] text-[11px] text-slate-500">
           <span className="flex items-center gap-1"><ArrowUp className="w-3 h-3" /><ArrowDown className="w-3 h-3" /> navigate</span>
           <span className="flex items-center gap-1"><CornerDownLeft className="w-3 h-3" /> open</span>
         </div>
@@ -383,7 +383,7 @@ export function Sidebar() {
               <LogOut className="w-5 h-5 text-rose-500" />
             </div>
             <h2 className="text-[16px] font-bold text-center text-slate-900 dark:text-white mb-1">Sign out?</h2>
-            <p className="text-[13px] text-center text-slate-400 mb-6">
+            <p className="text-[13px] text-center text-slate-500 mb-6">
               You'll need to log in again to access your account.
             </p>
             <div className="flex gap-3">
@@ -420,7 +420,8 @@ export function Sidebar() {
       </button>
 
       {/* ── Sidebar ───────────────────────────────────────────────────────── */}
-      <div
+      <aside
+        aria-label="Main navigation"
         className={`sidebar ld-sidebar h-screen flex flex-col border-r border-white/[0.08]
           fixed md:sticky inset-y-0 left-0 z-40 top-0
           transition-transform duration-300 ease-in-out
@@ -489,12 +490,12 @@ export function Sidebar() {
               onClick={() => setPaletteOpen(true)}
               className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-[12.5px]
                 bg-slate-50 dark:bg-white/[0.03] border border-slate-200/70 dark:border-white/[0.06]
-                text-slate-400 hover:text-slate-500 dark:hover:text-slate-300 hover:border-slate-300 dark:hover:border-white/10
+                text-slate-600 hover:text-slate-600 dark:hover:text-slate-300 hover:border-slate-300 dark:hover:border-white/10
                 transition-colors"
             >
               <Search className="w-3.5 h-3.5 shrink-0" />
               <span className="flex-1 text-left">Search or jump to…</span>
-              <kbd className="hidden lg:flex items-center gap-0.5 text-[10px] font-semibold text-slate-400 border border-slate-200 dark:border-white/10 rounded px-1 py-0.5">
+              <kbd className="hidden lg:flex items-center gap-0.5 text-[10px] font-semibold text-slate-500 border border-slate-200 dark:border-white/10 rounded px-1 py-0.5">
                 <Command className="w-2.5 h-2.5" />K
               </kbd>
             </button>
@@ -506,7 +507,7 @@ export function Sidebar() {
           {navSections.map((section) => (
             <div key={section.title}>
               {!effMinimized && (
-                <p className="px-3 mb-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                <p className="px-3 mb-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-500">
                   {section.title}
                 </p>
               )}
@@ -614,7 +615,7 @@ export function Sidebar() {
             )}
           </button>
         </div>
-      </div>
+      </aside>
     </>
   );
 }

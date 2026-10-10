@@ -239,7 +239,7 @@ function TranscriptionPanel({ callLogId, recording, contactName }) {
             </span>
           )}
         </div>
-        <svg className={`w-3.5 h-3.5 text-[#7D7296] transition-transform ${expanded ? "rotate-180" : ""}`}
+        <svg className={`w-3.5 h-3.5 text-[#716787] transition-transform ${expanded ? "rotate-180" : ""}`}
           fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7"/>
         </svg>
@@ -248,13 +248,13 @@ function TranscriptionPanel({ callLogId, recording, contactName }) {
         <div className="px-3 py-3 space-y-3 bg-white dark:bg-[#120B22]">
           {summary?.summary && (
             <div>
-              <p className="text-[16px] font-bold text-[#7D7296] uppercase tracking-widest mb-1">Summary</p>
+              <p className="text-[16px] font-bold text-[#716787] uppercase tracking-widest mb-1">Summary</p>
               <p className="text-[16px] text-[#4A3F66] dark:text-white leading-relaxed">{summary.summary}</p>
             </div>
           )}
           {Array.isArray(summary?.keyPoints) && summary.keyPoints.length > 0 && (
             <div>
-              <p className="text-[16px] font-bold text-[#7D7296] uppercase tracking-widest mb-1">Key Points</p>
+              <p className="text-[16px] font-bold text-[#716787] uppercase tracking-widest mb-1">Key Points</p>
               <ul className="space-y-1">
                 {summary.keyPoints.map((pt, i) => (
                   <li key={i} className="flex items-start gap-1.5 text-[14px] text-[#4A3F66] dark:text-white">
@@ -278,7 +278,7 @@ function TranscriptionPanel({ callLogId, recording, contactName }) {
           )}
           {transcript && (
             <details className="group">
-              <summary className="cursor-pointer text-[12px] font-bold text-[#7D7296] uppercase tracking-widest select-none list-none flex items-center gap-1">
+              <summary className="cursor-pointer text-[12px] font-bold text-[#716787] uppercase tracking-widest select-none list-none flex items-center gap-1">
                 <svg className="w-3 h-3 group-open:rotate-90 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"/>
                 </svg>
@@ -395,12 +395,12 @@ function LeadCombinedSummaryPanel({ leadId }) {
           )}
           {data && !cs && !loading && !error && (
             <div className="flex items-start gap-2 px-3 py-3 rounded-lg bg-[#FAF7FF] dark:bg-[#120B22] border border-[#E7DCFA] dark:border-[#2B1E48]">
-              <svg className="w-3.5 h-3.5 text-[#7D7296] shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <svg className="w-3.5 h-3.5 text-[#716787] shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/>
               </svg>
               <div>
                 <p className="text-[14px] text-[#4A3F66] dark:text-[#9A8DB6]">{data.message}</p>
-                <p className="text-[12px] text-[#7D7296] mt-1">
+                <p className="text-[12px] text-[#716787] mt-1">
                   {data.totalCalls} call{data.totalCalls !== 1 ? "s" : ""} logged · 0 transcribed
                 </p>
               </div>
@@ -418,7 +418,7 @@ function LeadCombinedSummaryPanel({ leadId }) {
               </div>
               {cs.overallSummary && (
                 <div>
-                  <p className="text-[12px] font-bold text-[#7D7296] uppercase tracking-widest mb-1.5">Overall Summary</p>
+                  <p className="text-[12px] font-bold text-[#716787] uppercase tracking-widest mb-1.5">Overall Summary</p>
                   <p className="text-[15px] text-[#4A3F66] dark:text-[#9A8DB6] leading-relaxed">{cs.overallSummary}</p>
                 </div>
               )}
@@ -435,7 +435,7 @@ function LeadCombinedSummaryPanel({ leadId }) {
               )}
               {Array.isArray(cs.keyInsights) && cs.keyInsights.length > 0 && (
                 <div>
-                  <p className="text-[12px] font-bold text-[#7D7296] uppercase tracking-widest mb-1.5">Key Insights</p>
+                  <p className="text-[12px] font-bold text-[#716787] uppercase tracking-widest mb-1.5">Key Insights</p>
                   <ul className="space-y-1.5">
                     {cs.keyInsights.map((pt, i) => (
                       <li key={i} className="flex items-start gap-2 text-[14px] text-[#4A3F66] dark:text-[#9A8DB6]">
@@ -526,7 +526,7 @@ const primaryDigits   = (lead.primaryPhone || lead.phone || "").replace(/\D/g, "
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center py-16 gap-3 text-[#7D7296]">
+      <div className="flex flex-col items-center justify-center py-16 gap-3 text-[#716787]">
         <svg className="w-5 h-5 animate-spin text-[#7E14FF]" fill="none" viewBox="0 0 24 24">
           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
@@ -553,7 +553,7 @@ const primaryDigits   = (lead.primaryPhone || lead.phone || "").replace(/\D/g, "
             d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/>
         </svg>
         <p className="text-[15px] font-semibold text-[#4A3F66] dark:text-white">No recordings found</p>
-        <p className="text-[13px] text-[#7D7296]">
+        <p className="text-[13px] text-[#716787]">
           Recordings upload automatically from the mobile app after calls.
         </p>
         <button onClick={fetchCallLogs}
@@ -570,7 +570,7 @@ const primaryDigits   = (lead.primaryPhone || lead.phone || "").replace(/\D/g, "
   return (
     <div className="px-6 py-4 space-y-5">
       <div className="flex items-center justify-between">
-        <p className="text-[13px] font-bold text-[#7D7296] dark:text-gray-400 uppercase tracking-widest">
+        <p className="text-[13px] font-bold text-[#716787] dark:text-gray-400 uppercase tracking-widest">
           {callLogs.length} Call Log{callLogs.length > 1 ? "s" : ""} with Recordings
         </p>
         <button onClick={fetchCallLogs}
@@ -598,7 +598,7 @@ const primaryDigits   = (lead.primaryPhone || lead.phone || "").replace(/\D/g, "
                   })}
                 </p>
                 {log.user?.name && (
-                  <p className="text-[12px] text-[#7D7296] mt-0.5">Employee: {log.user.name}</p>
+                  <p className="text-[12px] text-[#716787] mt-0.5">Employee: {log.user.name}</p>
                 )}
               </div>
             </div>
@@ -643,7 +643,7 @@ const primaryDigits   = (lead.primaryPhone || lead.phone || "").replace(/\D/g, "
                     ) : r.transcribeStatus === "processing" ? (
                       <span className="text-[12px] font-semibold text-amber-600 bg-amber-50 dark:bg-amber-950/30 px-2 py-0.5 rounded-full">Processing…</span>
                     ) : (
-                      <span className="text-[12px] font-semibold text-[#7D7296] bg-[#F3EBFF] dark:bg-[#1D1333] px-2 py-0.5 rounded-full">Not transcribed</span>
+                      <span className="text-[12px] font-semibold text-[#716787] bg-[#F3EBFF] dark:bg-[#1D1333] px-2 py-0.5 rounded-full">Not transcribed</span>
                     )}
                   </div>
 
@@ -655,7 +655,7 @@ const primaryDigits   = (lead.primaryPhone || lead.phone || "").replace(/\D/g, "
                         onError={e => { e.target.style.display = "none"; }}
                       />
                     ) : (
-                      <p className="text-[13px] text-[#7D7296] italic py-1">Audio file not available</p>
+                      <p className="text-[13px] text-[#716787] italic py-1">Audio file not available</p>
                     )}
                   </div>
 
@@ -674,7 +674,7 @@ const primaryDigits   = (lead.primaryPhone || lead.phone || "").replace(/\D/g, "
                   className="w-full h-8 rounded-xl accent-[#7E14FF]" preload="none"/>
               </div>
             ) : (
-              <p className="text-[13px] text-[#7D7296] italic">Recording file not available</p>
+              <p className="text-[13px] text-[#716787] italic">Recording file not available</p>
             )}
           </div>
         </div>
@@ -776,12 +776,12 @@ function UpdateDrawer({ lead, onClose, onSaved }) {
                 {/* MOBILE CHANGE: truncate long names with ellipsis */}
                 <p className="text-[17px] font-bold text-[#170B29] dark:text-white leading-none truncate max-w-[200px] sm:max-w-none" title={lead.name}>{lead.name}</p>
 <div className="flex flex-col gap-0.5 mt-0.5">
-                  <p className="text-[14px] text-[#7D7296] dark:text-gray-400 font-mono">
+                  <p className="text-[14px] text-[#716787] dark:text-gray-400 font-mono">
                     <span className="text-[11px] font-bold bg-emerald-500/15 text-emerald-500 px-1 rounded mr-1">PRIMARY</span>
                     {maskPhone(lead.primaryPhone || lead.phone)}
                   </p>
                   {lead.secondaryPhone && (
-                    <p className="text-[14px] text-[#7D7296] dark:text-gray-400 font-mono">
+                    <p className="text-[14px] text-[#716787] dark:text-gray-400 font-mono">
                       <span className="text-[11px] font-bold bg-[#7E14FF]/15 text-violet-500 px-1 rounded mr-1">SECONDARY</span>
                       {maskPhone(lead.secondaryPhone)}
                     </p>
@@ -792,7 +792,7 @@ function UpdateDrawer({ lead, onClose, onSaved }) {
             <div className="flex items-center gap-2 mt-2 flex-wrap">
               <StatusBadge lead={lead} />
               {lead.temperature && <TempBadge temp={lead.temperature} />}
-              <span className="text-[12px] text-[#7D7296]">{lead.source}</span>
+              <span className="text-[12px] text-[#716787]">{lead.source}</span>
             </div>
             {lead.leadScore != null && (
               <div className="mt-2">
@@ -801,7 +801,7 @@ function UpdateDrawer({ lead, onClose, onSaved }) {
             )}
           </div>
           <button onClick={onClose}
-            className="w-7 h-7 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-center text-[#7D7296] hover:text-[#170B29] dark:hover:text-white transition shrink-0">
+            className="w-7 h-7 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-center text-[#716787] hover:text-[#170B29] dark:hover:text-white transition shrink-0">
             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -819,7 +819,7 @@ function UpdateDrawer({ lead, onClose, onSaved }) {
             ...(showNurtureFields && lead.service  ? [{ label: "Service",  value: lead.service  }] : []),
           ].map(({ label, value }) => (
             <div key={label}>
-              <p className="text-[11px] font-bold text-[#7D7296] uppercase tracking-widest">{label}</p>
+              <p className="text-[11px] font-bold text-[#716787] uppercase tracking-widest">{label}</p>
               <p className="text-[14px] font-semibold text-[#170B29] dark:text-white truncate">{value}</p>
             </div>
           ))}
@@ -839,7 +839,7 @@ function UpdateDrawer({ lead, onClose, onSaved }) {
               className={`flex items-center gap-1.5 px-3 py-3 text-[14px] font-semibold border-b-2 transition -mb-px ${
                 activeTab === tab.id
                   ? "border-[#7E14FF] text-[#7E14FF]"
-                  : "border-transparent text-[#7D7296] hover:text-[#4A3F66] dark:hover:text-white"
+                  : "border-transparent text-[#716787] hover:text-[#4A3F66] dark:hover:text-white"
               }`}>
               {tab.icon}
               {tab.label}
@@ -853,13 +853,13 @@ function UpdateDrawer({ lead, onClose, onSaved }) {
             <div className="flex-1 overflow-y-auto">
               {lead.remark && (
                 <div className="px-6 py-3 border-b border-[#E7DCFA] dark:border-[#2B1E48]">
-                  <p className="text-[12px] font-bold text-[#7D7296] uppercase tracking-widest mb-1">Last Remark</p>
+                  <p className="text-[12px] font-bold text-[#716787] uppercase tracking-widest mb-1">Last Remark</p>
                   <p className="text-[14px] text-[#4A3F66] dark:text-white italic">"{lead.remark}"</p>
                 </div>
               )}
               {lead.callHistory.length > 0 && (
                 <div className="px-6 py-4 border-b border-[#E7DCFA] dark:border-[#2B1E48]">
-                  <p className="text-[12px] font-bold text-[#7D7296] uppercase tracking-widest mb-2">
+                  <p className="text-[12px] font-bold text-[#716787] uppercase tracking-widest mb-2">
                     Call History ({lead.callHistory.length})
                   </p>
                   <div className="space-y-2 max-h-36 overflow-y-auto pr-1">
@@ -871,7 +871,7 @@ function UpdateDrawer({ lead, onClose, onSaved }) {
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center justify-between gap-2">
                             <span className="font-semibold text-[#170B29] dark:text-white truncate">{h.outcome || "Call Back"}</span>
-                            <span className="text-[#7D7296] shrink-0 text-[12px]">{h.calledAt ? fmtDate(h.calledAt) : "—"}</span>
+                            <span className="text-[#716787] shrink-0 text-[12px]">{h.calledAt ? fmtDate(h.calledAt) : "—"}</span>
                           </div>
                           <p className="text-[#4A3F66] dark:text-white italic truncate">{h.remark || "—"}</p>
                         </div>
@@ -882,7 +882,7 @@ function UpdateDrawer({ lead, onClose, onSaved }) {
               )}
               {lead.templateHistory.length > 0 && (
                 <div className="px-6 py-4 border-b border-[#E7DCFA] dark:border-[#2B1E48]">
-                  <p className="text-[12px] font-bold text-[#7D7296] uppercase tracking-widest mb-2">
+                  <p className="text-[12px] font-bold text-[#716787] uppercase tracking-widest mb-2">
                     WhatsApp Templates Sent ({lead.templateHistory.length})
                   </p>
                   <div className="space-y-2 max-h-36 overflow-y-auto pr-1">
@@ -894,7 +894,7 @@ function UpdateDrawer({ lead, onClose, onSaved }) {
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center justify-between gap-2">
                             <span className="font-semibold text-[#170B29] dark:text-white truncate">{t.templateName}</span>
-                            <span className="text-[#7D7296] shrink-0 text-[12px]">
+                            <span className="text-[#716787] shrink-0 text-[12px]">
                               {t.sentAt
                                 ? new Date(t.sentAt).toLocaleString("en-IN", {
                                     day: "2-digit", month: "short", year: "numeric",
@@ -914,7 +914,7 @@ function UpdateDrawer({ lead, onClose, onSaved }) {
                 </div>
               )}
               <div className="px-6 py-5 space-y-4">
-                <p className="text-[16px] font-bold text-[#7D7296] dark:text-gray-400 uppercase tracking-widest">Update Lead</p>
+                <p className="text-[16px] font-bold text-[#716787] dark:text-gray-400 uppercase tracking-widest">Update Lead</p>
                 <div>
                   <label className="block text-[16px] font-semibold text-[#4A3F66] dark:text-white mb-1.5">Status</label>
                   <div className="grid grid-cols-2 gap-2">
@@ -939,7 +939,7 @@ function UpdateDrawer({ lead, onClose, onSaved }) {
                   <div>
                     <label className="block text-[16px] font-semibold text-[#4A3F66] dark:text-white mb-1.5">
                       Call Outcome
-                      <span className="ml-1.5 text-[13px] font-normal text-[#7D7296]">(required to log a call)</span>
+                      <span className="ml-1.5 text-[13px] font-normal text-[#716787]">(required to log a call)</span>
                     </label>
                     {alreadyInterested && (
                       <p className="text-[13px] text-emerald-600 dark:text-emerald-400 mb-1.5 flex items-center gap-1">
@@ -985,7 +985,7 @@ function UpdateDrawer({ lead, onClose, onSaved }) {
                   <div>
                     <label className="block text-[14px] font-semibold text-[#4A3F66] dark:text-white mb-1.5">
                       Follow-up Date &amp; Time
-                      <span className="ml-1 font-normal text-[13px] text-[#7D7296]">(optional)</span>
+                      <span className="ml-1 font-normal text-[13px] text-[#716787]">(optional)</span>
                     </label>
                     <input
                       type="datetime-local"
@@ -999,14 +999,14 @@ function UpdateDrawer({ lead, onClose, onSaved }) {
                 <div>
                   <label className="block text-[14px] font-semibold text-[#4A3F66] dark:text-white mb-1.5">
                     Remark <span className="text-red-500">*</span>
-                    {isNI && <span className="ml-1 font-normal text-[16px] text-[#7D7296]">(reason required)</span>}
+                    {isNI && <span className="ml-1 font-normal text-[16px] text-[#716787]">(reason required)</span>}
                   </label>
                   <textarea
                     value={remark}
                     onChange={e => { setRemark(e.target.value); setError(""); }}
                     rows={4}
                     placeholder="Add your call notes…"
-                    className="w-full px-3 py-2.5 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-[#FAF7FF] dark:bg-[#120B22] text-[15px] text-[#170B29] dark:text-white placeholder:text-[#7D7296] focus:outline-none focus:border-[#7E14FF] transition resize-none"
+                    className="w-full px-3 py-2.5 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-[#FAF7FF] dark:bg-[#120B22] text-[15px] text-[#170B29] dark:text-white placeholder:text-[#716787] focus:outline-none focus:border-[#7E14FF] transition resize-none"
                   />
                 </div>
                 {error && (
@@ -1254,9 +1254,9 @@ export default function UserLeadsPage() {
         {[
           { label: "Total",          value: kpi.total,      color: "#3F0A7A", bg: "bg-violet-50 dark:bg-violet-950/30",       text: "text-violet-800 dark:text-violet-200",       filter: "All"           },
           { label: "New",            value: kpi.newLeads,   color: "#7E14FF", bg: "bg-violet-50 dark:bg-violet-950/30",       text: "text-violet-600 dark:text-violet-300",       filter: "New"           },
-          { label: "In Progress",    value: kpi.inProgress, color: "#D97706", bg: "bg-amber-50 dark:bg-amber-950/30",     text: "text-amber-600 dark:text-amber-400",     filter: "In Progress"   },
-          { label: "Converted",      value: kpi.converted,  color: "#059669", bg: "bg-emerald-50 dark:bg-emerald-950/30", text: "text-emerald-600 dark:text-emerald-400", filter: "Converted"     },
-          { label: "Not Interested", value: kpi.notInt,     color: "#DC2626", bg: "bg-red-50 dark:bg-red-950/30",         text: "text-red-600 dark:text-red-400",         filter: "Not Interested"},
+          { label: "In Progress",    value: kpi.inProgress, color: "#D97706", bg: "bg-amber-50 dark:bg-amber-950/30",     text: "text-amber-700 dark:text-amber-400",     filter: "In Progress"   },
+          { label: "Converted",      value: kpi.converted,  color: "#059669", bg: "bg-emerald-50 dark:bg-emerald-950/30", text: "text-emerald-700 dark:text-emerald-400", filter: "Converted"     },
+          { label: "Not Interested", value: kpi.notInt,     color: "#DC2626", bg: "bg-red-50 dark:bg-red-950/30",         text: "text-red-700 dark:text-red-400",         filter: "Not Interested"},
         ].map(s => (
           <KpiPill key={s.label} {...s}
             active={filterSt === s.filter}
@@ -1276,7 +1276,7 @@ export default function UserLeadsPage() {
       <div className="bg-white dark:bg-[#181029] border border-[#E7DCFA] dark:border-[#2B1E48] rounded-2xl ld-card p-4 mb-4">
         <div className="flex flex-wrap gap-3 items-center">
           <div className="relative flex-1 min-w-[180px]">
-            <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#7D7296]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#716787]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
             </svg>
             <input value={search} onChange={e => { setSearch(e.target.value); setPage(1); }}
@@ -1339,7 +1339,7 @@ export default function UserLeadsPage() {
           <div className="sm:hidden mt-3 pt-3 border-t border-[#E7DCFA] dark:border-[#2B1E48] flex flex-col gap-3">
             {/* Source */}
             <div>
-              <p className="text-[11px] font-bold text-[#7D7296] uppercase tracking-widest mb-1.5">Source</p>
+              <p className="text-[11px] font-bold text-[#716787] uppercase tracking-widest mb-1.5">Source</p>
               <select value={filterSrc} onChange={e => { setFilterSrc(e.target.value); setPage(1); }} className={INP + " w-full"}>
                 <option value="All">All sources</option>
                 {sources.map(s => <option key={s}>{s}</option>)}
@@ -1348,7 +1348,7 @@ export default function UserLeadsPage() {
 
             {/* Project */}
             <div>
-              <p className="text-[11px] font-bold text-[#7D7296] uppercase tracking-widest mb-1.5">Project</p>
+              <p className="text-[11px] font-bold text-[#716787] uppercase tracking-widest mb-1.5">Project</p>
               <select value={filterProject} onChange={e => { setFilterProject(e.target.value); setPage(1); }} className={INP + " w-full"}>
                 <option value="All">All Projects</option>
                 {projects.map(p => (
@@ -1359,14 +1359,14 @@ export default function UserLeadsPage() {
 
             {/* Date range — two inputs side by side on mobile */}
             <div>
-              <p className="text-[11px] font-bold text-[#7D7296] uppercase tracking-widest mb-1.5">Date Range</p>
+              <p className="text-[11px] font-bold text-[#716787] uppercase tracking-widest mb-1.5">Date Range</p>
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <p className="text-[11px] text-[#7D7296] mb-1">From</p>
+                  <p className="text-[11px] text-[#716787] mb-1">From</p>
                   <input type="date" value={dateFrom} onChange={e => { setDateFrom(e.target.value); setPage(1); }} className={INP + " w-full"} />
                 </div>
                 <div>
-                  <p className="text-[11px] text-[#7D7296] mb-1">To</p>
+                  <p className="text-[11px] text-[#716787] mb-1">To</p>
                   <input type="date" value={dateTo} onChange={e => { setDateTo(e.target.value); setPage(1); }} className={INP + " w-full"} />
                 </div>
               </div>
@@ -1374,7 +1374,7 @@ export default function UserLeadsPage() {
 
             {/* Sort — mobile */}
             <div>
-              <p className="text-[11px] font-bold text-[#7D7296] uppercase tracking-widest mb-1.5">Sort</p>
+              <p className="text-[11px] font-bold text-[#716787] uppercase tracking-widest mb-1.5">Sort</p>
               <select value={sortBy} onChange={e => setSortBy(e.target.value)} className={INP + " w-full"}>
                 <option value="date_desc">Newest first</option>
                 <option value="date_asc">Oldest first</option>
@@ -1391,7 +1391,7 @@ export default function UserLeadsPage() {
             </button>
           </div>
         )}
-        <p className="text-[16px] text-[#7D7296] dark:text-gray-400 mt-2">
+        <p className="text-[16px] text-[#716787] dark:text-gray-400 mt-2">
           {displayed.length} leads {displayed.length !== leads.length ? `(filtered from ${leads.length})` : ""}
         </p>
       </div>
@@ -1408,7 +1408,7 @@ export default function UserLeadsPage() {
 
       <div className="bg-white dark:bg-[#181029] border border-[#E7DCFA] dark:border-[#2B1E48] rounded-2xl ld-card overflow-hidden">
         {loading ? (
-          <div className="flex flex-col items-center justify-center py-16 gap-3 text-[#7D7296]">
+          <div className="flex flex-col items-center justify-center py-16 gap-3 text-[#716787]">
             <svg className="w-6 h-6 animate-spin" fill="none" viewBox="0 0 24 24">
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/>
@@ -1444,7 +1444,7 @@ export default function UserLeadsPage() {
                       "Calls",
                       "",
                     ].map((h, i) => (
-                      <th key={i} className="px-4 py-3 text-left text-[13px] font-semibold text-[#7D7296] dark:text-gray-400 tracking-normal whitespace-nowrap">{h}</th>
+                      <th key={i} className="px-4 py-3 text-left text-[13px] font-semibold text-[#716787] dark:text-gray-400 tracking-normal whitespace-nowrap">{h}</th>
                     ))}
                   </tr>
                 </thead>
@@ -1464,7 +1464,7 @@ export default function UserLeadsPage() {
                             </div>
                             <div>
                               <p className="font-semibold text-[#170B29] dark:text-white whitespace-nowrap">{l.name}</p>
-                              <p className="text-[16px] text-[#7D7296]">{daysSince(l._raw_date) || "—"}</p>
+                              <p className="text-[16px] text-[#716787]">{daysSince(l._raw_date) || "—"}</p>
                             </div>
                           </div>
                         </td>
@@ -1476,14 +1476,14 @@ export default function UserLeadsPage() {
                               {maskPhone(l.primaryPhone || l.phone)}
                             </span>
                             {l.secondaryPhone && (
-                              <span className="font-mono text-[#7D7296] tracking-wider bg-[#F3EBFF] dark:bg-[#271449] px-2 py-0.5 rounded-lg text-[13px] inline-flex items-center gap-1">
+                              <span className="font-mono text-[#716787] tracking-wider bg-[#F3EBFF] dark:bg-[#271449] px-2 py-0.5 rounded-lg text-[13px] inline-flex items-center gap-1">
                                 <span className="text-[10px] font-bold text-violet-500">S</span>
                                 {maskPhone(l.secondaryPhone)}
                               </span>
                             )}
                           </div>
                           {l.email && (
-                            <p className="text-[16px] text-[#7D7296] mt-0.5 truncate max-w-[120px]">
+                            <p className="text-[16px] text-[#716787] mt-0.5 truncate max-w-[120px]">
                               {l.email.replace(/(.{2})(.*)(@.*)/, "$1••••$3")}
                             </p>
                           )}
@@ -1493,7 +1493,7 @@ export default function UserLeadsPage() {
                           <td className="px-4 py-3">
                             <p className="text-[#170B29] dark:text-white truncate max-w-[130px]">{l.source}</p>
                             {l.campaign !== "—" && (
-                              <p className="text-[16px] text-[#7D7296] truncate max-w-[130px]">{l.campaign}</p>
+                              <p className="text-[16px] text-[#716787] truncate max-w-[130px]">{l.campaign}</p>
                             )}
                             {l.adSetName && (
                               <p className="text-[13px] text-[#E1306C] truncate max-w-[130px]"> {l.adSetName}</p>
@@ -1544,7 +1544,7 @@ export default function UserLeadsPage() {
                                {l.callHistory.length}
                             </span>
                           ) : (
-                            <span className="text-[16px] text-[#7D7296]">—</span>
+                            <span className="text-[16px] text-[#716787]">—</span>
                           )}
                         </td>
 
@@ -1570,25 +1570,25 @@ export default function UserLeadsPage() {
 
             {totalPages > 1 && (
               <div className="px-5 py-3 border-t border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-between bg-[#FAF7FF] dark:bg-[#120B22]">
-                <span className="text-[16px] text-[#7D7296]">
+                <span className="text-[16px] text-[#716787]">
                   Showing {(page - 1) * PER_PAGE + 1}–{Math.min(page * PER_PAGE, displayed.length)} of {displayed.length}
                 </span>
                 <div className="flex items-center gap-1">
                   <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}
-                    className="w-7 h-7 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-center text-[#7D7296] hover:bg-white dark:hover:bg-[#181029] disabled:opacity-40 transition">
+                    className="w-7 h-7 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-center text-[#716787] hover:bg-white dark:hover:bg-[#181029] disabled:opacity-40 transition">
                     <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7"/></svg>
                   </button>
                   {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
                     const n = Math.max(1, Math.min(totalPages - 4, page - 2)) + i;
                     return (
                       <button key={n} onClick={() => setPage(n)}
-                        className={`w-7 h-7 rounded-lg text-[16px] font-semibold transition ${page === n ? "bg-[#7E14FF] text-white" : "border border-[#E7DCFA] dark:border-[#2B1E48] text-[#7D7296] hover:bg-white dark:hover:bg-[#181029]"}`}>
+                        className={`w-7 h-7 rounded-lg text-[16px] font-semibold transition ${page === n ? "bg-[#7E14FF] text-white" : "border border-[#E7DCFA] dark:border-[#2B1E48] text-[#716787] hover:bg-white dark:hover:bg-[#181029]"}`}>
                         {n}
                       </button>
                     );
                   })}
                   <button onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages}
-                    className="w-7 h-7 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-center text-[#7D7296] hover:bg-white dark:hover:bg-[#181029] disabled:opacity-40 transition">
+                    className="w-7 h-7 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-center text-[#716787] hover:bg-white dark:hover:bg-[#181029] disabled:opacity-40 transition">
                     <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"/></svg>
                   </button>
                 </div>

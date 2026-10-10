@@ -238,7 +238,7 @@ mobile,
 
 // ── Format user/agent from DB ──────────────────────────────────────────────
 function formatAgent(user, companyId = null) {
-  const colors = ["#2563EB","#7C3AED","#0891B2","#059669","#D97706","#DC2626"];
+  const colors = ["#2563EB","#7C3AED","#0E7490","#047857","#B45309","#B91C1C"];
   const colorIndex = Math.abs(hashStr(user._id || user.name)) % colors.length;
   return {
     id:      user._id,

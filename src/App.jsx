@@ -303,12 +303,12 @@ function Breadcrumb() {
   if (segments.length === 0) return null;
   return (
     <div className="hidden md:flex items-center gap-1.5 text-[12.5px] min-w-0">
-      <span className="text-slate-400 dark:text-slate-500 font-medium">Launcherdesk</span>
+      <span className="text-slate-500 dark:text-slate-500 font-medium">Launcherdesk</span>
       {segments.map((seg, i) => (
         <span key={i} className="flex items-center gap-1.5 min-w-0">
           <ChevronRight className="w-3 h-3 text-slate-300 dark:text-slate-600 shrink-0" />
           <span
-            className={`truncate ${i === segments.length - 1 ? "text-slate-700 dark:text-slate-200 font-semibold" : "text-slate-400 dark:text-slate-500"}`}
+            className={`truncate ${i === segments.length - 1 ? "text-slate-700 dark:text-slate-200 font-semibold" : "text-slate-500 dark:text-slate-500"}`}
           >
             {prettifySegment(seg)}
           </span>
@@ -381,7 +381,7 @@ function QuickCreateMenu({ role }) {
                   <Icon className="w-3.5 h-3.5" />
                 </span>
                 <span className="flex-1 text-left">{it.label}</span>
-                <span className="text-[11px] text-slate-400">{it.hint}</span>
+                <span className="text-[11px] text-slate-500">{it.hint}</span>
               </button>
             );
           })}
@@ -441,7 +441,7 @@ function CompanyHeader() {
         : "bg-[#F3EBFF] text-[#6300D6] border-[#D5BDFF] dark:bg-[#7E14FF]/15 dark:text-violet-300 dark:border-[#7E14FF]/30";
 
   return (
-    <div className="sticky top-0 z-30 flex items-center justify-between gap-2 sm:gap-4 pl-14 pr-3 sm:pr-6 md:px-6 h-16 bg-white/85 dark:bg-[#181029]/85 backdrop-blur-xl border-b border-[#E7DCFA]/80 dark:border-white/[0.06]">
+    <header className="sticky top-0 z-30 flex items-center justify-between gap-2 sm:gap-4 pl-14 pr-3 sm:pr-6 md:px-6 h-16 bg-white/85 dark:bg-[#181029]/85 backdrop-blur-xl border-b border-[#E7DCFA]/80 dark:border-white/[0.06]">
       {/* ── Left: brand mark + breadcrumb ── */}
       <div className="flex items-center gap-3 sm:gap-4 min-w-0">
         <div className="hidden lg:flex items-center gap-2 min-w-0 shrink-0">
@@ -472,13 +472,13 @@ function CompanyHeader() {
         {/* Command palette trigger — opens the same Cmd/Ctrl+K palette as the sidebar */}
         <button
           onClick={() => window.dispatchEvent(new Event("open_command_palette"))}
-          className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl text-[12.5px] text-slate-400
+          className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl text-[12.5px] text-slate-600
             bg-slate-100/70 dark:bg-white/[0.05] border border-transparent hover:border-slate-200 dark:hover:border-white/10
             transition-colors"
           title="Search (Ctrl/Cmd+K)"
         >
           <Search className="w-3.5 h-3.5" />
-          <span className="text-slate-400">Search…</span>
+          <span className="text-slate-600">Search…</span>
           <kbd className="flex items-center gap-0.5 text-[10px] font-semibold border border-slate-300/70 dark:border-white/10 rounded px-1 py-0.5 ml-1">
             <Command className="w-2.5 h-2.5" />K
           </kbd>
@@ -491,7 +491,7 @@ function CompanyHeader() {
           <Search className="w-4 h-4" />
         </button>
 
-        <span className="hidden xl:flex items-center gap-1.5 text-[12px] font-medium text-slate-400 dark:text-slate-500 px-2">
+        <span className="hidden xl:flex items-center gap-1.5 text-[12px] font-medium text-slate-500 dark:text-slate-500 px-2">
           <Calendar className="w-3.5 h-3.5" />
           {todayLabel}
         </span>
@@ -545,7 +545,7 @@ function CompanyHeader() {
           {roleLabel}
         </span>
       </div>
-    </div>
+    </header>
   );
 }
 

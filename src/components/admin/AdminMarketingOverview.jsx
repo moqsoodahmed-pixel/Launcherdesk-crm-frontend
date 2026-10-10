@@ -78,7 +78,7 @@ export default function AdminMarketingOverview({ leads = [] }) {
         </div>
       )}
 
-      <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-3.5 pt-3 border-t border-slate-100 dark:border-white/10">
+      <p className="text-[10px] text-slate-500 dark:text-slate-500 mt-3.5 pt-3 border-t border-slate-100 dark:border-white/10">
         Google Ads and Meta spend/CPL metrics are available in the Ads dashboard for connected accounts.
       </p>
     </div>

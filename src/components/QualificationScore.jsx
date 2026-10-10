@@ -114,17 +114,17 @@ export default function QualificationScore({
   // Default inline variant
   return (
     <div className="inline-flex items-center flex-wrap gap-x-2.5 gap-y-1">
-      <span className={`${lblCls} text-slate-400`}>
+      <span className={`${lblCls} text-slate-500`}>
         Score:{" "}
         <span className={`${numCls} font-bold`} style={{ color }}>
           {q.leadScore}
         </span>
         {q.maxScore != null && (
-          <span className={`${lblCls} text-slate-400 font-medium`}> / {q.maxScore}</span>
+          <span className={`${lblCls} text-slate-500 font-medium`}> / {q.maxScore}</span>
         )}
       </span>
       {q.percentage != null && (
-        <span className={`${lblCls} text-slate-400`}>
+        <span className={`${lblCls} text-slate-500`}>
           (
           <span className={`${numCls} font-bold`} style={{ color }}>
             {q.percentage}%

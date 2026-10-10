@@ -388,7 +388,7 @@ function Modal({ open, onClose, title, subtitle, children, accentColor = "#4F46E
             <div className="min-w-0">
               <h2 className="text-[15px] sm:text-[16px] font-bold text-slate-900 dark:text-white truncate">{title}</h2>
               {subtitle && (
-                <p className="text-[11px] sm:text-[12px] text-slate-400 mt-0.5 truncate">{subtitle}</p>
+                <p className="text-[11px] sm:text-[12px] text-slate-500 mt-0.5 truncate">{subtitle}</p>
               )}
             </div>
           </div>
@@ -455,7 +455,7 @@ function AdminLeadRevealList({ leads, onBack, adminName, maskFn, revealIcon: Rev
 
       {leads.length > 5 && (
         <div className="mb-4 relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 pointer-events-none" />
           <input
             type="text"
             placeholder="Search lead name…"
@@ -465,7 +465,7 @@ function AdminLeadRevealList({ leads, onBack, adminName, maskFn, revealIcon: Rev
               bg-[#FAF7FF] dark:bg-[#120B22]
               border border-slate-200 dark:border-white/10
               text-slate-900 dark:text-white
-              placeholder:text-slate-400 dark:placeholder:text-slate-400
+              placeholder:text-slate-500 dark:placeholder:text-slate-500
               focus:outline-none focus:ring-2 focus:border-violet-500
               transition-colors"
             style={{ "--tw-ring-color": `${accentColor}66` }}
@@ -499,7 +499,7 @@ function AdminLeadRevealList({ leads, onBack, adminName, maskFn, revealIcon: Rev
                   transition-colors"
                 style={{ "--hover-border": accentColor }}
               >
-                <span className="w-5 text-[11px] font-bold text-slate-400 dark:text-slate-400 shrink-0 tabular-nums text-center">
+                <span className="w-5 text-[11px] font-bold text-slate-500 dark:text-slate-400 shrink-0 tabular-nums text-center">
                   {i + 1}
                 </span>
                 <div
@@ -512,7 +512,7 @@ function AdminLeadRevealList({ leads, onBack, adminName, maskFn, revealIcon: Rev
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-[13px] font-semibold text-slate-900 dark:text-white truncate">{item.name || "—"}</p>
-                  <p className="text-[11px] font-mono text-slate-400 mt-0.5">{maskFn(item.mobile || item.email)}</p>
+                  <p className="text-[11px] font-mono text-slate-500 mt-0.5">{maskFn(item.mobile || item.email)}</p>
                   <div className="mt-1.5 h-1 bg-slate-200 dark:bg-white/[0.08] rounded-full overflow-hidden">
                     <div className="h-full rounded-full transition-all duration-500" style={{ width: `${pct}%`, background: heat.bar }} />
                   </div>
@@ -601,7 +601,7 @@ function RevealModal({
                       hover:bg-white dark:hover:bg-white/[0.05]
                       transition-all duration-150 focus:outline-none focus-visible:ring-2"
                   >
-                    <span className="w-5 text-[11px] font-bold text-slate-400 dark:text-slate-400 shrink-0 tabular-nums text-center">
+                    <span className="w-5 text-[11px] font-bold text-slate-500 dark:text-slate-400 shrink-0 tabular-nums text-center">
                       {i + 1}
                     </span>
                     <div
@@ -616,7 +616,7 @@ function RevealModal({
                           {admin.adminName || "Unknown Admin"}
                         </p>
                         {admin.adminEmail && (
-                          <span className="text-[10px] text-slate-400 dark:text-slate-400 truncate hidden sm:inline">
+                          <span className="text-[10px] text-slate-500 dark:text-slate-400 truncate hidden sm:inline">
                             {admin.adminEmail}
                           </span>
                         )}
@@ -637,7 +637,7 @@ function RevealModal({
                       <span className={`inline-flex items-center gap-1 text-[12px] font-bold px-2.5 py-1 rounded-full ${heat.bg} ${heat.text}`}>
                         <RevealIcon className="w-3 h-3" /> {admin.totalReveals || 0}
                       </span>
-                      <ChevronRight className="w-3.5 h-3.5 text-slate-400 dark:text-slate-400 group-hover:opacity-80 transition-colors" />
+                      <ChevronRight className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 group-hover:opacity-80 transition-colors" />
                     </div>
                   </button>
                 );
@@ -674,10 +674,10 @@ function RevealModal({
             const pct = Math.round((item.count / maxCount) * 100);
             return (
               <div key={i} className="group flex items-center gap-3 sm:gap-4 px-3 py-3 rounded-xl hover:bg-[#FAF7FF] dark:hover:bg-[#1D1333] transition-colors">
-                <span className="w-5 sm:w-6 text-[12px] font-bold text-slate-400 dark:text-slate-400 shrink-0 tabular-nums text-center">{i + 1}</span>
+                <span className="w-5 sm:w-6 text-[12px] font-bold text-slate-500 dark:text-slate-400 shrink-0 tabular-nums text-center">{i + 1}</span>
                 <div className="flex-1 min-w-0">
                   <p className="text-[13px] font-semibold text-slate-900 dark:text-white truncate">{item.name}</p>
-                  <p className="text-[11px] text-slate-400 font-mono mt-0.5">{maskFn(item.email || item.mobile)}</p>
+                  <p className="text-[11px] text-slate-500 font-mono mt-0.5">{maskFn(item.email || item.mobile)}</p>
                   <div className="mt-1.5 h-1 bg-slate-200 dark:bg-white/[0.08] rounded-full overflow-hidden w-full">
                     <div className="h-full rounded-full transition-all duration-500" style={{ width: `${pct}%`, background: heat.bar }} />
                   </div>
@@ -766,7 +766,7 @@ function LeadsDetailModal({ open, onClose, title, leads, accentColor, TitleIcon 
     >
       {leads.length > 5 && (
         <div className="mb-4 relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-slate-400 pointer-events-none" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 dark:text-slate-400 pointer-events-none" />
           <input
             type="text"
             placeholder="Search by name, agent, status…"
@@ -776,7 +776,7 @@ function LeadsDetailModal({ open, onClose, title, leads, accentColor, TitleIcon 
               bg-[#FAF7FF] dark:bg-[#120B22]
               border border-slate-200 dark:border-white/10
               text-slate-900 dark:text-white
-              placeholder:text-slate-400 dark:placeholder:text-slate-400
+              placeholder:text-slate-500 dark:placeholder:text-slate-500
               focus:outline-none focus:ring-2 focus:ring-violet-500/40 focus:border-violet-500
               transition-colors"
           />
@@ -828,17 +828,17 @@ function LeadsDetailModal({ open, onClose, title, leads, accentColor, TitleIcon 
                       </span>
                     </span>
                     {lead.source && (
-                      <span className="text-[11px] text-slate-400 dark:text-slate-400 truncate">· {lead.source}</span>
+                      <span className="text-[11px] text-slate-500 dark:text-slate-400 truncate">· {lead.source}</span>
                     )}
                     {lead.date && (
-                      <span className="text-[11px] text-slate-400 dark:text-slate-400 hidden sm:inline">· {lead.date}</span>
+                      <span className="text-[11px] text-slate-500 dark:text-slate-400 hidden sm:inline">· {lead.date}</span>
                     )}
                   </div>
                 </div>
 
                 {lead.mobile && (
                   <div className="shrink-0 text-right hidden sm:block">
-                    <p className="text-[11px] font-mono text-slate-400 dark:text-slate-400">
+                    <p className="text-[11px] font-mono text-slate-500 dark:text-slate-400">
                       {maskPhone(lead.mobile)}
                     </p>
                   </div>
@@ -899,7 +899,7 @@ function KpiCard({ label, value, sub, up, IconComponent, variant = "blue", onCli
             ? <TrendingUp className="w-3.5 h-3.5 shrink-0" />
             : <TrendingDown className="w-3.5 h-3.5 shrink-0" />
           }
-          <span className="truncate font-medium text-slate-400 dark:text-slate-500">{sub}</span>
+          <span className="truncate font-medium text-slate-500 dark:text-slate-500">{sub}</span>
         </div>
       )}
     </div>
@@ -918,7 +918,7 @@ function RangeToggle({ range, onChange }) {
           className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[11px] sm:text-[12px] font-semibold transition-all duration-200 ease-premium focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500
             ${range === key
               ? "bg-white dark:bg-[#141A28] text-slate-900 dark:text-white shadow-xs"
-              : "text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
+              : "text-slate-600 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
             }`}
         >
           {label}
@@ -1497,7 +1497,7 @@ export default function Dashboard() {
                   <div className="mt-1.5 w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full shrink-0" style={{ background: a.dot }} />
                   <div className="flex-1 min-w-0">
                     <p className="text-[11px] sm:text-[12px] text-slate-600 dark:text-slate-300 leading-snug truncate">{a.text}</p>
-                    <span className="text-[10px] text-slate-400 dark:text-slate-400 mt-0.5 block">{a.time}</span>
+                    <span className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 block">{a.time}</span>
                   </div>
                 </div>
               ))

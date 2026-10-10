@@ -25,7 +25,7 @@ const STATUS_STYLE = {
   Active: { bg: "bg-[#ECFDF5] dark:bg-[#052E1C]", text: "text-[#059669] dark:text-[#34D399]", dot: "#059669" },
   Completed: { bg: "bg-[#F3EBFF] dark:bg-[#271449]", text: "text-[#7E14FF] dark:text-[#A46BFF]", dot: "#7E14FF" },
   Paused: { bg: "bg-[#FFFBEB] dark:bg-[#2D1F00]", text: "text-[#D97706] dark:text-[#FCD34D]", dot: "#D97706" },
-  Draft: { bg: "bg-[#F1F5F9] dark:bg-[#181029]", text: "text-[#7D7296] dark:text-[#564C70]", dot: "#7D7296" },
+  Draft: { bg: "bg-[#F1F5F9] dark:bg-[#181029]", text: "text-[#716787] dark:text-[#564C70]", dot: "#7D7296" },
 };
 
 const LEAD_STATUS_STYLE = {
@@ -46,7 +46,7 @@ const GOOGLE_COLORS = ["#EA4335", "#FBBC05", "#34A853", "#4285F4", "#FF6D00", "#
 const WEBSITE_COLORS = ["#16A34A", "#0891B2", "#7E14FF", "#D97706", "#059669", "#7E14FF"];
 
 const FIELD_CLS =
-  "w-full px-3 py-2.5 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-[#FAF7FF] dark:bg-[#120B22] text-[13px] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#7D7296] focus:outline-none focus:border-[#7E14FF] transition";
+  "w-full px-3 py-2.5 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-[#FAF7FF] dark:bg-[#120B22] text-[13px] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#716787] focus:outline-none focus:border-[#7E14FF] transition";
 
 function maskPhone(phone) {
   if (!phone) return "—";
@@ -104,7 +104,7 @@ function SummaryCard({ label, value, sub, color }) {
         <div className="w-3 h-3 rounded-full" style={{ background: color }} />
       </div>
       <div className="text-[26px] font-bold text-[#170B29] dark:text-[#F4EEFF] leading-none">{value}</div>
-      <div className="text-[11px] font-semibold text-[#7D7296] dark:text-[#564C70] uppercase tracking-wide mt-1">{label}</div>
+      <div className="text-[11px] font-semibold text-[#716787] dark:text-[#564C70] uppercase tracking-wide mt-1">{label}</div>
       {sub && <div className="text-[11px] text-[#059669] dark:text-[#34D399] mt-1 font-medium">{sub}</div>}
     </div>
   );
@@ -147,7 +147,7 @@ function SyncMetaModal({ onClose, onSynced, prefillPageId, parentName = "" }) {
         <h2 className="text-[15px] font-bold text-[#170B29] dark:text-[#F4EEFF] mb-1">
           Auto-Sync Campaigns from Meta
         </h2>
-        <p className="text-[11px] text-[#7D7296] mb-5">
+        <p className="text-[11px] text-[#716787] mb-5">
           Fetches all lead forms on your page and auto-creates a config for each campaign &amp; ad set.
         </p>
 
@@ -155,7 +155,7 @@ function SyncMetaModal({ onClose, onSynced, prefillPageId, parentName = "" }) {
           <div>
             <label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">
               Campaign Group <span className="text-[#DC2626]">*</span>
-              <span className="ml-1 text-[10px] font-normal text-[#7D7296]">— the main campaign these ad sets belong to</span>
+              <span className="ml-1 text-[10px] font-normal text-[#716787]">— the main campaign these ad sets belong to</span>
             </label>
             <input
               value={form.parentCampaignName}
@@ -163,7 +163,7 @@ function SyncMetaModal({ onClose, onSynced, prefillPageId, parentName = "" }) {
               placeholder="e.g. Launcherdesk Ads"
               className={FIELD_CLS}
             />
-            <p className="text-[10px] text-[#7D7296] mt-1">
+            <p className="text-[10px] text-[#716787] mt-1">
               All synced ad sets will be grouped under this campaign on the Campaigns page.
             </p>
           </div>
@@ -201,7 +201,7 @@ function SyncMetaModal({ onClose, onSynced, prefillPageId, parentName = "" }) {
                 <li key={i} className="text-[11px] text-[#4A3F66] dark:text-[#9A8DB6]">
                   <span className="font-semibold">{f.campaignName}</span>
                   {f.adSetName && <span> › {f.adSetName}</span>}
-                  <span className="ml-1 text-[#7D7296]">({f.status})</span>
+                  <span className="ml-1 text-[#716787]">({f.status})</span>
                 </li>
               ))}
             </ul>
@@ -307,15 +307,15 @@ function LeadDrawer({ campaign, onClose }) {
               </span>
             )}
             {campaign.parentCampaignName && (
-              <p className="text-[11px] text-[#7D7296] dark:text-[#564C70] mt-0.5">
+              <p className="text-[11px] text-[#716787] dark:text-[#564C70] mt-0.5">
                 Parent: {campaign.parentCampaignName}
               </p>
             )}
-            <p className="text-[12px] text-[#7D7296] dark:text-[#564C70] mt-0.5">
+            <p className="text-[12px] text-[#716787] dark:text-[#564C70] mt-0.5">
               Created {campaign._isMeta || campaign._isGoogle || campaign._isWebsite ? fmtDate(campaign.createdAt) : campaign.date}
             </p>
           </div>
-          <button onClick={onClose} className="w-8 h-8 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-center text-[#7D7296] hover:text-[#170B29] dark:hover:text-[#F4EEFF] transition">
+          <button onClick={onClose} className="w-8 h-8 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-center text-[#716787] hover:text-[#170B29] dark:hover:text-[#F4EEFF] transition">
             <X className="w-4 h-4" />
           </button>
         </div>
@@ -325,7 +325,7 @@ function LeadDrawer({ campaign, onClose }) {
           {[{ label: "Leads", value: fmt(campaign.leads) }].map((s) => (
             <div key={s.label} className="bg-[#FAF7FF] dark:bg-[#120B22] rounded-xl px-3 py-3 text-center">
               <div className="text-[18px] font-bold text-[#170B29] dark:text-[#F4EEFF]">{s.value}</div>
-              <div className="text-[10px] text-[#7D7296] dark:text-[#564C70]">{s.label}</div>
+              <div className="text-[10px] text-[#716787] dark:text-[#564C70]">{s.label}</div>
             </div>
           ))}
         </div>
@@ -346,7 +346,7 @@ function LeadDrawer({ campaign, onClose }) {
                   className={`px-3 py-1.5 rounded-full text-[11px] font-semibold border transition ${
                     tempFilter === f.key
                       ? `${f.activeBg} ${f.activeText} border-current`
-                      : "bg-white dark:bg-[#181029] border-[#E7DCFA] dark:border-[#2B1E48] text-[#7D7296] hover:border-[#CBD5E1]"
+                      : "bg-white dark:bg-[#181029] border-[#E7DCFA] dark:border-[#2B1E48] text-[#716787] hover:border-[#CBD5E1]"
                   }`}
                 >
                   <span className="inline-flex items-center gap-1">{f.Icon && <f.Icon className="w-3 h-3" />}{f.label}</span>
@@ -360,16 +360,16 @@ function LeadDrawer({ campaign, onClose }) {
         <div className="px-6 py-4">
           <h3 className="text-[13px] font-bold text-[#170B29] dark:text-[#F4EEFF] mb-3">
             Leads from this campaign
-            <span className="ml-2 text-[11px] font-medium text-[#7D7296] dark:text-[#564C70]">{filteredLeads.length} shown</span>
+            <span className="ml-2 text-[11px] font-medium text-[#716787] dark:text-[#564C70]">{filteredLeads.length} shown</span>
           </h3>
 
           {loading ? (
-            <div className="flex items-center justify-center py-12 text-[#7D7296] gap-2">
+            <div className="flex items-center justify-center py-12 text-[#716787] gap-2">
               <Loader2 className="w-4 h-4 animate-spin" />
               Loading leads…
             </div>
           ) : filteredLeads.length === 0 ? (
-            <div className="text-center py-10 text-[13px] text-[#7D7296] dark:text-[#564C70]">
+            <div className="text-center py-10 text-[13px] text-[#716787] dark:text-[#564C70]">
               {tempFilter !== "All" ? `No ${tempFilter} leads yet.` : "No leads yet."}
             </div>
           ) : (
@@ -392,7 +392,7 @@ function LeadDrawer({ campaign, onClose }) {
                         </div>
                         <div>
                           <div className="text-[13px] font-semibold text-[#170B29] dark:text-[#F4EEFF] leading-none">{name}</div>
-                          <div className="text-[11px] text-[#7D7296] dark:text-[#564C70] mt-0.5 font-mono">{maskPhone(phone)}</div>
+                          <div className="text-[11px] text-[#716787] dark:text-[#564C70] mt-0.5 font-mono">{maskPhone(phone)}</div>
                         </div>
                       </div>
                       <div className="flex items-center gap-1.5 shrink-0">
@@ -403,17 +403,17 @@ function LeadDrawer({ campaign, onClose }) {
                     {/* Qualification scoring — Meta ad-set leads that have been scored */}
                     {l.leadScore != null && (
                       <div className="flex items-center flex-wrap gap-x-3 gap-y-1 mb-1.5">
-                        <span className="text-[10px] text-[#7D7296]">
+                        <span className="text-[10px] text-[#716787]">
                           Score:{" "}
                           <span className="text-[11px] font-bold" style={{ color: temp === "Hot" ? "#DC2626" : temp === "Warm" ? "#D97706" : "#7E14FF" }}>
                             {l.leadScore}
                           </span>
                           {l.maxScore != null && (
-                            <span className="text-[10px] text-[#7D7296] font-medium"> / {l.maxScore}</span>
+                            <span className="text-[10px] text-[#716787] font-medium"> / {l.maxScore}</span>
                           )}
                         </span>
                         {(l.qualificationPercentage != null || l.maxScore) && (
-                          <span className="text-[10px] text-[#7D7296]">
+                          <span className="text-[10px] text-[#716787]">
                             (
                             <span className="text-[11px] font-bold" style={{ color: temp === "Hot" ? "#DC2626" : temp === "Warm" ? "#D97706" : "#7E14FF" }}>
                               {l.qualificationPercentage != null
@@ -440,8 +440,8 @@ function LeadDrawer({ campaign, onClose }) {
                       </div>
                     )}
                     <div className="flex items-center justify-between text-[11px]">
-                      <span className="text-[#7D7296] dark:text-[#564C70]">Assigned: <span className="text-[#4A3F66] dark:text-[#9A8DB6] font-medium">{agent}</span></span>
-                      <span className="text-[#7D7296] dark:text-[#564C70] italic">{remark}</span>
+                      <span className="text-[#716787] dark:text-[#564C70]">Assigned: <span className="text-[#4A3F66] dark:text-[#9A8DB6] font-medium">{agent}</span></span>
+                      <span className="text-[#716787] dark:text-[#564C70] italic">{remark}</span>
                     </div>
                   </div>
                 );
@@ -530,15 +530,15 @@ function CreateModal({ onClose, onCreated }) {
             <Check className="w-7 h-7 text-[#059669]" />
           </div>
           <h2 className="text-[16px] font-bold text-[#170B29] dark:text-[#F4EEFF] mb-1">Campaign connected!</h2>
-          <p className="text-[12px] text-[#7D7296] dark:text-[#564C70] mb-6">
+          <p className="text-[12px] text-[#716787] dark:text-[#564C70] mb-6">
             Meta leads from <span className="font-semibold text-[#170B29] dark:text-[#F4EEFF]">{form.campaignName}</span> will now flow into your CRM automatically.
           </p>
-          <div className="bg-[#FAF7FF] dark:bg-[#120B22] rounded-xl px-4 py-3 text-left text-[11px] text-[#7D7296] dark:text-[#564C70] mb-5 space-y-1 border border-[#E7DCFA] dark:border-[#2B1E48]">
+          <div className="bg-[#FAF7FF] dark:bg-[#120B22] rounded-xl px-4 py-3 text-left text-[11px] text-[#716787] dark:text-[#564C70] mb-5 space-y-1 border border-[#E7DCFA] dark:border-[#2B1E48]">
             <p className="font-semibold text-[#4A3F66] dark:text-[#9A8DB6] text-[12px] mb-2">Credentials received — stored server-side only</p>
             <p><span className="text-[#7E14FF]">META_APP_SECRET</span>={mask(form.appSecret)}</p>
             <p><span className="text-[#7E14FF]">META_VERIFY_TOKEN</span>={mask(form.verifyToken)}</p>
             <p><span className="text-[#7E14FF]">META_GRAPH_API_VERSION</span>={form.graphApiVersion || "default"}</p>
-            <p className="text-[10px] pt-1 text-[#7D7296] dark:text-[#564C70]">These are saved on the server and won't be shown again in full. To rotate them, use "Reconnect" from the campaign menu.</p>
+            <p className="text-[10px] pt-1 text-[#716787] dark:text-[#564C70]">These are saved on the server and won't be shown again in full. To rotate them, use "Reconnect" from the campaign menu.</p>
           </div>
           <button onClick={onClose} className="w-full py-2.5 rounded-xl bg-[#7E14FF] text-white text-[13px] font-semibold hover:bg-[#6300D6] transition">Done</button>
         </div>
@@ -556,17 +556,17 @@ function CreateModal({ onClose, onCreated }) {
             </div>
             <div>
               <h2 className="text-[15px] font-bold text-[#170B29] dark:text-[#F4EEFF] leading-none">Connect Meta Campaign</h2>
-              <p className="text-[11px] text-[#7D7296] dark:text-[#564C70] mt-0.5">Auto-import leads · Round-robin assigned to your team</p>
+              <p className="text-[11px] text-[#716787] dark:text-[#564C70] mt-0.5">Auto-import leads · Round-robin assigned to your team</p>
             </div>
           </div>
-          <button onClick={onClose} className="w-7 h-7 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-center text-[#7D7296] hover:text-[#170B29] dark:hover:text-[#F4EEFF] transition">
+          <button onClick={onClose} className="w-7 h-7 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-center text-[#716787] hover:text-[#170B29] dark:hover:text-[#F4EEFF] transition">
             <X className="w-3.5 h-3.5" />
           </button>
         </div>
 
         <div className="overflow-y-auto px-6 py-5 space-y-5">
           <div>
-            <p className="text-[11px] font-bold text-[#7D7296] dark:text-[#564C70] uppercase tracking-widest mb-3">Campaign Info</p>
+            <p className="text-[11px] font-bold text-[#716787] dark:text-[#564C70] uppercase tracking-widest mb-3">Campaign Info</p>
             <div className="space-y-3">
               <div>
                 <label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Campaign Name <span className="text-[#DC2626]">*</span></label>
@@ -580,84 +580,84 @@ function CreateModal({ onClose, onCreated }) {
               </div>
               <div>
                 <label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">
-                  Ad Set Name <span className="text-[10px] font-normal text-[#7D7296]">(optional)</span>
+                  Ad Set Name <span className="text-[10px] font-normal text-[#716787]">(optional)</span>
                 </label>
                 <input type="text" value={form.adSetName || ""} onChange={set("adSetName")} placeholder="e.g. Retargeting - Mumbai" className={FIELD_CLS} />
-                <p className="text-[10px] text-[#7D7296] mt-1">Differentiates multiple ad sets within the same campaign</p>
+                <p className="text-[10px] text-[#716787] mt-1">Differentiates multiple ad sets within the same campaign</p>
               </div>
               <div>
                 <label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">
-                  Parent Campaign <span className="text-[10px] font-normal text-[#7D7296]">(optional)</span>
+                  Parent Campaign <span className="text-[10px] font-normal text-[#716787]">(optional)</span>
                 </label>
                 <input type="text" value={form.parentCampaignName || ""} onChange={set("parentCampaignName")} placeholder="e.g. Summer Sale 2025" className={FIELD_CLS} />
-                <p className="text-[10px] text-[#7D7296] mt-1">Groups related ad sets together on this page</p>
+                <p className="text-[10px] text-[#716787] mt-1">Groups related ad sets together on this page</p>
               </div>
               <div>
                 <label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">
-                  Category <span className="text-[10px] font-normal text-[#7D7296]">(optional)</span>
+                  Category <span className="text-[10px] font-normal text-[#716787]">(optional)</span>
                 </label>
                 <input type="text" value={form.category || ""} onChange={set("category")} placeholder="e.g. Real Estate, Education, Healthcare" className={FIELD_CLS} />
-                <p className="text-[10px] text-[#7D7296] mt-1">Groups campaigns by category in the Performance Marketing Dashboard</p>
+                <p className="text-[10px] text-[#716787] mt-1">Groups campaigns by category in the Performance Marketing Dashboard</p>
               </div>
             </div>
           </div>
 
           <div>
-            <p className="text-[11px] font-bold text-[#7D7296] dark:text-[#564C70] uppercase tracking-widest mb-3">Meta / Facebook Config</p>
+            <p className="text-[11px] font-bold text-[#716787] dark:text-[#564C70] uppercase tracking-widest mb-3">Meta / Facebook Config</p>
             <div className="space-y-3">
               <div>
                 <label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Page ID <span className="text-[#DC2626]">*</span></label>
                 <input type="text" value={form.pageId} onChange={set("pageId")} placeholder="e.g. 123456789012345" className={FIELD_CLS} />
-                <p className="text-[10px] text-[#7D7296] mt-1">Found in Facebook Page settings → About</p>
+                <p className="text-[10px] text-[#716787] mt-1">Found in Facebook Page settings → About</p>
               </div>
               <div>
                 <label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Page Access Token <span className="text-[#DC2626]">*</span></label>
                 <div className="relative">
                   <input type={showToken ? "text" : "password"} value={form.pageAccessToken} onChange={set("pageAccessToken")} placeholder="EAAxxxxxx…" className={FIELD_CLS + " pr-10"} />
-                  <button type="button" onClick={() => setShowToken((v) => !v)} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#7D7296] hover:text-[#4A3F66]">{showToken ? <EyeOff /> : <EyeOn />}</button>
+                  <button type="button" onClick={() => setShowToken((v) => !v)} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#716787] hover:text-[#4A3F66]">{showToken ? <EyeOff /> : <EyeOn />}</button>
                 </div>
-                <p className="text-[10px] text-[#7D7296] mt-1">Generate a never-expiring token in Meta Business Suite → System Users</p>
+                <p className="text-[10px] text-[#716787] mt-1">Generate a never-expiring token in Meta Business Suite → System Users</p>
               </div>
               <div>
-                <label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">App Secret <span className="text-[#DC2626]">*</span> <span className="text-[10px] font-normal text-[#7D7296]">(META_APP_SECRET)</span></label>
+                <label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">App Secret <span className="text-[#DC2626]">*</span> <span className="text-[10px] font-normal text-[#716787]">(META_APP_SECRET)</span></label>
                 <div className="relative">
                   <input type={showSecret ? "text" : "password"} value={form.appSecret} onChange={set("appSecret")} placeholder="Your Meta app secret" className={FIELD_CLS + " pr-10"} />
-                  <button type="button" onClick={() => setShowSecret((v) => !v)} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#7D7296] hover:text-[#4A3F66]">{showSecret ? <EyeOff /> : <EyeOn />}</button>
+                  <button type="button" onClick={() => setShowSecret((v) => !v)} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#716787] hover:text-[#4A3F66]">{showSecret ? <EyeOff /> : <EyeOn />}</button>
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Verify Token <span className="text-[#DC2626]">*</span> <span className="text-[10px] font-normal text-[#7D7296]">(META_VERIFY_TOKEN)</span></label>
+                  <label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Verify Token <span className="text-[#DC2626]">*</span> <span className="text-[10px] font-normal text-[#716787]">(META_VERIFY_TOKEN)</span></label>
                   <input type="text" value={form.verifyToken} onChange={set("verifyToken")} placeholder="launcherdesk_meta_2025" className={FIELD_CLS} />
                 </div>
                 <div>
-                  <label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Graph API Version <span className="text-[10px] font-normal text-[#7D7296]">(META_GRAPH_API_VERSION)</span></label>
+                  <label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Graph API Version <span className="text-[10px] font-normal text-[#716787]">(META_GRAPH_API_VERSION)</span></label>
                   <input type="text" value={form.graphApiVersion} onChange={set("graphApiVersion")} placeholder="v25.0" className={FIELD_CLS} />
                 </div>
               </div>
 
               {/* ── Ad Performance (Insights) — optional ───────────────────── */}
               <div className="pt-2">
-                <p className="text-[11px] font-bold text-[#7D7296] dark:text-[#564C70] uppercase tracking-widest mb-1">Ad Performance (optional)</p>
-                <p className="text-[10px] text-[#7D7296] mb-3">
+                <p className="text-[11px] font-bold text-[#716787] dark:text-[#564C70] uppercase tracking-widest mb-1">Ad Performance (optional)</p>
+                <p className="text-[10px] text-[#716787] mb-3">
                   Add an Ad Account ID + a token with <code className="bg-[#F3EBFF] dark:bg-[#271449] text-[#7E14FF] px-1 rounded">ads_read</code> to see spend, CPM, CPC, CTR and cost-per-lead for this campaign in the Meta Performance report. Leave blank to skip.
                 </p>
                 <div className="space-y-3">
                   <div>
                     <label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Ad Account ID</label>
                     <input type="text" value={form.adAccountId} onChange={set("adAccountId")} placeholder="act_1234567890" className={FIELD_CLS} />
-                    <p className="text-[10px] text-[#7D7296] mt-1">Format <code className="bg-[#F3EBFF] dark:bg-[#271449] text-[#7E14FF] px-1 rounded">act_</code> + the numeric ID (Business Settings → Ad Accounts).</p>
+                    <p className="text-[10px] text-[#716787] mt-1">Format <code className="bg-[#F3EBFF] dark:bg-[#271449] text-[#7E14FF] px-1 rounded">act_</code> + the numeric ID (Business Settings → Ad Accounts).</p>
                   </div>
                   <div>
-                    <label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Ads Token <span className="text-[10px] font-normal text-[#7D7296]">(ads_read)</span></label>
+                    <label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Ads Token <span className="text-[10px] font-normal text-[#716787]">(ads_read)</span></label>
                     <input type="password" value={form.adsToken} onChange={set("adsToken")} placeholder="System User token with ads_read" className={FIELD_CLS} />
-                    <p className="text-[10px] text-[#7D7296] mt-1">A System User token from Meta Business Manager with View Performance / ads_read on that ad account.</p>
+                    <p className="text-[10px] text-[#716787] mt-1">A System User token from Meta Business Manager with View Performance / ads_read on that ad account.</p>
                   </div>
                 </div>
               </div>
               <div className="pt-2">
-                <p className="text-[11px] font-bold text-[#7D7296] dark:text-[#564C70] uppercase tracking-widest mb-1">Conversions API — send-back (optional)</p>
-                <p className="text-[10px] text-[#7D7296] mb-3">
+                <p className="text-[11px] font-bold text-[#716787] dark:text-[#564C70] uppercase tracking-widest mb-1">Conversions API — send-back (optional)</p>
+                <p className="text-[10px] text-[#716787] mb-3">
                   Lets the CRM tell Meta which leads actually converted, so ad delivery optimizes toward real customers instead of raw form fills.
                   Only active once your account has this feature enabled — ask before filling this in for a new client.
                 </p>
@@ -665,26 +665,26 @@ function CreateModal({ onClose, onCreated }) {
                   <div>
                     <label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Pixel ID</label>
                     <input type="text" value={form.pixelId} onChange={set("pixelId")} placeholder="e.g. 1234567890123456" className={FIELD_CLS} />
-                    <p className="text-[10px] text-[#7D7296] mt-1">Events Manager → Data Sources → your Pixel.</p>
+                    <p className="text-[10px] text-[#716787] mt-1">Events Manager → Data Sources → your Pixel.</p>
                   </div>
                   <div>
                     <label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Conversions API Access Token</label>
                     <input type="password" value={form.capiAccessToken} onChange={set("capiAccessToken")} placeholder="Generated from Events Manager → Settings → Conversions API" className={FIELD_CLS} />
-                    <p className="text-[10px] text-[#7D7296] mt-1">Different from the page token above — this one is pixel-scoped.</p>
+                    <p className="text-[10px] text-[#716787] mt-1">Different from the page token above — this one is pixel-scoped.</p>
                   </div>
                 </div>
               </div>
               <div>
-                <label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Form IDs <span className="text-[10px] font-normal text-[#7D7296]">(optional — blank = accept all)</span></label>
+                <label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Form IDs <span className="text-[10px] font-normal text-[#716787]">(optional — blank = accept all)</span></label>
                 <input type="text" value={form.formIds} onChange={set("formIds")} placeholder="form_id_1, form_id_2" className={FIELD_CLS} />
-                <p className="text-[10px] text-[#7D7296] mt-1">Comma-separated. Find in Meta Ads Manager → Lead forms</p>
+                <p className="text-[10px] text-[#716787] mt-1">Comma-separated. Find in Meta Ads Manager → Lead forms</p>
               </div>
               <div>
                 <label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">
-                  Form ID <span className="text-[10px] font-normal text-[#7D7296]">(for this specific ad set)</span>
+                  Form ID <span className="text-[10px] font-normal text-[#716787]">(for this specific ad set)</span>
                 </label>
                 <input type="text" value={form.formId || ""} onChange={set("formId")} placeholder="e.g. 1234567890123456" className={FIELD_CLS} />
-                <p className="text-[10px] text-[#7D7296] mt-1">Each ad set has its own lead form. Find the Form ID in Meta Ads Manager → Lead forms.</p>
+                <p className="text-[10px] text-[#716787] mt-1">Each ad set has its own lead form. Find the Form ID in Meta Ads Manager → Lead forms.</p>
               </div>
               {form.adSetName.trim() && !form.formId.trim() && (form.formIds || "").trim() === "" && (
                 <div className="bg-[#FEF3C7] dark:bg-[#3A2E0A] border border-[#FCD34D] dark:border-[#B45309] rounded-xl px-3 py-2.5 flex gap-2">
@@ -783,7 +783,7 @@ function EditMetaModal({ campaign, onClose, onUpdated }) {
       <div className="w-full max-w-md bg-white dark:bg-[#181029] rounded-2xl border border-[#E7DCFA] dark:border-[#2B1E48] p-8 text-center" onClick={(e) => e.stopPropagation()}>
         <div className="w-14 h-14 rounded-full bg-[#ECFDF5] dark:bg-[#052E1C] flex items-center justify-center mx-auto mb-4"><Check className="w-7 h-7 text-[#059669]" /></div>
         <h2 className="text-[16px] font-bold text-[#170B29] dark:text-[#F4EEFF] mb-1">Campaign updated!</h2>
-        <p className="text-[12px] text-[#7D7296] dark:text-[#564C70] mb-6"><span className="font-semibold text-[#170B29] dark:text-[#F4EEFF]">{form.campaignName}</span> has been updated successfully.</p>
+        <p className="text-[12px] text-[#716787] dark:text-[#564C70] mb-6"><span className="font-semibold text-[#170B29] dark:text-[#F4EEFF]">{form.campaignName}</span> has been updated successfully.</p>
         <button onClick={onClose} className="w-full py-2.5 rounded-xl bg-[#E1306C] text-white text-[13px] font-semibold hover:bg-[#c4185a] transition">Done</button>
       </div>
     </div>
@@ -795,75 +795,75 @@ function EditMetaModal({ campaign, onClose, onUpdated }) {
         <div className="px-6 py-4 border-b border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-xl bg-[#FFF0F3] dark:bg-[#2D0A14] flex items-center justify-center"><svg className="w-4 h-4 text-[#E1306C]" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878V14.89h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" /></svg></div>
-            <div><h2 className="text-[15px] font-bold text-[#170B29] dark:text-[#F4EEFF] leading-none">Edit Meta Campaign</h2><p className="text-[11px] text-[#7D7296] dark:text-[#564C70] mt-0.5">{campaign.name}</p></div>
+            <div><h2 className="text-[15px] font-bold text-[#170B29] dark:text-[#F4EEFF] leading-none">Edit Meta Campaign</h2><p className="text-[11px] text-[#716787] dark:text-[#564C70] mt-0.5">{campaign.name}</p></div>
           </div>
-          <button onClick={onClose} className="w-7 h-7 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-center text-[#7D7296] hover:text-[#170B29] dark:hover:text-[#F4EEFF] transition"><X className="w-3.5 h-3.5" /></button>
+          <button onClick={onClose} className="w-7 h-7 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-center text-[#716787] hover:text-[#170B29] dark:hover:text-[#F4EEFF] transition"><X className="w-3.5 h-3.5" /></button>
         </div>
         <div className="overflow-y-auto px-6 py-5 space-y-5">
           <div>
-            <p className="text-[11px] font-bold text-[#7D7296] dark:text-[#564C70] uppercase tracking-widest mb-3">Campaign Info</p>
+            <p className="text-[11px] font-bold text-[#716787] dark:text-[#564C70] uppercase tracking-widest mb-3">Campaign Info</p>
             <div className="space-y-3">
               <div><label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Campaign Name <span className="text-[#DC2626]">*</span></label><input type="text" value={form.campaignName} onChange={set("campaignName")} placeholder="e.g. Summer Sale 2025" className={FIELD_CLS} /></div>
               <div className="grid grid-cols-2 gap-3">
                 <div><label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Default Status</label><select value={form.defaultStatus} onChange={set("defaultStatus")} className={FIELD_CLS}><option>New</option><option>In Progress</option></select></div>
               </div>
               <div>
-                <label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Ad Set Name <span className="text-[10px] font-normal text-[#7D7296]">(optional)</span></label>
+                <label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Ad Set Name <span className="text-[10px] font-normal text-[#716787]">(optional)</span></label>
                 <input type="text" value={form.adSetName || ""} onChange={set("adSetName")} placeholder="e.g. Retargeting - Mumbai" className={FIELD_CLS} />
-                <p className="text-[10px] text-[#7D7296] mt-1">Differentiates multiple ad sets within the same campaign</p>
+                <p className="text-[10px] text-[#716787] mt-1">Differentiates multiple ad sets within the same campaign</p>
               </div>
               <div>
-                <label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Parent Campaign <span className="text-[10px] font-normal text-[#7D7296]">(optional)</span></label>
+                <label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Parent Campaign <span className="text-[10px] font-normal text-[#716787]">(optional)</span></label>
                 <input type="text" value={form.parentCampaignName || ""} onChange={set("parentCampaignName")} placeholder="e.g. Summer Sale 2025" className={FIELD_CLS} />
-                <p className="text-[10px] text-[#7D7296] mt-1">Groups related ad sets together on this page</p>
+                <p className="text-[10px] text-[#716787] mt-1">Groups related ad sets together on this page</p>
               </div>
             </div>
           </div>
           <div>
-            <p className="text-[11px] font-bold text-[#7D7296] dark:text-[#564C70] uppercase tracking-widest mb-3">Meta / Facebook Config</p>
+            <p className="text-[11px] font-bold text-[#716787] dark:text-[#564C70] uppercase tracking-widest mb-3">Meta / Facebook Config</p>
             <div className="space-y-3">
               <div><label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Page ID <span className="text-[#DC2626]">*</span></label><input type="text" value={form.pageId} onChange={set("pageId")} placeholder="e.g. 123456789012345" className={FIELD_CLS} /></div>
               <div className="bg-[#FFFBEB] dark:bg-[#2D1F00] rounded-xl px-4 py-3 flex gap-3 border border-[#FCD34D]/30">
                 <AlertCircle className="w-4 h-4 text-[#D97706] shrink-0 mt-0.5" />
                 <p className="text-[11px] text-[#92400E] dark:text-[#FCD34D]">Leave token / secret fields blank to keep existing values.</p>
               </div>
-              <div><label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">New Page Access Token <span className="text-[10px] font-normal text-[#7D7296]">(leave blank to keep current)</span></label><div className="relative"><input type={showToken ? "text" : "password"} value={form.pageAccessToken} onChange={set("pageAccessToken")} placeholder="EAAxxxxxx…" className={FIELD_CLS + " pr-10"} /><button type="button" onClick={() => setShowToken((v) => !v)} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#7D7296] hover:text-[#4A3F66]">{showToken ? <EyeOff /> : <EyeOn />}</button></div></div>
-              <div><label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">New App Secret <span className="text-[10px] font-normal text-[#7D7296]">(leave blank to keep current)</span></label><div className="relative"><input type={showSecret ? "text" : "password"} value={form.appSecret} onChange={set("appSecret")} placeholder="Only if changing app secret" className={FIELD_CLS + " pr-10"} /><button type="button" onClick={() => setShowSecret((v) => !v)} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#7D7296] hover:text-[#4A3F66]">{showSecret ? <EyeOff /> : <EyeOn />}</button></div></div>
+              <div><label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">New Page Access Token <span className="text-[10px] font-normal text-[#716787]">(leave blank to keep current)</span></label><div className="relative"><input type={showToken ? "text" : "password"} value={form.pageAccessToken} onChange={set("pageAccessToken")} placeholder="EAAxxxxxx…" className={FIELD_CLS + " pr-10"} /><button type="button" onClick={() => setShowToken((v) => !v)} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#716787] hover:text-[#4A3F66]">{showToken ? <EyeOff /> : <EyeOn />}</button></div></div>
+              <div><label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">New App Secret <span className="text-[10px] font-normal text-[#716787]">(leave blank to keep current)</span></label><div className="relative"><input type={showSecret ? "text" : "password"} value={form.appSecret} onChange={set("appSecret")} placeholder="Only if changing app secret" className={FIELD_CLS + " pr-10"} /><button type="button" onClick={() => setShowSecret((v) => !v)} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#716787] hover:text-[#4A3F66]">{showSecret ? <EyeOff /> : <EyeOn />}</button></div></div>
               <div className="grid grid-cols-2 gap-3">
-                <div><label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">New Verify Token <span className="text-[10px] font-normal text-[#7D7296]">(optional)</span></label><input type="text" value={form.verifyToken} onChange={set("verifyToken")} placeholder="Leave blank to keep" className={FIELD_CLS} /></div>
+                <div><label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">New Verify Token <span className="text-[10px] font-normal text-[#716787]">(optional)</span></label><input type="text" value={form.verifyToken} onChange={set("verifyToken")} placeholder="Leave blank to keep" className={FIELD_CLS} /></div>
                 <div><label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Graph API Version</label><input type="text" value={form.graphApiVersion} onChange={set("graphApiVersion")} placeholder="v25.0" className={FIELD_CLS} /></div>
               </div>
-              <div><label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Form IDs <span className="text-[10px] font-normal text-[#7D7296]">(blank = accept all forms)</span></label><input type="text" value={form.formIds} onChange={set("formIds")} placeholder="form_id_1, form_id_2" className={FIELD_CLS} /></div>
+              <div><label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Form IDs <span className="text-[10px] font-normal text-[#716787]">(blank = accept all forms)</span></label><input type="text" value={form.formIds} onChange={set("formIds")} placeholder="form_id_1, form_id_2" className={FIELD_CLS} /></div>
               <div>
-                <label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Form ID <span className="text-[10px] font-normal text-[#7D7296]">(for this specific ad set)</span></label>
+                <label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Form ID <span className="text-[10px] font-normal text-[#716787]">(for this specific ad set)</span></label>
                 <input type="text" value={form.formId || ""} onChange={set("formId")} placeholder="e.g. 1234567890123456" className={FIELD_CLS} />
-                <p className="text-[10px] text-[#7D7296] mt-1">Each ad set has its own lead form. Find the Form ID in Meta Ads Manager → Lead forms.</p>
+                <p className="text-[10px] text-[#716787] mt-1">Each ad set has its own lead form. Find the Form ID in Meta Ads Manager → Lead forms.</p>
               </div>
               {/* Ad Performance (Insights) — optional */}
               <div className="pt-1">
-                <p className="text-[11px] font-bold text-[#7D7296] dark:text-[#564C70] uppercase tracking-widest mb-1">Ad Performance (optional)</p>
-                <p className="text-[10px] text-[#7D7296] mb-2">Spend / CPM / CPC / CTR / cost-per-lead in the Meta Performance report. Needs an <code className="bg-[#F3EBFF] dark:bg-[#271449] text-[#7E14FF] px-1 rounded">ads_read</code> token.</p>
+                <p className="text-[11px] font-bold text-[#716787] dark:text-[#564C70] uppercase tracking-widest mb-1">Ad Performance (optional)</p>
+                <p className="text-[10px] text-[#716787] mb-2">Spend / CPM / CPC / CTR / cost-per-lead in the Meta Performance report. Needs an <code className="bg-[#F3EBFF] dark:bg-[#271449] text-[#7E14FF] px-1 rounded">ads_read</code> token.</p>
                 <div className="space-y-3">
                   <div>
                     <label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Ad Account ID</label>
                     <input type="text" value={form.adAccountId || ""} onChange={set("adAccountId")} placeholder="act_1234567890" className={FIELD_CLS} />
                   </div>
                   <div>
-                    <label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">New Ads Token <span className="text-[10px] font-normal text-[#7D7296]">(ads_read — blank keeps current)</span></label>
+                    <label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">New Ads Token <span className="text-[10px] font-normal text-[#716787]">(ads_read — blank keeps current)</span></label>
                     <input type="password" value={form.adsToken || ""} onChange={set("adsToken")} placeholder="Only if changing the ads_read token" className={FIELD_CLS} />
                   </div>
                 </div>
               </div>
               <div className="pt-2">
-                <p className="text-[11px] font-bold text-[#7D7296] dark:text-[#564C70] uppercase tracking-widest mb-1">Conversions API — send-back</p>
-                <p className="text-[10px] text-[#7D7296] mb-2">Tells Meta which leads converted, so it can optimize delivery. Only active once your account has this feature enabled.</p>
+                <p className="text-[11px] font-bold text-[#716787] dark:text-[#564C70] uppercase tracking-widest mb-1">Conversions API — send-back</p>
+                <p className="text-[10px] text-[#716787] mb-2">Tells Meta which leads converted, so it can optimize delivery. Only active once your account has this feature enabled.</p>
                 <div className="space-y-3">
                   <div>
                     <label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Pixel ID</label>
                     <input type="text" value={form.pixelId || ""} onChange={set("pixelId")} placeholder="e.g. 1234567890123456" className={FIELD_CLS} />
                   </div>
                   <div>
-                    <label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">New CAPI Access Token <span className="text-[10px] font-normal text-[#7D7296]">(blank keeps current)</span></label>
+                    <label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">New CAPI Access Token <span className="text-[10px] font-normal text-[#716787]">(blank keeps current)</span></label>
                     <input type="password" value={form.capiAccessToken || ""} onChange={set("capiAccessToken")} placeholder="Only if changing the token" className={FIELD_CLS} />
                   </div>
                 </div>
@@ -928,7 +928,7 @@ function EditGoogleModal({ campaign, onClose, onUpdated }) {
       <div className="w-full max-w-md bg-white dark:bg-[#181029] rounded-2xl border border-[#E7DCFA] dark:border-[#2B1E48] p-8 text-center" onClick={(e) => e.stopPropagation()}>
         <div className="w-14 h-14 rounded-full bg-[#ECFDF5] dark:bg-[#052E1C] flex items-center justify-center mx-auto mb-4"><Check className="w-7 h-7 text-[#059669]" /></div>
         <h2 className="text-[16px] font-bold text-[#170B29] dark:text-[#F4EEFF] mb-1">Campaign updated!</h2>
-        <p className="text-[12px] text-[#7D7296] dark:text-[#564C70] mb-6"><span className="font-semibold text-[#170B29] dark:text-[#F4EEFF]">{form.campaignName}</span> has been updated successfully.</p>
+        <p className="text-[12px] text-[#716787] dark:text-[#564C70] mb-6"><span className="font-semibold text-[#170B29] dark:text-[#F4EEFF]">{form.campaignName}</span> has been updated successfully.</p>
         <button onClick={onClose} className="w-full py-2.5 rounded-xl bg-[#EA4335] text-white text-[13px] font-semibold hover:bg-red-600 transition">Done</button>
       </div>
     </div>
@@ -940,13 +940,13 @@ function EditGoogleModal({ campaign, onClose, onUpdated }) {
         <div className="px-6 py-4 border-b border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-xl bg-[#FFF8F0] dark:bg-[#2D1A00] flex items-center justify-center"><svg className="w-4 h-4" viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg></div>
-            <div><h2 className="text-[15px] font-bold text-[#170B29] dark:text-[#F4EEFF] leading-none">Edit Google Ads Campaign</h2><p className="text-[11px] text-[#7D7296] dark:text-[#564C70] mt-0.5">{campaign.name}</p></div>
+            <div><h2 className="text-[15px] font-bold text-[#170B29] dark:text-[#F4EEFF] leading-none">Edit Google Ads Campaign</h2><p className="text-[11px] text-[#716787] dark:text-[#564C70] mt-0.5">{campaign.name}</p></div>
           </div>
-          <button onClick={onClose} className="w-7 h-7 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-center text-[#7D7296] hover:text-[#170B29] dark:hover:text-[#F4EEFF] transition"><X className="w-3.5 h-3.5" /></button>
+          <button onClick={onClose} className="w-7 h-7 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-center text-[#716787] hover:text-[#170B29] dark:hover:text-[#F4EEFF] transition"><X className="w-3.5 h-3.5" /></button>
         </div>
         <div className="overflow-y-auto px-6 py-5 space-y-5">
           <div>
-            <p className="text-[11px] font-bold text-[#7D7296] dark:text-[#564C70] uppercase tracking-widest mb-3">Campaign Info</p>
+            <p className="text-[11px] font-bold text-[#716787] dark:text-[#564C70] uppercase tracking-widest mb-3">Campaign Info</p>
             <div className="space-y-3">
               <div><label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Campaign Name <span className="text-[#DC2626]">*</span></label><input type="text" value={form.campaignName} onChange={set("campaignName")} placeholder="e.g. Google Search — Branding Q2" className={FIELD_CLS} /></div>
               <div className="grid grid-cols-2 gap-3">
@@ -955,22 +955,22 @@ function EditGoogleModal({ campaign, onClose, onUpdated }) {
             </div>
           </div>
           <div>
-            <p className="text-[11px] font-bold text-[#7D7296] dark:text-[#564C70] uppercase tracking-widest mb-3">Google Ads Config</p>
+            <p className="text-[11px] font-bold text-[#716787] dark:text-[#564C70] uppercase tracking-widest mb-3">Google Ads Config</p>
             <div className="space-y-3">
               <div className="bg-[#FFFBEB] dark:bg-[#2D1F00] rounded-xl px-4 py-3 flex gap-3 border border-[#FCD34D]/30">
                 <AlertCircle className="w-4 h-4 text-[#D97706] shrink-0 mt-0.5" />
                 <p className="text-[11px] text-[#92400E] dark:text-[#FCD34D]">Leave the Webhook Key blank to keep your existing key. Only fill it in to rotate credentials.</p>
               </div>
-              <div><label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">New Webhook Key <span className="text-[10px] font-normal text-[#7D7296]">(leave blank to keep current)</span></label><div className="relative"><input type={showKey ? "text" : "password"} value={form.googleKey} onChange={set("googleKey")} placeholder="Only if rotating key…" className={FIELD_CLS + " pr-10"} /><button type="button" onClick={() => setShowKey((v) => !v)} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#7D7296] hover:text-[#4A3F66]">{showKey ? <EyeOff /> : <EyeOn />}</button></div></div>
+              <div><label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">New Webhook Key <span className="text-[10px] font-normal text-[#716787]">(leave blank to keep current)</span></label><div className="relative"><input type={showKey ? "text" : "password"} value={form.googleKey} onChange={set("googleKey")} placeholder="Only if rotating key…" className={FIELD_CLS + " pr-10"} /><button type="button" onClick={() => setShowKey((v) => !v)} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#716787] hover:text-[#4A3F66]">{showKey ? <EyeOff /> : <EyeOn />}</button></div></div>
               <div className="grid grid-cols-2 gap-3">
-                <div><label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Campaign ID <span className="text-[10px] font-normal text-[#7D7296]">(optional)</span></label><input type="text" value={form.campaignId} onChange={set("campaignId")} placeholder="e.g. 1234567890" className={FIELD_CLS} /></div>
-                <div><label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Form ID <span className="text-[10px] font-normal text-[#7D7296]">(optional)</span></label><input type="text" value={form.formId} onChange={set("formId")} placeholder="e.g. 9876543210" className={FIELD_CLS} /></div>
+                <div><label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Campaign ID <span className="text-[10px] font-normal text-[#716787]">(optional)</span></label><input type="text" value={form.campaignId} onChange={set("campaignId")} placeholder="e.g. 1234567890" className={FIELD_CLS} /></div>
+                <div><label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Form ID <span className="text-[10px] font-normal text-[#716787]">(optional)</span></label><input type="text" value={form.formId} onChange={set("formId")} placeholder="e.g. 9876543210" className={FIELD_CLS} /></div>
               </div>
             </div>
           </div>
           <div>
-            <p className="text-[11px] font-bold text-[#7D7296] dark:text-[#564C70] uppercase tracking-widest mb-3">Ad Performance</p>
-            <p className="text-[10px] text-[#7D7296] mb-3">Copy these from your Google Ads dashboard for this campaign & date range. CPC, CTR, CPM and cost-per-lead are calculated automatically in the Google Ads Performance report.</p>
+            <p className="text-[11px] font-bold text-[#716787] dark:text-[#564C70] uppercase tracking-widest mb-3">Ad Performance</p>
+            <p className="text-[10px] text-[#716787] mb-3">Copy these from your Google Ads dashboard for this campaign & date range. CPC, CTR, CPM and cost-per-lead are calculated automatically in the Google Ads Performance report.</p>
             <div className="grid grid-cols-3 gap-3">
               <div><label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Spend (₹)</label><input type="number" min="0" step="0.01" value={form.cost} onChange={set("cost")} placeholder="0" className={FIELD_CLS} /></div>
               <div><label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Impressions</label><input type="number" min="0" step="1" value={form.impressions} onChange={set("impressions")} placeholder="0" className={FIELD_CLS} /></div>
@@ -979,7 +979,7 @@ function EditGoogleModal({ campaign, onClose, onUpdated }) {
             <div className="mt-3">
               <label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Average Deal Value (₹)</label>
               <input type="number" min="0" step="0.01" value={form.avgDealValue} onChange={set("avgDealValue")} placeholder="e.g. 50000" className={FIELD_CLS} />
-              <p className="text-[10px] text-[#7D7296] mt-1">Average revenue per won customer. Revenue, ROAS, ROI and cost-per-acquisition are calculated from this × customers won.</p>
+              <p className="text-[10px] text-[#716787] mt-1">Average revenue per won customer. Revenue, ROAS, ROI and cost-per-acquisition are calculated from this × customers won.</p>
             </div>
           </div>
           {error && <div className="bg-[#FEF2F2] dark:bg-[#2D0A0A] border border-[#FECACA] dark:border-[#7F1D1D] rounded-xl px-4 py-3 text-[12px] text-[#DC2626] dark:text-[#F87171]"> {error}</div>}
@@ -1026,8 +1026,8 @@ function CreateGoogleModal({ onClose, onCreated }) {
       <div className="w-full max-w-md bg-white dark:bg-[#181029] rounded-2xl border border-[#E7DCFA] dark:border-[#2B1E48] p-8 text-center" onClick={(e) => e.stopPropagation()}>
         <div className="w-14 h-14 rounded-full bg-[#ECFDF5] dark:bg-[#052E1C] flex items-center justify-center mx-auto mb-4"><Check className="w-7 h-7 text-[#059669]" /></div>
         <h2 className="text-[16px] font-bold text-[#170B29] dark:text-[#F4EEFF] mb-1">Google Ads connected!</h2>
-        <p className="text-[12px] text-[#7D7296] dark:text-[#564C70] mb-6">Leads from <span className="font-semibold text-[#170B29] dark:text-[#F4EEFF]">{form.campaignName}</span> will now flow into your CRM automatically via round-robin assignment.</p>
-        <div className="bg-[#FAF7FF] dark:bg-[#120B22] rounded-xl px-4 py-3 text-left text-[11px] text-[#7D7296] dark:text-[#564C70] mb-5 space-y-2 border border-[#E7DCFA] dark:border-[#2B1E48]">
+        <p className="text-[12px] text-[#716787] dark:text-[#564C70] mb-6">Leads from <span className="font-semibold text-[#170B29] dark:text-[#F4EEFF]">{form.campaignName}</span> will now flow into your CRM automatically via round-robin assignment.</p>
+        <div className="bg-[#FAF7FF] dark:bg-[#120B22] rounded-xl px-4 py-3 text-left text-[11px] text-[#716787] dark:text-[#564C70] mb-5 space-y-2 border border-[#E7DCFA] dark:border-[#2B1E48]">
           <p className="font-semibold text-[#4A3F66] dark:text-[#9A8DB6] text-[12px] mb-1"> Add this webhook in Google Ads</p>
           <p className="text-[10px]">Go to: <span className="font-medium text-[#4A3F66] dark:text-[#9A8DB6]">Google Ads → Lead Form → Lead delivery → Webhook</span></p>
           <div className="bg-white dark:bg-[#0B0715] rounded-lg px-3 py-2 border border-[#E7DCFA] dark:border-[#2B1E48] space-y-1">
@@ -1046,13 +1046,13 @@ function CreateGoogleModal({ onClose, onCreated }) {
         <div className="px-6 py-4 border-b border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-xl bg-[#FFF8F0] dark:bg-[#2D1A00] flex items-center justify-center"><svg className="w-4 h-4" viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg></div>
-            <div><h2 className="text-[15px] font-bold text-[#170B29] dark:text-[#F4EEFF] leading-none">Connect Google Ads Campaign</h2><p className="text-[11px] text-[#7D7296] dark:text-[#564C70] mt-0.5">Auto-import leads · Round-robin assigned to your team</p></div>
+            <div><h2 className="text-[15px] font-bold text-[#170B29] dark:text-[#F4EEFF] leading-none">Connect Google Ads Campaign</h2><p className="text-[11px] text-[#716787] dark:text-[#564C70] mt-0.5">Auto-import leads · Round-robin assigned to your team</p></div>
           </div>
-          <button onClick={onClose} className="w-7 h-7 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-center text-[#7D7296] hover:text-[#170B29] dark:hover:text-[#F4EEFF] transition"><X className="w-3.5 h-3.5" /></button>
+          <button onClick={onClose} className="w-7 h-7 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-center text-[#716787] hover:text-[#170B29] dark:hover:text-[#F4EEFF] transition"><X className="w-3.5 h-3.5" /></button>
         </div>
         <div className="overflow-y-auto px-6 py-5 space-y-5">
           <div>
-            <p className="text-[11px] font-bold text-[#7D7296] dark:text-[#564C70] uppercase tracking-widest mb-3">Campaign Info</p>
+            <p className="text-[11px] font-bold text-[#716787] dark:text-[#564C70] uppercase tracking-widest mb-3">Campaign Info</p>
             <div className="space-y-3">
               <div><label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Campaign Name <span className="text-[#DC2626]">*</span></label><input type="text" value={form.campaignName} onChange={set("campaignName")} placeholder="e.g. Google Search — Branding Q2" className={FIELD_CLS} /></div>
               <div className="grid grid-cols-2 gap-3">
@@ -1061,16 +1061,16 @@ function CreateGoogleModal({ onClose, onCreated }) {
             </div>
           </div>
           <div>
-            <p className="text-[11px] font-bold text-[#7D7296] dark:text-[#564C70] uppercase tracking-widest mb-3">Google Ads Config</p>
+            <p className="text-[11px] font-bold text-[#716787] dark:text-[#564C70] uppercase tracking-widest mb-3">Google Ads Config</p>
             <div className="space-y-3">
               <div>
-                <label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Webhook Key <span className="text-[#DC2626]">*</span><span className="ml-1 text-[10px] font-normal text-[#7D7296]">(set this as the Key in Google Ads)</span></label>
-                <div className="relative"><input type={showKey ? "text" : "password"} value={form.googleKey} onChange={set("googleKey")} placeholder="e.g. launcherdesk_google_2025" className={FIELD_CLS + " pr-10"} /><button type="button" onClick={() => setShowKey((v) => !v)} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#7D7296] hover:text-[#4A3F66]">{showKey ? <EyeOff /> : <EyeOn />}</button></div>
-                <p className="text-[10px] text-[#7D7296] mt-1">Create any secret string. Paste this exact value in Google Ads → Lead Form → Lead delivery → Webhook → Key.</p>
+                <label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Webhook Key <span className="text-[#DC2626]">*</span><span className="ml-1 text-[10px] font-normal text-[#716787]">(set this as the Key in Google Ads)</span></label>
+                <div className="relative"><input type={showKey ? "text" : "password"} value={form.googleKey} onChange={set("googleKey")} placeholder="e.g. launcherdesk_google_2025" className={FIELD_CLS + " pr-10"} /><button type="button" onClick={() => setShowKey((v) => !v)} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#716787] hover:text-[#4A3F66]">{showKey ? <EyeOff /> : <EyeOn />}</button></div>
+                <p className="text-[10px] text-[#716787] mt-1">Create any secret string. Paste this exact value in Google Ads → Lead Form → Lead delivery → Webhook → Key.</p>
               </div>
               <div className="grid grid-cols-2 gap-3">
-                <div><label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Campaign ID <span className="text-[10px] font-normal text-[#7D7296]">(optional)</span></label><input type="text" value={form.campaignId} onChange={set("campaignId")} placeholder="e.g. 1234567890" className={FIELD_CLS} /><p className="text-[10px] text-[#7D7296] mt-1">Filter leads by campaign. Blank = accept all.</p></div>
-                <div><label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Form ID <span className="text-[10px] font-normal text-[#7D7296]">(optional)</span></label><input type="text" value={form.formId} onChange={set("formId")} placeholder="e.g. 9876543210" className={FIELD_CLS} /><p className="text-[10px] text-[#7D7296] mt-1">Filter leads by lead form. Blank = accept all.</p></div>
+                <div><label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Campaign ID <span className="text-[10px] font-normal text-[#716787]">(optional)</span></label><input type="text" value={form.campaignId} onChange={set("campaignId")} placeholder="e.g. 1234567890" className={FIELD_CLS} /><p className="text-[10px] text-[#716787] mt-1">Filter leads by campaign. Blank = accept all.</p></div>
+                <div><label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Form ID <span className="text-[10px] font-normal text-[#716787]">(optional)</span></label><input type="text" value={form.formId} onChange={set("formId")} placeholder="e.g. 9876543210" className={FIELD_CLS} /><p className="text-[10px] text-[#716787] mt-1">Filter leads by lead form. Blank = accept all.</p></div>
               </div>
             </div>
           </div>
@@ -1180,15 +1180,15 @@ window.dataLayer.push({
           <div className="px-6 py-4 border-b border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-between shrink-0">
             <div className="flex items-center gap-3">
               <div className="w-9 h-9 rounded-xl bg-[#ECFDF5] dark:bg-[#052E1C] flex items-center justify-center"><Check className="w-5 h-5 text-[#059669]" /></div>
-              <div><h2 className="text-[15px] font-bold text-[#170B29] dark:text-[#F4EEFF] leading-none"><span className="text-[#16A34A]">{sourceName}</span> connected!</h2><p className="text-[11px] text-[#7D7296] dark:text-[#564C70] mt-0.5">Follow the 3 steps below to start receiving leads</p></div>
+              <div><h2 className="text-[15px] font-bold text-[#170B29] dark:text-[#F4EEFF] leading-none"><span className="text-[#16A34A]">{sourceName}</span> connected!</h2><p className="text-[11px] text-[#716787] dark:text-[#564C70] mt-0.5">Follow the 3 steps below to start receiving leads</p></div>
             </div>
-            <button onClick={onClose} className="w-7 h-7 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-center text-[#7D7296] hover:text-[#170B29] dark:hover:text-[#F4EEFF] transition"><X className="w-3.5 h-3.5" /></button>
+            <button onClick={onClose} className="w-7 h-7 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-center text-[#716787] hover:text-[#170B29] dark:hover:text-[#F4EEFF] transition"><X className="w-3.5 h-3.5" /></button>
           </div>
           <div className="overflow-y-auto px-6 py-5 space-y-4">
             <div className="border border-[#E7DCFA] dark:border-[#2B1E48] rounded-xl overflow-hidden">
               <div className="flex items-center gap-3 px-4 py-3 bg-[#FAF7FF] dark:bg-[#120B22] border-b border-[#E7DCFA] dark:border-[#2B1E48]">
                 <span className="w-6 h-6 rounded-full bg-[#7E14FF] text-white text-[11px] font-bold flex items-center justify-center shrink-0">1</span>
-                <div className="flex-1"><p className="text-[12px] font-bold text-[#170B29] dark:text-[#F4EEFF]">Create GTM Tag</p><p className="text-[10px] text-[#7D7296]">In GTM → Tags → New → Custom HTML → paste this script</p></div>
+                <div className="flex-1"><p className="text-[12px] font-bold text-[#170B29] dark:text-[#F4EEFF]">Create GTM Tag</p><p className="text-[10px] text-[#716787]">In GTM → Tags → New → Custom HTML → paste this script</p></div>
                 <CopyBtn text={gtmScript} />
               </div>
               <pre className="px-4 py-3 text-[10px] font-mono text-[#059669] dark:text-[#4ADE80] bg-[#0D1117] dark:bg-[#080A10] overflow-x-auto leading-relaxed whitespace-pre-wrap break-all">{gtmScript}</pre>
@@ -1196,12 +1196,12 @@ window.dataLayer.push({
             <div className="border border-[#E7DCFA] dark:border-[#2B1E48] rounded-xl overflow-hidden">
               <div className="flex items-center gap-3 px-4 py-3 bg-[#FAF7FF] dark:bg-[#120B22]">
                 <span className="w-6 h-6 rounded-full bg-[#7E14FF] text-white text-[11px] font-bold flex items-center justify-center shrink-0">2</span>
-                <div className="flex-1"><p className="text-[12px] font-bold text-[#170B29] dark:text-[#F4EEFF]">Set GTM Trigger</p><p className="text-[10px] text-[#7D7296]">In GTM → Triggering → New Trigger → set these exact values</p></div>
+                <div className="flex-1"><p className="text-[12px] font-bold text-[#170B29] dark:text-[#F4EEFF]">Set GTM Trigger</p><p className="text-[10px] text-[#716787]">In GTM → Triggering → New Trigger → set these exact values</p></div>
               </div>
               <div className="px-4 py-3 space-y-2 border-t border-[#E7DCFA] dark:border-[#2B1E48]">
                 {[{ label: "Trigger Type", value: "Custom Event" }, { label: "Event Name", value: "crm_lead", mono: true }, { label: "Fires on", value: "All Custom Events" }].map(({ label, value, mono }) => (
                   <div key={label} className="flex items-center justify-between">
-                    <span className="text-[11px] text-[#7D7296] dark:text-[#564C70] w-28 shrink-0">{label}</span>
+                    <span className="text-[11px] text-[#716787] dark:text-[#564C70] w-28 shrink-0">{label}</span>
                     <div className="flex items-center gap-2 flex-1">
                       <span className={`flex-1 px-2.5 py-1.5 rounded-lg bg-[#FAF7FF] dark:bg-[#120B22] border border-[#E7DCFA] dark:border-[#2B1E48] text-[11px] font-semibold text-[#170B29] dark:text-[#F4EEFF] ${mono ? "font-mono text-[#7E14FF]" : ""}`}>{value}</span>
                       {mono && <CopyBtn text={value} />}
@@ -1213,7 +1213,7 @@ window.dataLayer.push({
             <div className="border border-[#E7DCFA] dark:border-[#2B1E48] rounded-xl overflow-hidden">
               <div className="flex items-center gap-3 px-4 py-3 bg-[#FAF7FF] dark:bg-[#120B22] border-b border-[#E7DCFA] dark:border-[#2B1E48]">
                 <span className="w-6 h-6 rounded-full bg-[#D97706] text-white text-[11px] font-bold flex items-center justify-center shrink-0">3</span>
-                <div className="flex-1"><p className="text-[12px] font-bold text-[#170B29] dark:text-[#F4EEFF]">Add to your React form's <code className="bg-[#F3EBFF] dark:bg-[#271449] text-[#7E14FF] px-1 rounded text-[10px]">onSubmit</code></p><p className="text-[10px] text-[#7D7296]">Add this code AFTER your successful API call</p></div>
+                <div className="flex-1"><p className="text-[12px] font-bold text-[#170B29] dark:text-[#F4EEFF]">Add to your React form's <code className="bg-[#F3EBFF] dark:bg-[#271449] text-[#7E14FF] px-1 rounded text-[10px]">onSubmit</code></p><p className="text-[10px] text-[#716787]">Add this code AFTER your successful API call</p></div>
                 <CopyBtn text={dataLayerSnippet} />
               </div>
               <pre className="px-4 py-3 text-[10px] font-mono text-[#F6A044] dark:text-[#FCD34D] bg-[#0D1117] dark:bg-[#080A10] overflow-x-auto leading-relaxed whitespace-pre-wrap">{dataLayerSnippet}</pre>
@@ -1233,31 +1233,31 @@ window.dataLayer.push({
         <div className="px-6 py-4 border-b border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-xl bg-[#F0FDF4] dark:bg-[#052E1C] flex items-center justify-center"><Globe className="w-4 h-4 text-[#16A34A]" /></div>
-            <div><h2 className="text-[15px] font-bold text-[#170B29] dark:text-[#F4EEFF] leading-none">Connect Website Contact Form</h2><p className="text-[11px] text-[#7D7296] dark:text-[#564C70] mt-0.5">Auto-import leads · Round-robin assigned to your team</p></div>
+            <div><h2 className="text-[15px] font-bold text-[#170B29] dark:text-[#F4EEFF] leading-none">Connect Website Contact Form</h2><p className="text-[11px] text-[#716787] dark:text-[#564C70] mt-0.5">Auto-import leads · Round-robin assigned to your team</p></div>
           </div>
-          <button onClick={onClose} className="w-7 h-7 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-center text-[#7D7296] hover:text-[#170B29] dark:hover:text-[#F4EEFF] transition"><X className="w-3.5 h-3.5" /></button>
+          <button onClick={onClose} className="w-7 h-7 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-center text-[#716787] hover:text-[#170B29] dark:hover:text-[#F4EEFF] transition"><X className="w-3.5 h-3.5" /></button>
         </div>
         <div className="overflow-y-auto px-6 py-5 space-y-5">
           <div>
-            <p className="text-[11px] font-bold text-[#7D7296] dark:text-[#564C70] uppercase tracking-widest mb-3">Source Info</p>
+            <p className="text-[11px] font-bold text-[#716787] dark:text-[#564C70] uppercase tracking-widest mb-3">Source Info</p>
             <div className="space-y-3">
               <div><label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Source Name <span className="text-[#DC2626]">*</span></label><input type="text" value={form.sourceName} onChange={set("sourceName")} placeholder="e.g. Contact Page, Homepage Form" className={FIELD_CLS} /></div>
-              <div><label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Contact Page URL <span className="text-[10px] font-normal text-[#7D7296]">(optional)</span></label><input type="text" value={form.pageUrl} onChange={set("pageUrl")} placeholder="e.g. https://yourwebsite.com/contact" className={FIELD_CLS} /></div>
+              <div><label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Contact Page URL <span className="text-[10px] font-normal text-[#716787]">(optional)</span></label><input type="text" value={form.pageUrl} onChange={set("pageUrl")} placeholder="e.g. https://yourwebsite.com/contact" className={FIELD_CLS} /></div>
               <div className="grid grid-cols-2 gap-3">
                 <div><label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Default Status</label><select value={form.defaultStatus} onChange={set("defaultStatus")} className={FIELD_CLS}><option>New</option><option>In Progress</option><option>Converted</option><option>Not Interested</option></select></div>
               </div>
             </div>
           </div>
           <div>
-            <p className="text-[11px] font-bold text-[#7D7296] dark:text-[#564C70] uppercase tracking-widest mb-3">Webhook Config</p>
+            <p className="text-[11px] font-bold text-[#716787] dark:text-[#564C70] uppercase tracking-widest mb-3">Webhook Config</p>
             <div>
               <label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Webhook Secret <span className="text-[#DC2626]">*</span></label>
-              <div className="relative"><input type={showSecret ? "text" : "password"} value={form.webhookSecret} onChange={set("webhookSecret")} placeholder="e.g. launcherdesk_website_2025" className={FIELD_CLS + " pr-10"} /><button type="button" onClick={() => setShowSecret((v) => !v)} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#7D7296] hover:text-[#4A3F66]">{showSecret ? <EyeOff /> : <EyeOn />}</button></div>
+              <div className="relative"><input type={showSecret ? "text" : "password"} value={form.webhookSecret} onChange={set("webhookSecret")} placeholder="e.g. launcherdesk_website_2025" className={FIELD_CLS + " pr-10"} /><button type="button" onClick={() => setShowSecret((v) => !v)} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#716787] hover:text-[#4A3F66]">{showSecret ? <EyeOff /> : <EyeOn />}</button></div>
             </div>
           </div>
           <div>
-            <p className="text-[11px] font-bold text-[#7D7296] dark:text-[#564C70] uppercase tracking-widest mb-2">Website Analytics <span className="text-[10px] font-normal text-[#7D7296] normal-case tracking-normal">(optional)</span></p>
-            <p className="text-[11px] text-[#7D7296] mb-2.5">Connect Google Analytics to track website performance in Reports → Website Performance. You can also do this later.</p>
+            <p className="text-[11px] font-bold text-[#716787] dark:text-[#564C70] uppercase tracking-widest mb-2">Website Analytics <span className="text-[10px] font-normal text-[#716787] normal-case tracking-normal">(optional)</span></p>
+            <p className="text-[11px] text-[#716787] mb-2.5">Connect Google Analytics to track website performance in Reports → Website Performance. You can also do this later.</p>
             <GoogleAnalyticsConnect />
           </div>
           {error && <div className="bg-[#FEF2F2] dark:bg-[#2D0A0A] border border-[#FECACA] dark:border-[#7F1D1D] rounded-xl px-4 py-3 text-[12px] text-[#DC2626] dark:text-[#F87171]"> {error}</div>}
@@ -1304,7 +1304,7 @@ function EditWebsiteModal({ campaign, onClose, onUpdated }) {
       <div className="w-full max-w-md bg-white dark:bg-[#181029] rounded-2xl border border-[#E7DCFA] dark:border-[#2B1E48] p-8 text-center" onClick={(e) => e.stopPropagation()}>
         <div className="w-14 h-14 rounded-full bg-[#ECFDF5] dark:bg-[#052E1C] flex items-center justify-center mx-auto mb-4"><Check className="w-7 h-7 text-[#059669]" /></div>
         <h2 className="text-[16px] font-bold text-[#170B29] dark:text-[#F4EEFF] mb-1">Website source updated!</h2>
-        <p className="text-[12px] text-[#7D7296] dark:text-[#564C70] mb-6"><span className="font-semibold text-[#170B29] dark:text-[#F4EEFF]">{form.sourceName}</span> has been updated successfully.</p>
+        <p className="text-[12px] text-[#716787] dark:text-[#564C70] mb-6"><span className="font-semibold text-[#170B29] dark:text-[#F4EEFF]">{form.sourceName}</span> has been updated successfully.</p>
         <button onClick={onClose} className="w-full py-2.5 rounded-xl bg-[#16A34A] text-white text-[13px] font-semibold hover:bg-green-700 transition">Done</button>
       </div>
     </div>
@@ -1316,30 +1316,30 @@ function EditWebsiteModal({ campaign, onClose, onUpdated }) {
         <div className="px-6 py-4 border-b border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-xl bg-[#F0FDF4] dark:bg-[#052E1C] flex items-center justify-center"><Globe className="w-4 h-4 text-[#16A34A]" /></div>
-            <div><h2 className="text-[15px] font-bold text-[#170B29] dark:text-[#F4EEFF] leading-none">Edit Website Source</h2><p className="text-[11px] text-[#7D7296] dark:text-[#564C70] mt-0.5">{campaign.name}</p></div>
+            <div><h2 className="text-[15px] font-bold text-[#170B29] dark:text-[#F4EEFF] leading-none">Edit Website Source</h2><p className="text-[11px] text-[#716787] dark:text-[#564C70] mt-0.5">{campaign.name}</p></div>
           </div>
-          <button onClick={onClose} className="w-7 h-7 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-center text-[#7D7296] hover:text-[#170B29] dark:hover:text-[#F4EEFF] transition"><X className="w-3.5 h-3.5" /></button>
+          <button onClick={onClose} className="w-7 h-7 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-center text-[#716787] hover:text-[#170B29] dark:hover:text-[#F4EEFF] transition"><X className="w-3.5 h-3.5" /></button>
         </div>
         <div className="overflow-y-auto px-6 py-5 space-y-5">
           <div>
-            <p className="text-[11px] font-bold text-[#7D7296] dark:text-[#564C70] uppercase tracking-widest mb-3">Source Info</p>
+            <p className="text-[11px] font-bold text-[#716787] dark:text-[#564C70] uppercase tracking-widest mb-3">Source Info</p>
             <div className="space-y-3">
               <div><label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Source Name <span className="text-[#DC2626]">*</span></label><input type="text" value={form.sourceName} onChange={set("sourceName")} placeholder="e.g. Contact Page" className={FIELD_CLS} /></div>
-              <div><label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Contact Page URL <span className="text-[10px] font-normal text-[#7D7296]">(optional)</span></label><input type="text" value={form.pageUrl} onChange={set("pageUrl")} placeholder="e.g. https://yourwebsite.com/contact" className={FIELD_CLS} /></div>
+              <div><label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Contact Page URL <span className="text-[10px] font-normal text-[#716787]">(optional)</span></label><input type="text" value={form.pageUrl} onChange={set("pageUrl")} placeholder="e.g. https://yourwebsite.com/contact" className={FIELD_CLS} /></div>
               <div className="grid grid-cols-2 gap-3">
                 <div><label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Default Status</label><select value={form.defaultStatus} onChange={set("defaultStatus")} className={FIELD_CLS}><option>New</option><option>In Progress</option><option>Converted</option><option>Not Interested</option></select></div>
               </div>
             </div>
           </div>
           <div>
-            <p className="text-[11px] font-bold text-[#7D7296] dark:text-[#564C70] uppercase tracking-widest mb-3">Webhook Config</p>
+            <p className="text-[11px] font-bold text-[#716787] dark:text-[#564C70] uppercase tracking-widest mb-3">Webhook Config</p>
             <div className="bg-[#FFFBEB] dark:bg-[#2D1F00] rounded-xl px-4 py-3 flex gap-3 border border-[#FCD34D]/30 mb-3">
               <AlertCircle className="w-4 h-4 text-[#D97706] shrink-0 mt-0.5" />
               <p className="text-[11px] text-[#92400E] dark:text-[#FCD34D]">Leave the Webhook Secret blank to keep your existing secret.</p>
             </div>
             <div>
-              <label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">New Webhook Secret <span className="text-[10px] font-normal text-[#7D7296]">(leave blank to keep current)</span></label>
-              <div className="relative"><input type={showSecret ? "text" : "password"} value={form.webhookSecret} onChange={set("webhookSecret")} placeholder="Only if rotating secret…" className={FIELD_CLS + " pr-10"} /><button type="button" onClick={() => setShowSecret((v) => !v)} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#7D7296] hover:text-[#4A3F66]">{showSecret ? <EyeOff /> : <EyeOn />}</button></div>
+              <label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">New Webhook Secret <span className="text-[10px] font-normal text-[#716787]">(leave blank to keep current)</span></label>
+              <div className="relative"><input type={showSecret ? "text" : "password"} value={form.webhookSecret} onChange={set("webhookSecret")} placeholder="Only if rotating secret…" className={FIELD_CLS + " pr-10"} /><button type="button" onClick={() => setShowSecret((v) => !v)} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#716787] hover:text-[#4A3F66]">{showSecret ? <EyeOff /> : <EyeOn />}</button></div>
             </div>
           </div>
           {error && <div className="bg-[#FEF2F2] dark:bg-[#2D0A0A] border border-[#FECACA] dark:border-[#7F1D1D] rounded-xl px-4 py-3 text-[12px] text-[#DC2626] dark:text-[#F87171]"> {error}</div>}
@@ -1443,7 +1443,7 @@ function EmailCampaignModal({ campaigns, onClose }) {
           {[{ label: "Sent", value: result.sent ?? 1, color: "#059669" }, { label: "Failed", value: result.failed ?? 0, color: "#DC2626" }, { label: "Total", value: result.total ?? 1, color: "#7E14FF" }].map((s) => (
             <div key={s.label} className="bg-[#FAF7FF] dark:bg-[#120B22] rounded-xl px-3 py-3 text-center border border-[#E7DCFA] dark:border-[#2B1E48]">
               <div className="text-[22px] font-bold" style={{ color: s.color }}>{s.value}</div>
-              <div className="text-[10px] text-[#7D7296] uppercase tracking-wide mt-0.5">{s.label}</div>
+              <div className="text-[10px] text-[#716787] uppercase tracking-wide mt-0.5">{s.label}</div>
             </div>
           ))}
         </div>
@@ -1468,12 +1468,12 @@ function EmailCampaignModal({ campaigns, onClose }) {
         <div className="px-6 py-4 border-b border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-xl bg-[#F5F3FF] dark:bg-[#1E1040] flex items-center justify-center"><Mail className="w-4 h-4 text-[#7E14FF]" /></div>
-            <div><h2 className="text-[15px] font-bold text-[#170B29] dark:text-[#F4EEFF] leading-none">Send Email</h2><p className="text-[11px] text-[#7D7296] dark:text-[#564C70] mt-0.5">Personalized bulk emails via Brevo</p></div>
+            <div><h2 className="text-[15px] font-bold text-[#170B29] dark:text-[#F4EEFF] leading-none">Send Email</h2><p className="text-[11px] text-[#716787] dark:text-[#564C70] mt-0.5">Personalized bulk emails via Brevo</p></div>
           </div>
-          <button onClick={onClose} className="w-7 h-7 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-center text-[#7D7296] hover:text-[#170B29] dark:hover:text-[#F4EEFF] transition"><X className="w-3.5 h-3.5" /></button>
+          <button onClick={onClose} className="w-7 h-7 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-center text-[#716787] hover:text-[#170B29] dark:hover:text-[#F4EEFF] transition"><X className="w-3.5 h-3.5" /></button>
         </div>
         <div className="px-6 pt-5 pb-0 shrink-0">
-          <p className="text-[11px] font-bold text-[#7D7296] dark:text-[#564C70] uppercase tracking-widest mb-2">Send to</p>
+          <p className="text-[11px] font-bold text-[#716787] dark:text-[#564C70] uppercase tracking-widest mb-2">Send to</p>
           <div className="grid grid-cols-3 gap-2">
             {[
               { key: "campaign", label: "Campaign leads", icon: <Users className="w-3.5 h-3.5" /> },
@@ -1490,7 +1490,7 @@ function EmailCampaignModal({ campaigns, onClose }) {
         <div className="overflow-y-auto px-6 py-5 space-y-5">
           {mode === "campaign" && (
             <div>
-              <p className="text-[11px] font-bold text-[#7D7296] dark:text-[#564C70] uppercase tracking-widest mb-3">Target source</p>
+              <p className="text-[11px] font-bold text-[#716787] dark:text-[#564C70] uppercase tracking-widest mb-3">Target source</p>
               <div className="flex gap-2">
                 <select value={form.campaign} onChange={(e) => { setForm((p) => ({ ...p, campaign: e.target.value })); setLeadCount(null); }} className={FIELD_CLS + " flex-1"}>
                   <option value="">— Select a campaign —</option>
@@ -1505,14 +1505,14 @@ function EmailCampaignModal({ campaigns, onClose }) {
                 <div className="mt-2 flex items-center gap-1.5 text-[12px]">
                   <span className="w-2 h-2 rounded-full bg-[#7E14FF]" />
                   <span className="text-[#7E14FF] font-semibold">{leadCount} leads</span>
-                  <span className="text-[#7D7296]">with email addresses will receive this campaign</span>
+                  <span className="text-[#716787]">with email addresses will receive this campaign</span>
                 </div>
               )}
             </div>
           )}
           {mode === "single" && (
             <div>
-              <p className="text-[11px] font-bold text-[#7D7296] dark:text-[#564C70] uppercase tracking-widest mb-3">Recipient details</p>
+              <p className="text-[11px] font-bold text-[#716787] dark:text-[#564C70] uppercase tracking-widest mb-3">Recipient details</p>
               <div className="grid grid-cols-2 gap-3">
                 <div><label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Full name <span className="text-[#DC2626]">*</span></label><input type="text" value={singleLead.name} onChange={(e) => setSingleLead((p) => ({ ...p, name: e.target.value }))} placeholder="e.g. Rahul Sharma" className={FIELD_CLS} /></div>
                 <div><label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Email address <span className="text-[#DC2626]">*</span></label><input type="email" value={singleLead.email} onChange={(e) => setSingleLead((p) => ({ ...p, email: e.target.value }))} placeholder="rahul@gmail.com" className={FIELD_CLS} /></div>
@@ -1521,7 +1521,7 @@ function EmailCampaignModal({ campaigns, onClose }) {
           )}
           {mode === "csv" && (
             <div>
-              <p className="text-[11px] font-bold text-[#7D7296] dark:text-[#564C70] uppercase tracking-widest mb-3">CSV recipients</p>
+              <p className="text-[11px] font-bold text-[#716787] dark:text-[#564C70] uppercase tracking-widest mb-3">CSV recipients</p>
               <textarea value={csvText} onChange={(e) => { setCsvText(e.target.value); setCsvParsed(null); setCsvError(""); }} rows={6} className={FIELD_CLS + " font-mono text-[12px] resize-y"} placeholder={"name,email\nRahul Sharma,rahul@gmail.com"} />
               <div className="flex items-center gap-2 mt-2">
                 <button onClick={parseCSV} className="px-4 py-2 rounded-xl bg-[#F3EBFF] dark:bg-[#271449] text-[#7E14FF] text-[12px] font-semibold hover:bg-[#dce7ff] transition">Parse CSV</button>
@@ -1531,14 +1531,14 @@ function EmailCampaignModal({ campaigns, onClose }) {
             </div>
           )}
           <div>
-            <p className="text-[11px] font-bold text-[#7D7296] dark:text-[#564C70] uppercase tracking-widest mb-3">Email details</p>
+            <p className="text-[11px] font-bold text-[#716787] dark:text-[#564C70] uppercase tracking-widest mb-3">Email details</p>
             <div className="space-y-3">
               <div><label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">Subject <span className="text-[#DC2626]">*</span></label><input type="text" value={subject} onChange={(e) => setSubject(e.target.value)} placeholder="e.g. Special offer just for you, {{name}}!" className={FIELD_CLS} /></div>
-              <div><label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">From name <span className="text-[10px] font-normal text-[#7D7296]">(optional)</span></label><input type="text" value={fromName} onChange={(e) => setFromName(e.target.value)} placeholder="e.g. Launcherdesk CRM Team" className={FIELD_CLS} /></div>
+              <div><label className="block text-[12px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6] mb-1.5">From name <span className="text-[10px] font-normal text-[#716787]">(optional)</span></label><input type="text" value={fromName} onChange={(e) => setFromName(e.target.value)} placeholder="e.g. Launcherdesk CRM Team" className={FIELD_CLS} /></div>
             </div>
           </div>
           <div>
-            <p className="text-[11px] font-bold text-[#7D7296] dark:text-[#564C70] uppercase tracking-widest mb-2">Available merge tags</p>
+            <p className="text-[11px] font-bold text-[#716787] dark:text-[#564C70] uppercase tracking-widest mb-2">Available merge tags</p>
             <div className="flex flex-wrap gap-1.5">
               {MERGE_TAGS.map((tag) => (
                 <button key={tag} onClick={() => insertTag(tag)} className="px-2.5 py-1 rounded-lg bg-[#F5F3FF] dark:bg-[#1E1040] text-[#7E14FF] text-[11px] font-mono font-semibold hover:bg-[#ede9fe] transition">{tag}</button>
@@ -1546,7 +1546,7 @@ function EmailCampaignModal({ campaigns, onClose }) {
             </div>
           </div>
           <div>
-            <p className="text-[11px] font-bold text-[#7D7296] dark:text-[#564C70] uppercase tracking-widest mb-3">Email body (HTML) <span className="text-[#DC2626]">*</span></p>
+            <p className="text-[11px] font-bold text-[#716787] dark:text-[#564C70] uppercase tracking-widest mb-3">Email body (HTML) <span className="text-[#DC2626]">*</span></p>
             <textarea value={bodyTemplate} onChange={(e) => setBodyTemplate(e.target.value)} rows={10} placeholder="<p>Hi {{name}}, ...</p>" className={FIELD_CLS + " font-mono text-[12px] resize-y"} />
           </div>
           {error && <div className="bg-[#FEF2F2] dark:bg-[#2D0A0A] border border-[#FECACA] dark:border-[#7F1D1D] rounded-xl px-4 py-3 text-[12px] text-[#DC2626] dark:text-[#F87171]"> {error}</div>}
@@ -1783,7 +1783,7 @@ function QualificationModal({ adSet, onClose, onSaved }) {
           <Check className="w-7 h-7 text-[#059669]" />
         </div>
         <h2 className="text-[16px] font-bold text-[#170B29] dark:text-[#F4EEFF] mb-1">Qualification rules saved!</h2>
-        <p className="text-[12px] text-[#7D7296] dark:text-[#564C70] mb-6">
+        <p className="text-[12px] text-[#716787] dark:text-[#564C70] mb-6">
           New leads from <span className="font-semibold text-[#170B29] dark:text-[#F4EEFF]">{adSet.adSetName || adSet.name}</span> will be automatically scored and categorised as Hot, Warm, or Cold.
         </p>
         <div className="grid grid-cols-3 gap-3 mb-6">
@@ -1794,7 +1794,7 @@ function QualificationModal({ adSet, onClose, onSaved }) {
           ].map((t) => (
             <div key={t.label} className={`${t.bg} rounded-xl px-3 py-3 text-center`}>
               <div className="text-[15px] font-bold" style={{ color: t.color }}>{t.label}</div>
-              <div className="text-[10px] text-[#7D7296] mt-0.5">{t.score}</div>
+              <div className="text-[10px] text-[#716787] mt-0.5">{t.score}</div>
             </div>
           ))}
         </div>
@@ -1815,17 +1815,17 @@ function QualificationModal({ adSet, onClose, onSaved }) {
             </div>
             <div>
               <h2 className="text-[15px] font-bold text-[#170B29] dark:text-[#F4EEFF] leading-none">Qualification Rules</h2>
-              <p className="text-[11px] text-[#7D7296] dark:text-[#564C70] mt-0.5">{adSet.adSetName || adSet.name}</p>
+              <p className="text-[11px] text-[#716787] dark:text-[#564C70] mt-0.5">{adSet.adSetName || adSet.name}</p>
             </div>
           </div>
-          <button onClick={onClose} className="w-7 h-7 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-center text-[#7D7296] hover:text-[#170B29] dark:hover:text-[#F4EEFF] transition">
+          <button onClick={onClose} className="w-7 h-7 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-center text-[#716787] hover:text-[#170B29] dark:hover:text-[#F4EEFF] transition">
             <X className="w-3.5 h-3.5" />
           </button>
         </div>
 
         <div className="overflow-y-auto px-6 py-5 space-y-6 flex-1">
           {loading ? (
-            <div className="flex items-center justify-center py-16 text-[#7D7296] gap-2">
+            <div className="flex items-center justify-center py-16 text-[#716787] gap-2">
               <Loader2 className="w-4 h-4 animate-spin" />
               Loading form questions…
             </div>
@@ -1862,7 +1862,7 @@ function QualificationModal({ adSet, onClose, onSaved }) {
 
               {/* Thresholds */}
               <div>
-                <p className="text-[11px] font-bold text-[#7D7296] dark:text-[#564C70] uppercase tracking-widest mb-3">Score Thresholds (%)</p>
+                <p className="text-[11px] font-bold text-[#716787] dark:text-[#564C70] uppercase tracking-widest mb-3">Score Thresholds (%)</p>
                 <div className="grid grid-cols-2 gap-4">
                   {[
                     { key: "hot", label: "Hot threshold", color: "#DC2626", bg: "bg-[#FEF2F2]", desc: "Min % score to be Hot" },
@@ -1882,7 +1882,7 @@ function QualificationModal({ adSet, onClose, onSaved }) {
                         />
                         <span className="text-[13px] font-bold" style={{ color: t.color }}>%</span>
                       </div>
-                      <p className="text-[10px] text-[#7D7296] mt-1">{t.desc}</p>
+                      <p className="text-[10px] text-[#716787] mt-1">{t.desc}</p>
                       {maxPossibleScore > 0 && (
                         <p className="text-[10px] font-semibold mt-0.5" style={{ color: t.color }}>
                           = {Math.round((thresholds[t.key] / 100) * maxPossibleScore)} pts of {maxPossibleScore} max
@@ -1899,7 +1899,7 @@ function QualificationModal({ adSet, onClose, onSaved }) {
                   ].map((t) => (
                     <div key={t.label} className={`${t.bg} rounded-xl px-3 py-2 text-center`}>
                       <div className="text-[12px] font-bold inline-flex items-center gap-1 justify-center" style={{ color: t.color }}><t.Icon className="w-3 h-3" />{t.label}</div>
-                      <div className="text-[10px] text-[#7D7296] mt-0.5">{t.desc}</div>
+                      <div className="text-[10px] text-[#716787] mt-0.5">{t.desc}</div>
                     </div>
                   ))}
                 </div>
@@ -1908,7 +1908,7 @@ function QualificationModal({ adSet, onClose, onSaved }) {
               {/* Questions & Scores */}
               <div>
                 <div className="flex items-center justify-between mb-3">
-                  <p className="text-[11px] font-bold text-[#7D7296] dark:text-[#564C70] uppercase tracking-widest">
+                  <p className="text-[11px] font-bold text-[#716787] dark:text-[#564C70] uppercase tracking-widest">
                     Questions & Answer Scores
                     {questions.length > 0 && (
                       <span className="ml-2 normal-case font-normal text-[#059669]">— loaded from lead form</span>
@@ -1924,8 +1924,8 @@ function QualificationModal({ adSet, onClose, onSaved }) {
                 </div>
 
                 {rules.length === 0 && (
-                  <div className="text-center py-10 rounded-2xl border-2 border-dashed border-[#E7DCFA] dark:border-[#2B1E48] text-[#7D7296] dark:text-[#564C70]">
-                    <div className="mb-2 flex justify-center text-[#7D7296]"><ClipboardList className="w-8 h-8" strokeWidth={1.5} /></div>
+                  <div className="text-center py-10 rounded-2xl border-2 border-dashed border-[#E7DCFA] dark:border-[#2B1E48] text-[#716787] dark:text-[#564C70]">
+                    <div className="mb-2 flex justify-center text-[#716787]"><ClipboardList className="w-8 h-8" strokeWidth={1.5} /></div>
                     <p className="text-[13px] font-medium">No questions yet</p>
                     <p className="text-[11px] mt-1">
                       {adSet.formId
@@ -1950,7 +1950,7 @@ function QualificationModal({ adSet, onClose, onSaved }) {
                           value={rule.questionLabel}
                           onChange={(e) => handleLabelChange(rIdx, e.target.value)}
                           placeholder="Question label (e.g. What is your budget?)"
-                          className="flex-1 bg-transparent text-[13px] font-semibold text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#7D7296] focus:outline-none"
+                          className="flex-1 bg-transparent text-[13px] font-semibold text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#716787] focus:outline-none"
                         />
                         {/* Live option total — must equal exactly 100 */}
                         <span
@@ -1966,7 +1966,7 @@ function QualificationModal({ adSet, onClose, onSaved }) {
                         </span>
                         <button
                           onClick={() => handleRemoveQuestion(rIdx)}
-                          className="p-1 rounded-lg text-[#7D7296] hover:text-[#DC2626] hover:bg-[#FEF2F2] transition"
+                          className="p-1 rounded-lg text-[#716787] hover:text-[#DC2626] hover:bg-[#FEF2F2] transition"
                         >
                           <X className="w-3.5 h-3.5" />
                         </button>
@@ -1981,7 +1981,7 @@ function QualificationModal({ adSet, onClose, onSaved }) {
                                 value={ans.value}
                                 onChange={(e) => handleAnswerValueChange(rIdx, aIdx, e.target.value)}
                                 placeholder={`Answer option ${aIdx + 1}`}
-                                className="flex-1 bg-transparent text-[12px] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#7D7296] focus:outline-none"
+                                className="flex-1 bg-transparent text-[12px] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#716787] focus:outline-none"
                               />
                             </div>
                             <div className="flex items-center gap-1 bg-white dark:bg-[#181029] rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] px-3 py-2 w-24 shrink-0">
@@ -1992,11 +1992,11 @@ function QualificationModal({ adSet, onClose, onSaved }) {
                                 onChange={(e) => handleScoreChange(rIdx, aIdx, e.target.value)}
                                 className="w-12 bg-transparent text-[12px] font-bold text-[#170B29] dark:text-[#F4EEFF] focus:outline-none text-right"
                               />
-                              <span className="text-[10px] text-[#7D7296]">pts</span>
+                              <span className="text-[10px] text-[#716787]">pts</span>
                             </div>
                             <button
                               onClick={() => handleRemoveAnswer(rIdx, aIdx)}
-                              className="p-1.5 rounded-lg text-[#7D7296] hover:text-[#DC2626] hover:bg-[#FEF2F2] dark:hover:bg-[#2D0A0A] transition shrink-0"
+                              className="p-1.5 rounded-lg text-[#716787] hover:text-[#DC2626] hover:bg-[#FEF2F2] dark:hover:bg-[#2D0A0A] transition shrink-0"
                             >
                               <X className="w-3 h-3" />
                             </button>
@@ -2004,7 +2004,7 @@ function QualificationModal({ adSet, onClose, onSaved }) {
                         ))}
                         <button
                           onClick={() => handleAddAnswer(rIdx)}
-                          className="flex items-center gap-1 mt-1 text-[11px] font-semibold text-[#7D7296] hover:text-[#7E14FF] transition"
+                          className="flex items-center gap-1 mt-1 text-[11px] font-semibold text-[#716787] hover:text-[#7E14FF] transition"
                         >
                           <Plus className="w-3 h-3" />
                           Add answer
@@ -2029,12 +2029,12 @@ function QualificationModal({ adSet, onClose, onSaved }) {
         <div className="px-6 pb-5 pt-3 border-t border-[#E7DCFA] dark:border-[#2B1E48] shrink-0">
           {rules.length > 0 && (
             <div className="flex items-center justify-between mb-3">
-              <span className="text-[11px] text-[#7D7296] dark:text-[#564C70]">
+              <span className="text-[11px] text-[#716787] dark:text-[#564C70]">
                 Maximum Score:{" "}
                 <span className="font-bold text-[#170B29] dark:text-[#F4EEFF]">
                   {maxPossibleScore} pts
                 </span>{" "}
-                <span className="text-[#7D7296]">({rules.length} × 100)</span>
+                <span className="text-[#716787]">({rules.length} × 100)</span>
               </span>
               <span
                 className={`text-[11px] font-semibold inline-flex items-center gap-1 ${
@@ -2094,22 +2094,22 @@ function AdSetLeadsPanel({ adSet }) {
   }, [adSet]);
 
   if (loading) return (
-    <div className="flex items-center justify-center py-16 text-[#7D7296] gap-2">
+    <div className="flex items-center justify-center py-16 text-[#716787] gap-2">
       <Loader2 className="w-4 h-4 animate-spin" />
       Loading leads…
     </div>
   );
 
   if (!leads.length) return (
-    <div className="text-center py-14 text-[#7D7296] dark:text-[#564C70]">
-      <div className="mb-2 flex justify-center text-[#7D7296]"><Inbox className="w-9 h-9" strokeWidth={1.5} /></div>
+    <div className="text-center py-14 text-[#716787] dark:text-[#564C70]">
+      <div className="mb-2 flex justify-center text-[#716787]"><Inbox className="w-9 h-9" strokeWidth={1.5} /></div>
       <p className="text-[13px] font-medium">No leads yet for this ad set.</p>
     </div>
   );
 
   return (
     <div className="space-y-2">
-      <p className="text-[11px] font-bold text-[#7D7296] dark:text-[#564C70] uppercase tracking-widest mb-3">
+      <p className="text-[11px] font-bold text-[#716787] dark:text-[#564C70] uppercase tracking-widest mb-3">
         {leads.length} lead{leads.length !== 1 ? "s" : ""} from this ad set
       </p>
       {leads.map((l, i) => {
@@ -2129,7 +2129,7 @@ function AdSetLeadsPanel({ adSet }) {
                 </div>
                 <div>
                   <div className="text-[13px] font-semibold text-[#170B29] dark:text-[#F4EEFF] leading-none">{name}</div>
-                  <div className="text-[11px] text-[#7D7296] dark:text-[#564C70] mt-0.5 font-mono">{maskPhone(phone)}</div>
+                  <div className="text-[11px] text-[#716787] dark:text-[#564C70] mt-0.5 font-mono">{maskPhone(phone)}</div>
                 </div>
               </div>
               <div className="flex items-center gap-1.5 shrink-0">
@@ -2144,8 +2144,8 @@ function AdSetLeadsPanel({ adSet }) {
               </div>
             )}
             <div className="flex items-center justify-between text-[11px]">
-              <span className="text-[#7D7296]">Assigned: <span className="text-[#4A3F66] dark:text-[#9A8DB6] font-medium">{agent}</span></span>
-              <span className="text-[#7D7296] italic">{l.remark || "—"}</span>
+              <span className="text-[#716787]">Assigned: <span className="text-[#4A3F66] dark:text-[#9A8DB6] font-medium">{agent}</span></span>
+              <span className="text-[#716787] italic">{l.remark || "—"}</span>
             </div>
           </div>
         );
@@ -2199,22 +2199,22 @@ function CampaignCard({ c, onSelect, onEdit, onToggle, onDelete, onQualification
             </div>
             <h3 className="text-[14px] font-bold text-[#170B29] dark:text-[#F4EEFF] leading-snug truncate">{c.name}</h3>
             {c.parentCampaignName && !c._inGroup && (
-              <p className="text-[10px] text-[#7D7296] mt-0.5">Parent: {c.parentCampaignName}</p>
+              <p className="text-[10px] text-[#716787] mt-0.5">Parent: {c.parentCampaignName}</p>
             )}
-            <p className="text-[11px] text-[#7D7296] dark:text-[#564C70] mt-0.5">{c.date}</p>
+            <p className="text-[11px] text-[#716787] dark:text-[#564C70] mt-0.5">{c.date}</p>
           </div>
         </div>
 
         <div className="mb-3">
           <div className="flex items-center justify-between gap-3 bg-[#FAF7FF] dark:bg-[#120B22] rounded-xl px-3 py-3 border border-[#E7DCFA] dark:border-[#2B1E48]">
             <div className="text-[22px] font-bold text-[#170B29] dark:text-[#F4EEFF] leading-none">{fmt(c.leads)}</div>
-            <span className="text-[22px] font-semibold text-[#7D7296] dark:text-[#564C70] tracking-wide">Leads</span>
+            <span className="text-[22px] font-semibold text-[#716787] dark:text-[#564C70] tracking-wide">Leads</span>
           </div>
         </div>
 
         <div className="flex items-center gap-1.5 mb-3">
           <RefreshCw className="w-3 h-3 text-[#7E14FF] dark:text-[#A46BFF] shrink-0" />
-          <span className="text-[10px] text-[#7D7296] dark:text-[#564C70] truncate">
+          <span className="text-[10px] text-[#716787] dark:text-[#564C70] truncate">
             Round-robin · {c._isMeta ? "Page ID: " : c._isWebsite ? "Source: " : "Key: "}
             <span className="font-mono">{c._isMeta ? c.pageId : c._isWebsite ? (c.pageUrl || "Webhook") : (c.googleKey ? "••••••" : "—")}</span>
           </span>
@@ -2256,10 +2256,10 @@ function CampaignCard({ c, onSelect, onEdit, onToggle, onDelete, onQualification
           <button onClick={() => onSelect(c)} className="flex-1 py-2 rounded-xl bg-[#F3EBFF] dark:bg-[#271449] text-[#7E14FF] dark:text-[#A46BFF] text-[12px] font-semibold hover:bg-[#dce7ff] dark:hover:bg-[#1e2d52] transition">
             View leads ({c.leads})
           </button>
-          <button onClick={(e) => { e.stopPropagation(); onEdit(c); }} className={`px-3 py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] text-[12px] font-semibold text-[#7D7296] transition ${editHoverCls}`} title="Edit campaign"><EditIcon /></button>
+          <button onClick={(e) => { e.stopPropagation(); onEdit(c); }} className={`px-3 py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] text-[12px] font-semibold text-[#716787] transition ${editHoverCls}`} title="Edit campaign"><EditIcon /></button>
           <button
             onClick={(e) => { e.stopPropagation(); onQualification && onQualification(c); }}
-            className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] text-[12px] font-semibold text-[#7D7296] hover:border-[#E1306C] hover:text-[#E1306C] transition"
+            className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] text-[12px] font-semibold text-[#716787] hover:border-[#E1306C] hover:text-[#E1306C] transition"
             title="Qualification rules"
           >
             <BarChart3 className="w-3.5 h-3.5" />
@@ -2571,9 +2571,9 @@ export default function Campaigns() {
             <div className="flex items-start justify-between mb-4">
               <div>
                 <h3 className="text-[15px] font-bold text-[#170B29] dark:text-[#F4EEFF]">Assign Campaign Owner</h3>
-                <p className="text-[12px] text-[#7D7296] mt-1 break-all">{assigningCampaign.c.name}</p>
+                <p className="text-[12px] text-[#716787] mt-1 break-all">{assigningCampaign.c.name}</p>
               </div>
-              <button onClick={() => setAssigningCampaign(null)} className="text-[#7D7296] hover:text-[#170B29] dark:hover:text-white ml-2 shrink-0"><X className="w-4 h-4" /></button>
+              <button onClick={() => setAssigningCampaign(null)} className="text-[#716787] hover:text-[#170B29] dark:hover:text-white ml-2 shrink-0"><X className="w-4 h-4" /></button>
             </div>
             <p className="text-[12px] text-[#4A3F66] dark:text-[#9A8DB6] mb-4 leading-relaxed">
               This campaign will become visible <strong>only to the selected admin</strong>. Their team will be used for round-robin lead assignment.
@@ -2593,7 +2593,7 @@ export default function Campaigns() {
               <p className="text-[11px] text-amber-600 mb-4">No admins found. Create an admin first.</p>
             )}
             <div className="flex gap-2">
-              <button onClick={() => setAssigningCampaign(null)} className="flex-1 py-2.5 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] text-[13px] font-semibold text-[#7D7296] hover:bg-[#FAF7FF] dark:hover:bg-white/5 transition">Cancel</button>
+              <button onClick={() => setAssigningCampaign(null)} className="flex-1 py-2.5 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] text-[13px] font-semibold text-[#716787] hover:bg-[#FAF7FF] dark:hover:bg-white/5 transition">Cancel</button>
               <button
                 onClick={handleConfirmAssign}
                 disabled={!assigningCampaign.selectedAdminId || assignLoading}
@@ -2759,19 +2759,19 @@ export default function Campaigns() {
           <div className="flex items-center gap-2 flex-1 sm:flex-none min-w-0">
             <button
               onClick={fetchCampaigns}
-              className="w-8 h-8 shrink-0 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-center text-[#7D7296] hover:text-[#7E14FF] hover:border-[#7E14FF] transition"
+              className="w-8 h-8 shrink-0 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-center text-[#716787] hover:text-[#7E14FF] hover:border-[#7E14FF] transition"
               title="Refresh"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${pageLoading ? "animate-spin" : ""}`} />
             </button>
             <div className="relative flex-1 sm:flex-none min-w-0">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#7D7296]" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#716787]" />
               <input
                 type="text"
                 placeholder="Search campaigns…"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full sm:w-48 pl-8 pr-4 py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-white dark:bg-[#181029] text-[12px] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#7D7296] focus:outline-none focus:border-[#7E14FF]"
+                className="w-full sm:w-48 pl-8 pr-4 py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-white dark:bg-[#181029] text-[12px] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#716787] focus:outline-none focus:border-[#7E14FF]"
               />
             </div>
           </div>
@@ -2780,7 +2780,7 @@ export default function Campaigns() {
 
       {/* ── Campaign cards area ─────────────────────────────────────────────── */}
       {pageLoading ? (
-        <div className="flex items-center justify-center py-24 text-[#7D7296] gap-3">
+        <div className="flex items-center justify-center py-24 text-[#716787] gap-3">
           <Loader2 className="w-5 h-5 animate-spin" />
           <span className="text-[14px]">Loading campaigns…</span>
         </div>
@@ -2799,14 +2799,14 @@ export default function Campaigns() {
               <h2 className="text-[15px] font-bold text-[#170B29] dark:text-[#F4EEFF] truncate">
                 {selectedAdSet.adSetName || selectedAdSet.name}
               </h2>
-              <p className="text-[11px] text-[#7D7296] dark:text-[#564C70] mt-0.5">
+              <p className="text-[11px] text-[#716787] dark:text-[#564C70] mt-0.5">
                 Ad Set · Parent: {selectedParent} · Page ID: <span className="font-mono">{selectedAdSet.pageId || "—"}</span>
               </p>
             </div>
             <div className="flex items-center gap-3 shrink-0">
               <div className="text-center">
                 <div className="text-[18px] font-bold text-[#170B29] dark:text-[#F4EEFF] leading-none">{selectedAdSet.leads ?? "—"}</div>
-                <div className="text-[10px] text-[#7D7296] uppercase tracking-wide">Leads</div>
+                <div className="text-[10px] text-[#716787] uppercase tracking-wide">Leads</div>
               </div>
               <button
                 onClick={() => setSelected(selectedAdSet)}
@@ -2816,7 +2816,7 @@ export default function Campaigns() {
               </button>
               <button
                 onClick={() => setQualificationAdSet(selectedAdSet)}
-                className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] text-[12px] font-semibold text-[#7D7296] hover:border-[#E1306C] hover:text-[#E1306C] transition"
+                className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] text-[12px] font-semibold text-[#716787] hover:border-[#E1306C] hover:text-[#E1306C] transition"
               >
                 <BarChart3 className="w-3.5 h-3.5" />
                 Qualification
@@ -2840,7 +2840,7 @@ export default function Campaigns() {
             </div>
             <div className="flex-1 min-w-0">
               <h2 className="text-[15px] font-bold text-[#170B29] dark:text-[#F4EEFF] truncate">{selectedParent}</h2>
-              <p className="text-[11px] text-[#7D7296] dark:text-[#564C70] mt-0.5">
+              <p className="text-[11px] text-[#716787] dark:text-[#564C70] mt-0.5">
                 {(groupedMeta[selectedParent] || []).length} ad set{(groupedMeta[selectedParent] || []).length !== 1 ? "s" : ""} ·
                 Page ID: <span className="font-mono">{(groupedMeta[selectedParent] || [])[0]?.pageId || "—"}</span>
               </p>
@@ -2850,7 +2850,7 @@ export default function Campaigns() {
                 <div className="text-[18px] font-bold text-[#170B29] dark:text-[#F4EEFF] leading-none">
                   {(groupedMeta[selectedParent] || []).reduce((s, c) => s + (c.leads || 0), 0).toLocaleString() || "—"}
                 </div>
-                <div className="text-[10px] text-[#7D7296] uppercase tracking-wide">Total Leads</div>
+                <div className="text-[10px] text-[#716787] uppercase tracking-wide">Total Leads</div>
               </div>
             </div>
           </div>
@@ -2889,12 +2889,12 @@ export default function Campaigns() {
                           <h3 className="text-[14px] font-bold text-[#170B29] dark:text-[#F4EEFF] truncate">
                             {adSet.adSetName || adSet.name}
                           </h3>
-                          <p className="text-[11px] text-[#7D7296] dark:text-[#564C70] mt-0.5">{adSet.date}</p>
+                          <p className="text-[11px] text-[#716787] dark:text-[#564C70] mt-0.5">{adSet.date}</p>
                         </div>
                       </div>
                       <div className="text-center shrink-0">
                         <div className="text-[20px] font-bold text-[#170B29] dark:text-[#F4EEFF] leading-none">{fmt(adSet.leads)}</div>
-                        <div className="text-[10px] text-[#7D7296] dark:text-[#564C70] mt-0.5 uppercase tracking-wide">Leads</div>
+                        <div className="text-[10px] text-[#716787] dark:text-[#564C70] mt-0.5 uppercase tracking-wide">Leads</div>
                       </div>
                     </div>
 
@@ -2911,7 +2911,7 @@ export default function Campaigns() {
                       {/* Edit */}
                       <button
                         onClick={(e) => { e.stopPropagation(); setEditCampaign(adSet); }}
-                        className="px-3 py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] text-[12px] font-semibold text-[#7D7296] hover:border-[#E1306C] hover:text-[#E1306C] transition"
+                        className="px-3 py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] text-[12px] font-semibold text-[#716787] hover:border-[#E1306C] hover:text-[#E1306C] transition"
                         title="Edit ad set"
                       >
                         <EditIcon />
@@ -2920,7 +2920,7 @@ export default function Campaigns() {
                       {/* Qualification */}
                       <button
                         onClick={(e) => { e.stopPropagation(); setQualificationAdSet(adSet); }}
-                        className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] text-[12px] font-semibold text-[#7D7296] hover:border-[#E1306C] hover:text-[#E1306C] transition"
+                        className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] text-[12px] font-semibold text-[#716787] hover:border-[#E1306C] hover:text-[#E1306C] transition"
                         title="Qualification rules"
                       >
                         <BarChart3 className="w-3.5 h-3.5" />
@@ -2963,7 +2963,7 @@ export default function Campaigns() {
                         </span>
                       </div>
                       <h3 className="text-[15px] font-bold text-[#170B29] dark:text-[#F4EEFF] truncate">{parentName}</h3>
-                      <p className="text-[11px] text-[#7D7296] dark:text-[#564C70] mt-0.5">
+                      <p className="text-[11px] text-[#716787] dark:text-[#564C70] mt-0.5">
                         {adSets.length} ad set{adSets.length !== 1 ? "s" : ""} · Page ID: <span className="font-mono">{adSets[0]?.pageId || "—"}</span>
                       </p>
                     </div>
@@ -2973,17 +2973,17 @@ export default function Campaigns() {
                       <div className="text-[22px] font-bold text-[#170B29] dark:text-[#F4EEFF] leading-none">
                         {totalLeads > 0 ? totalLeads.toLocaleString() : "—"}
                       </div>
-                      <div className="text-[10px] text-[#7D7296] dark:text-[#564C70] mt-0.5 uppercase tracking-wide">Total Leads</div>
+                      <div className="text-[10px] text-[#716787] dark:text-[#564C70] mt-0.5 uppercase tracking-wide">Total Leads</div>
                     </div>
                     <div className="text-center">
                       <div className="text-[22px] font-bold text-[#170B29] dark:text-[#F4EEFF] leading-none">{adSets.length}</div>
-                      <div className="text-[10px] text-[#7D7296] dark:text-[#564C70] mt-0.5 uppercase tracking-wide">Ad Sets</div>
+                      <div className="text-[10px] text-[#716787] dark:text-[#564C70] mt-0.5 uppercase tracking-wide">Ad Sets</div>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="text-[12px] font-semibold text-[#7D7296] dark:text-[#564C70] group-hover:text-[#E1306C] transition">
+                      <span className="text-[12px] font-semibold text-[#716787] dark:text-[#564C70] group-hover:text-[#E1306C] transition">
                         View ad sets
                       </span>
-                      <ChevronRight className="w-4 h-4 text-[#7D7296] dark:text-[#564C70] group-hover:text-[#E1306C] group-hover:translate-x-0.5 transition-all" />
+                      <ChevronRight className="w-4 h-4 text-[#716787] dark:text-[#564C70] group-hover:text-[#E1306C] group-hover:translate-x-0.5 transition-all" />
                     </div>
                   </div>
                 </div>
@@ -2996,7 +2996,7 @@ export default function Campaigns() {
             <>
               {Object.keys(groupedMeta).length > 0 && (
                 <div className="flex items-center gap-3 pt-2">
-                  <span className="text-[11px] font-bold text-[#7D7296] dark:text-[#564C70] uppercase tracking-widest">Other campaigns</span>
+                  <span className="text-[11px] font-bold text-[#716787] dark:text-[#564C70] uppercase tracking-widest">Other campaigns</span>
                   <div className="flex-1 h-px bg-[#E7DCFA] dark:bg-[#2B1E48]" />
                 </div>
               )}
@@ -3010,8 +3010,8 @@ export default function Campaigns() {
 
           {/* Empty state */}
           {Object.keys(groupedMeta).length === 0 && ungrouped.length === 0 && (
-            <div className="text-center py-20 text-[#7D7296] dark:text-[#564C70]">
-              <div className="mb-3 flex justify-center text-[#7D7296]"><Radio className="w-10 h-10" strokeWidth={1.5} /></div>
+            <div className="text-center py-20 text-[#716787] dark:text-[#564C70]">
+              <div className="mb-3 flex justify-center text-[#716787]"><Radio className="w-10 h-10" strokeWidth={1.5} /></div>
               <p className="font-display text-[17px] font-bold text-[#170B29] dark:text-white">No campaigns connected</p>
               <p className="text-[13px] mt-1">Connect a Meta, Google Ads, or Website campaign to start receiving leads automatically.</p>
             </div>

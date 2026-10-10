@@ -169,7 +169,7 @@ function CompanyGroupTab({ isSuperAdmin }) {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-8">
-        <Loader2 className="w-5 h-5 animate-spin text-slate-400" />
+        <Loader2 className="w-5 h-5 animate-spin text-slate-500" />
       </div>
     );
   }
@@ -208,7 +208,7 @@ function CompanyGroupTab({ isSuperAdmin }) {
           <p className={`text-[12px] font-semibold ${draftEnabled ? "text-emerald-700 dark:text-emerald-400" : "text-slate-900 dark:text-white"}`}>
             {draftEnabled ? "Notifications enabled" : "Notifications paused"}
           </p>
-          <p className="text-[10px] text-slate-400">
+          <p className="text-[10px] text-slate-500">
             {draftEnabled ? "Campaign leads will be sent to Telegram" : "No messages will be sent"}
           </p>
         </div>
@@ -240,12 +240,12 @@ function CompanyGroupTab({ isSuperAdmin }) {
             <button
               type="button"
               onClick={() => setShowToken(v => !v)}
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-indigo-500 transition"
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-indigo-500 transition"
             >
               {showToken ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
             </button>
           </div>
-          <p className="text-[10px] text-slate-400 mt-1">
+          <p className="text-[10px] text-slate-500 mt-1">
             Create via <span className="font-mono font-semibold">@BotFather</span> on Telegram. Shared by all admins.
           </p>
         </div>
@@ -270,7 +270,7 @@ function CompanyGroupTab({ isSuperAdmin }) {
           placeholder="-1001234567890"
           className="input-field px-3 py-2 text-[11px] font-mono"
         />
-        <p className="text-[10px] text-slate-400 mt-1">
+        <p className="text-[10px] text-slate-500 mt-1">
           Add bot to group → get ID via <span className="font-mono font-semibold">@userinfobot</span>
         </p>
       </div>
@@ -299,7 +299,7 @@ function CompanyGroupTab({ isSuperAdmin }) {
       </div>
 
       {!isConfigured && (
-        <p className="flex items-center gap-1.5 text-[10px] text-slate-400 justify-center pb-0.5">
+        <p className="flex items-center gap-1.5 text-[10px] text-slate-500 justify-center pb-0.5">
           <Lock className="w-3 h-3" />
           Add bot token + chat ID, then save to activate
         </p>
@@ -382,7 +382,7 @@ function AdminAlertsTab() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-8">
-        <Loader2 className="w-5 h-5 animate-spin text-slate-400" />
+        <Loader2 className="w-5 h-5 animate-spin text-slate-500" />
       </div>
     );
   }
@@ -399,7 +399,7 @@ function AdminAlertsTab() {
       </div>
 
       {admins.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-6 gap-2 text-slate-400">
+        <div className="flex flex-col items-center justify-center py-6 gap-2 text-slate-500">
           <Users className="w-7 h-7 opacity-30" />
           <p className="text-[12px]">No admins found for this company.</p>
         </div>
@@ -426,7 +426,7 @@ function AdminAlertsTab() {
                     </div>
                     <div className="min-w-0">
                       <p className="text-[12px] font-semibold text-slate-900 dark:text-white truncate">{admin.name}</p>
-                      <p className="text-[10px] text-slate-400 truncate font-mono">{admin.email}</p>
+                      <p className="text-[10px] text-slate-500 truncate font-mono">{admin.email}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
@@ -448,7 +448,7 @@ function AdminAlertsTab() {
 
                 {/* Personal Chat ID input */}
                 <div>
-                  <label className="flex items-center gap-1.5 text-[10px] font-semibold text-slate-400 uppercase tracking-wide mb-1">
+                  <label className="flex items-center gap-1.5 text-[10px] font-semibold text-slate-500 uppercase tracking-wide mb-1">
                     Personal Chat ID
                     {isReady && <Pill tone="emerald" className="!text-[9px] !py-0 normal-case tracking-normal">connected</Pill>}
                   </label>
@@ -460,7 +460,7 @@ function AdminAlertsTab() {
                     placeholder="e.g. 987654321"
                     className="input-field px-3 py-1.5 text-[11px] font-mono"
                   />
-                  <p className="text-[9px] text-slate-400 mt-0.5">
+                  <p className="text-[9px] text-slate-500 mt-0.5">
                     Admin gets this via <span className="font-mono">@userinfobot</span> on Telegram
                   </p>
                 </div>
@@ -584,7 +584,7 @@ export default function TelegramSettings() {
         </div>
         <div className="flex-1 min-w-0">
           <p className="text-[13px] font-bold text-slate-900 dark:text-white">Telegram Notifications</p>
-          <p className="text-[10px] text-slate-400">Campaign leads only · company-isolated</p>
+          <p className="text-[10px] text-slate-500">Campaign leads only · company-isolated</p>
         </div>
         <button
           onClick={() => setOpen(false)}
@@ -607,7 +607,7 @@ export default function TelegramSettings() {
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[11px] font-semibold border transition flex-1 justify-center
                   ${active
                     ? "border-sky-300 dark:border-sky-700 bg-sky-50 dark:bg-sky-500/10 text-sky-700 dark:text-sky-300"
-                    : "border-slate-200 dark:border-white/10 text-slate-400 hover:border-slate-300 dark:hover:border-white/20 hover:text-slate-600 dark:hover:text-slate-300"
+                    : "border-slate-200 dark:border-white/10 text-slate-500 hover:border-slate-300 dark:hover:border-white/20 hover:text-slate-600 dark:hover:text-slate-300"
                   }`}
               >
                 <Icon className="w-3.5 h-3.5" />

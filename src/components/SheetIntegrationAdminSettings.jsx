@@ -115,13 +115,13 @@ export default function SheetIntegrationAdminSettings() {
                 <Row label="Enable Excel / Google Sheet Integration" on={settings.enabled} onToggle={() => toggle("enabled")} />
 
                 <div className={`space-y-2 ${settings.enabled ? "" : "opacity-50 pointer-events-none"}`}>
-                  <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wide pt-1">Employee permissions</p>
+                  <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-wide pt-1">Employee permissions</p>
                   {SUB_PERMS.map((p) => (
                     <Row key={p.key} label={p.label} on={!!settings[p.key]} onToggle={() => toggle(p.key)} disabled={!settings.enabled} />
                   ))}
                 </div>
 
-                <div className="flex items-center gap-2 text-[11px] text-slate-400 pt-1">
+                <div className="flex items-center gap-2 text-[11px] text-slate-500 pt-1">
                   <Users className="w-3.5 h-3.5" /> {connectedEmployees} employee{connectedEmployees === 1 ? "" : "s"} connected
                 </div>
 

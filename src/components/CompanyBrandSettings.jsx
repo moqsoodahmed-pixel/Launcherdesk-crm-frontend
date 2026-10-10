@@ -115,7 +115,7 @@ export default function CompanyBrandSettings() {
               className="input-field px-3 py-2.5"
               maxLength={40}
             />
-            <p className="text-[11px] text-slate-400 mt-1.5">Displayed next to the logo in the sidebar header</p>
+            <p className="text-[11px] text-slate-500 mt-1.5">Displayed next to the logo in the sidebar header</p>
           </div>
 
           {/* Logo Upload */}
@@ -151,7 +151,7 @@ export default function CompanyBrandSettings() {
                   <Upload className="w-3.5 h-3.5" />
                   {currentLogo ? "Change Logo" : "Upload Logo"}
                 </button>
-                <p className="text-[11px] text-slate-400 mt-1.5">PNG, JPG or SVG · max 2 MB</p>
+                <p className="text-[11px] text-slate-500 mt-1.5">PNG, JPG or SVG · max 2 MB</p>
                 <input ref={fileRef} type="file" accept="image/*" onChange={handleFile} className="hidden" />
               </div>
             </div>

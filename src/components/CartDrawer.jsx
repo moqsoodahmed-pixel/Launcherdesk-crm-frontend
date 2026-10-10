@@ -43,14 +43,14 @@ function LineItem({ item, onRemove, onQtyChange }) {
       }`}>
         {item.type === "plan"
           ? <Award className="w-4 h-4 text-violet-600 dark:text-violet-400" />
-          : <Zap className="w-4 h-4 text-slate-400" />}
+          : <Zap className="w-4 h-4 text-slate-500" />}
       </div>
 
       <div className="flex-1 min-w-0">
         <p className="text-[13px] font-semibold text-slate-900 dark:text-white truncate">
           {item.planName || item.addonName}
         </p>
-        <p className="text-[11px] text-slate-400">
+        <p className="text-[11px] text-slate-500">
           {item.type === "plan"
             ? `${item.billing === "yearly" ? "Annual" : "Monthly"} plan`
             : item.autoRenew ? "Monthly · auto-renews" : `${suffix ? suffix.replace("/", "") : "one-time"}`}
@@ -61,12 +61,12 @@ function LineItem({ item, onRemove, onQtyChange }) {
           <div className="flex items-center gap-2 mt-1.5">
             <button
               onClick={() => onQtyChange(Math.max(1, item.quantity - 1), unitPrice)}
-              className="w-5 h-5 rounded border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-400 hover:border-violet-400 hover:text-violet-600 transition"
+              className="w-5 h-5 rounded border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-500 hover:border-violet-400 hover:text-violet-600 transition"
             ><Minus className="w-2.5 h-2.5" /></button>
             <span className="text-[12px] font-semibold text-slate-900 dark:text-white w-4 text-center">{item.quantity}</span>
             <button
               onClick={() => onQtyChange(Math.min(item.maxQuantity, item.quantity + 1), unitPrice)}
-              className="w-5 h-5 rounded border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-400 hover:border-violet-400 hover:text-violet-600 transition"
+              className="w-5 h-5 rounded border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-500 hover:border-violet-400 hover:text-violet-600 transition"
             ><Plus className="w-2.5 h-2.5" /></button>
           </div>
         )}
@@ -192,7 +192,7 @@ export default function CartDrawer({ open, onClose }) {
             {!isEmpty && (
               <button
                 onClick={clearCart}
-                className="text-[11px] text-slate-400 hover:text-rose-500 transition font-medium"
+                className="text-[11px] text-slate-500 hover:text-rose-500 transition font-medium"
               >Clear all</button>
             )}
             <button onClick={onClose} className="icon-btn w-7 h-7">
@@ -211,7 +211,7 @@ export default function CartDrawer({ open, onClose }) {
           )}
 
           {error && (
-            <div className="mb-4 flex items-start gap-2.5 px-3 py-3 rounded-xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800/50 text-[12px] font-semibold text-rose-600 dark:text-rose-400">
+            <div className="mb-4 flex items-start gap-2.5 px-3 py-3 rounded-xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800/50 text-[12px] font-semibold text-rose-700 dark:text-rose-400">
               <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" /> {error}
             </div>
           )}
@@ -220,14 +220,14 @@ export default function CartDrawer({ open, onClose }) {
             <div className="flex flex-col items-center justify-center py-16 gap-3 text-center">
               <ShoppingCart className="w-10 h-10 text-slate-300" strokeWidth={1.5} />
               <p className="text-[14px] font-semibold text-slate-900 dark:text-white">Your cart is empty</p>
-              <p className="text-[12px] text-slate-400">Add a plan or add-ons from the tabs above.</p>
+              <p className="text-[12px] text-slate-500">Add a plan or add-ons from the tabs above.</p>
             </div>
           ) : (
             <div>
               {/* Plan section */}
               {planItem && (
                 <div className="mb-1">
-                  <p className="text-[9px] font-bold uppercase tracking-wider text-slate-400 mb-2">Plan</p>
+                  <p className="text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-2">Plan</p>
                   <LineItem
                     item={planItem}
                     onRemove={clearPlan}
@@ -239,7 +239,7 @@ export default function CartDrawer({ open, onClose }) {
               {/* Add-ons section */}
               {addonItems.length > 0 && (
                 <div className="mt-3">
-                  <p className="text-[9px] font-bold uppercase tracking-wider text-slate-400 mb-2">Add-ons</p>
+                  <p className="text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-2">Add-ons</p>
                   {addonItems.map(a => (
                     <LineItem
                       key={a.addonType}
@@ -261,7 +261,7 @@ export default function CartDrawer({ open, onClose }) {
             {/* Line-item subtotals */}
             <div className="space-y-1 mb-3">
               {items.map((item, i) => (
-                <div key={i} className="flex items-center justify-between text-[12px] text-slate-400">
+                <div key={i} className="flex items-center justify-between text-[12px] text-slate-500">
                   <span className="truncate max-w-[220px]">{item.planName || item.addonName}{item.quantity > 1 ? ` × ${item.quantity}` : ""}</span>
                   <span>{fmt(item.price)}</span>
                 </div>

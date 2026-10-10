@@ -149,7 +149,7 @@ export default function TermsGate({ children }) {
               {sec.body || ""}
             </p>
           ))}
-          <div className="pt-2 text-center text-[9px] text-slate-400 dark:text-slate-500">
+          <div className="pt-2 text-center text-[9px] text-slate-500 dark:text-slate-500">
             — End of Terms &amp; Conditions —
           </div>
         </div>

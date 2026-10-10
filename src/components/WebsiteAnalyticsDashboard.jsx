@@ -52,7 +52,7 @@ const DONUT_COLORS = ["#6366F1", "#10B981", "#F59E0B", "#EF4444", "#0EA5E9", "#8
 function LineChart({ series, height = 160 }) {
   // series: [{ key, label, color, data: number[] }], all same length
   const n = series[0]?.data?.length || 0;
-  if (!n) return <div className="text-[12px] text-slate-400 py-8 text-center">No data</div>;
+  if (!n) return <div className="text-[12px] text-slate-500 py-8 text-center">No data</div>;
   const w = 560, h = height, pad = 8;
   const allMax = Math.max(1, ...series.flatMap((s) => s.data));
   const x = (i) => pad + (i * (w - 2 * pad)) / Math.max(1, n - 1);
@@ -117,7 +117,7 @@ function SortableTable({ columns, rows, initialSort }) {
         <thead><tr className="border-b border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.03]">
           {columns.map((c) => (
             <th key={c.key} onClick={() => toggle(c.key)}
-              className={`text-[10px] font-bold uppercase tracking-wider text-slate-400 px-3 py-2.5 cursor-pointer whitespace-nowrap ${c.align === "right" ? "text-right" : "text-left"}`}>
+              className={`text-[10px] font-bold uppercase tracking-wider text-slate-500 px-3 py-2.5 cursor-pointer whitespace-nowrap ${c.align === "right" ? "text-right" : "text-left"}`}>
               <span className="inline-flex items-center gap-1">{c.label}{sort.key === c.key ? (sort.dir === "asc" ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />) : <ArrowUpDown className="w-3 h-3 opacity-30" />}</span>
             </th>
           ))}
@@ -128,7 +128,7 @@ function SortableTable({ columns, rows, initialSort }) {
               {columns.map((c) => <td key={c.key} className={`text-[12px] text-slate-900 dark:text-white px-3 py-2.5 whitespace-nowrap ${c.align === "right" ? "text-right" : "text-left"}`}>{c.render ? c.render(r) : (r[c.key] ?? "—")}</td>)}
             </tr>
           ))}
-          {sorted.length === 0 && <tr><td colSpan={columns.length} className="text-center text-[12px] text-slate-400 py-8">No data</td></tr>}
+          {sorted.length === 0 && <tr><td colSpan={columns.length} className="text-center text-[12px] text-slate-500 py-8">No data</td></tr>}
         </tbody>
       </table>
     </div>
@@ -229,7 +229,7 @@ export default function WebsiteAnalyticsDashboard() {
 
   // ── Render states ───────────────────────────────────────────────────────────
   if (statusLoading) {
-    return <div className="flex items-center justify-center py-20"><Loader2 className="w-6 h-6 animate-spin text-slate-400" /></div>;
+    return <div className="flex items-center justify-center py-20"><Loader2 className="w-6 h-6 animate-spin text-slate-500" /></div>;
   }
 
   // Server OAuth not configured — let the admin add credentials inline.
@@ -241,7 +241,7 @@ export default function WebsiteAnalyticsDashboard() {
             <Globe className="w-7 h-7 text-indigo-600 dark:text-indigo-400" />
           </div>
           <h2 className="text-[16px] font-bold text-slate-900 dark:text-white">Set up Google Analytics</h2>
-          <p className="text-[13px] text-slate-400 mt-2">Add your Google OAuth credentials below to connect GA4 — no developer or server changes required.</p>
+          <p className="text-[13px] text-slate-500 mt-2">Add your Google OAuth credentials below to connect GA4 — no developer or server changes required.</p>
         </div>
         <div className={`${CARD} p-5`}>
           <GoogleOAuthSetupForm onSaved={loadStatus} />
@@ -258,7 +258,7 @@ export default function WebsiteAnalyticsDashboard() {
           <Globe className="w-7 h-7 text-indigo-600 dark:text-indigo-400" />
         </div>
         <h2 className="text-[18px] font-bold text-slate-900 dark:text-white">Connect Google Analytics</h2>
-        <p className="text-[13px] text-slate-400 mt-2 mb-5">Connect your Google Analytics 4 account to see website users, traffic sources, landing pages, conversions and AI insights — right inside the CRM.</p>
+        <p className="text-[13px] text-slate-500 mt-2 mb-5">Connect your Google Analytics 4 account to see website users, traffic sources, landing pages, conversions and AI insights — right inside the CRM.</p>
         {error && <p className="text-[12px] text-rose-600 dark:text-rose-400 mb-3">{error}</p>}
         <button onClick={connect} disabled={connecting} className="btn-primary btn-md">
           {connecting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Link2 className="w-4 h-4" />} Connect Google Analytics
@@ -274,20 +274,20 @@ export default function WebsiteAnalyticsDashboard() {
         <div className="text-center mb-6">
           <CheckCircle2 className="w-8 h-8 text-emerald-500 mx-auto mb-2" />
           <h2 className="text-[16px] font-bold text-slate-900 dark:text-white">Connected as {status.connectedEmail || "your account"}</h2>
-          <p className="text-[13px] text-slate-400 mt-1">Choose the GA4 property to track:</p>
+          <p className="text-[13px] text-slate-500 mt-1">Choose the GA4 property to track:</p>
         </div>
         {error && <p className="text-[12px] text-rose-600 dark:text-rose-400 mb-3 text-center">{error}</p>}
         {properties == null ? (
-          <div className="flex justify-center py-6"><Loader2 className="w-5 h-5 animate-spin text-slate-400" /></div>
+          <div className="flex justify-center py-6"><Loader2 className="w-5 h-5 animate-spin text-slate-500" /></div>
         ) : properties.length === 0 ? (
-          <p className="text-[13px] text-slate-400 text-center">No GA4 properties found on this account.</p>
+          <p className="text-[13px] text-slate-500 text-center">No GA4 properties found on this account.</p>
         ) : (
           <div className="space-y-2">
             {properties.map((p) => (
               <button key={p.propertyId} onClick={() => chooseProperty(p)} disabled={savingProp}
                 className="surface-card surface-card-hover w-full flex items-center justify-between px-4 py-3 text-left disabled:opacity-50">
-                <div><p className="text-[13px] font-semibold text-slate-900 dark:text-white">{p.propertyName}</p><p className="text-[11px] text-slate-400">{p.account} · ID {p.propertyId}</p></div>
-                {savingProp ? <Loader2 className="w-4 h-4 animate-spin" /> : <ChevronDown className="w-4 h-4 -rotate-90 text-slate-400" />}
+                <div><p className="text-[13px] font-semibold text-slate-900 dark:text-white">{p.propertyName}</p><p className="text-[11px] text-slate-500">{p.account} · ID {p.propertyId}</p></div>
+                {savingProp ? <Loader2 className="w-4 h-4 animate-spin" /> : <ChevronDown className="w-4 h-4 -rotate-90 text-slate-500" />}
               </button>
             ))}
           </div>
@@ -309,7 +309,7 @@ export default function WebsiteAnalyticsDashboard() {
           <div className="w-10 h-10 rounded-2xl bg-brand-gradient shadow-glow-brand flex items-center justify-center"><Globe className="w-5 h-5 text-white" /></div>
           <div>
             <h1 className="text-[18px] font-bold text-slate-900 dark:text-white">Website Performance</h1>
-            <p className="text-[12px] text-slate-400">{data?.property?.name || status.propertyName} · {status.connectedEmail}</p>
+            <p className="text-[12px] text-slate-500">{data?.property?.name || status.propertyName} · {status.connectedEmail}</p>
           </div>
         </div>
         <div className="flex items-center gap-2">
@@ -319,7 +319,7 @@ export default function WebsiteAnalyticsDashboard() {
           <button onClick={() => loadDashboard(false)} disabled={loading} title="Refresh" className="icon-btn">
             <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
           </button>
-          <button onClick={disconnect} className="px-3 py-2.5 rounded-xl border border-slate-200 dark:border-white/10 text-[11px] text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:border-rose-200 dark:hover:border-rose-800/50 transition">Disconnect</button>
+          <button onClick={disconnect} className="px-3 py-2.5 rounded-xl border border-slate-200 dark:border-white/10 text-[11px] text-slate-500 hover:text-rose-600 dark:hover:text-rose-400 hover:border-rose-200 dark:hover:border-rose-800/50 transition">Disconnect</button>
         </div>
       </div>
 
@@ -338,7 +338,7 @@ export default function WebsiteAnalyticsDashboard() {
         {loading && <Loader2 className="w-4 h-4 animate-spin text-indigo-500 ml-1" />}
       </div>
 
-      {error && <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800/50 text-rose-600 dark:text-rose-400 text-[13px] font-semibold"><AlertTriangle className="w-4 h-4" /> {error}</div>}
+      {error && <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800/50 text-rose-700 dark:text-rose-400 text-[13px] font-semibold"><AlertTriangle className="w-4 h-4" /> {error}</div>}
 
       {/* SECTION 1 — Overview KPIs */}
       {ov.__error ? <p className="text-[12px] text-amber-600 dark:text-amber-400">Overview unavailable: {ov.__error}</p> : (
@@ -353,7 +353,7 @@ export default function WebsiteAnalyticsDashboard() {
                   <div className="w-8 h-8 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center"><Icon className="w-4 h-4 text-indigo-600 dark:text-indigo-400" /></div>
                   {k.deltaPct != null && <span className={`inline-flex items-center gap-0.5 text-[10px] font-bold px-1.5 py-0.5 rounded-full ${col}`}><TrendIcon className="w-3 h-3" />{Math.abs(k.deltaPct)}%</span>}
                 </div>
-                <div><p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-0.5">{k.label}</p><p className="text-[17px] font-bold text-slate-900 dark:text-white leading-none">{fmtVal(k.value, k.format)}</p></div>
+                <div><p className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-0.5">{k.label}</p><p className="text-[17px] font-bold text-slate-900 dark:text-white leading-none">{fmtVal(k.value, k.format)}</p></div>
               </div>
             );
           })}
@@ -373,15 +373,15 @@ export default function WebsiteAnalyticsDashboard() {
       {ts.length > 0 && (
         <div className="grid md:grid-cols-2 gap-4">
           <div className={`${CARD} p-4`}>
-            <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2">Users &amp; Sessions</p>
+            <p className="text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-2">Users &amp; Sessions</p>
             <LineChart series={[
               { key: "users", label: "Users", color: "#6366F1", data: ts.map((d) => d.users) },
               { key: "sessions", label: "Sessions", color: "#10B981", data: ts.map((d) => d.sessions) },
             ]} />
-            <div className="flex gap-4 mt-1 text-[10px] text-slate-400"><span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full" style={{ background: "#6366F1" }} />Users</span><span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full" style={{ background: "#10B981" }} />Sessions</span></div>
+            <div className="flex gap-4 mt-1 text-[10px] text-slate-500"><span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full" style={{ background: "#6366F1" }} />Users</span><span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full" style={{ background: "#10B981" }} />Sessions</span></div>
           </div>
           <div className={`${CARD} p-4`}>
-            <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2">Conversions Over Time</p>
+            <p className="text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-2">Conversions Over Time</p>
             <LineChart series={[{ key: "conv", label: "Conversions", color: "#F59E0B", data: ts.map((d) => d.conversions) }]} />
           </div>
         </div>
@@ -390,11 +390,11 @@ export default function WebsiteAnalyticsDashboard() {
       {/* SECTION 2 + 5 — Traffic sources donut + device donut */}
       <div className="grid md:grid-cols-2 gap-4">
         {Array.isArray(data?.trafficSources) && data.trafficSources.length > 0 && (
-          <div className={`${CARD} p-4`}><p className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-3">Traffic Sources</p>
+          <div className={`${CARD} p-4`}><p className="text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-3">Traffic Sources</p>
             <Donut data={data.trafficSources.map((s) => ({ label: `${s.source}/${s.medium}`, value: s.sessions }))} /></div>
         )}
         {Array.isArray(data?.devices) && data.devices.length > 0 && (
-          <div className={`${CARD} p-4`}><p className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-3">Device Distribution</p>
+          <div className={`${CARD} p-4`}><p className="text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-3">Device Distribution</p>
             <Donut data={data.devices.map((d) => ({ label: d.device, value: d.users }))} /></div>
         )}
       </div>
@@ -415,7 +415,7 @@ export default function WebsiteAnalyticsDashboard() {
 
       {/* SECTION — Google Ads ad groups (only when GA4 is linked to Google Ads) */}
       {Array.isArray(data?.adGroups) && data.adGroups.length > 0 && (
-        <div><h2 className="text-[13px] font-bold text-slate-900 dark:text-white mb-3">Ad Group Performance <span className="text-[11px] font-normal text-slate-400">(Google Ads)</span></h2>
+        <div><h2 className="text-[13px] font-bold text-slate-900 dark:text-white mb-3">Ad Group Performance <span className="text-[11px] font-normal text-slate-500">(Google Ads)</span></h2>
           <SortableTable initialSort={{ key: "sessions", dir: "desc" }} rows={data.adGroups} columns={[
             { key: "adGroup", label: "Ad Group", render: (r) => <span className="font-semibold">{r.adGroup}</span> },
             { key: "campaign", label: "Campaign" },
@@ -461,10 +461,10 @@ export default function WebsiteAnalyticsDashboard() {
               <div key={d.device} className={`${CARD} p-4`}>
                 <div className="flex items-center gap-2 mb-3 text-indigo-600 dark:text-indigo-400"><DeviceIcon d={d.device} /><span className="text-[13px] font-bold capitalize text-slate-900 dark:text-white">{d.device}</span></div>
                 <div className="grid grid-cols-2 gap-2 text-[12px]">
-                  <div><p className="text-slate-400 text-[10px] uppercase">Users</p><p className="font-bold text-slate-900 dark:text-white">{num(d.users)}</p></div>
-                  <div><p className="text-slate-400 text-[10px] uppercase">Sessions</p><p className="font-bold text-slate-900 dark:text-white">{num(d.sessions)}</p></div>
-                  <div><p className="text-slate-400 text-[10px] uppercase">Bounce</p><p className="font-bold text-slate-900 dark:text-white">{d.bounceRate}%</p></div>
-                  <div><p className="text-slate-400 text-[10px] uppercase">Conv.</p><p className="font-bold text-slate-900 dark:text-white">{num(d.conversions)}</p></div>
+                  <div><p className="text-slate-500 text-[10px] uppercase">Users</p><p className="font-bold text-slate-900 dark:text-white">{num(d.users)}</p></div>
+                  <div><p className="text-slate-500 text-[10px] uppercase">Sessions</p><p className="font-bold text-slate-900 dark:text-white">{num(d.sessions)}</p></div>
+                  <div><p className="text-slate-500 text-[10px] uppercase">Bounce</p><p className="font-bold text-slate-900 dark:text-white">{d.bounceRate}%</p></div>
+                  <div><p className="text-slate-500 text-[10px] uppercase">Conv.</p><p className="font-bold text-slate-900 dark:text-white">{num(d.conversions)}</p></div>
                 </div>
               </div>
             ))}
@@ -496,7 +496,7 @@ export default function WebsiteAnalyticsDashboard() {
           ]} /></div>
       )}
 
-      <p className="text-[11px] text-slate-400 border-t border-slate-200 dark:border-white/10 pt-4">Data from Google Analytics 4 · {data?.range?.from} → {data?.range?.to}. Trends compare against the previous period.</p>
+      <p className="text-[11px] text-slate-500 border-t border-slate-200 dark:border-white/10 pt-4">Data from Google Analytics 4 · {data?.range?.from} → {data?.range?.to}. Trends compare against the previous period.</p>
     </div>
   );
 }

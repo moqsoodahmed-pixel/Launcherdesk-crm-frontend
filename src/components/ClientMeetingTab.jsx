@@ -58,9 +58,9 @@ function MeetingCard({ visit }) {
           <div className="min-w-0">
             <p className="text-[12px] font-semibold text-slate-900 dark:text-white">
               {visit.meetingType || "Visit"}
-              {visit.userName ? <span className="font-normal text-slate-400"> · {visit.userName}</span> : null}
+              {visit.userName ? <span className="font-normal text-slate-500"> · {visit.userName}</span> : null}
             </p>
-            <p className="text-[10px] text-slate-400">{fmtDateTime(visit.metAt)}</p>
+            <p className="text-[10px] text-slate-500">{fmtDateTime(visit.metAt)}</p>
           </div>
         </div>
         {visit.outcome ? (
@@ -75,7 +75,7 @@ function MeetingCard({ visit }) {
       ) : null}
 
       {visit.location ? (
-        <p className="mt-1.5 text-[10px] text-slate-400 flex items-center gap-1">
+        <p className="mt-1.5 text-[10px] text-slate-500 flex items-center gap-1">
           <MapPin className="w-3 h-3 shrink-0" /><span className="truncate">{visit.location}</span>
         </p>
       ) : null}
@@ -116,8 +116,8 @@ export default function ClientMeetingTab({ lead }) {
     <div className="px-6 py-4">
       {/* ── Header ──────────────────────────────────────────────────────────── */}
       <div className="flex items-center gap-2 mb-3">
-        <span className="text-slate-400"><MapIcon className="w-3.5 h-3.5" /></span>
-        <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+        <span className="text-slate-500"><MapIcon className="w-3.5 h-3.5" /></span>
+        <p className="text-[10px] font-bold text-slate-500 dark:text-slate-500 uppercase tracking-widest">
           Client Meeting History ({visits.length})
         </p>
         <div className="flex-1 h-px bg-slate-200 dark:bg-white/10" />
@@ -128,9 +128,9 @@ export default function ClientMeetingTab({ lead }) {
         visits.map((v, i) => <MeetingCard key={v._id || i} visit={v} />)
       ) : (
         <div className="flex flex-col items-center justify-center py-10 gap-2 bg-slate-50 dark:bg-white/[0.04] rounded-xl border border-dashed border-slate-200 dark:border-white/10">
-          <span className="text-slate-400"><NotebookPen className="w-7 h-7" strokeWidth={1.5} /></span>
-          <p className="text-[12px] text-slate-400">No client meetings logged yet</p>
-          <p className="text-[10px] text-slate-400">Meetings logged from the mobile app will appear here.</p>
+          <span className="text-slate-500"><NotebookPen className="w-7 h-7" strokeWidth={1.5} /></span>
+          <p className="text-[12px] text-slate-500">No client meetings logged yet</p>
+          <p className="text-[10px] text-slate-500">Meetings logged from the mobile app will appear here.</p>
         </div>
       )}
     </div>

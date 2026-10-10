@@ -279,13 +279,13 @@ function TemplatePreview({ industry, service, stage, variation, templates, onVar
             className={`w-7 h-7 rounded-lg text-[11px] font-bold border transition-colors ${
               variation === v
                 ? "bg-slate-900 dark:bg-white text-white dark:text-slate-900 border-transparent"
-                : "border-slate-200 dark:border-white/10 text-slate-400"
+                : "border-slate-200 dark:border-white/10 text-slate-500"
             }`}
           >V{v + 1}</button>
         ))}
 
         {/* Template name */}
-        <code className="ml-auto text-[10px] self-center text-slate-400 bg-slate-100 dark:bg-white/[0.06] px-2 py-0.5 rounded">
+        <code className="ml-auto text-[10px] self-center text-slate-500 bg-slate-100 dark:bg-white/[0.06] px-2 py-0.5 rounded">
           {tplName}
         </code>
 
@@ -308,12 +308,12 @@ function TemplatePreview({ industry, service, stage, variation, templates, onVar
 
         {/* Show exactly what MSG91 sent, so the status is never a mystery */}
         {cached?.rawStatusField && (
-          <span className="text-[9px] text-slate-400 self-center ml-1 opacity-70">
+          <span className="text-[9px] text-slate-500 self-center ml-1 opacity-70">
             (MSG91: {cached.rawStatusField})
           </span>
         )}
         {notSynced && (
-          <span className="text-[10px] text-slate-400 self-center ml-1">— not synced</span>
+          <span className="text-[10px] text-slate-500 self-center ml-1">— not synced</span>
         )}
       </div>
 
@@ -333,7 +333,7 @@ function TemplatePreview({ industry, service, stage, variation, templates, onVar
       <div className="rounded-[4px_14px_14px_14px] bg-[#075E54] text-white text-[12.5px] leading-relaxed p-3 whitespace-pre-wrap">
         {display}
       </div>
-      <p className="text-[9px] text-slate-400 mt-1">
+      <p className="text-[9px] text-slate-500 mt-1">
         Preview replaces name = "Rahul" and business = "{bizName}". Real send uses the lead's actual values.
       </p>
     </div>
@@ -641,12 +641,12 @@ export default function NurtureSequenceBuilder() {
         </div>
         <div className="p-5">
           {loading ? (
-            <p className="text-[13px] text-slate-400">Loading…</p>
+            <p className="text-[13px] text-slate-500">Loading…</p>
           ) : rules.length === 0 ? (
             <div className="text-center py-10">
               <div className="mb-2 flex justify-center text-slate-300 dark:text-slate-600"><Inbox className="w-8 h-8" strokeWidth={1.5} /></div>
               <p className="text-[13px] font-semibold text-slate-900 dark:text-white">No rules yet</p>
-              <p className="text-[12px] text-slate-400 mt-0.5">Build one below, or auto-build all 4 stage rules above.</p>
+              <p className="text-[12px] text-slate-500 mt-0.5">Build one below, or auto-build all 4 stage rules above.</p>
             </div>
           ) : (
             <div className="space-y-2">
@@ -654,7 +654,7 @@ export default function NurtureSequenceBuilder() {
                 <div key={r._id} className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 dark:bg-white/[0.04]">
                   <div className="flex-1 min-w-0">
                     <div className="text-[13px] font-semibold text-slate-900 dark:text-white">{r.name}</div>
-                    <div className="text-[11px] text-slate-400">
+                    <div className="text-[11px] text-slate-500">
                       Fires after {r.trigger?.minDaysSinceLastTouch ?? "?"} day(s) idle
                       {r.trigger?.statuses?.length ? ` · status: ${r.trigger.statuses.join(", ")}` : ""}
                       {r.trigger?.temperatures?.length ? ` · temp: ${r.trigger.temperatures.join(", ")}` : ""}
@@ -666,7 +666,7 @@ export default function NurtureSequenceBuilder() {
                       })()}
                     </div>
                   </div>
-                  <button onClick={() => toggleEnabled(r)} className={`px-2.5 py-1 rounded-lg text-[11px] font-bold ${r.enabled ? "bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400" : "bg-slate-100 dark:bg-white/[0.06] text-slate-400"}`}>
+                  <button onClick={() => toggleEnabled(r)} className={`px-2.5 py-1 rounded-lg text-[11px] font-bold ${r.enabled ? "bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400" : "bg-slate-100 dark:bg-white/[0.06] text-slate-500"}`}>
                     {r.enabled ? "Enabled" : "Disabled"}
                   </button>
                   <button onClick={() => startEdit(r)} className="text-[11px] font-semibold text-launcher-600 dark:text-launcher-400">Edit</button>
@@ -685,7 +685,7 @@ export default function NurtureSequenceBuilder() {
         </div>
         <div className="p-5 space-y-5">
           <div>
-            <label className="text-[11px] font-semibold text-slate-400 uppercase">Rule name</label>
+            <label className="text-[11px] font-semibold text-slate-500 uppercase">Rule name</label>
             <input
               value={draft.name}
               onChange={(e) => setDraft({ ...draft, name: e.target.value })}
@@ -695,12 +695,12 @@ export default function NurtureSequenceBuilder() {
           </div>
 
           <div>
-            <label className="text-[11px] font-semibold text-slate-400 uppercase">Only fire for these statuses (empty = any)</label>
+            <label className="text-[11px] font-semibold text-slate-500 uppercase">Only fire for these statuses (empty = any)</label>
             <div className="mt-1"><MultiChip options={NURTURE_STATUSES} selected={draft.trigger.statuses} onToggle={(v) => toggleArrayValue("statuses", v)} /></div>
           </div>
 
           <div>
-            <label className="text-[11px] font-semibold text-slate-400 uppercase">Only fire for these temperatures (empty = any)</label>
+            <label className="text-[11px] font-semibold text-slate-500 uppercase">Only fire for these temperatures (empty = any)</label>
             <div className="mt-1"><MultiChip options={TEMPERATURES} selected={draft.trigger.temperatures} onToggle={(v) => toggleArrayValue("temperatures", v)} /></div>
           </div>
 
@@ -708,7 +708,7 @@ export default function NurtureSequenceBuilder() {
 
           <div className="flex items-end gap-4">
             <div>
-              <label className="text-[11px] font-semibold text-slate-400 uppercase">Days idle before firing</label>
+              <label className="text-[11px] font-semibold text-slate-500 uppercase">Days idle before firing</label>
               <input
                 type="number" min="0"
                 value={draft.trigger.minDaysSinceLastTouch}
@@ -717,7 +717,7 @@ export default function NurtureSequenceBuilder() {
               />
             </div>
             <div>
-              <label className="text-[11px] font-semibold text-slate-400 uppercase">Repeat every (days, blank = once)</label>
+              <label className="text-[11px] font-semibold text-slate-500 uppercase">Repeat every (days, blank = once)</label>
               <input
                 type="number" min="1"
                 value={draft.repeatEveryDays ?? ""}
@@ -755,13 +755,13 @@ export default function NurtureSequenceBuilder() {
                     (zero or multiple statuses selected), so you're not
                     picking the same status three times for one rule. ────── */}
                 <div>
-                  <p className="text-[10px] font-semibold text-slate-400 uppercase mb-1">
+                  <p className="text-[10px] font-semibold text-slate-500 uppercase mb-1">
                     Status Stage — which CRM status triggers this rule
                   </p>
                   {draft.trigger.statuses.length === 1 && STATUS_TO_STAGE[draft.trigger.statuses[0]] ? (
                     <p className="text-[13px] px-3 py-2 rounded-lg border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.04] text-slate-700 dark:text-slate-200">
                       <b>{draft.trigger.statuses[0]}</b> → {STATUS_TO_STAGE[draft.trigger.statuses[0]].replace(/^./, (c) => c.toUpperCase())}
-                      <span className="text-slate-400 ml-1">(auto-set from the status chips above)</span>
+                      <span className="text-slate-500 ml-1">(auto-set from the status chips above)</span>
                     </p>
                   ) : (
                     <select
@@ -773,14 +773,14 @@ export default function NurtureSequenceBuilder() {
                       {NURTURE_STATUSES.map(s => <option key={s} value={s}>{s} → {STATUS_TO_STAGE[s]?.replace(/^./, (c) => c.toUpperCase())}</option>)}
                     </select>
                   )}
-                  <p className="text-[10px] text-slate-400 mt-1">
+                  <p className="text-[10px] text-slate-500 mt-1">
                     Rule only fires when lead's status matches this. Variation index resets to V1 when status changes stage.
                   </p>
                 </div>
 
                 {/* ── MSG91 template sync ──────────────────────────────────── */}
                 <div className="flex items-center justify-between gap-2 rounded-lg border border-slate-200 dark:border-white/10 px-3 py-2">
-                  <div className="text-[11px] text-slate-400">
+                  <div className="text-[11px] text-slate-500">
                     {tplStats
                       ? <>
                           Templates synced: <b className="text-slate-900 dark:text-white">{tplStats.total}</b>
@@ -800,7 +800,7 @@ export default function NurtureSequenceBuilder() {
                   </button>
                 </div>
                 {syncMsg && (
-                  <p className="text-[10px] whitespace-pre-wrap text-slate-400">{syncMsg}</p>
+                  <p className="text-[10px] whitespace-pre-wrap text-slate-500">{syncMsg}</p>
                 )}
 
                 {/* ── Full Template Library — every industry×service×stage×
@@ -814,7 +814,7 @@ export default function NurtureSequenceBuilder() {
                     className="w-full flex items-center justify-between px-3 py-2 text-[12px] font-semibold text-slate-700 dark:text-slate-200"
                   >
                     <span>📚 Full Template Library ({INDUSTRIES.length * SERVICES.length * FUNNEL_STAGES.length * 5} combos)</span>
-                    <span className="text-slate-400">{showLibrary ? "▲ Hide" : "▼ Show"}</span>
+                    <span className="text-slate-500">{showLibrary ? "▲ Hide" : "▼ Show"}</span>
                   </button>
 
                   {showLibrary && (
@@ -846,7 +846,7 @@ export default function NurtureSequenceBuilder() {
                         </select>
                       </div>
 
-                      <div className="flex items-center gap-3 text-[10px] mb-2 text-slate-400">
+                      <div className="flex items-center gap-3 text-[10px] mb-2 text-slate-500">
                         <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-sm inline-block" style={{background:"#38D39F"}} /> Approved</span>
                         <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-sm inline-block" style={{background:"#F5B547"}} /> Pending</span>
                         <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-sm inline-block" style={{background:"#DC2626"}} /> Rejected</span>
@@ -858,10 +858,10 @@ export default function NurtureSequenceBuilder() {
                         <table className="w-full text-[11px]">
                           <thead className="sticky top-0 bg-slate-50 dark:bg-white/[0.04]">
                             <tr>
-                              <th className="text-left px-2 py-1.5 font-semibold text-slate-400">Industry</th>
-                              <th className="text-left px-2 py-1.5 font-semibold text-slate-400">Service</th>
+                              <th className="text-left px-2 py-1.5 font-semibold text-slate-500">Industry</th>
+                              <th className="text-left px-2 py-1.5 font-semibold text-slate-500">Service</th>
                               {FUNNEL_STAGES.filter((st) => !libFilterStage || st.value === libFilterStage).map((st) => (
-                                <th key={st.value} className="text-left px-2 py-1.5 font-semibold text-slate-400 capitalize">{st.value} (V1–V5)</th>
+                                <th key={st.value} className="text-left px-2 py-1.5 font-semibold text-slate-500 capitalize">{st.value} (V1–V5)</th>
                               ))}
                             </tr>
                           </thead>
@@ -895,7 +895,7 @@ export default function NurtureSequenceBuilder() {
                           </tbody>
                         </table>
                       </div>
-                      <p className="text-[10px] text-slate-400 mt-2">
+                      <p className="text-[10px] text-slate-500 mt-2">
                         Hover any square for the exact template name and status. Click "Sync from MSG91" above to refresh.
                       </p>
                     </div>
@@ -907,7 +907,7 @@ export default function NurtureSequenceBuilder() {
                   <p className="text-[13px] font-semibold text-slate-900 dark:text-white">
                     ⚡ Template auto-picked from the lead's industry &amp; service
                   </p>
-                  <p className="text-[10px] text-slate-400 mt-1">
+                  <p className="text-[10px] text-slate-500 mt-1">
                     Builds the approved template name automatically as
                     <code className="mx-1 text-slate-500 dark:text-slate-400">industry_service_stage_v1…v5</code>
                     — one rule covers all 88 industry × service combinations. No manual
@@ -926,14 +926,14 @@ export default function NurtureSequenceBuilder() {
                       Repeat variations after V5 (cycle back to V1)
                     </span>
                   </label>
-                  <p className="text-[10px] text-slate-400 mt-1">
+                  <p className="text-[10px] text-slate-500 mt-1">
                     {draft.action.whatsapp.repeatVariations
                       ? "ON — after V5, the lead goes back to V1 and keeps getting messages indefinitely."
                       : "OFF (default) — after V5, this rule stops sending to that lead. No wraparound."}
                   </p>
 
                   <div className="mt-3">
-                      <p className="text-[10px] font-semibold text-slate-400 uppercase mb-1">
+                      <p className="text-[10px] font-semibold text-slate-500 uppercase mb-1">
                         Funnel stage (required)
                         {draft.trigger.statuses.length === 1 && STATUS_TO_STAGE[draft.trigger.statuses[0]] && (
                           <span className="text-emerald-600 dark:text-emerald-400 font-normal ml-1">— auto-set, change below if needed</span>
@@ -949,7 +949,7 @@ export default function NurtureSequenceBuilder() {
                       </select>
 
                       {draft.action.whatsapp.funnelStage && (
-                        <p className="text-[10px] text-slate-400 mt-2">
+                        <p className="text-[10px] text-slate-500 mt-2">
                           Example for an Interior Designers lead interested in CRM:
                           <code className="ml-1 text-slate-500 dark:text-slate-400">
                             interior_designers_crm_{draft.action.whatsapp.funnelStage}_v1
@@ -961,7 +961,7 @@ export default function NurtureSequenceBuilder() {
                       {draft.action.whatsapp.funnelStage && (
                         <div className="mt-3 rounded-lg border border-slate-200 dark:border-white/10 overflow-hidden">
                           <div className="px-3 py-2 bg-slate-50 dark:bg-white/[0.04] flex items-center justify-between flex-wrap gap-2">
-                            <p className="text-[10px] font-semibold text-slate-400 uppercase">
+                            <p className="text-[10px] font-semibold text-slate-500 uppercase">
                               Preview — pick industry &amp; service to see the actual message
                             </p>
                             <div className="flex gap-2 flex-wrap">
@@ -994,7 +994,7 @@ export default function NurtureSequenceBuilder() {
                                 onVariationChange={setPreviewVariation}
                               />
                           ) : (
-                            <p className="text-[11px] text-slate-400 p-3">
+                            <p className="text-[11px] text-slate-500 p-3">
                               Select an industry and service above to preview the exact WhatsApp message for that combination.
                             </p>
                           )}

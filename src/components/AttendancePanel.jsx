@@ -304,7 +304,7 @@ export default function AttendancePanel() {
       <div className="flex items-center justify-between mb-4">
         <div>
           <h3 className="text-[14px] font-bold text-slate-900 dark:text-white">Attendance</h3>
-          <p className="text-[11px] text-slate-400 dark:text-slate-500">
+          <p className="text-[11px] text-slate-500 dark:text-slate-500">
             {new Date().toLocaleDateString("en-IN", {
               weekday: "long", day: "2-digit", month: "short", year: "numeric",
             })}
@@ -335,19 +335,19 @@ export default function AttendancePanel() {
       {record?.loginTime && (
         <div className="grid grid-cols-3 gap-3 mb-4">
           <div className="bg-slate-50 dark:bg-white/[0.04] rounded-xl p-3 text-center">
-            <p className="text-[11px] text-slate-400 dark:text-slate-500 mb-1">Work Time</p>
+            <p className="text-[11px] text-slate-500 dark:text-slate-500 mb-1">Work Time</p>
             <p className="text-[16px] font-black text-slate-900 dark:text-white">
               {fmt(Math.floor(elapsed / 60))}
             </p>
           </div>
           <div className="bg-slate-50 dark:bg-white/[0.04] rounded-xl p-3 text-center">
-            <p className="text-[11px] text-slate-400 dark:text-slate-500 mb-1">Break Time</p>
+            <p className="text-[11px] text-slate-500 dark:text-slate-500 mb-1">Break Time</p>
             <p className="text-[16px] font-black text-amber-600 dark:text-amber-400">
               {fmt(record.totalBreakMinutes || 0)}
             </p>
           </div>
           <div className="bg-slate-50 dark:bg-white/[0.04] rounded-xl p-3 text-center">
-            <p className="text-[11px] text-slate-400 dark:text-slate-500 mb-1">Login</p>
+            <p className="text-[11px] text-slate-500 dark:text-slate-500 mb-1">Login</p>
             <p className="text-[16px] font-black text-slate-900 dark:text-white">
               {fmtTime(record.loginTime)}
             </p>
@@ -394,7 +394,7 @@ export default function AttendancePanel() {
         )}
 
         {isClockedOut && (
-          <div className="flex-1 py-2.5 rounded-xl bg-slate-100 dark:bg-white/5 text-center text-[13px] text-slate-400 dark:text-slate-500 font-semibold">
+          <div className="flex-1 py-2.5 rounded-xl bg-slate-100 dark:bg-white/5 text-center text-[13px] text-slate-500 dark:text-slate-500 font-semibold">
             Clocked out at {fmtTime(record.logoutTime)}
           </div>
         )}
@@ -403,7 +403,7 @@ export default function AttendancePanel() {
       {/* Break log */}
       {record?.breaks?.length > 0 && (
         <div className="mt-4 border-t border-slate-100 dark:border-white/5 pt-4">
-          <p className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-2">Break Log</p>
+          <p className="text-[11px] font-bold text-slate-500 dark:text-slate-500 uppercase tracking-widest mb-2">Break Log</p>
           <div className="space-y-2">
             {record.breaks.map((b, i) => (
               <div key={i} className="text-[11px]">
@@ -411,7 +411,7 @@ export default function AttendancePanel() {
                   <Pill tone={b.reason === "Auto Idle" ? "rose" : "amber"} className="!text-[11px]">
                     {b.reason}
                   </Pill>
-                  <span className="text-slate-400 dark:text-slate-500">
+                  <span className="text-slate-500 dark:text-slate-500">
                     {fmtTime(b.startTime)} → {b.endTime ? fmtTime(b.endTime) : "ongoing"}
                     {b.durationMinutes != null ? ` (${b.durationMinutes}m)` : ""}
                   </span>

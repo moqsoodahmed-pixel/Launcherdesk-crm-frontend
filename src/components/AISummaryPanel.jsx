@@ -71,7 +71,7 @@ export default function AISummaryPanel({ analysis, error, loading, cached, onReg
         </div>
         <div>
           <p className="text-[13px] font-bold text-slate-900 dark:text-white">AI Summary &amp; Suggestions</p>
-          <p className="text-[10px] text-slate-400">Auto-generated from your {source === "meta" ? "Meta Ads" : source === "google" ? "Google Ads" : "website"} data</p>
+          <p className="text-[10px] text-slate-500">Auto-generated from your {source === "meta" ? "Meta Ads" : source === "google" ? "Google Ads" : "website"} data</p>
         </div>
         <div className="ml-auto flex items-center gap-2">
           {cached && (
@@ -103,7 +103,7 @@ export default function AISummaryPanel({ analysis, error, loading, cached, onReg
             </div>
             <div className="text-center">
               <p className="text-[13px] font-semibold text-slate-900 dark:text-white">Analysing your data…</p>
-              <p className="text-[11px] text-slate-400 mt-0.5">This takes about 10–20 seconds</p>
+              <p className="text-[11px] text-slate-500 mt-0.5">This takes about 10–20 seconds</p>
             </div>
           </div>
         )}
@@ -123,7 +123,7 @@ export default function AISummaryPanel({ analysis, error, loading, cached, onReg
               <Sparkles className="w-6 h-6 text-launcher-400" />
             </div>
             <p className="text-[13px] font-semibold text-slate-900 dark:text-white">No analysis yet</p>
-            <p className="text-[12px] text-slate-400">Click Generate above to get AI-powered insights and suggestions.</p>
+            <p className="text-[12px] text-slate-500">Click Generate above to get AI-powered insights and suggestions.</p>
           </div>
         )}
 
@@ -163,7 +163,7 @@ export default function AISummaryPanel({ analysis, error, loading, cached, onReg
             <SuggestionList
               items={analysis.suggestions || analysis.recommendations}
               icon={Lightbulb} label="Improvement Suggestions"
-              iconClass="text-amber-500" textClass="text-slate-400"
+              iconClass="text-amber-500" textClass="text-slate-500"
               bgClass="bg-amber-50/60 dark:bg-amber-500/5"
               borderClass="border-amber-200 dark:border-amber-500/15"
             />
@@ -173,7 +173,7 @@ export default function AISummaryPanel({ analysis, error, loading, cached, onReg
               <div className="flex items-start gap-2.5 bg-slate-50 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 rounded-xl p-4">
                 <Zap className="w-4 h-4 text-launcher-500 mt-0.5 shrink-0" />
                 <div>
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Expected Impact</span>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Expected Impact</span>
                   <span className="text-[12px] text-slate-600 dark:text-slate-300">{analysis.expectedImpact}</span>
                 </div>
               </div>

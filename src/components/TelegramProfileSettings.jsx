@@ -161,7 +161,7 @@ export default function TelegramProfileSettings() {
         </div>
         <div className="flex-1 min-w-0">
           <p className="text-[13px] font-bold text-slate-900 dark:text-white">Telegram Alerts</p>
-          <p className="text-[10px] text-slate-400">Get notified when a lead is assigned to you</p>
+          <p className="text-[10px] text-slate-500">Get notified when a lead is assigned to you</p>
         </div>
         <button
           onClick={() => setOpen(false)}
@@ -260,7 +260,7 @@ export default function TelegramProfileSettings() {
         className={`relative w-8 h-8 rounded-xl flex items-center justify-center transition-all
           ${open
             ? "bg-sky-100 dark:bg-sky-500/20 text-sky-600 dark:text-sky-400"
-            : "bg-slate-100 dark:bg-white/[0.05] text-slate-400 dark:text-slate-500 hover:bg-sky-50 dark:hover:bg-sky-500/10 hover:text-sky-500 dark:hover:text-sky-400"
+            : "bg-slate-100 dark:bg-white/[0.05] text-slate-500 dark:text-slate-500 hover:bg-sky-50 dark:hover:bg-sky-500/10 hover:text-sky-500 dark:hover:text-sky-400"
           }`}
       >
         <TelegramIcon className="w-4 h-4" />

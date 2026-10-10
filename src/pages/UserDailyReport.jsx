@@ -34,7 +34,7 @@ function StatCard({ label, value, sub, icon, color, trend }) {
         <div className="w-10 h-10 rounded-2xl flex items-center justify-center shrink-0 text-white shadow-md" style={{ background: color }}>{icon}</div>
       </div>
       <div className="font-display text-[32px] sm:text-[38px] font-bold tracking-tight leading-none mb-1.5" style={{ color }}>{value ?? '—'}</div>
-      {sub && <div className="text-[12px] text-[#7D7296] dark:text-[#C6BBDC]">{sub}</div>}
+      {sub && <div className="text-[12px] text-[#716787] dark:text-[#C6BBDC]">{sub}</div>}
       {trend !== undefined && (
         <div className={`inline-flex items-center gap-1 mt-2 px-2 py-0.5 rounded-full text-[11px] font-semibold ${trend >= 0 ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300' : 'bg-red-100 text-red-600 dark:bg-red-500/15 dark:text-red-300'}`}>
           {trend >= 0 ? '▲' : '▼'} {Math.abs(trend)} vs yesterday
@@ -71,7 +71,7 @@ function FunnelBar({ label, value, total, color }) {
         <span className="text-[12px] text-[#4A3F66] dark:text-[#E3DAF3]">{label}</span>
         <div className="flex items-center gap-2">
           <span className="text-[12px] font-bold text-[#170B29] dark:text-white">{value}</span>
-          <span className="text-[10px] text-[#7D7296] w-8 text-right">{pct}%</span>
+          <span className="text-[10px] text-[#716787] w-8 text-right">{pct}%</span>
         </div>
       </div>
       <div className="h-2 bg-[#F3EBFF] dark:bg-[#2B1E48] rounded-full overflow-hidden">
@@ -240,7 +240,7 @@ export default function UserDailyReport() {
               </div>
               {(summary.total || 0) > 0 && (
                 <div className="mt-4 pt-4 border-t border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-between">
-                  <span className="text-[12px] text-[#7D7296]">Conversion rate</span>
+                  <span className="text-[12px] text-[#716787]">Conversion rate</span>
                   <span className="text-[22px] font-bold text-[#059669] dark:text-[#34D399]">{summary.convRate || 0}%</span>
                 </div>
               )}
@@ -248,7 +248,7 @@ export default function UserDailyReport() {
 
             <Card title="Leads by source" badge={summary.total} bc="#7E14FF">
               {sources.length === 0 ? (
-                <p className="text-[13px] text-[#7D7296] py-8 text-center">No leads for {formatMedium(viewDate)}.</p>
+                <p className="text-[13px] text-[#716787] py-8 text-center">No leads for {formatMedium(viewDate)}.</p>
               ) : (
                 <div className="space-y-3.5">
                   {sources.map(s => {
@@ -262,7 +262,7 @@ export default function UserDailyReport() {
                           </div>
                           <div className="flex items-center gap-2">
                             <span className="text-[12px] font-semibold text-[#170B29] dark:text-white">{s.count}</span>
-                            <span className="text-[10px] text-[#7D7296] w-8 text-right">
+                            <span className="text-[10px] text-[#716787] w-8 text-right">
                               {Math.round(s.count / (summary.total || 1) * 100)}%
                             </span>
                           </div>
@@ -325,8 +325,8 @@ export default function UserDailyReport() {
         <Card title={`Leads on ${formatMedium(viewDate)}`} badge={leads.length} bc="#7E14FF">
           {leads.length === 0 ? (
             <div className="py-14 text-center">
-              <div className="mb-3 flex justify-center text-[#7D7296]"><ClipboardList className="w-10 h-10" strokeWidth={1.5} /></div>
-              <p className="text-[13px] text-[#7D7296]">No leads for {formatMedium(viewDate)}.</p>
+              <div className="mb-3 flex justify-center text-[#716787]"><ClipboardList className="w-10 h-10" strokeWidth={1.5} /></div>
+              <p className="text-[13px] text-[#716787]">No leads for {formatMedium(viewDate)}.</p>
             </div>
           ) : (
             <div className="space-y-2">
@@ -347,11 +347,11 @@ export default function UserDailyReport() {
                       </span>
                       <StatusBadge status={l.status} />
                       <TempBadge quality={l.temperature} />
-                      {l.remark && <span className="text-[10px] text-[#7D7296] italic truncate max-w-[180px]">{l.remark}</span>}
+                      {l.remark && <span className="text-[10px] text-[#716787] italic truncate max-w-[180px]">{l.remark}</span>}
                     </div>
                   </div>
                   <div className="text-right shrink-0">
-                    <div className="text-[10px] text-[#7D7296]">
+                    <div className="text-[10px] text-[#716787]">
                       {l.date ? new Date(l.date).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' }) : '—'}
                     </div>
                   </div>
@@ -372,7 +372,7 @@ export default function UserDailyReport() {
           </div>
           <Card title="Pending follow-ups" badge={followUps.length} bc="#D97706">
             {followUps.length === 0 ? (
-              <p className="text-[13px] text-center text-[#7D7296] py-10">No pending follow-ups. Great work!</p>
+              <p className="text-[13px] text-center text-[#716787] py-10">No pending follow-ups. Great work!</p>
             ) : (
               <div className="space-y-2">
                 {followUps.map((f, i) => {
@@ -392,7 +392,7 @@ export default function UserDailyReport() {
                         </div>
                         <div className="flex items-center justify-between">
                           <p className="text-[12px] text-[#4A3F66] dark:text-[#E3DAF3] italic">{f.note || 'Follow-up required'}</p>
-                          <span className="text-[12px] text-[#7D7296] shrink-0 ml-2">
+                          <span className="text-[12px] text-[#716787] shrink-0 ml-2">
                             {f.scheduledAt ? new Date(f.scheduledAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' }) : ''}
                           </span>
                         </div>
@@ -419,8 +419,8 @@ export default function UserDailyReport() {
           <Card title={`Conversions on ${formatMedium(viewDate)}`} badge={conversions.length} bc="#059669">
             {conversions.length === 0 ? (
               <div className="py-14 text-center">
-                <div className="mb-3 flex justify-center text-[#7D7296]"><Target className="w-10 h-10" strokeWidth={1.5} /></div>
-                <p className="text-[14px] text-[#7D7296]">No conversions on {formatMedium(viewDate)}.</p>
+                <div className="mb-3 flex justify-center text-[#716787]"><Target className="w-10 h-10" strokeWidth={1.5} /></div>
+                <p className="text-[14px] text-[#716787]">No conversions on {formatMedium(viewDate)}.</p>
               </div>
             ) : (
               <div className="space-y-2">

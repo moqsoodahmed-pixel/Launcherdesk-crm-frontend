@@ -81,7 +81,7 @@ export default function LeadTimeline({ lead }) {
           {/* Content */}
           <div className="flex-1 surface-card !rounded-xl p-3">
             <p className="text-[13px] font-semibold text-slate-900 dark:text-white">{ev.title}</p>
-            <p className="text-[11px] text-slate-400 mt-0.5">{ev.subtitle}</p>
+            <p className="text-[11px] text-slate-500 mt-0.5">{ev.subtitle}</p>
             <p className="text-[10px] text-slate-300 dark:text-slate-600 mt-1">{formatDate(ev.time)}</p>
           </div>
         </div>

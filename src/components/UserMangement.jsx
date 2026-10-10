@@ -99,7 +99,7 @@ function DeleteConfirmModal({ member, onConfirm, onCancel }) {
           <h2 className="text-[15px] font-bold text-slate-900 dark:text-white text-center mb-1">
             Remove {isAdmin ? "Admin" : "Employee"}?
           </h2>
-          <p className="text-[12px] text-slate-400 text-center mb-5 leading-relaxed">
+          <p className="text-[12px] text-slate-500 text-center mb-5 leading-relaxed">
             This action cannot be undone. The account will be permanently deleted.
           </p>
 
@@ -108,7 +108,7 @@ function DeleteConfirmModal({ member, onConfirm, onCancel }) {
             <Avatar name={member.name} size={9} />
             <div className="flex-1 min-w-0">
               <p className="text-[13px] font-semibold text-slate-900 dark:text-white truncate">{member.name}</p>
-              <p className="text-[11px] text-slate-400 truncate">{member.email}</p>
+              <p className="text-[11px] text-slate-500 truncate">{member.email}</p>
             </div>
             <Pill tone={isSuperAdmin ? "amber" : isAdmin ? "brand" : "emerald"} className="shrink-0">
               {isSuperAdmin ? "Super Admin" : isAdmin ? "Admin" : "Employee"}
@@ -177,14 +177,14 @@ function CredentialsModal({ member, onClose, navigate }) {
             <svg className="w-6 h-6 text-emerald-600 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
           </div>
           <h2 className="text-sm font-bold text-slate-900 dark:text-white">Account Created</h2>
-          <p className="text-xs text-slate-400 mt-1 text-center">
+          <p className="text-xs text-slate-500 mt-1 text-center">
             Saved to database · <span className="font-semibold text-indigo-600 dark:text-indigo-400">{member.email}</span>
           </p>
         </div>
         <div className="space-y-3 mb-5">
           {[{ label: "Email (Login)", value: member.email, key: "email" }, { label: "Password", value: member.password, key: "pass" }].map(({ label, value, key }) => (
             <div key={key} className="bg-slate-50 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3">
-              <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wide mb-1">{label}</p>
+              <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-wide mb-1">{label}</p>
               <div className="flex items-center justify-between gap-2">
                 <code className="text-xs font-mono font-bold text-slate-900 dark:text-white break-all">{value}</code>
                 <button onClick={() => copy(value, key)} className="icon-btn w-7 h-7">
@@ -197,7 +197,7 @@ function CredentialsModal({ member, onClose, navigate }) {
             </div>
           ))}
         </div>
-        <p className="text-[10px] text-slate-400 text-center mb-4">Share these credentials securely. Password can be changed later.</p>
+        <p className="text-[10px] text-slate-500 text-center mb-4">Share these credentials securely. Password can be changed later.</p>
         <div className="flex gap-2">
           <button onClick={onClose} className="btn-secondary btn-md flex-1">Done</button>
           {isUser && (
@@ -277,8 +277,8 @@ function AddMemberModal({ role, onClose, onAdd, adminList = [], isSuperAdmin = f
         </div>
         {name.trim() && (
           <div className="mb-4 flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-50 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10">
-            <svg className="w-3.5 h-3.5 text-slate-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-            <span className="text-[11px] text-slate-400">Display name:</span>
+            <svg className="w-3.5 h-3.5 text-slate-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+            <span className="text-[11px] text-slate-500">Display name:</span>
             <code className="text-[11px] font-mono font-bold text-indigo-600 dark:text-indigo-400">{usernameFromName(name)}</code>
           </div>
         )}
@@ -295,7 +295,7 @@ function AddMemberModal({ role, onClose, onAdd, adminList = [], isSuperAdmin = f
             { label: "Phone",       value: phone, set: setPhone, placeholder: "Mobile (optional)", type: "tel"   },
           ].map(f => (
             <div key={f.label} className="flex flex-col gap-1">
-              <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-wide">{f.label}</label>
+              <label className="text-[10px] font-semibold text-slate-500 uppercase tracking-wide">{f.label}</label>
               <input type={f.type} value={f.value} onChange={e => f.set(e.target.value)} placeholder={f.placeholder}
                 className="input-field px-3 py-2"
               />
@@ -306,7 +306,7 @@ function AddMemberModal({ role, onClose, onAdd, adminList = [], isSuperAdmin = f
               that Gmail). Optional. */}
           {!isAdmin && (
             <div className="flex flex-col gap-1">
-              <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-wide">Contacts Email (Google account)</label>
+              <label className="text-[10px] font-semibold text-slate-500 uppercase tracking-wide">Contacts Email (Google account)</label>
               <input
                 type="email"
                 value={contactAccountEmail}
@@ -314,7 +314,7 @@ function AddMemberModal({ role, onClose, onAdd, adminList = [], isSuperAdmin = f
                 placeholder="e.g. agent.contacts@gmail.com"
                 className="input-field px-3 py-2"
               />
-              <span className="text-[10px] text-slate-400 leading-snug">
+              <span className="text-[10px] text-slate-500 leading-snug">
                 Leads will auto-save to this Google account on the employee's phone.
                 The same account must be signed in on their device.
               </span>
@@ -323,7 +323,7 @@ function AddMemberModal({ role, onClose, onAdd, adminList = [], isSuperAdmin = f
           {/* Assign to Admin — super admin only, when adding an employee */}
           {!isAdmin && isSuperAdmin && (
             <div className="flex flex-col gap-1">
-              <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-wide">Assign to Admin *</label>
+              <label className="text-[10px] font-semibold text-slate-500 uppercase tracking-wide">Assign to Admin *</label>
               <select
                 value={assignedTo}
                 onChange={e => setAssignedTo(e.target.value)}
@@ -339,7 +339,7 @@ function AddMemberModal({ role, onClose, onAdd, adminList = [], isSuperAdmin = f
         </div>
         <div className="my-4 flex items-center gap-2">
           <div className="flex-1 h-px bg-slate-200 dark:bg-white/10"/>
-          <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wide">Password</span>
+          <span className="text-[10px] font-semibold text-slate-500 uppercase tracking-wide">Password</span>
           <div className="flex-1 h-px bg-slate-200 dark:bg-white/10"/>
         </div>
         <div className="mb-3 px-3 py-2.5 rounded-xl bg-indigo-50/60 dark:bg-indigo-500/10 border border-indigo-100 dark:border-indigo-500/20">
@@ -360,12 +360,12 @@ function AddMemberModal({ role, onClose, onAdd, adminList = [], isSuperAdmin = f
           )}
         </div>
         <div className="flex flex-col gap-1 mb-1">
-          <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-wide">Password *</label>
+          <label className="text-[10px] font-semibold text-slate-500 uppercase tracking-wide">Password *</label>
           <div className="relative">
             <input type={showPwd ? "text" : "password"} value={password} onChange={e => setPassword(e.target.value)} placeholder="Enter password"
               className="input-field px-3 py-2 pr-9 font-mono"
             />
-            <button type="button" onClick={() => setShowPwd(v => !v)} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition"><EyeIcon open={showPwd}/></button>
+            <button type="button" onClick={() => setShowPwd(v => !v)} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-600 dark:hover:text-slate-200 transition"><EyeIcon open={showPwd}/></button>
           </div>
           {strength && (
             <div className="mt-1.5 flex items-center gap-2">
@@ -377,7 +377,7 @@ function AddMemberModal({ role, onClose, onAdd, adminList = [], isSuperAdmin = f
           )}
         </div>
         <div className="flex flex-col gap-1 mt-3">
-          <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-wide">Confirm Password *</label>
+          <label className="text-[10px] font-semibold text-slate-500 uppercase tracking-wide">Confirm Password *</label>
           <div className="relative">
             <input type={showConfirm ? "text" : "password"} value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} placeholder="Re-enter password"
               className={`input-field px-3 py-2 pr-9 font-mono ${
@@ -385,7 +385,7 @@ function AddMemberModal({ role, onClose, onAdd, adminList = [], isSuperAdmin = f
                 : confirmPassword && confirmPassword === password ? "!border-emerald-400 focus:!border-emerald-500"
                 : ""}`}
             />
-            <button type="button" onClick={() => setShowConfirm(v => !v)} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition"><EyeIcon open={showConfirm}/></button>
+            <button type="button" onClick={() => setShowConfirm(v => !v)} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-600 dark:hover:text-slate-200 transition"><EyeIcon open={showConfirm}/></button>
           </div>
           {confirmPassword && (
             <p className={`text-[10px] mt-1 flex items-center gap-1 ${confirmPassword === password ? "text-emerald-600 dark:text-emerald-400" : "text-rose-500 dark:text-rose-400"}`}>
@@ -422,7 +422,7 @@ function SlotBar({ used, max, isAdmin }) {
       <div className="w-28 h-1.5 bg-slate-200 dark:bg-white/10 rounded-full overflow-hidden">
         <div className={`h-full rounded-full transition-all duration-500 ${isAdmin ? "bg-indigo-600" : "bg-emerald-600"}`} style={{ width: `${pct}%` }}/>
       </div>
-      <span className="text-[11px] text-slate-400">{used}/{max} slots</span>
+      <span className="text-[11px] text-slate-500">{used}/{max} slots</span>
     </div>
   );
 }
@@ -445,7 +445,7 @@ function MemberRow({ member, onRequestRemove, onResetPassword, onReassign, onMee
           <p className="text-xs font-semibold text-slate-900 dark:text-white truncate">{member.name}</p>
           <Pill tone={roleTone} className="shrink-0 !text-[9px] !py-0">{roleLabel}</Pill>
         </div>
-        <p className="text-[11px] text-slate-400 truncate">{member.email}</p>
+        <p className="text-[11px] text-slate-500 truncate">{member.email}</p>
         {/* Show assigned admin for employee rows */}
         {!isAdmin && assignedAdminName && (
           <p className="text-[10px] text-indigo-500 dark:text-indigo-400 truncate mt-0.5">
@@ -496,7 +496,7 @@ function MemberRow({ member, onRequestRemove, onResetPassword, onReassign, onMee
                 ? 'border-orange-400 text-orange-500 bg-orange-50 dark:bg-orange-500/10 animate-pulse'
                 : member.clientMeetingPermission
                 ? 'border-emerald-400 text-emerald-500 bg-emerald-50 dark:bg-emerald-500/10'
-                : 'border-transparent text-slate-400 hover:border-emerald-400 hover:text-emerald-500 hover:bg-emerald-50 dark:hover:bg-emerald-500/10'
+                : 'border-transparent text-slate-500 hover:border-emerald-400 hover:text-emerald-500 hover:bg-emerald-50 dark:hover:bg-emerald-500/10'
             }`}
             title={
               member.meetingPermissionStatus === 'pending'
@@ -535,7 +535,7 @@ function MemberRow({ member, onRequestRemove, onResetPassword, onReassign, onMee
           </span>
         )}
       </div>
-      <span className="text-[10px] text-slate-400 whitespace-nowrap shrink-0">
+      <span className="text-[10px] text-slate-500 whitespace-nowrap shrink-0">
         {member.addedOn || (member.createdAt ? new Date(member.createdAt).toLocaleDateString("en-GB", { day:"2-digit", month:"short", year:"numeric" }) : "—")}
       </span>
     </div>
@@ -588,12 +588,12 @@ function ReassignUserModal({ user, adminList, onClose, onReassign }) {
             <Avatar name={user.name} size={8} />
             <div className="flex-1 min-w-0">
               <p className="text-xs font-semibold text-slate-900 dark:text-white truncate">{user.name}</p>
-              <p className="text-[11px] text-slate-400 truncate">{user.email}</p>
+              <p className="text-[11px] text-slate-500 truncate">{user.email}</p>
             </div>
           </div>
 
           <div className="flex flex-col gap-1 mb-4">
-            <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-wide">Assign to Admin</label>
+            <label className="text-[10px] font-semibold text-slate-500 uppercase tracking-wide">Assign to Admin</label>
             <select
               value={selectedAdmin}
               onChange={e => setSelectedAdmin(e.target.value)}
@@ -699,7 +699,7 @@ function MarketingPanelSection() {
         </div>
         <div className="flex-1 min-w-0">
           <p className="text-[14px] font-bold text-slate-900 dark:text-white">Marketing Panel Access</p>
-          <p className="text-[11px] text-slate-400">Create logins for the Performance Marketing Dashboard · <span className="font-semibold text-indigo-600 dark:text-indigo-400">launcherdesk.com/marketing/login</span></p>
+          <p className="text-[11px] text-slate-500">Create logins for the Performance Marketing Dashboard · <span className="font-semibold text-indigo-600 dark:text-indigo-400">launcherdesk.com/marketing/login</span></p>
         </div>
         <button onClick={() => { setShowForm(!showForm); setError(""); }} className="btn-primary btn-sm">
           <Plus className="w-3.5 h-3.5" /> Add User
@@ -716,21 +716,21 @@ function MarketingPanelSection() {
             <p className="text-[12px] font-bold text-slate-900 dark:text-white">New Marketing Panel User</p>
             <div className="grid sm:grid-cols-3 gap-3">
               <div>
-                <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Full Name</label>
+                <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Full Name</label>
                 <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="e.g. Marketing Manager"
                   className="input-field px-3 py-2 text-[12px]" />
               </div>
               <div>
-                <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Email</label>
+                <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Email</label>
                 <input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="marketing@company.com"
                   className="input-field px-3 py-2 text-[12px]" />
               </div>
               <div>
-                <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Password</label>
+                <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Password</label>
                 <div className="relative">
                   <input type={showPwd ? "text" : "password"} value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} placeholder="Min 8 characters"
                     className="input-field px-3 py-2 pr-9 text-[12px]" />
-                  <button type="button" onClick={() => setShowPwd(!showPwd)} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400">
+                  <button type="button" onClick={() => setShowPwd(!showPwd)} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-500">
                     {showPwd ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
                   </button>
                 </div>
@@ -747,12 +747,12 @@ function MarketingPanelSection() {
 
         {/* List */}
         {loading ? (
-          <div className="flex justify-center py-6"><Loader2 className="w-5 h-5 animate-spin text-slate-400" /></div>
+          <div className="flex justify-center py-6"><Loader2 className="w-5 h-5 animate-spin text-slate-500" /></div>
         ) : users.length === 0 ? (
           <div className="text-center py-8">
             <BarChart3 className="w-8 h-8 text-slate-300 dark:text-slate-600 mx-auto mb-2" strokeWidth={1.5} />
             <p className="text-[13px] font-semibold text-slate-900 dark:text-white">No marketing panel users yet</p>
-            <p className="text-[12px] text-slate-400 mt-0.5">Click "Add User" to create dashboard credentials.</p>
+            <p className="text-[12px] text-slate-500 mt-0.5">Click "Add User" to create dashboard credentials.</p>
           </div>
         ) : (
           <div className="space-y-2">
@@ -762,7 +762,7 @@ function MarketingPanelSection() {
                 <div className="flex-1 min-w-0">
                   <p className="text-[13px] font-semibold text-slate-900 dark:text-white truncate">{u.name}</p>
                   <div className="flex items-center gap-1.5">
-                    <p className="text-[11px] text-slate-400 truncate">{u.email}</p>
+                    <p className="text-[11px] text-slate-500 truncate">{u.email}</p>
                     <button onClick={() => copy(u.email, `e-${u._id}`)} className="text-slate-300 dark:text-slate-600 hover:text-indigo-500 shrink-0">
                       {copied === `e-${u._id}` ? <Check className="w-3 h-3 text-emerald-500" /> : <Copy className="w-3 h-3" />}
                     </button>
@@ -774,10 +774,10 @@ function MarketingPanelSection() {
                 <button onClick={() => copy("https://launcherdesk.com/marketing/login", `url-${u._id}`)} className="text-[11px] font-semibold text-indigo-600 dark:text-indigo-400 hover:underline shrink-0 hidden sm:block">
                   {copied === `url-${u._id}` ? "Copied!" : "Copy login URL"}
                 </button>
-                <button onClick={() => toggle(u._id)} disabled={toggling === u._id} title={u.marketingAccess ? "Disable" : "Enable"} className="text-slate-400 hover:text-indigo-600 shrink-0 disabled:opacity-50">
+                <button onClick={() => toggle(u._id)} disabled={toggling === u._id} title={u.marketingAccess ? "Disable" : "Enable"} className="text-slate-500 hover:text-indigo-600 shrink-0 disabled:opacity-50">
                   {toggling === u._id ? <Loader2 className="w-5 h-5 animate-spin" /> : u.marketingAccess ? <ToggleRight className="w-5 h-5 text-indigo-600" /> : <ToggleLeft className="w-5 h-5" />}
                 </button>
-                <button onClick={() => remove(u._id)} disabled={deleting === u._id} title="Remove" className="text-slate-400 hover:text-rose-500 shrink-0 disabled:opacity-50">
+                <button onClick={() => remove(u._id)} disabled={deleting === u._id} title="Remove" className="text-slate-500 hover:text-rose-500 shrink-0 disabled:opacity-50">
                   {deleting === u._id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
                 </button>
               </div>
@@ -785,7 +785,7 @@ function MarketingPanelSection() {
           </div>
         )}
 
-        <p className="text-[11px] text-slate-400">
+        <p className="text-[11px] text-slate-500">
           These users can only log into the <strong>Performance Marketing Dashboard</strong> — they cannot access the main CRM. Toggle to temporarily suspend access without deleting the account.
         </p>
       </div>
@@ -1103,7 +1103,7 @@ export default function UserManagement({
                 }
               </div>
               <h2 className="text-sm font-bold text-slate-900 dark:text-white text-center">{upgradeAlert.title}</h2>
-              <p className="text-xs text-slate-400 mt-2 text-center leading-relaxed">{upgradeAlert.message}</p>
+              <p className="text-xs text-slate-500 mt-2 text-center leading-relaxed">{upgradeAlert.message}</p>
             </div>
             <div className="flex gap-2">
               <button onClick={() => setUpgradeAlert("")} className="btn-secondary btn-md flex-1">
@@ -1124,7 +1124,7 @@ export default function UserManagement({
       <div className="flex flex-wrap items-start justify-between gap-4 mb-6">
         <div>
           <h2 className="text-[18px] font-bold text-slate-900 dark:text-white">Employee Management</h2>
-          <p className="text-[13px] text-slate-400 mt-0.5">
+          <p className="text-[13px] text-slate-500 mt-0.5">
             Manage admins and employees on your <span className={`font-semibold ${cfg.statColor}`}>{cfg.label}</span> plan
           </p>
         </div>
@@ -1151,14 +1151,14 @@ export default function UserManagement({
             <>
               <div className="text-center">
                 <div className={`text-xl font-bold ${cfg.statColor}`}>{regularAdminCount}/{maxAdmins ?? cfg.maxAdmins}</div>
-                <div className="text-[10px] text-slate-400 uppercase tracking-wide">Admins</div>
+                <div className="text-[10px] text-slate-500 uppercase tracking-wide">Admins</div>
               </div>
               <div className={`w-px h-8 ${cfg.dividerColor}`}/>
             </>
           )}
           <div className="text-center">
             <div className="text-xl font-bold text-emerald-600 dark:text-emerald-400">{totalCompanyUsers}/{maxUsers ?? cfg.maxUsers}</div>
-            <div className="text-[10px] text-slate-400 uppercase tracking-wide">Employees</div>
+            <div className="text-[10px] text-slate-500 uppercase tracking-wide">Employees</div>
           </div>
           {isCompanySuperAdmin && (
             <>
@@ -1189,7 +1189,7 @@ export default function UserManagement({
             </div>
             <div className="px-5 py-2 max-h-80 overflow-y-auto">
               {admins.length === 0
-                ? <div className="py-8 text-center"><p className="text-xs text-slate-400">No admins yet</p></div>
+                ? <div className="py-8 text-center"><p className="text-xs text-slate-500">No admins yet</p></div>
                 : (() => {
                     const superAdminList = admins.filter(m => m.role === "super_admin" || m.role === "superadmin");
                     const regularAdmins  = admins.filter(m => m.role !== "super_admin" && m.role !== "superadmin");
@@ -1238,7 +1238,7 @@ export default function UserManagement({
                         )}
                         {regularAdmins.length === 0 && superAdminList.length > 0 && (
                           <div className="py-3 text-center">
-                            <p className="text-[11px] text-slate-400">No regular admins yet</p>
+                            <p className="text-[11px] text-slate-500">No regular admins yet</p>
                           </div>
                         )}
                       </>
@@ -1255,7 +1255,7 @@ export default function UserManagement({
             <div>
               <div className="flex items-center gap-2">
                 <svg className="w-4 h-4 text-emerald-600 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0"/></svg>
-                <h3 className="text-sm font-bold text-slate-900 dark:text-white">Users <span className="text-xs font-normal text-slate-400">(Employees)</span></h3>
+                <h3 className="text-sm font-bold text-slate-900 dark:text-white">Users <span className="text-xs font-normal text-slate-500">(Employees)</span></h3>
               </div>
               <SlotBar used={totalCompanyUsers} max={maxUsers ?? cfg.maxUsers} isAdmin={false}/>
             </div>
@@ -1264,7 +1264,7 @@ export default function UserManagement({
               disabled={totalCompanyUsers >= (maxUsers ?? cfg.maxUsers)}
               className={`btn-secondary btn-sm !border-transparent ${
                 totalCompanyUsers >= (maxUsers ?? cfg.maxUsers)
-                  ? "!bg-slate-100 dark:!bg-white/[0.06] !text-slate-400"
+                  ? "!bg-slate-100 dark:!bg-white/[0.06] !text-slate-500"
                   : "!bg-emerald-50 dark:!bg-emerald-500/10 !text-emerald-600 dark:!text-emerald-400 hover:!bg-emerald-100 dark:hover:!bg-emerald-500/20"
               }`}
             >
@@ -1279,7 +1279,7 @@ export default function UserManagement({
                   <div className="w-10 h-10 rounded-full bg-emerald-50 dark:bg-emerald-500/10 flex items-center justify-center mx-auto mb-2">
                     <svg className="w-5 h-5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0"/></svg>
                   </div>
-                  <p className="text-xs text-slate-400">No employees added yet</p>
+                  <p className="text-xs text-slate-500">No employees added yet</p>
                 </div>
               )
               : users.map(m => (

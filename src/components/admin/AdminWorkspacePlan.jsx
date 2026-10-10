@@ -35,7 +35,7 @@ export default function AdminWorkspacePlan({ isSuperAdmin, plan, readOnlyMode, s
           Manage plan <ArrowRight className="w-3.5 h-3.5" />
         </button>
       ) : (
-        <p className="text-[10.5px] text-slate-400 dark:text-slate-500 mt-4">
+        <p className="text-[10.5px] text-slate-500 dark:text-slate-500 mt-4">
           Plan changes are managed by your Super Admin.
         </p>
       )}

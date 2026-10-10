@@ -98,7 +98,7 @@ export default function AdminAttendanceView() {
       <div className="flex items-center justify-between mb-3 flex-wrap gap-3">
         <div>
           <h3 className="text-[15px] font-bold text-slate-900 dark:text-white">Team Attendance</h3>
-          <p className="text-[11px] text-slate-400 dark:text-slate-500">Auto-refreshes every 30s</p>
+          <p className="text-[11px] text-slate-500 dark:text-slate-500">Auto-refreshes every 30s</p>
         </div>
         <div className="flex items-center gap-3">
           <input type="date" value={date} max={new Date().toISOString().slice(0,10)}
@@ -134,7 +134,7 @@ export default function AdminAttendanceView() {
           {[1,2,3].map(i => <div key={i} className="h-14 skeleton" />)}
         </div>
       ) : records.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-10 gap-2 text-slate-400 dark:text-slate-500">
+        <div className="flex flex-col items-center justify-center py-10 gap-2 text-slate-500 dark:text-slate-500">
           <svg className="w-8 h-8 opacity-30" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7"/>
           </svg>
@@ -160,7 +160,7 @@ export default function AdminAttendanceView() {
                       <Pill tone="rose" icon={AlertTriangle} className="!text-[10px]">IDLE</Pill>
                     )}
                   </div>
-                  <div className="flex gap-3 mt-0.5 text-[10px] text-slate-400 dark:text-slate-500 flex-wrap">
+                  <div className="flex gap-3 mt-0.5 text-[10px] text-slate-500 dark:text-slate-500 flex-wrap">
                     <span>In: {fmtTime(rec.loginTime)}</span>
                     {rec.logoutTime && <span>Out: {fmtTime(rec.logoutTime)}</span>}
                     <span>Work: {fmt(workMins)}</span>
@@ -182,7 +182,7 @@ export default function AdminAttendanceView() {
                           </Pill>
                         )}
                         {lastFilled && (
-                          <span className="text-slate-400 dark:text-slate-500 italic truncate max-w-[160px]" title={lastFilled.remark}>
+                          <span className="text-slate-500 dark:text-slate-500 italic truncate max-w-[160px]" title={lastFilled.remark}>
                             "{lastFilled.remark}"
                           </span>
                         )}

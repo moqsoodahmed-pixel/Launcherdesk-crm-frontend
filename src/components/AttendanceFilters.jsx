@@ -99,7 +99,7 @@ export default function AttendanceFilters({ filters, onChange }) {
       {/* Filter row */}
       <div className="flex flex-wrap gap-3 items-end">
         <div className="flex flex-col gap-1">
-          <label className="text-[10px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider">From</label>
+          <label className="text-[10px] font-semibold text-slate-500 dark:text-slate-500 uppercase tracking-wider">From</label>
           <input
             type="date"
             value={filters.startDate}
@@ -111,7 +111,7 @@ export default function AttendanceFilters({ filters, onChange }) {
         </div>
 
         <div className="flex flex-col gap-1">
-          <label className="text-[10px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider">To</label>
+          <label className="text-[10px] font-semibold text-slate-500 dark:text-slate-500 uppercase tracking-wider">To</label>
           <input
             type="date"
             value={filters.endDate}
@@ -124,7 +124,7 @@ export default function AttendanceFilters({ filters, onChange }) {
         </div>
 
         <div className="flex flex-col gap-1">
-          <label className="text-[10px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Employee</label>
+          <label className="text-[10px] font-semibold text-slate-500 dark:text-slate-500 uppercase tracking-wider">Employee</label>
           <select
             value={filters.userId || ""}
             onChange={e => set("userId", e.target.value)}
@@ -139,7 +139,7 @@ export default function AttendanceFilters({ filters, onChange }) {
         </div>
 
         <div className="flex flex-col gap-1">
-          <label className="text-[10px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Status</label>
+          <label className="text-[10px] font-semibold text-slate-500 dark:text-slate-500 uppercase tracking-wider">Status</label>
           <select
             value={filters.crmStatus || ""}
             onChange={e => set("crmStatus", e.target.value)}

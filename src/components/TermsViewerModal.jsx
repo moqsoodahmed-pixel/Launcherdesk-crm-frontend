@@ -66,7 +66,7 @@ export default function TermsViewerModal({ open, onClose }) {
               {terms?.title || "Terms & Conditions"}
             </h2>
             {terms?.effectiveDate ? (
-              <p className="mt-1 text-[11px] text-slate-400">
+              <p className="mt-1 text-[11px] text-slate-500">
                 Effective Date: {terms.effectiveDate}
               </p>
             ) : null}
@@ -88,11 +88,11 @@ export default function TermsViewerModal({ open, onClose }) {
               <Loader2 className="animate-spin w-6 h-6 text-launcher-600" />
             </div>
           ) : error ? (
-            <p className="py-10 text-center text-slate-400">
+            <p className="py-10 text-center text-slate-500">
               Could not load the Terms &amp; Conditions. Please try again later.
             </p>
           ) : !terms ? (
-            <p className="py-10 text-center text-slate-400">
+            <p className="py-10 text-center text-slate-500">
               No Terms &amp; Conditions have been published yet.
             </p>
           ) : (
@@ -103,7 +103,7 @@ export default function TermsViewerModal({ open, onClose }) {
                   {sec.heading ? sec.heading + " " : ""}{sec.body || ""}
                 </p>
               ))}
-              <div className="pt-2 text-center text-[11px] text-slate-400">
+              <div className="pt-2 text-center text-[11px] text-slate-500">
                 — End of Terms &amp; Conditions —
               </div>
             </>

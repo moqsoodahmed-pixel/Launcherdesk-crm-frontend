@@ -36,7 +36,7 @@ function StatCard({ icon: Icon, label, value, color = "blue" }) {
       <Icon className={`w-5 h-5 shrink-0 ${iconColors[color] || iconColors.blue}`} />
       <div className="min-w-0">
         <div className="text-[18px] font-bold text-slate-900 dark:text-white tabular-nums leading-none">{value}</div>
-        <div className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5 truncate">{label}</div>
+        <div className="text-[10px] text-slate-500 dark:text-slate-500 mt-0.5 truncate">{label}</div>
       </div>
     </div>
   );
@@ -59,30 +59,30 @@ function PhoneRevealPanel({ reveals }) {
   return (
     <div>
       <div className="flex items-center gap-2 mb-3">
-        <Search className="w-3.5 h-3.5 text-slate-400" />
+        <Search className="w-3.5 h-3.5 text-slate-500" />
         <input
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search lead name or phone…"
           aria-label="Search lead name or phone"
-          className="flex-1 text-[12px] bg-transparent outline-none text-slate-900 dark:text-white placeholder:text-slate-400"
+          className="flex-1 text-[12px] bg-transparent outline-none text-slate-900 dark:text-white placeholder:text-slate-500"
         />
       </div>
       {filtered.length === 0 ? (
-        <p className="text-[12px] text-slate-400 dark:text-slate-500 py-4 text-center">No phone reveals found.</p>
+        <p className="text-[12px] text-slate-500 dark:text-slate-500 py-4 text-center">No phone reveals found.</p>
       ) : (
         <div className="space-y-2 max-h-56 overflow-y-auto pr-1">
           {filtered.map((r, i) => (
             <div key={i} className="flex items-center justify-between bg-slate-50 dark:bg-white/[0.04] rounded-lg px-3 py-2">
               <div className="min-w-0">
                 <p className="text-[12px] font-medium text-slate-900 dark:text-white truncate">{r.name}</p>
-                <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5 flex items-center gap-1">
+                <p className="text-[10px] text-slate-500 dark:text-slate-500 mt-0.5 flex items-center gap-1">
                   <Phone className="w-3 h-3" /> {r.mobile}
                 </p>
               </div>
               <div className="text-right shrink-0 ml-3">
                 <div className="text-[13px] font-bold text-purple-600 dark:text-purple-400 tabular-nums">{r.revealCount}×</div>
-                <div className="text-[9px] text-slate-400">reveals</div>
+                <div className="text-[9px] text-slate-500">reveals</div>
               </div>
             </div>
           ))}
@@ -104,24 +104,24 @@ function LeadsPanel({ leads }) {
   return (
     <div>
       <div className="flex items-center gap-2 mb-3 border border-slate-200 dark:border-white/10 rounded-lg px-3 py-1.5">
-        <Search className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+        <Search className="w-3.5 h-3.5 text-slate-500 shrink-0" />
         <input
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search leads…"
           aria-label="Search leads"
-          className="flex-1 text-[12px] bg-transparent outline-none text-slate-900 dark:text-white placeholder:text-slate-400"
+          className="flex-1 text-[12px] bg-transparent outline-none text-slate-900 dark:text-white placeholder:text-slate-500"
         />
       </div>
       {filtered.length === 0 ? (
-        <p className="text-[12px] text-slate-400 dark:text-slate-500 py-4 text-center">No leads found.</p>
+        <p className="text-[12px] text-slate-500 dark:text-slate-500 py-4 text-center">No leads found.</p>
       ) : (
         <div className="space-y-2 max-h-64 overflow-y-auto pr-1">
           {filtered.map((l) => (
             <div key={l._id} className="flex items-center justify-between bg-slate-50 dark:bg-white/[0.04] rounded-lg px-3 py-2.5 gap-2">
               <div className="min-w-0">
                 <p className="text-[12px] font-medium text-slate-900 dark:text-white truncate">{l.name}</p>
-                <p className="text-[10px] text-slate-400 dark:text-slate-500 truncate">{l.source} · {l.campaign || "—"}</p>
+                <p className="text-[10px] text-slate-500 dark:text-slate-500 truncate">{l.source} · {l.campaign || "—"}</p>
               </div>
               <div className="flex flex-col items-end gap-1 shrink-0">
                 <Badge color={STATUS_COLOR[l.status] || "gray"}>{l.status}</Badge>
@@ -138,7 +138,7 @@ function LeadsPanel({ leads }) {
 // ── Users sub-panel ───────────────────────────────────────────────────────────
 function UsersPanel({ users }) {
   return users.length === 0 ? (
-    <p className="text-[12px] text-slate-400 dark:text-slate-500 py-4 text-center">No users assigned to this admin.</p>
+    <p className="text-[12px] text-slate-500 dark:text-slate-500 py-4 text-center">No users assigned to this admin.</p>
   ) : (
     <div className="space-y-2 max-h-56 overflow-y-auto pr-1">
       {users.map((u) => (
@@ -150,7 +150,7 @@ function UsersPanel({ users }) {
           </div>
           <div className="min-w-0">
             <p className="text-[12px] font-medium text-slate-900 dark:text-white truncate">{u.name}</p>
-            <p className="text-[10px] text-slate-400 dark:text-slate-500 truncate">{u.email}</p>
+            <p className="text-[10px] text-slate-500 dark:text-slate-500 truncate">{u.email}</p>
           </div>
         </div>
       ))}
@@ -225,14 +225,14 @@ export default function SuperAdminFilter() {
           <h2 className="text-[13px] sm:text-[14px] font-bold text-slate-900 dark:text-white">
             Admin-Based Filter
           </h2>
-          <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-0.5">
+          <p className="text-[11px] text-slate-500 dark:text-slate-500 mt-0.5">
             Select an admin to see their users, leads, and phone-reveal activity
           </p>
         </div>
         {selectedAdmin && (
           <button
             onClick={handleClear}
-            className="flex items-center gap-1.5 text-[11px] text-slate-400 hover:text-red-500 transition-colors"
+            className="flex items-center gap-1.5 text-[11px] text-slate-500 hover:text-red-500 transition-colors"
           >
             <X className="w-3.5 h-3.5" /> Clear
           </button>
@@ -249,16 +249,16 @@ export default function SuperAdminFilter() {
             text-[12px] text-slate-900 dark:text-white hover:border-violet-400 transition-colors"
         >
           <span className="flex items-center gap-2">
-            <Users className="w-4 h-4 text-slate-400 shrink-0" />
+            <Users className="w-4 h-4 text-slate-500 shrink-0" />
             {loadingAdmins ? (
-              <span className="text-slate-400">Loading admins…</span>
+              <span className="text-slate-500">Loading admins…</span>
             ) : selectedAdmin ? (
               <span className="font-medium">{selectedAdmin.name}</span>
             ) : (
-              <span className="text-slate-400">Select an admin…</span>
+              <span className="text-slate-500">Select an admin…</span>
             )}
           </span>
-          <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${dropdownOpen ? "rotate-180" : ""}`} />
+          <ChevronDown className={`w-4 h-4 text-slate-500 transition-transform ${dropdownOpen ? "rotate-180" : ""}`} />
         </button>
 
         {dropdownOpen && !loadingAdmins && (
@@ -267,7 +267,7 @@ export default function SuperAdminFilter() {
             {adminsError ? (
               <p className="text-[12px] text-red-500 px-4 py-3">{adminsError}</p>
             ) : admins.length === 0 ? (
-              <p className="text-[12px] text-slate-400 px-4 py-3">No admins found.</p>
+              <p className="text-[12px] text-slate-500 px-4 py-3">No admins found.</p>
             ) : (
               admins.map((a) => (
                 <button
@@ -283,7 +283,7 @@ export default function SuperAdminFilter() {
                     </div>
                     <div className="min-w-0">
                       <p className="text-[12px] font-medium text-slate-900 dark:text-white truncate">{a.name}</p>
-                      <p className="text-[10px] text-slate-400 dark:text-slate-500 truncate">{a.email}</p>
+                      <p className="text-[10px] text-slate-500 dark:text-slate-500 truncate">{a.email}</p>
                     </div>
                   </div>
                   <div className="flex gap-2 shrink-0 ml-2">
@@ -299,14 +299,14 @@ export default function SuperAdminFilter() {
 
       {/* ── Loading / error / empty states ── */}
       {!selectedAdmin && !loadingAdmins && (
-        <div className="flex flex-col items-center justify-center py-10 text-slate-400">
+        <div className="flex flex-col items-center justify-center py-10 text-slate-500">
           <BarChart2 className="w-8 h-8 mb-2 opacity-40" />
           <p className="text-[12px]">Choose an admin above to drill down into their data.</p>
         </div>
       )}
 
       {loadingDetails && (
-        <div className="flex items-center justify-center py-10 gap-2 text-slate-400">
+        <div className="flex items-center justify-center py-10 gap-2 text-slate-500">
           <Loader className="w-4 h-4 animate-spin" />
           <span className="text-[12px]">Loading admin data…</span>
         </div>
@@ -329,7 +329,7 @@ export default function SuperAdminFilter() {
             </div>
             <div className="min-w-0">
               <p className="text-[13px] font-semibold text-slate-900 dark:text-white truncate">{details.admin.name}</p>
-              <p className="text-[10px] text-slate-400 dark:text-slate-500 truncate">{details.admin.email}</p>
+              <p className="text-[10px] text-slate-500 dark:text-slate-500 truncate">{details.admin.email}</p>
             </div>
           </div>
 
@@ -346,7 +346,7 @@ export default function SuperAdminFilter() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
               {/* Status */}
               <div className="bg-slate-50 dark:bg-white/[0.04] rounded-xl px-4 py-3">
-                <p className="text-[11px] font-semibold text-slate-400 dark:text-slate-500 mb-2 uppercase tracking-wide">By Status</p>
+                <p className="text-[11px] font-semibold text-slate-500 dark:text-slate-500 mb-2 uppercase tracking-wide">By Status</p>
                 <div className="space-y-1.5">
                   {Object.entries(details.stats.statusBreakdown).map(([k, v]) => (
                     <div key={k} className="flex items-center justify-between">
@@ -358,7 +358,7 @@ export default function SuperAdminFilter() {
               </div>
               {/* Temperature */}
               <div className="bg-slate-50 dark:bg-white/[0.04] rounded-xl px-4 py-3">
-                <p className="text-[11px] font-semibold text-slate-400 dark:text-slate-500 mb-2 uppercase tracking-wide">By Temperature</p>
+                <p className="text-[11px] font-semibold text-slate-500 dark:text-slate-500 mb-2 uppercase tracking-wide">By Temperature</p>
                 <div className="space-y-1.5">
                   {Object.entries(details.stats.tempBreakdown).map(([k, v]) => (
                     <div key={k} className="flex items-center justify-between">
@@ -384,12 +384,12 @@ export default function SuperAdminFilter() {
                 className={`flex items-center gap-1.5 shrink-0 whitespace-nowrap px-2.5 sm:px-3 py-2 text-[12px] font-medium border-b-2 transition-colors -mb-px
                   ${activeTab === key
                     ? "border-violet-500 text-violet-600 dark:text-violet-400"
-                    : "border-transparent text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}
+                    : "border-transparent text-slate-500 hover:text-slate-900 dark:hover:text-white"}`}
               >
                 <Icon className="w-3.5 h-3.5 shrink-0" />
                 <span>{label}</span>
                 <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-semibold shrink-0
-                  ${activeTab === key ? "bg-violet-100 dark:bg-violet-500/20 text-violet-700 dark:text-violet-300" : "bg-slate-100 dark:bg-white/10 text-slate-400"}`}>
+                  ${activeTab === key ? "bg-violet-100 dark:bg-violet-500/20 text-violet-700 dark:text-violet-300" : "bg-slate-100 dark:bg-white/10 text-slate-500"}`}>
                   {key === "leads"   ? details.leads.length
                    : key === "users"   ? details.users.length
                    : details.stats.phoneReveals.leadsRevealed}

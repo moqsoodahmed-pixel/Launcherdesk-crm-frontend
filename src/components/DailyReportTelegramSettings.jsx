@@ -211,7 +211,7 @@ function SettingsTab() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-8">
-        <Loader2 className="w-5 h-5 animate-spin text-slate-400" />
+        <Loader2 className="w-5 h-5 animate-spin text-slate-500" />
       </div>
     );
   }
@@ -242,7 +242,7 @@ function SettingsTab() {
           <p className={`text-[12px] font-semibold ${draft.enabled ? "text-emerald-700 dark:text-emerald-400" : "text-slate-900 dark:text-white"}`}>
             {draft.enabled ? "Daily Report enabled" : "Daily Report disabled"}
           </p>
-          <p className="text-[10px] text-slate-400">
+          <p className="text-[10px] text-slate-500">
             {draft.enabled ? "Report will be sent at the configured time" : "No reports will be sent"}
           </p>
         </div>
@@ -272,12 +272,12 @@ function SettingsTab() {
           <button
             type="button"
             onClick={() => setShowToken(v => !v)}
-            className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-indigo-500 transition"
+            className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-indigo-500 transition"
           >
             {showToken ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
           </button>
         </div>
-        <p className="text-[10px] text-slate-400 mt-1">
+        <p className="text-[10px] text-slate-500 mt-1">
           Create a <strong>separate</strong> bot for daily reports via <span className="font-mono font-semibold">@BotFather</span>
         </p>
       </div>
@@ -295,7 +295,7 @@ function SettingsTab() {
           placeholder="-1001234567890"
           className="input-field px-3 py-2 text-[11px] font-mono"
         />
-        <p className="text-[10px] text-slate-400 mt-1">
+        <p className="text-[10px] text-slate-500 mt-1">
           Add bot to group → get ID via <span className="font-mono font-semibold">@userinfobot</span>
         </p>
       </div>
@@ -343,7 +343,7 @@ function SettingsTab() {
           <p className="text-[11px] font-semibold text-slate-900 dark:text-white">
             Send empty report
           </p>
-          <p className="text-[10px] text-slate-400">
+          <p className="text-[10px] text-slate-500">
             {draft.sendEmptyReport
               ? "Report sent even when no activity today"
               : "Skip report if no activity today"
@@ -413,14 +413,14 @@ function HistoryTab() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-8">
-        <Loader2 className="w-5 h-5 animate-spin text-slate-400" />
+        <Loader2 className="w-5 h-5 animate-spin text-slate-500" />
       </div>
     );
   }
 
   if (!history.length) {
     return (
-      <div className="flex flex-col items-center justify-center py-8 gap-2 text-slate-400">
+      <div className="flex flex-col items-center justify-center py-8 gap-2 text-slate-500">
         <History className="w-7 h-7 opacity-30" />
         <p className="text-[12px]">No reports sent yet.</p>
         <p className="text-[10px] text-center px-4">
@@ -445,13 +445,13 @@ function HistoryTab() {
               </p>
               <StatusBadge status={entry.status} />
               {entry.triggeredBy === "manual" && (
-                <span className="text-[9px] text-slate-400 italic">manual</span>
+                <span className="text-[9px] text-slate-500 italic">manual</span>
               )}
               {entry.triggeredBy === "test" && (
-                <span className="text-[9px] text-slate-400 italic">test</span>
+                <span className="text-[9px] text-slate-500 italic">test</span>
               )}
             </div>
-            <p className="text-[10px] text-slate-400 truncate">
+            <p className="text-[10px] text-slate-500 truncate">
               {entry.employeeCount > 0
                 ? `${entry.employeeCount} employee${entry.employeeCount !== 1 ? "s" : ""} · ${entry.scheduledTime || "—"} ${entry.timezone || ""}`
                 : entry.status === "skipped"
@@ -543,7 +543,7 @@ export default function DailyReportTelegramSettings() {
         </div>
         <div className="flex-1 min-w-0">
           <p className="text-[13px] font-bold text-slate-900 dark:text-white">Daily Report</p>
-          <p className="text-[10px] text-slate-400">Employee performance · Telegram delivery</p>
+          <p className="text-[10px] text-slate-500">Employee performance · Telegram delivery</p>
         </div>
         <button
           onClick={() => setOpen(false)}
@@ -566,7 +566,7 @@ export default function DailyReportTelegramSettings() {
                 border transition flex-1 justify-center
                 ${active
                   ? "border-indigo-300 dark:border-indigo-700 bg-indigo-50 dark:bg-indigo-500/10 text-indigo-700 dark:text-indigo-300"
-                  : "border-slate-200 dark:border-white/10 text-slate-400 hover:border-slate-300 dark:hover:border-white/20 hover:text-slate-600 dark:hover:text-slate-300"
+                  : "border-slate-200 dark:border-white/10 text-slate-500 hover:border-slate-300 dark:hover:border-white/20 hover:text-slate-600 dark:hover:text-slate-300"
                 }`}
             >
               <Icon className="w-3.5 h-3.5" />

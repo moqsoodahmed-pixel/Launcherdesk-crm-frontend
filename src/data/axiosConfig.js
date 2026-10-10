@@ -75,8 +75,14 @@ api.interceptors.request.use((config) => {
       const u = JSON.parse(raw);
       const role = String(u?.role || "").toLowerCase();
       if (role === "super_admin" || role === "superadmin") {
-        const companyId = u.companyId || u.company?._id || u.company;
-        if (companyId) config.headers["x-company-id"] = String(companyId);
+        // A caller can set this header explicitly per-request (e.g. the
+        // Integrations modal's company switcher) to target a specific
+        // tenant without changing the global session company — don't
+        // clobber an explicit value with the session default.
+        if (!config.headers["x-company-id"]) {
+          const companyId = u.companyId || u.company?._id || u.company;
+          if (companyId) config.headers["x-company-id"] = String(companyId);
+        }
       }
     }
   } catch (_) { /* malformed user object — fall through without the header */ }

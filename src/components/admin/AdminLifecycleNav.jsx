@@ -101,7 +101,7 @@ export default function AdminLifecycleNav() {
                         <ArrowRight className="w-3 h-3 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
                       </Link>
                     ) : (
-                      <span className="text-[11.5px] text-slate-400 dark:text-slate-500">{it.label}</span>
+                      <span className="text-[11.5px] text-slate-500 dark:text-slate-500">{it.label}</span>
                     )}
                   </li>
                 ))}

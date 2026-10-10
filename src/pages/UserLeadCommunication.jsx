@@ -289,7 +289,7 @@ function EmptyPane() {
         </svg>
       </div>
       <h3 className="font-display text-[20px] font-semibold tracking-tight text-[#170B29] dark:text-white">Select a Lead to Chat</h3>
-      <p className="text-[13px] text-[#7D7296] dark:text-[#C6BBDC] text-center max-w-xs leading-relaxed">
+      <p className="text-[13px] text-[#716787] dark:text-[#C6BBDC] text-center max-w-xs leading-relaxed">
         You can only message your assigned leads. Select one from the left panel to start a WhatsApp conversation.
       </p>
     </div>
@@ -330,11 +330,11 @@ function ReEngageWidget({ conversationId, authHeaders, onSent }) {
           onChange={(e) => setTemplateName(e.target.value)}
           onKeyDown={(e) => { if (e.key === "Enter") handleSend(); }}
           placeholder="crm_followup_leads"
-          className="flex-1 px-3 py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-[#FAF7FF] dark:bg-[#120B22] text-[12px] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#7D7296] focus:outline-none focus:border-[#25D366] transition"
+          className="flex-1 px-3 py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-[#FAF7FF] dark:bg-[#120B22] text-[12px] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#716787] focus:outline-none focus:border-[#0F7A6C] transition"
           autoFocus
         />
         <select value={languageCode} onChange={(e) => setLanguageCode(e.target.value)}
-          className="w-[110px] px-2 py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-[#FAF7FF] dark:bg-[#120B22] text-[12px] text-[#170B29] dark:text-[#F4EEFF] focus:outline-none focus:border-[#25D366] transition">
+          className="w-[110px] px-2 py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-[#FAF7FF] dark:bg-[#120B22] text-[12px] text-[#170B29] dark:text-[#F4EEFF] focus:outline-none focus:border-[#0F7A6C] transition">
           <option value="en">en</option>
           <option value="en_US">en_US</option>
           <option value="hi">hi</option>
@@ -347,7 +347,7 @@ function ReEngageWidget({ conversationId, authHeaders, onSent }) {
         <button
           onClick={handleSend}
           disabled={!templateName.trim() || loading}
-          className="px-4 py-2 rounded-xl bg-[#25D366] hover:bg-[#1da851] text-white text-[12px] font-semibold disabled:opacity-40 transition shrink-0"
+          className="px-4 py-2 rounded-xl bg-[#0F7A6C] hover:bg-[#0B5D52] text-white text-[12px] font-semibold disabled:opacity-40 transition shrink-0"
         >
           {loading ? "…" : "Re-engage"}
         </button>
@@ -395,27 +395,27 @@ function BlastTab({ leads, authHeaders }) {
       <div className="flex-1 flex flex-col items-center justify-center gap-6 bg-[#F7F3FF] dark:bg-[#0B0715] p-6">
         <div className="w-full max-w-md bg-white dark:bg-[#181029] rounded-2xl border border-[#E7DCFA] dark:border-[#2B1E48] p-8 text-center shadow-lg">
           <div className="w-14 h-14 rounded-full bg-[#f0fdf4] dark:bg-[#052e1c] flex items-center justify-center mx-auto mb-4">
-            <svg className="w-7 h-7 text-[#25D366]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+            <svg className="w-7 h-7 text-[#0F7A6C]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
             </svg>
           </div>
           <h2 className="text-[16px] font-bold text-[#170B29] dark:text-[#F4EEFF] mb-1">WhatsApp Blast Sent!</h2>
-          <p className="text-[12px] text-[#7D7296] mb-5">Your template messages were dispatched to your leads.</p>
+          <p className="text-[12px] text-[#716787] mb-5">Your template messages were dispatched to your leads.</p>
           <div className="grid grid-cols-3 gap-3 mb-5">
             {[
-              { label: "Sent",   value: result.sent   ?? 0, color: "#25D366" },
+              { label: "Sent",   value: result.sent   ?? 0, color: "#0F7A6C" },
               { label: "Failed", value: result.failed ?? 0, color: "#DC2626" },
               { label: "Total",  value: result.total  ?? 0, color: "#7E14FF" },
             ].map((s) => (
               <div key={s.label} className="bg-[#FAF7FF] dark:bg-[#120B22] rounded-xl p-3 text-center border border-[#E7DCFA] dark:border-[#2B1E48]">
                 <div className="text-[22px] font-bold" style={{ color: s.color }}>{s.value}</div>
-                <div className="text-[10px] text-[#7D7296] uppercase mt-0.5">{s.label}</div>
+                <div className="text-[10px] text-[#716787] uppercase mt-0.5">{s.label}</div>
               </div>
             ))}
           </div>
           <button
             onClick={() => { setResult(null); setTemplateName("crm_followup_leads"); }}
-            className="w-full py-2.5 rounded-xl bg-[#25D366] text-white text-[13px] font-semibold hover:bg-[#1da851] transition"
+            className="w-full py-2.5 rounded-xl bg-[#0F7A6C] text-white text-[13px] font-semibold hover:bg-[#0B5D52] transition"
           >
             Send Another Blast
           </button>
@@ -437,7 +437,7 @@ function BlastTab({ leads, authHeaders }) {
             </div>
             <div>
               <h2 className="text-[15px] font-bold text-[#170B29] dark:text-[#F4EEFF] leading-none">WhatsApp Template Blast</h2>
-              <p className="text-[11px] text-[#7D7296] mt-0.5">Send a template to all your assigned leads</p>
+              <p className="text-[11px] text-[#716787] mt-0.5">Send a template to all your assigned leads</p>
             </div>
           </div>
 
@@ -459,9 +459,9 @@ function BlastTab({ leads, authHeaders }) {
               value={templateName}
               onChange={(e) => setTemplateName(e.target.value)}
               placeholder="e.g. crm_followup_leads"
-              className="w-full px-3 py-2.5 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-[#FAF7FF] dark:bg-[#120B22] text-[13px] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#7D7296] focus:outline-none focus:border-[#25D366]"
+              className="w-full px-3 py-2.5 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-[#FAF7FF] dark:bg-[#120B22] text-[13px] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#716787] focus:outline-none focus:border-[#0F7A6C]"
             />
-            <p className="text-[10px] text-[#7D7296] mt-1">Must match exactly the approved template name in your MSG91 / Meta dashboard</p>
+            <p className="text-[10px] text-[#716787] mt-1">Must match exactly the approved template name in your MSG91 / Meta dashboard</p>
           </div>
 
           <div className="mb-5">
@@ -469,7 +469,7 @@ function BlastTab({ leads, authHeaders }) {
             <select
               value={languageCode}
               onChange={(e) => setLanguageCode(e.target.value)}
-              className="w-full px-3 py-2.5 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-[#FAF7FF] dark:bg-[#120B22] text-[13px] text-[#170B29] dark:text-[#F4EEFF] focus:outline-none focus:border-[#25D366]"
+              className="w-full px-3 py-2.5 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-[#FAF7FF] dark:bg-[#120B22] text-[13px] text-[#170B29] dark:text-[#F4EEFF] focus:outline-none focus:border-[#0F7A6C]"
             >
               <option value="en">English (en)</option>
               <option value="en_US">English US (en_US)</option>
@@ -495,7 +495,7 @@ function BlastTab({ leads, authHeaders }) {
           <button
             onClick={handleBlast}
             disabled={loading || !templateName.trim() || leads.length === 0}
-            className="w-full py-3 rounded-xl bg-[#25D366] hover:bg-[#1da851] disabled:opacity-40 text-white text-[13px] font-bold transition flex items-center justify-center gap-2 shadow-md"
+            className="w-full py-3 rounded-xl bg-[#0F7A6C] hover:bg-[#0B5D52] disabled:opacity-40 text-white text-[13px] font-bold transition flex items-center justify-center gap-2 shadow-md"
           >
             {loading ? (
               <>
@@ -527,7 +527,7 @@ function BlastTab({ leads, authHeaders }) {
                   <Avatar name={lead.name} size="sm" />
                   <div className="flex-1 min-w-0">
                     <p className="text-[13px] font-semibold text-[#170B29] dark:text-[#E3DAF3] truncate">{lead.name}</p>
-                    <p className="text-[11px] text-[#7D7296] truncate">{maskPhone(lead.mobile || lead.phone)}</p>
+                    <p className="text-[11px] text-[#716787] truncate">{maskPhone(lead.mobile || lead.phone)}</p>
                   </div>
                   <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full shrink-0 ${
                     lead.status === "Converted"   ? "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400" :
@@ -575,13 +575,13 @@ function StartConversationPane({ lead, authHeaders, apiUrl, onStarted }) {
 
   return (
     <div className="flex-1 flex flex-col items-center justify-center gap-4 bg-[#F7F3FF] dark:bg-[#0B0715] p-6">
-      <div className="w-16 h-16 rounded-full bg-[#25D366]/10 flex items-center justify-center">
-        <svg className="w-8 h-8 text-[#25D366]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <div className="w-16 h-16 rounded-full bg-[#0F7A6C]/10 flex items-center justify-center">
+        <svg className="w-8 h-8 text-[#0F7A6C]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
         </svg>
       </div>
-      <h3 className="text-[14px] font-bold text-[#4A3F66] dark:text-[#7D7296]">No WhatsApp conversation yet</h3>
-      <p className="text-[11px] text-[#7D7296] text-center max-w-xs">
+      <h3 className="text-[14px] font-bold text-[#4A3F66] dark:text-[#716787]">No WhatsApp conversation yet</h3>
+      <p className="text-[11px] text-[#716787] text-center max-w-xs">
         Send the first template message to start a conversation with <strong>{lead.name}</strong>.
       </p>
 
@@ -594,9 +594,9 @@ function StartConversationPane({ lead, authHeaders, apiUrl, onStarted }) {
             value={templateName}
             onChange={(e) => setTemplateName(e.target.value)}
             placeholder="e.g. crm_followup_leads"
-            className="w-full px-3 py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-[#FAF7FF] dark:bg-[#120B22] text-[13px] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#7D7296] focus:outline-none focus:border-[#25D366] transition"
+            className="w-full px-3 py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-[#FAF7FF] dark:bg-[#120B22] text-[13px] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#716787] focus:outline-none focus:border-[#0F7A6C] transition"
           />
-          <p className="text-[10px] text-[#7D7296] mt-1">Must match exactly the approved template name in MSG91</p>
+          <p className="text-[10px] text-[#716787] mt-1">Must match exactly the approved template name in MSG91</p>
         </div>
 
         <div className="mb-4">
@@ -604,7 +604,7 @@ function StartConversationPane({ lead, authHeaders, apiUrl, onStarted }) {
           <select
             value={langCode}
             onChange={(e) => setLangCode(e.target.value)}
-            className="w-full px-3 py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-[#FAF7FF] dark:bg-[#120B22] text-[13px] text-[#170B29] dark:text-[#F4EEFF] focus:outline-none focus:border-[#25D366] transition"
+            className="w-full px-3 py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-[#FAF7FF] dark:bg-[#120B22] text-[13px] text-[#170B29] dark:text-[#F4EEFF] focus:outline-none focus:border-[#0F7A6C] transition"
           >
             <option value="en">English (en)</option>
             <option value="en_US">English US (en_US)</option>
@@ -619,7 +619,7 @@ function StartConversationPane({ lead, authHeaders, apiUrl, onStarted }) {
         <button
           onClick={handleStart}
           disabled={loading || !templateName.trim()}
-          className="w-full py-2.5 rounded-xl bg-[#25D366] hover:bg-[#1da851] disabled:opacity-40 text-white text-[13px] font-semibold transition flex items-center justify-center gap-2"
+          className="w-full py-2.5 rounded-xl bg-[#0F7A6C] hover:bg-[#0B5D52] disabled:opacity-40 text-white text-[13px] font-semibold transition flex items-center justify-center gap-2"
         >
           {loading ? (
             <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
@@ -643,7 +643,7 @@ function StartConversationPane({ lead, authHeaders, apiUrl, onStarted }) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 const FIELD_CLS_SMS =
-  "w-full px-3 py-2.5 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-[#FAF7FF] dark:bg-[#120B22] text-[13px] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#7D7296] focus:outline-none focus:border-[#7E14FF] transition";
+  "w-full px-3 py-2.5 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-[#FAF7FF] dark:bg-[#120B22] text-[13px] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#716787] focus:outline-none focus:border-[#7E14FF] transition";
 
 const LAUNCHERDESK_GREETINGS_TEMPLATE_ID_EMP = "6a1ffe028c6272147b00b233";
 const LAUNCHERDESK_GREETINGS_SENDER_ID_EMP   = "695382";
@@ -768,8 +768,8 @@ function SmsBlastTab() {
 
   if (result) return (
     <div className="flex-1 flex flex-col items-center justify-center bg-[#F6F1FF] dark:bg-[#0B0715] gap-4">
-      <div className="w-20 h-20 rounded-full bg-[#25D366]/10 flex items-center justify-center mb-2">
-        <svg className="w-10 h-10 text-[#25D366]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <div className="w-20 h-20 rounded-full bg-[#0F7A6C]/10 flex items-center justify-center mb-2">
+        <svg className="w-10 h-10 text-[#0F7A6C]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
         </svg>
       </div>
@@ -836,7 +836,7 @@ function SmsBlastTab() {
                 className={`py-2 px-2 rounded-xl text-[11px] font-semibold border transition ${
                   mode === m.key
                     ? "bg-[#FFF7ED] dark:bg-[#2D1000] border-[#EA580C] text-[#EA580C]"
-                    : "border-[#E7DCFA] dark:border-[#2B1E48] text-[#7D7296] hover:border-[#EA580C] hover:text-[#EA580C]"
+                    : "border-[#E7DCFA] dark:border-[#2B1E48] text-[#716787] hover:border-[#EA580C] hover:text-[#EA580C]"
                 }`}>
                 <span className="inline-flex items-center gap-1"><m.Icon className="w-3.5 h-3.5" />{m.label}</span>
               </button>
@@ -856,7 +856,7 @@ function SmsBlastTab() {
                 {campaigns.map((c) => <option key={c} value={c}>{c}</option>)}
               </select>
               {leadCount !== null && (
-                <p className="text-[11px] text-[#7D7296] mt-1">
+                <p className="text-[11px] text-[#716787] mt-1">
                   <span className="font-bold text-[#EA580C]">{leadCount}</span> of your leads with mobile numbers
                 </p>
               )}
@@ -911,12 +911,12 @@ function SmsBlastTab() {
             <div>
               <label className="block text-[11px] font-semibold text-[#6E6386] dark:text-[#9A8DB6] mb-1.5">DLT Template ID</label>
               <input type="text" value={templateId} onChange={(e) => setTemplateId(e.target.value)} placeholder="1234567890123456789" className={FIELD_CLS_SMS} />
-              <p className="text-[10px] text-[#7D7296] mt-0.5">MSG91 → DLT dashboard</p>
+              <p className="text-[10px] text-[#716787] mt-0.5">MSG91 → DLT dashboard</p>
             </div>
             <div>
               <label className="block text-[11px] font-semibold text-[#6E6386] dark:text-[#9A8DB6] mb-1.5">Sender ID</label>
               <input type="text" maxLength={6} value={senderId} onChange={(e) => setSenderId(e.target.value.toUpperCase())} placeholder="SKYCRM" className={FIELD_CLS_SMS} />
-              <p className="text-[10px] text-[#7D7296] mt-0.5">6-char DLT-approved</p>
+              <p className="text-[10px] text-[#716787] mt-0.5">6-char DLT-approved</p>
             </div>
           </div>
         </div>
@@ -965,11 +965,11 @@ function SmsBlastTab() {
             placeholder={`Hi {{name}}, this is a message from Launcherdesk CRM.`}
           />
           <div className="flex items-center justify-between mt-1.5">
-            <p className="text-[10px] text-[#7D7296]">
+            <p className="text-[10px] text-[#716787]">
               <span className={charCount > 160 ? "text-[#EA580C] font-bold" : ""}>{charCount}</span> chars ·{" "}
               <span className={smsCount > 1 ? "text-[#EA580C] font-bold" : ""}>{smsCount} SMS</span>/recipient
             </p>
-            <p className="text-[10px] text-[#7D7296]">→ <strong className="text-[#EA580C]">{recipientLabel}</strong></p>
+            <p className="text-[10px] text-[#716787]">→ <strong className="text-[#EA580C]">{recipientLabel}</strong></p>
           </div>
         </div>
 
@@ -1117,22 +1117,22 @@ function SmsChatTab({ leads, loadingLeads }) {
         <div className="px-4 pt-5 pb-3 border-b border-[#E7DCFA] dark:border-[#2B1E48]">
           <h2 className="text-[15px] font-bold text-[#170B29] dark:text-[#E3DAF3] mb-3">SMS Direct</h2>
           <div className="relative">
-            <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#7D7296]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#716787]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <circle cx="11" cy="11" r="8"/><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35"/>
             </svg>
             <input
               value={search}
               onChange={e => setSearch(e.target.value)}
               placeholder="Search leads…"
-              className="w-full pl-9 pr-3 py-2 rounded-xl bg-[#F4EEFF] dark:bg-[#1D1333] text-[13px] text-[#170B29] dark:text-[#E3DAF3] placeholder:text-[#7D7296] focus:outline-none border border-transparent focus:border-[#EA580C]/40 transition"
+              className="w-full pl-9 pr-3 py-2 rounded-xl bg-[#F4EEFF] dark:bg-[#1D1333] text-[13px] text-[#170B29] dark:text-[#E3DAF3] placeholder:text-[#716787] focus:outline-none border border-transparent focus:border-[#EA580C]/40 transition"
             />
           </div>
         </div>
         <div className="flex-1 overflow-y-auto">
           {loadingLeads ? (
-            <div className="flex items-center justify-center py-10 text-[#7D7296] text-[13px]">Loading…</div>
+            <div className="flex items-center justify-center py-10 text-[#716787] text-[13px]">Loading…</div>
           ) : filteredLeads.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-10 gap-2 text-[#7D7296]">
+            <div className="flex flex-col items-center justify-center py-10 gap-2 text-[#716787]">
               <svg className="w-8 h-8 opacity-40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
               </svg>
@@ -1153,7 +1153,7 @@ function SmsChatTab({ leads, loadingLeads }) {
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-[13px] font-semibold text-[#170B29] dark:text-[#E3DAF3] truncate">{lead.name || "Unknown"}</p>
-                    <p className={`text-[11px] truncate ${hasMobile ? "text-[#7D7296]" : "text-amber-500"}`}>
+                    <p className={`text-[11px] truncate ${hasMobile ? "text-[#716787]" : "text-amber-500"}`}>
                       {hasMobile ? maskPhone(lead.mobile) : "No mobile number"}
                     </p>
                   </div>
@@ -1170,7 +1170,7 @@ function SmsChatTab({ leads, loadingLeads }) {
       {/* ── Right panel: SMS thread ── */}
       <div className="flex-1 flex flex-col bg-[#F4EEFF] dark:bg-[#0A1A20] min-w-0">
         {!selected ? (
-          <div className="flex-1 flex flex-col items-center justify-center gap-3 text-[#7D7296]">
+          <div className="flex-1 flex flex-col items-center justify-center gap-3 text-[#716787]">
             <div className="w-16 h-16 rounded-full bg-[#EA580C]/10 flex items-center justify-center">
               <svg className="w-8 h-8 text-[#EA580C]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
@@ -1183,7 +1183,7 @@ function SmsChatTab({ leads, loadingLeads }) {
           <>
             {/* Header */}
             <div className="flex items-center gap-3 px-4 py-3 bg-white dark:bg-[#1F2C33] border-b border-[#E7DCFA] dark:border-[#2B1E48] shadow-sm">
-              <button onClick={() => setSelected(null)} className="sm:hidden p-1 rounded-lg hover:bg-[#F4EEFF] dark:hover:bg-[#2B1E48] text-[#7D7296]">
+              <button onClick={() => setSelected(null)} className="sm:hidden p-1 rounded-lg hover:bg-[#F4EEFF] dark:hover:bg-[#2B1E48] text-[#716787]">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7"/></svg>
               </button>
               <div className="w-10 h-10 rounded-full bg-[#EA580C] flex items-center justify-center text-[12px] font-bold text-white shrink-0">
@@ -1191,7 +1191,7 @@ function SmsChatTab({ leads, loadingLeads }) {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-[14px] font-bold text-[#170B29] dark:text-[#E3DAF3] truncate">{selected.name}</p>
-                <p className="text-[11px] text-[#7D7296]">{maskPhone(selected.mobile) || "No mobile"} · SMS</p>
+                <p className="text-[11px] text-[#716787]">{maskPhone(selected.mobile) || "No mobile"} · SMS</p>
               </div>
               {configured === false && (
                 <span className="text-[10px] bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 px-2 py-1 rounded-lg font-semibold">SMS not configured</span>
@@ -1201,9 +1201,9 @@ function SmsChatTab({ leads, loadingLeads }) {
             {/* Thread */}
             <div className="flex-1 overflow-y-auto py-4">
               {loadingThread ? (
-                <div className="flex items-center justify-center py-10 text-[#7D7296] text-[13px]">Loading messages…</div>
+                <div className="flex items-center justify-center py-10 text-[#716787] text-[13px]">Loading messages…</div>
               ) : thread.length === 0 ? (
-                <div className="flex flex-col items-center justify-center py-12 gap-2 text-[#7D7296]">
+                <div className="flex flex-col items-center justify-center py-12 gap-2 text-[#716787]">
                   <svg className="w-10 h-10 opacity-30" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
                   </svg>
@@ -1237,7 +1237,7 @@ function SmsChatTab({ leads, loadingLeads }) {
                       placeholder="Type an SMS message…"
                       rows={2}
                       disabled={sending || configured === false}
-                      className="flex-1 px-3 py-2.5 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-[#FAF7FF] dark:bg-[#120B22] text-[13px] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#7D7296] focus:outline-none focus:border-[#EA580C]/60 transition resize-none"
+                      className="flex-1 px-3 py-2.5 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-[#FAF7FF] dark:bg-[#120B22] text-[13px] text-[#170B29] dark:text-[#F4EEFF] placeholder:text-[#716787] focus:outline-none focus:border-[#EA580C]/60 transition resize-none"
                     />
                     <button
                       onClick={handleSend}
@@ -1251,7 +1251,7 @@ function SmsChatTab({ leads, loadingLeads }) {
                       }
                     </button>
                   </div>
-                  <p className="text-[10px] text-[#7D7296] mt-1.5 px-1">
+                  <p className="text-[10px] text-[#716787] mt-1.5 px-1">
                     {msgText.length} chars · {msgText.length === 0 ? 0 : Math.ceil(msgText.length / 160)} SMS segment{Math.ceil(msgText.length / 160) !== 1 ? "s" : ""} · Press Enter to send
                   </p>
                 </>
@@ -2094,7 +2094,7 @@ export default function UserLeadCommunication() {
             {tab.icon}
             {tab.label}
             {tab.key === "blast" && leads.length > 0 && (
-              <span className="ml-1 bg-[#25D366] text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">
+              <span className="ml-1 bg-[#0F7A6C] text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">
                 {leads.length}
               </span>
             )}
@@ -2142,7 +2142,7 @@ export default function UserLeadCommunication() {
                 )}
               </h2>
               <div className="relative">
-                <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#7D7296]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#716787]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <circle cx="11" cy="11" r="8" />
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35" />
                 </svg>
@@ -2150,7 +2150,7 @@ export default function UserLeadCommunication() {
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="Search leads…"
-                  className="w-full pl-9 pr-3 py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-[#F4EEFF] dark:bg-[#1D1333] text-[13px] text-[#170B29] dark:text-[#E3DAF3] placeholder:text-[#7D7296] focus:outline-none"
+                  className="w-full pl-9 pr-3 py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] bg-[#F4EEFF] dark:bg-[#1D1333] text-[13px] text-[#170B29] dark:text-[#E3DAF3] placeholder:text-[#716787] focus:outline-none"
                 />
               </div>
             </div>
@@ -2158,13 +2158,13 @@ export default function UserLeadCommunication() {
             <div className="flex-1 overflow-y-auto">
               {loadingLeads || !activityLoaded ? (
                 <div className="flex justify-center items-center h-32">
-                  <svg className="w-5 h-5 animate-spin text-[#25D366]" fill="none" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 animate-spin text-[#0F7A6C]" fill="none" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
                   </svg>
                 </div>
               ) : filteredLeads.length === 0 ? (
-                <div className="text-center py-12 text-[12px] text-[#7D7296]">
+                <div className="text-center py-12 text-[12px] text-[#716787]">
                   {search ? "No leads match your search" : "No leads assigned to you yet"}
                 </div>
               ) : (
@@ -2188,7 +2188,7 @@ export default function UserLeadCommunication() {
                       <Avatar name={lead.name} />
                       <div className="flex-1 min-w-0">
                         <p className={`text-[13px] truncate ${unread ? "font-bold text-[#170B29] dark:text-white" : "font-semibold text-[#170B29] dark:text-[#E3DAF3]"}`}>{lead.name}</p>
-                        <p className="text-[11px] text-[#7D7296] truncate">{maskPhone(lead.mobile || lead.phone)}</p>
+                        <p className="text-[11px] text-[#716787] truncate">{maskPhone(lead.mobile || lead.phone)}</p>
                         {/* FEATURE: last-message / last-template preview. Lets the
                             agent see what was last sent to this lead — including
                             whether a template already went out — without opening
@@ -2228,7 +2228,7 @@ export default function UserLeadCommunication() {
             <EmptyPane />
           ) : loadingConv ? (
             <div className="flex-1 flex items-center justify-center bg-[#F7F3FF] dark:bg-[#0B0715]">
-              <svg className="w-6 h-6 animate-spin text-[#25D366]" fill="none" viewBox="0 0 24 24">
+              <svg className="w-6 h-6 animate-spin text-[#0F7A6C]" fill="none" viewBox="0 0 24 24">
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
               </svg>
@@ -2302,7 +2302,7 @@ export default function UserLeadCommunication() {
 
               {/* Closed conversation banner */}
               {isClosed && (
-                <div className="px-4 py-2 text-[11px] bg-[#FAF7FF] dark:bg-[#181029] text-[#7D7296] border-b border-[#E7DCFA] dark:border-[#2B1E48] text-center">
+                <div className="px-4 py-2 text-[11px] bg-[#FAF7FF] dark:bg-[#181029] text-[#716787] border-b border-[#E7DCFA] dark:border-[#2B1E48] text-center">
                   This conversation has been marked as resolved.
                 </div>
               )}
@@ -2314,17 +2314,17 @@ export default function UserLeadCommunication() {
               >
                 {loadingMsgs ? (
                   <div className="flex justify-center items-center h-full">
-                    <svg className="w-6 h-6 animate-spin text-[#25D366]" fill="none" viewBox="0 0 24 24">
+                    <svg className="w-6 h-6 animate-spin text-[#0F7A6C]" fill="none" viewBox="0 0 24 24">
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
                     </svg>
                   </div>
                 ) : messages.length === 0 ? (
                   <div className="flex flex-col items-center justify-center h-full gap-2 opacity-50">
-                    <svg className="w-12 h-12 text-[#7D7296]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
+                    <svg className="w-12 h-12 text-[#716787]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
                     </svg>
-                    <p className="text-[12px] text-[#7D7296]">No messages yet — start the conversation</p>
+                    <p className="text-[12px] text-[#716787]">No messages yet — start the conversation</p>
                   </div>
                 ) : (
                   messages.map((msg, i) => (
@@ -2353,7 +2353,7 @@ export default function UserLeadCommunication() {
                   via the header button; normal input otherwise */}
               {(!sessionOpen || showTemplatePanel) && !isClosed ? (
                 <div className="px-4 py-3 border-t border-[#E7DCFA] dark:border-[#2B1E48] bg-white dark:bg-[#181029] shrink-0">
-                  <p className="text-[11px] text-[#7D7296] mb-2 text-center">
+                  <p className="text-[11px] text-[#716787] mb-2 text-center">
                     {sessionOpen
                       ? "Session is open — you can also send a fresh template below."
                       : "24-hour session expired. Send a pre-approved template to re-open the conversation."}
@@ -2390,7 +2390,7 @@ export default function UserLeadCommunication() {
                   {sessionOpen && (
                     <button
                       onClick={() => setShowTemplatePanel(false)}
-                      className="mt-2 text-[11px] text-[#7D7296] hover:text-[#4A3F66] underline w-full text-center"
+                      className="mt-2 text-[11px] text-[#716787] hover:text-[#4A3F66] underline w-full text-center"
                     >
                       Cancel — go back to typing a message
                     </button>
@@ -2428,7 +2428,7 @@ export default function UserLeadCommunication() {
                             type="button"
                             onClick={saveEditMessage}
                             disabled={savingEdit || !editText.trim()}
-                            className="px-4 py-2 rounded-xl bg-[#25D366] hover:bg-[#20B858] disabled:opacity-40 text-white text-[13px] font-semibold transition"
+                            className="px-4 py-2 rounded-xl bg-[#0F7A6C] hover:bg-[#0B5D52] disabled:opacity-40 text-white text-[13px] font-semibold transition"
                           >
                             {savingEdit ? "Saving…" : "Save edit"}
                           </button>
@@ -2474,10 +2474,10 @@ export default function UserLeadCommunication() {
                           onClick={() => { setShowAttachMenu(false); ref.current?.click(); }}
                           className="w-full flex items-start gap-3 px-3 py-2.5 text-left hover:bg-[#F4EEFF] dark:hover:bg-[#1D1333] transition"
                         >
-                          <Icon className="w-4 h-4 mt-0.5 text-[#25D366] shrink-0" />
+                          <Icon className="w-4 h-4 mt-0.5 text-[#0F7A6C] shrink-0" />
                           <span className="min-w-0">
                             <span className="block text-[13px] font-semibold text-[#181029] dark:text-[#E3DAF3]">{label}</span>
-                            <span className="block text-[10px] text-[#7D7296] truncate">{hint}</span>
+                            <span className="block text-[10px] text-[#716787] truncate">{hint}</span>
                           </span>
                         </button>
                       ))}
@@ -2493,7 +2493,7 @@ export default function UserLeadCommunication() {
                     className="w-10 h-10 rounded-full bg-white dark:bg-[#2B1E48] hover:bg-[#E3DAF3] dark:hover:bg-[#3B295E] disabled:opacity-40 flex items-center justify-center transition shrink-0 shadow-sm"
                   >
                     {uploading ? (
-                      <svg className="w-4 h-4 animate-spin text-[#25D366]" fill="none" viewBox="0 0 24 24">
+                      <svg className="w-4 h-4 animate-spin text-[#0F7A6C]" fill="none" viewBox="0 0 24 24">
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
                       </svg>
@@ -2528,14 +2528,14 @@ export default function UserLeadCommunication() {
                       rows={1}
                       placeholder={isClosed ? "Conversation is resolved" : "Type a message…"}
                       disabled={isClosed || sending}
-                      className="w-full bg-transparent text-[13px] text-[#181029] dark:text-[#E3DAF3] placeholder:text-[#7D7296] resize-none focus:outline-none leading-relaxed disabled:opacity-50"
+                      className="w-full bg-transparent text-[13px] text-[#181029] dark:text-[#E3DAF3] placeholder:text-[#716787] resize-none focus:outline-none leading-relaxed disabled:opacity-50"
                       style={{ maxHeight: "100px", overflowY: "auto" }}
                     />
                   </div>
                   <button
                     onClick={handleSend}
                     disabled={sending || !msgText.trim() || !conversation?._id || isClosed}
-                    className="w-11 h-11 rounded-full bg-[#25D366] hover:bg-[#20B858] disabled:opacity-40 flex items-center justify-center transition shadow-md shrink-0"
+                    className="w-11 h-11 rounded-full bg-[#0F7A6C] hover:bg-[#0B5D52] disabled:opacity-40 flex items-center justify-center transition shadow-md shrink-0"
                   >
                     {sending ? (
                       <svg className="w-4 h-4 animate-spin text-white" fill="none" viewBox="0 0 24 24">

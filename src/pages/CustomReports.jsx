@@ -195,7 +195,7 @@ export default function CustomReports() {
       <div className="min-h-screen bg-[#FAF7FF] dark:bg-[#0B0715]">
         <div className="p-4 md:p-6 max-w-5xl mx-auto">
           <h1 className="text-lg font-bold text-[#170B29] dark:text-[#F4EEFF] mb-2">Custom Reports</h1>
-          <div className="rounded-xl border border-dashed border-[#E7DCFA] dark:border-[#1D1333] p-8 text-center text-sm text-[#6E6386] dark:text-[#7D7296]">
+          <div className="rounded-xl border border-dashed border-[#E7DCFA] dark:border-[#1D1333] p-8 text-center text-sm text-[#6E6386] dark:text-[#716787]">
             No company is associated with your account, so reports can't be shown.
           </div>
         </div>
@@ -226,11 +226,11 @@ export default function CustomReports() {
         {/* ── Report list ────────────────────────────────────────────────── */}
         {!selected && (
           <div className="space-y-2">
-            {loading && <p className="text-xs text-[#6E6386] dark:text-[#7D7296]">Loading…</p>}
+            {loading && <p className="text-xs text-[#6E6386] dark:text-[#716787]">Loading…</p>}
             {!loading && reports.length === 0 && (
               <div className="rounded-2xl border border-dashed border-[#E7DCFA] dark:border-[#2B1E48] bg-white dark:bg-[#181029] ld-card p-10 text-center">
                 <p className="font-display text-[17px] font-bold text-[#170B29] dark:text-white mb-1">No reports yet</p>
-                <p className="text-xs text-[#6E6386] dark:text-[#7D7296] mb-4">Create your first financial report to see analytics and AI insights.</p>
+                <p className="text-xs text-[#6E6386] dark:text-[#716787] mb-4">Create your first financial report to see analytics and AI insights.</p>
                 <button onClick={startCreate} className="px-4 py-2 rounded-xl bg-white text-[#6300D6] hover:bg-[#F3EBFF] text-xs font-bold shadow-[0_6px_16px_-6px_rgba(20,0,60,0.5)] transition">+ New report</button>
               </div>
             )}
@@ -243,7 +243,7 @@ export default function CustomReports() {
                       <span className="font-bold text-sm text-[#170B29] dark:text-[#F4EEFF]">{r.title}</span>
                       {verdictBadge(ra.verdict)}
                     </div>
-                    <div className="text-xs text-[#6E6386] dark:text-[#7D7296] mt-0.5">
+                    <div className="text-xs text-[#6E6386] dark:text-[#716787] mt-0.5">
                       {(r.periodStart || "").slice(0, 10)} → {(r.periodEnd || "").slice(0, 10)} · Net {money(r.currency, ra.netProfit)} · {r.fields?.length || 0} fields
                     </div>
                   </button>
@@ -277,7 +277,7 @@ export default function CustomReports() {
                 <h2 className="text-base font-bold text-[#170B29] dark:text-[#F4EEFF]">{selected.title}</h2>
                 {verdictBadge(a.verdict)}
               </div>
-              <p className="text-xs text-[#6E6386] dark:text-[#7D7296]">{(selected.periodStart || "").slice(0, 10)} → {(selected.periodEnd || "").slice(0, 10)}</p>
+              <p className="text-xs text-[#6E6386] dark:text-[#716787]">{(selected.periodStart || "").slice(0, 10)} → {(selected.periodEnd || "").slice(0, 10)}</p>
             </div>
 
             {/* Summary stat cards */}
@@ -290,7 +290,7 @@ export default function CustomReports() {
                 { label: "ROI",        value: a.roiPct    === null ? "—" : `${a.roiPct}%`,    color: "#7E14FF" },
               ].map(c => (
                 <div key={c.label} className="p-3 rounded-xl bg-white dark:bg-[#181029] border border-[#E7DCFA] dark:border-[#2B1E48] ld-card">
-                  <div className="text-[10px] uppercase tracking-wide text-[#6E6386] dark:text-[#7D7296]">{c.label}</div>
+                  <div className="text-[10px] uppercase tracking-wide text-[#6E6386] dark:text-[#716787]">{c.label}</div>
                   <div className="text-sm font-bold mt-0.5" style={{ color: c.color }}>{c.value}</div>
                 </div>
               ))}
@@ -298,7 +298,7 @@ export default function CustomReports() {
 
             {/* Fields breakdown */}
             <div className="bg-white dark:bg-[#181029] rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] ld-card overflow-hidden">
-              <div className="px-4 py-2.5 bg-[#FAF7FF] dark:bg-[#0B0715] border-b border-[#E7DCFA] dark:border-[#2B1E48] text-[11px] font-bold uppercase tracking-wide text-[#6E6386] dark:text-[#7D7296]">Fields</div>
+              <div className="px-4 py-2.5 bg-[#FAF7FF] dark:bg-[#0B0715] border-b border-[#E7DCFA] dark:border-[#2B1E48] text-[11px] font-bold uppercase tracking-wide text-[#6E6386] dark:text-[#716787]">Fields</div>
               <div className="divide-y divide-[#E7DCFA] dark:divide-[#2B1E48]">
                 {(a.breakdown || []).map((b, i) => {
                   const tm     = typeMeta(b.type);
@@ -316,7 +316,7 @@ export default function CustomReports() {
                       </div>
                       <div className="text-right shrink-0">
                         <div className="text-sm font-bold text-[#170B29] dark:text-[#F4EEFF]">{money(selected.currency, b.value)}</div>
-                        <div className="text-[11px] text-[#6E6386] dark:text-[#7D7296]">
+                        <div className="text-[11px] text-[#6E6386] dark:text-[#716787]">
                           {b.sharePct}%
                           {change && change.changePct !== null && (
                             <span className={change.changePct >= 0 ? " text-emerald-600 dark:text-emerald-400" : " text-rose-500 dark:text-rose-400"}> · {pctTxt(change.changePct)}</span>
@@ -341,12 +341,12 @@ export default function CustomReports() {
                         style={{ height: `${maxSeriesTotal > 0 ? Math.max(4, (Math.abs(s.total) / maxSeriesTotal) * 100) : 4}%` }}
                         title={`${s.title}: ${money(selected.currency, s.total)}`}
                       />
-                      <div className="text-[9px] text-[#6E6386] dark:text-[#7D7296] truncate w-full text-center">{(s.periodEnd || "").slice(0, 7)}</div>
+                      <div className="text-[9px] text-[#6E6386] dark:text-[#716787] truncate w-full text-center">{(s.periodEnd || "").slice(0, 7)}</div>
                     </div>
                   ))}
                 </div>
                 {trends.totalChangePct !== null && (
-                  <div className="text-xs text-[#6E6386] dark:text-[#7D7296] mt-2">
+                  <div className="text-xs text-[#6E6386] dark:text-[#716787] mt-2">
                     vs previous: <span className={trends.totalChangePct >= 0 ? "text-emerald-600 dark:text-emerald-400 font-bold" : "text-rose-500 dark:text-rose-400 font-bold"}>{pctTxt(trends.totalChangePct)}</span>
                   </div>
                 )}
@@ -384,7 +384,7 @@ export default function CustomReports() {
                 </>
               )}
               {!aiError && !selected.ai?.summary && !aiLoading && (
-                <p className="text-xs text-[#6E6386] dark:text-[#7D7296]">No analysis yet. Click Generate for an AI verdict and improvement suggestions.</p>
+                <p className="text-xs text-[#6E6386] dark:text-[#716787]">No analysis yet. Click Generate for an AI verdict and improvement suggestions.</p>
               )}
             </div>
           </div>
@@ -396,29 +396,29 @@ export default function CustomReports() {
             <div className="bg-white dark:bg-[#181029] border border-[#E7DCFA] dark:border-[#2B1E48] rounded-2xl p-5 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-sm font-bold text-[#170B29] dark:text-[#F4EEFF]">{editingId ? "Edit report" : "New report"}</h2>
-                <button onClick={() => setShowForm(false)} className="text-[#7D7296] hover:text-[#170B29] dark:hover:text-white text-lg leading-none transition">×</button>
+                <button onClick={() => setShowForm(false)} className="text-[#716787] hover:text-[#170B29] dark:hover:text-white text-lg leading-none transition">×</button>
               </div>
               <div className="space-y-3">
                 <div className="flex flex-col gap-1">
-                  <label className="text-[10px] font-semibold text-[#6E6386] dark:text-[#7D7296] uppercase tracking-wide">Title</label>
+                  <label className="text-[10px] font-semibold text-[#6E6386] dark:text-[#716787] uppercase tracking-wide">Title</label>
                   <input value={title} onChange={e => setTitle(e.target.value)} placeholder="e.g. Q2 financials" className={INP} />
                 </div>
                 <div className="grid grid-cols-3 gap-2">
                   <div className="flex flex-col gap-1">
-                    <label className="text-[10px] font-semibold text-[#6E6386] dark:text-[#7D7296] uppercase tracking-wide">From</label>
+                    <label className="text-[10px] font-semibold text-[#6E6386] dark:text-[#716787] uppercase tracking-wide">From</label>
                     <input type="date" value={periodStart} onChange={e => setPeriodStart(e.target.value)} className={INP} />
                   </div>
                   <div className="flex flex-col gap-1">
-                    <label className="text-[10px] font-semibold text-[#6E6386] dark:text-[#7D7296] uppercase tracking-wide">To</label>
+                    <label className="text-[10px] font-semibold text-[#6E6386] dark:text-[#716787] uppercase tracking-wide">To</label>
                     <input type="date" value={periodEnd} onChange={e => setPeriodEnd(e.target.value)} className={INP} />
                   </div>
                   <div className="flex flex-col gap-1">
-                    <label className="text-[10px] font-semibold text-[#6E6386] dark:text-[#7D7296] uppercase tracking-wide">Currency</label>
+                    <label className="text-[10px] font-semibold text-[#6E6386] dark:text-[#716787] uppercase tracking-wide">Currency</label>
                     <input value={currency} onChange={e => setCurrency(e.target.value)} placeholder="₹" className={INP} />
                   </div>
                 </div>
                 <div>
-                  <label className="text-[10px] font-semibold text-[#6E6386] dark:text-[#7D7296] uppercase tracking-wide">Fields</label>
+                  <label className="text-[10px] font-semibold text-[#6E6386] dark:text-[#716787] uppercase tracking-wide">Fields</label>
                   <p className="text-[10px] text-[#9A8DB6] dark:text-[#564C70] mb-1">Tag each as Revenue / Cost / Profit so margin &amp; ROI compute automatically.</p>
                   <div className="space-y-2">
                     {fields.map((f, i) => (

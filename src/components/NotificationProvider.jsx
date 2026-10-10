@@ -664,7 +664,7 @@ export function NotificationBell() {
         {notifications.length > 0 && (
           <button
             onClick={clearAll}
-            className="text-[11px] text-slate-400 hover:text-red-500 dark:hover:text-red-400 transition font-semibold"
+            className="text-[11px] text-slate-500 hover:text-red-500 dark:hover:text-red-400 transition font-semibold"
           >
             Clear all
           </button>
@@ -680,7 +680,7 @@ export function NotificationBell() {
             </div>
             <div className="text-center">
               <p className="text-[13px] font-semibold text-slate-500 dark:text-slate-400">All caught up!</p>
-              <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-0.5">No new notifications</p>
+              <p className="text-[11px] text-slate-500 dark:text-slate-500 mt-0.5">No new notifications</p>
             </div>
           </div>
         ) : (
@@ -795,7 +795,7 @@ function NotificationItem({ notif, onOpen }) {
                 );
               })}
               {notif.companies.length > 3 && (
-                <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-violet-50 dark:bg-white/10 text-slate-400 font-medium">
+                <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-violet-50 dark:bg-white/10 text-slate-500 font-medium">
                   +{notif.companies.length - 3} more
                 </span>
               )}
@@ -805,19 +805,19 @@ function NotificationItem({ notif, onOpen }) {
           {showLeads && (
             <div className="flex flex-wrap gap-1 mt-1">
               {notif.leads.slice(0, 3).map((l, i) => (
-                <span key={i} className="text-[10px] px-1.5 py-0.5 rounded-full bg-violet-50 dark:bg-white/10 text-slate-400 font-medium">
+                <span key={i} className="text-[10px] px-1.5 py-0.5 rounded-full bg-violet-50 dark:bg-white/10 text-slate-500 font-medium">
                   {l.leadName}
                 </span>
               ))}
               {notif.leads.length > 3 && (
-                <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-violet-50 dark:bg-white/10 text-slate-400 font-medium">
+                <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-violet-50 dark:bg-white/10 text-slate-500 font-medium">
                   +{notif.leads.length - 3} more
                 </span>
               )}
             </div>
           )}
 
-          <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-1">
+          <p className="text-[10px] text-slate-500 dark:text-slate-500 mt-1">
             {timeLabel(notif.timestamp)}
           </p>
         </div>

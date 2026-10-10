@@ -41,7 +41,7 @@ function StatCard({ label, value, sub, color, icon, trend }) {
         <span className="w-7 h-7 rounded-lg flex items-center justify-center text-white text-[12px] font-bold shrink-0 shadow-sm" style={{ background: color }}>{icon}</span>
       </div>
       <div className="font-display text-[28px] font-bold tracking-tight leading-none" style={{ color }}>{value ?? '—'}</div>
-      {sub && <div className="text-[11px] text-[#7D7296] dark:text-[#C6BBDC]">{sub}</div>}
+      {sub && <div className="text-[11px] text-[#716787] dark:text-[#C6BBDC]">{sub}</div>}
       {trend !== undefined && (
         <div className={`text-[11px] font-semibold ${trend >= 0 ? 'text-[#059669]' : 'text-[#DC2626]'}`}>
           {trend >= 0 ? '▲' : '▼'} {Math.abs(trend)} vs yesterday
@@ -74,7 +74,7 @@ function FunnelBar({ label, value, total, color }) {
         <span className="text-[12px] text-[#4A3F66] dark:text-[#9A8DB6]">{label}</span>
         <div className="flex items-center gap-2">
           <span className="text-[12px] font-bold text-[#170B29] dark:text-[#F4EEFF]">{value}</span>
-          <span className="text-[10px] text-[#7D7296] dark:text-[#564C70] w-8 text-right">{pct}%</span>
+          <span className="text-[10px] text-[#716787] dark:text-[#564C70] w-8 text-right">{pct}%</span>
         </div>
       </div>
       <div className="h-2 bg-[#F3EBFF] dark:bg-[#2B1E48] rounded-full overflow-hidden">
@@ -261,7 +261,7 @@ export default function DailyReport() {
               </div>
               {(summary.total || 0) > 0 && (
                 <div className="mt-4 pt-4 border-t border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-between">
-                  <span className="text-[12px] text-[#7D7296]">Conversion rate</span>
+                  <span className="text-[12px] text-[#716787]">Conversion rate</span>
                   <span className="text-[20px] font-bold text-[#059669] dark:text-[#34D399]">{summary.convRate || 0}%</span>
                 </div>
               )}
@@ -269,7 +269,7 @@ export default function DailyReport() {
 
             <Card title="Leads by source" badge={summary.total} bc="#7E14FF">
               {sources.length === 0 ? (
-                <p className="text-[13px] text-[#7D7296] py-8 text-center">No leads for this date.</p>
+                <p className="text-[13px] text-[#716787] py-8 text-center">No leads for this date.</p>
               ) : (
                 <div className="space-y-3.5">
                   {sources.map((s, i) => (
@@ -281,7 +281,7 @@ export default function DailyReport() {
                         </div>
                         <div className="flex items-center gap-2">
                           <span className="text-[12px] font-semibold text-[#170B29] dark:text-[#F4EEFF]">{s.count}</span>
-                          <span className="text-[10px] text-[#7D7296] w-8 text-right">
+                          <span className="text-[10px] text-[#716787] w-8 text-right">
                             {Math.round(s.count / (summary.total || 1) * 100)}%
                           </span>
                         </div>
@@ -327,7 +327,7 @@ export default function DailyReport() {
               <thead>
                 <tr className="border-b border-[#E7DCFA] dark:border-[#2B1E48]">
                   {['Employee', 'Leads', 'Calls Today', 'In Progress', 'Converted', 'Conv. Rate'].map(h => (
-                    <th key={h} className="text-left pb-3 pr-6 text-[11px] font-semibold text-[#7D7296] uppercase tracking-wide whitespace-nowrap">{h}</th>
+                    <th key={h} className="text-left pb-3 pr-6 text-[11px] font-semibold text-[#716787] uppercase tracking-wide whitespace-nowrap">{h}</th>
                   ))}
                 </tr>
               </thead>
@@ -344,7 +344,7 @@ export default function DailyReport() {
                           </div>
                           <div>
                             <div className="font-semibold text-[#170B29] dark:text-[#F4EEFF]">{e.name || 'Unassigned'}</div>
-                            <div className="text-[10px] text-[#7D7296]">{active ? 'Active today' : 'No activity'}</div>
+                            <div className="text-[10px] text-[#716787]">{active ? 'Active today' : 'No activity'}</div>
                           </div>
                         </div>
                       </td>
@@ -374,7 +374,7 @@ export default function DailyReport() {
         <Card title="Leads for this day" badge={leads.length} bc="#7E14FF">
           {leads.length === 0 ? (
             <div className="py-12 text-center">
-              <p className="text-[13px] text-[#7D7296]">No leads for {formatMedium(viewDate)}.</p>
+              <p className="text-[13px] text-[#716787]">No leads for {formatMedium(viewDate)}.</p>
             </div>
           ) : (
             <div className="space-y-2">
@@ -389,19 +389,19 @@ export default function DailyReport() {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
                         <span className="text-[13px] font-semibold text-[#170B29] dark:text-[#F4EEFF]">{l.name}</span>
-                        <span className="text-[11px] text-[#7D7296] font-mono">{maskPhone(l.mobile, isSuperAdmin)}</span>
+                        <span className="text-[11px] text-[#716787] font-mono">{maskPhone(l.mobile, isSuperAdmin)}</span>
                       </div>
                       <div className="flex items-center gap-2 mt-0.5 flex-wrap">
                         <span className="text-[10px] px-2 py-0.5 rounded-full font-semibold" style={{ background: srcColor + '20', color: srcColor }}>{l.source}</span>
                         <span className={`text-[10px] px-2 py-0.5 rounded-full font-semibold ${st.bg} ${st.text}`}>{l.status}</span>
-                        {l.remark && <span className="text-[11px] text-[#7D7296] truncate max-w-[160px] italic">{l.remark}</span>}
+                        {l.remark && <span className="text-[11px] text-[#716787] truncate max-w-[160px] italic">{l.remark}</span>}
                       </div>
                     </div>
                     <div className="text-right shrink-0">
                       {l.assignedUserName ? (
                         <div>
                           <div className="text-[11px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6]">{l.assignedUserName}</div>
-                          <div className="text-[10px] text-[#7D7296]">Assigned</div>
+                          <div className="text-[10px] text-[#716787]">Assigned</div>
                         </div>
                       ) : (
                         <span className="px-2 py-1 rounded-lg bg-[#FFFBEB] dark:bg-[#2D1F00] text-[#D97706] text-[10px] font-bold">Unassigned</span>
@@ -426,7 +426,7 @@ export default function DailyReport() {
           </div>
           <Card title="Pending follow-ups" badge={followUps.length} bc="#D97706">
             {followUps.length === 0 ? (
-              <p className="text-[13px] text-[#7D7296]">No pending follow-ups.</p>
+              <p className="text-[13px] text-[#716787]">No pending follow-ups.</p>
             ) : (
               <div className="space-y-3">
                 {followUps.map((f, i) => {
@@ -449,7 +449,7 @@ export default function DailyReport() {
                         <div className="flex items-start justify-between flex-wrap gap-2 mb-1.5">
                           <div>
                             <span className="text-[13px] font-semibold text-[#170B29] dark:text-[#F4EEFF]">{f.name}</span>
-                            <span className="text-[11px] text-[#7D7296] ml-2 font-mono">{maskPhone(f.mobile, isSuperAdmin)}</span>
+                            <span className="text-[11px] text-[#716787] ml-2 font-mono">{maskPhone(f.mobile, isSuperAdmin)}</span>
                           </div>
                           <span className={`px-2.5 py-1 rounded-lg text-[11px] font-bold flex items-center gap-1 ${badgeCls}`}>
                             {isOverdue && <AlertTriangle className="w-3 h-3" />}{isToday_ && <Phone className="w-3 h-3" />}{!isOverdue && !isToday_ && <CalendarDays className="w-3 h-3" />} {f.daysLabel}
@@ -457,7 +457,7 @@ export default function DailyReport() {
                         </div>
                         <div className="flex items-center justify-between gap-2">
                           <p className="text-[11px] text-[#4A3F66] dark:text-[#9A8DB6] italic truncate">{f.note || 'Follow-up required'}</p>
-                          <span className="text-[11px] text-[#7D7296] shrink-0">{f.assignedUser || 'Unassigned'}</span>
+                          <span className="text-[11px] text-[#716787] shrink-0">{f.assignedUser || 'Unassigned'}</span>
                         </div>
                       </div>
                     </div>
@@ -470,12 +470,12 @@ export default function DailyReport() {
           {/* ── No follow-up date ever set (24h+) ─────────────────────────── */}
           <Card title="No follow-up date set (24h+)" badge={missingFollowUps.length} bc="#DC2626">
             {missingFollowUps.length === 0 ? (
-              <p className="text-[13px] text-[#7D7296]">
+              <p className="text-[13px] text-[#716787]">
                 Every lead from {formatMedium(viewDate)} that's 24h+ old has a follow-up scheduled. 🎉
               </p>
             ) : (
               <div className="space-y-3">
-                <p className="text-[11px] text-[#7D7296] mb-1">
+                <p className="text-[11px] text-[#716787] mb-1">
                   These leads never had a follow-up date set — the assigned employee gets an automatic reminder every 24 hours until one is added. Excludes "Not Interested" and "Converted".
                 </p>
                 {missingFollowUps.map((f) => (
@@ -485,7 +485,7 @@ export default function DailyReport() {
                       <div className="flex items-start justify-between flex-wrap gap-2 mb-1">
                         <div>
                           <span className="text-[13px] font-semibold text-[#170B29] dark:text-[#F4EEFF]">{f.name}</span>
-                          <span className="text-[11px] text-[#7D7296] ml-2 font-mono">{maskPhone(f.mobile, isSuperAdmin)}</span>
+                          <span className="text-[11px] text-[#716787] ml-2 font-mono">{maskPhone(f.mobile, isSuperAdmin)}</span>
                         </div>
                         <span className="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-red-100 dark:bg-red-900/40 text-red-600 dark:text-red-400">
                           {f.hoursSinceCreated}h with no follow-up
@@ -493,7 +493,7 @@ export default function DailyReport() {
                       </div>
                       <div className="flex items-center justify-between gap-2">
                         <span className="text-[11px] text-[#4A3F66] dark:text-[#9A8DB6]">{f.status}</span>
-                        <span className="text-[11px] text-[#7D7296] shrink-0">{f.assignedUser || 'Unassigned'}</span>
+                        <span className="text-[11px] text-[#716787] shrink-0">{f.assignedUser || 'Unassigned'}</span>
                       </div>
                     </div>
                   </div>
@@ -517,7 +517,7 @@ export default function DailyReport() {
           <Card title="Conversions on this day" badge={conversions.length} bc="#059669">
             {conversions.length === 0 ? (
               <div className="py-12 text-center">
-                <p className="text-[13px] text-[#7D7296]">No conversions for {formatMedium(viewDate)}.</p>
+                <p className="text-[13px] text-[#716787]">No conversions for {formatMedium(viewDate)}.</p>
               </div>
             ) : (
               <div className="space-y-2">
@@ -571,7 +571,7 @@ export default function DailyReport() {
               <Card title="Breakdown by outcome" badge={outcomesData?.outcomes?.length || 0} bc="#7E14FF">
                 {(!outcomesData?.outcomes || outcomesData.outcomes.length === 0) ? (
                   <div className="py-12 text-center">
-                    <p className="text-[13px] text-[#7D7296]">No calls logged for {formatMedium(viewDate)}.</p>
+                    <p className="text-[13px] text-[#716787]">No calls logged for {formatMedium(viewDate)}.</p>
                   </div>
                 ) : (
                   <div className="space-y-3">
@@ -609,7 +609,7 @@ export default function DailyReport() {
                             </div>
                             <div className="flex-1 min-w-0">
                               <div className="text-[13px] font-semibold text-[#170B29] dark:text-[#F4EEFF]">{a.agentName}</div>
-                              <div className="text-[11px] text-[#7D7296]">{a.total} calls · {answered} answered</div>
+                              <div className="text-[11px] text-[#716787]">{a.total} calls · {answered} answered</div>
                             </div>
                             <span className="px-2.5 py-1 rounded-lg text-[11px] font-bold shrink-0" style={{ background: (rate >= 50 ? '#059669' : '#DC2626') + '20', color: rate >= 50 ? '#059669' : '#DC2626' }}>
                               {rate}%

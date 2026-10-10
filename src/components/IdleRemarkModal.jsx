@@ -98,14 +98,14 @@ export default function IdleRemarkModal({
                 {isResume ? "Resume from Idle Break" : "Idle Detected"}
               </h2>
               {duration && (
-                <p className="text-[12px] text-slate-400 mt-0.5">
+                <p className="text-[12px] text-slate-500 mt-0.5">
                   {isResume
                     ? `You were idle for ${duration}. Add a remark before resuming.`
                     : `You have been idle for ${duration}.`}
                 </p>
               )}
               {idleSince && (
-                <p className="text-[11px] text-slate-400">
+                <p className="text-[11px] text-slate-500">
                   Since {fmtTime(idleSince)}
                 </p>
               )}
@@ -116,7 +116,7 @@ export default function IdleRemarkModal({
         {/* Current idle remark */}
         <div className="px-6 py-4 space-y-3">
           <label className="text-[12px] font-semibold text-slate-700 dark:text-slate-200 uppercase tracking-wider">
-            Idle Remark <span className="text-slate-400 font-normal normal-case">(optional)</span>
+            Idle Remark <span className="text-slate-500 font-normal normal-case">(optional)</span>
           </label>
           <textarea
             className="input-field p-3 resize-none focus:!ring-amber-400/40 focus:!border-amber-400"
@@ -147,7 +147,7 @@ export default function IdleRemarkModal({
         {/* Past pending breaks */}
         {pendingBreaks.length > 0 && (
           <div className="px-6 pb-6 space-y-3 border-t border-slate-200 dark:border-white/10 pt-4">
-            <p className="text-[12px] font-semibold text-slate-400 uppercase tracking-wider">
+            <p className="text-[12px] font-semibold text-slate-500 uppercase tracking-wider">
               Previous idle breaks — add remarks
             </p>
             <div className="space-y-3 max-h-52 overflow-y-auto pr-1 scrollbar-thin">
@@ -156,7 +156,7 @@ export default function IdleRemarkModal({
                   key={b.index}
                   className="rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.04] p-3 space-y-2"
                 >
-                  <p className="text-[11px] text-slate-400">
+                  <p className="text-[11px] text-slate-500">
                     {fmtTime(b.startTime)} → {fmtTime(b.endTime)}
                   </p>
                   <div className="flex gap-2 items-center">

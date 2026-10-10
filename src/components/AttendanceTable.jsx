@@ -14,7 +14,7 @@ import { formatTime as istFormatTime, formatMedium as istFormatDate } from "../u
 function PhoneText({ phone, isSuperAdmin, className = "" }) {
   const [revealed, setRevealed] = useState(false);
 
-  if (!phone) return <span className={`text-[#7D7296] ${className}`}>—</span>;
+  if (!phone) return <span className={`text-[#716787] ${className}`}>—</span>;
 
   if (isSuperAdmin) {
     return <span className={`font-mono ${className}`}>{phone}</span>;
@@ -28,7 +28,7 @@ function PhoneText({ phone, isSuperAdmin, className = "" }) {
       <button
         type="button"
         onClick={(e) => { e.stopPropagation(); setRevealed((r) => !r); }}
-        className="text-[#7D7296] hover:text-[#7E14FF] transition shrink-0"
+        className="text-[#716787] hover:text-[#7E14FF] transition shrink-0"
         title={revealed ? "Hide number" : "Reveal number"}
       >
         {revealed ? <EyeOff className="w-3 h-3" /> : <Eye className="w-3 h-3" />}
@@ -40,7 +40,7 @@ function PhoneText({ phone, isSuperAdmin, className = "" }) {
 // ─── Constants ────────────────────────────────────────────────────────────────
 const CRM_STATUS_STYLE = {
   present  : { bg: "bg-emerald-50 dark:bg-emerald-950/40", text: "text-emerald-600 dark:text-emerald-400", dot: "#059669", label: "Present"  },
-  absent   : { bg: "bg-red-50 dark:bg-red-950/40",         text: "text-red-600 dark:text-red-400",         dot: "#DC2626", label: "Absent"   },
+  absent   : { bg: "bg-red-50 dark:bg-red-950/40",         text: "text-red-700 dark:text-red-400",         dot: "#DC2626", label: "Absent"   },
   late     : { bg: "bg-amber-50 dark:bg-amber-950/40",     text: "text-amber-600 dark:text-amber-400",     dot: "#D97706", label: "Late"     },
   half_day : { bg: "bg-violet-50 dark:bg-violet-950/40",       text: "text-violet-600 dark:text-violet-300",       dot: "#7E14FF", label: "Half-Day" },
   leave    : { bg: "bg-violet-50 dark:bg-violet-950/40",   text: "text-violet-600 dark:text-violet-300",   dot: "#7E14FF", label: "Leave"    },
@@ -142,7 +142,7 @@ function Avatar({ name, size = "md" }) {
 }
 
 function IpBadge({ ip }) {
-  if (!ip) return <span className="text-[#7D7296]">—</span>;
+  if (!ip) return <span className="text-[#716787]">—</span>;
   return (
     <span className="inline-flex items-center gap-1 font-mono text-[11px] px-2 py-0.5 rounded-lg bg-slate-100 dark:bg-slate-800/60 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700/60">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-2.5 h-2.5 shrink-0">
@@ -168,11 +168,11 @@ function LoginHistoryModal({ user, onClose }) {
         <div className="px-5 py-4 border-b border-[#E7DCFA] dark:border-[#2B1E48] bg-[#FAF7FF] dark:bg-[#120B22] flex items-center justify-between">
           <div>
             <h3 className="text-[14px] font-bold text-[#170B29] dark:text-[#F4EEFF]">Login History</h3>
-            <p className="text-[11px] text-[#7D7296] mt-0.5">
+            <p className="text-[11px] text-[#716787] mt-0.5">
               {user.name} · {history.length} session{history.length !== 1 ? "s" : ""}
             </p>
           </div>
-          <button onClick={onClose} className="w-7 h-7 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-center text-[#7D7296] hover:text-[#170B29] dark:hover:text-white transition">
+          <button onClick={onClose} className="w-7 h-7 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-center text-[#716787] hover:text-[#170B29] dark:hover:text-white transition">
             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
             </svg>
@@ -181,8 +181,8 @@ function LoginHistoryModal({ user, onClose }) {
         <div className="max-h-[420px] overflow-y-auto divide-y divide-[#F4EEFF] dark:divide-[#1D1333]">
           {history.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-10 gap-2">
-              <span className="text-[#7D7296]"><Lock className="w-8 h-8" strokeWidth={1.5} /></span>
-              <p className="text-[12px] text-[#7D7296]">No login history available</p>
+              <span className="text-[#716787]"><Lock className="w-8 h-8" strokeWidth={1.5} /></span>
+              <p className="text-[12px] text-[#716787]">No login history available</p>
             </div>
           ) : history.map((entry, i) => {
             const ip      = entry.ip || entry.ipAddress || null;
@@ -193,7 +193,7 @@ function LoginHistoryModal({ user, onClose }) {
             const isFirst  = i === 0;
             return (
               <div key={i} className={`px-5 py-3 flex items-start gap-3 ${isFirst ? "bg-violet-50/50 dark:bg-violet-950/10" : "hover:bg-[#FAF7FF] dark:hover:bg-[#120B22]"} transition`}>
-                <div className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5 text-[9px] font-bold ${isFirst ? "bg-violet-600 text-white" : "bg-[#F3EBFF] dark:bg-[#2B1E48] text-[#7D7296]"}`}>
+                <div className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5 text-[9px] font-bold ${isFirst ? "bg-violet-600 text-white" : "bg-[#F3EBFF] dark:bg-[#2B1E48] text-[#716787]"}`}>
                   {isFirst ? "★" : history.length - i}
                 </div>
                 <div className="flex-1 min-w-0">
@@ -204,20 +204,20 @@ function LoginHistoryModal({ user, onClose }) {
                     )}
                   </div>
                   {platform && (
-                    <p className="text-[10px] text-[#7D7296]">
+                    <p className="text-[10px] text-[#716787]">
                       <span className="font-semibold text-[#4A3F66] dark:text-[#9A8DB6]">{platform}</span>
                       {model ? ` · ${model}` : ""}{os ? ` (${os})` : ""}
                     </p>
                   )}
-                  <p className="text-[10px] text-[#7D7296] mt-0.5">{fmtDateTime(loginAt)}</p>
+                  <p className="text-[10px] text-[#716787] mt-0.5">{fmtDateTime(loginAt)}</p>
                 </div>
-                <span className="text-[10px] text-[#7D7296] shrink-0 mt-0.5">{daysSince(loginAt)}</span>
+                <span className="text-[10px] text-[#716787] shrink-0 mt-0.5">{daysSince(loginAt)}</span>
               </div>
             );
           })}
         </div>
         <div className="px-5 py-3 border-t border-[#E7DCFA] dark:border-[#2B1E48] bg-[#FAF7FF] dark:bg-[#120B22]">
-          <button onClick={onClose} className="w-full py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] text-[12px] font-semibold text-[#7D7296] hover:bg-white dark:hover:bg-[#181029] transition">
+          <button onClick={onClose} className="w-full py-2 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] text-[12px] font-semibold text-[#716787] hover:bg-white dark:hover:bg-[#181029] transition">
             Close
           </button>
         </div>
@@ -251,7 +251,7 @@ function EditModal({ rec, onClose, onRefresh }) {
   const workHours = calcWorkHours();
 
   const STATUS_OPTIONS = [
-    { value: "",         label: "— Auto-calculate —",  color: "text-[#7D7296]" },
+    { value: "",         label: "— Auto-calculate —",  color: "text-[#716787]" },
     { value: "present",  label: "Present",           color: "text-emerald-600 dark:text-emerald-400" },
     { value: "late",     label: "Late",              color: "text-amber-600 dark:text-amber-400" },
     { value: "half_day", label: "Half Day",          color: "text-violet-600 dark:text-violet-300" },
@@ -304,9 +304,9 @@ function EditModal({ rec, onClose, onRefresh }) {
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-[15px] font-bold text-[#170B29] dark:text-[#F4EEFF] truncate">{rec.user?.name}</p>
-            <p className="text-[12px] text-[#7D7296]">{rec.date}</p>
+            <p className="text-[12px] text-[#716787]">{rec.date}</p>
           </div>
-          <button onClick={onClose} className="w-7 h-7 flex items-center justify-center rounded-lg text-[#7D7296] hover:bg-[#F3EBFF] dark:hover:bg-[#2B1E48] transition">
+          <button onClick={onClose} className="w-7 h-7 flex items-center justify-center rounded-lg text-[#716787] hover:bg-[#F3EBFF] dark:hover:bg-[#2B1E48] transition">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
           </button>
         </div>
@@ -320,7 +320,7 @@ function EditModal({ rec, onClose, onRefresh }) {
         <div className="space-y-4">
           {/* Status */}
           <div>
-            <label className="text-[11px] font-bold text-[#7D7296] uppercase tracking-wider block mb-1.5">Attendance Status</label>
+            <label className="text-[11px] font-bold text-[#716787] uppercase tracking-wider block mb-1.5">Attendance Status</label>
             <select
               value={form.crmStatus}
               onChange={e => setForm(f => ({ ...f, crmStatus: e.target.value }))}
@@ -339,7 +339,7 @@ function EditModal({ rec, onClose, onRefresh }) {
             <>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-[11px] font-bold text-[#7D7296] uppercase tracking-wider block mb-1.5">
+                  <label className="text-[11px] font-bold text-[#716787] uppercase tracking-wider block mb-1.5">
                     <span className="flex items-center gap-1">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-3 h-3 text-emerald-500"><path strokeLinecap="round" strokeLinejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14"/></svg>
                       Clock In
@@ -352,7 +352,7 @@ function EditModal({ rec, onClose, onRefresh }) {
                   />
                 </div>
                 <div>
-                  <label className="text-[11px] font-bold text-[#7D7296] uppercase tracking-wider block mb-1.5">
+                  <label className="text-[11px] font-bold text-[#716787] uppercase tracking-wider block mb-1.5">
                     <span className="flex items-center gap-1">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-3 h-3 text-red-500"><path strokeLinecap="round" strokeLinejoin="round" d="M13 8l4 4m0 0l-4 4m4-4H3"/></svg>
                       Clock Out
@@ -391,7 +391,7 @@ function EditModal({ rec, onClose, onRefresh }) {
 
           {/* Remarks */}
           <div>
-            <label className="text-[11px] font-bold text-[#7D7296] uppercase tracking-wider block mb-1.5">Remarks</label>
+            <label className="text-[11px] font-bold text-[#716787] uppercase tracking-wider block mb-1.5">Remarks</label>
             <input
               type="text" value={form.remarks}
               placeholder={
@@ -406,7 +406,7 @@ function EditModal({ rec, onClose, onRefresh }) {
         </div>
 
         <div className="flex gap-3 mt-6">
-          <button onClick={onClose} className="flex-1 py-2.5 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] text-[13px] font-semibold text-[#7D7296] hover:bg-[#FAF7FF] dark:hover:bg-white/5 transition">
+          <button onClick={onClose} className="flex-1 py-2.5 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] text-[13px] font-semibold text-[#716787] hover:bg-[#FAF7FF] dark:hover:bg-white/5 transition">
             Cancel
           </button>
           <button onClick={handleSave} disabled={saving} className="flex-1 py-2.5 rounded-xl bg-violet-600 hover:bg-violet-700 text-white text-[13px] font-semibold transition disabled:opacity-60 flex items-center justify-center gap-2">
@@ -446,10 +446,10 @@ function DeleteModal({ id, onClose, onRefresh }) {
           </svg>
         </div>
         <h3 className="text-[15px] font-bold text-center text-[#170B29] dark:text-[#F4EEFF] mb-1">Delete Record?</h3>
-        <p className="text-[12px] text-center text-[#7D7296] mb-6">This action cannot be undone.</p>
+        <p className="text-[12px] text-center text-[#716787] mb-6">This action cannot be undone.</p>
         {error && <p className="text-[12px] text-red-500 mb-3 text-center">{error}</p>}
         <div className="flex gap-3">
-          <button onClick={onClose}      className="flex-1 py-2.5 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] text-[13px] font-semibold text-[#7D7296] hover:bg-[#FAF7FF] dark:hover:bg-white/5 transition">Cancel</button>
+          <button onClick={onClose}      className="flex-1 py-2.5 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] text-[13px] font-semibold text-[#716787] hover:bg-[#FAF7FF] dark:hover:bg-white/5 transition">Cancel</button>
           <button onClick={handleDelete} disabled={deleting} className="flex-1 py-2.5 rounded-xl bg-red-500 hover:bg-red-600 text-white text-[13px] font-semibold transition disabled:opacity-60">
             {deleting ? "Deleting…" : "Delete"}
           </button>
@@ -516,7 +516,7 @@ function CallLogCard({ log, isSuperAdmin }) {
               isSuperAdmin={isSuperAdmin}
               className="text-[13px] font-semibold text-[#170B29] dark:text-[#F4EEFF]"
             />
-            {localLog.name && <p className="text-[11px] text-[#7D7296] truncate">{localLog.name}</p>}
+            {localLog.name && <p className="text-[11px] text-[#716787] truncate">{localLog.name}</p>}
           </div>
         </div>
 
@@ -540,7 +540,7 @@ function CallLogCard({ log, isSuperAdmin }) {
             )}
           </div>
 
-          <p className="text-[10px] text-[#7D7296]">{fmtDateTime(localLog.timestamp)}</p>
+          <p className="text-[10px] text-[#716787]">{fmtDateTime(localLog.timestamp)}</p>
           {dur && <p className="text-[10px] font-semibold text-[#4A3F66] dark:text-[#9A8DB6]">{dur}</p>}
 
           {/* ── Show/hide details toggle ── */}
@@ -563,7 +563,7 @@ function CallLogCard({ log, isSuperAdmin }) {
               {/* Audio recording — only show if url is real (not the auto-summary placeholder) */}
               {rec.url && rec.name !== "auto-summary" && (
                 <div>
-                  <p className="text-[10px] font-semibold text-[#7D7296] mb-1.5 uppercase tracking-wider">
+                  <p className="text-[10px] font-semibold text-[#716787] mb-1.5 uppercase tracking-wider">
                     Recording {localLog.recordings.length > 1 ? i + 1 : ""}
                   </p>
                   <audio controls controlsList="nodownload noplaybackrate" onContextMenu={e => e.preventDefault()} src={rec.url} className="w-full" style={{ height: "36px", accentColor: "#6366f1" }} />
@@ -584,7 +584,7 @@ function CallLogCard({ log, isSuperAdmin }) {
               {/* Transcript */}
               {rec.transcript && (
                 <div>
-                  <p className="text-[10px] font-semibold text-[#7D7296] uppercase tracking-wider mb-1">Transcript</p>
+                  <p className="text-[10px] font-semibold text-[#716787] uppercase tracking-wider mb-1">Transcript</p>
                   <p className="text-[11px] text-[#4A3F66] dark:text-[#9A8DB6] leading-relaxed bg-white dark:bg-[#181029] rounded-lg px-3 py-2 border border-[#E7DCFA] dark:border-[#2B1E48] max-h-36 overflow-y-auto">
                     {rec.transcript}
                   </p>
@@ -728,7 +728,7 @@ function UserDetailDrawer({ user, records, onClose, isSuperAdmin }) {
                 <Avatar name={user.name} size="lg" />
                 <div>
                   <h2 className="text-[17px] font-bold text-[#170B29] dark:text-[#F4EEFF]">{user.name || "Unknown"}</h2>
-                  <p className="text-[11px] text-[#7D7296] mt-0.5 font-mono">{isSuperAdmin ? (user.email || "—") : (maskEmail(user.email) || "—")}</p>
+                  <p className="text-[11px] text-[#716787] mt-0.5 font-mono">{isSuperAdmin ? (user.email || "—") : (maskEmail(user.email) || "—")}</p>
                   <div className="flex items-center gap-2 mt-1 flex-wrap">
                     {user.role && (
                       <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-violet-100 dark:bg-violet-950/40 text-violet-600 dark:text-violet-400">
@@ -749,7 +749,7 @@ function UserDetailDrawer({ user, records, onClose, isSuperAdmin }) {
                   </div>
                 </div>
               </div>
-              <button onClick={onClose} className="w-8 h-8 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-center text-[#7D7296] hover:text-[#170B29] dark:hover:text-white transition shrink-0">
+              <button onClick={onClose} className="w-8 h-8 rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] flex items-center justify-center text-[#716787] hover:text-[#170B29] dark:hover:text-white transition shrink-0">
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
                 </svg>
@@ -771,7 +771,7 @@ function UserDetailDrawer({ user, records, onClose, isSuperAdmin }) {
                 background: attendancePct >= 80 ? "#059669" : attendancePct >= 60 ? "#D97706" : "#DC2626",
               }} />
             </div>
-            <p className="text-[10px] text-[#7D7296] mt-1">
+            <p className="text-[10px] text-[#716787] mt-1">
               {total} records in current filter · Last seen {daysSince(lastRec?.date || lastRec?.loginTime)}
             </p>
           </div>
@@ -780,7 +780,7 @@ function UserDetailDrawer({ user, records, onClose, isSuperAdmin }) {
           <div className="px-6 py-4 grid grid-cols-5 gap-2 border-b border-[#E7DCFA] dark:border-[#2B1E48]">
             {statItems.map(s => (
               <div key={s.label} className="bg-[#FAF7FF] dark:bg-[#120B22] rounded-xl p-2 text-center">
-                <p className="text-[9px] font-bold text-[#7D7296] uppercase tracking-wide mb-0.5">{s.label}</p>
+                <p className="text-[9px] font-bold text-[#716787] uppercase tracking-wide mb-0.5">{s.label}</p>
                 <p className="text-[15px] font-black" style={{ color: s.color }}>{s.value}</p>
               </div>
             ))}
@@ -792,7 +792,7 @@ function UserDetailDrawer({ user, records, onClose, isSuperAdmin }) {
             {/* Login & IP */}
             <div>
               <div className="flex items-center gap-2 mb-3">
-                <p className="text-[10px] font-bold text-[#7D7296] uppercase tracking-widest">Login & Network</p>
+                <p className="text-[10px] font-bold text-[#716787] uppercase tracking-widest">Login & Network</p>
                 <div className="flex-1 h-px bg-[#E7DCFA] dark:bg-[#2B1E48]" />
                 {historyCount > 0 && (
                   <button onClick={() => setShowLoginHistory(true)} className="flex items-center gap-1 text-[10px] font-semibold text-violet-500 hover:text-violet-700 dark:hover:text-violet-300 transition shrink-0">
@@ -805,19 +805,19 @@ function UserDetailDrawer({ user, records, onClose, isSuperAdmin }) {
               </div>
               <div className="bg-[#FAF7FF] dark:bg-[#120B22] rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] overflow-hidden">
                 <div className="flex items-center justify-between px-4 py-2.5">
-                  <span className="text-[11px] text-[#7D7296]">Last IP Address</span>
+                  <span className="text-[11px] text-[#716787]">Last IP Address</span>
                   <IpBadge ip={lastIpAddress} />
                 </div>
                 <div className="flex items-center justify-between px-4 py-2.5 border-t border-[#F4EEFF] dark:border-[#1D1333]">
-                  <span className="text-[11px] text-[#7D7296]">Last Login</span>
+                  <span className="text-[11px] text-[#716787]">Last Login</span>
                   <div className="text-right">
                     <p className="text-[12px] font-semibold text-[#170B29] dark:text-[#F4EEFF]">{lastLoginAt ? fmtDateTime(lastLoginAt) : "—"}</p>
-                    {lastLoginAt && <p className="text-[10px] text-[#7D7296]">{daysSince(lastLoginAt)}</p>}
+                    {lastLoginAt && <p className="text-[10px] text-[#716787]">{daysSince(lastLoginAt)}</p>}
                   </div>
                 </div>
                 {historyCount > 0 && (
                   <div className="flex items-center justify-between px-4 py-2.5 border-t border-[#F4EEFF] dark:border-[#1D1333]">
-                    <span className="text-[11px] text-[#7D7296]">Total Sessions</span>
+                    <span className="text-[11px] text-[#716787]">Total Sessions</span>
                     <div className="flex items-center gap-2">
                       <span className="text-[12px] font-semibold text-[#170B29] dark:text-[#F4EEFF]">{historyCount}</span>
                       <button onClick={() => setShowLoginHistory(true)} className="text-[10px] font-semibold text-violet-500 hover:text-violet-700 dark:hover:text-violet-300 underline underline-offset-2 transition">
@@ -832,7 +832,7 @@ function UserDetailDrawer({ user, records, onClose, isSuperAdmin }) {
             {/* Device info */}
             <div>
               <div className="flex items-center gap-2 mb-3">
-                <p className="text-[10px] font-bold text-[#7D7296] uppercase tracking-widest">Login Device & App</p>
+                <p className="text-[10px] font-bold text-[#716787] uppercase tracking-widest">Login Device & App</p>
                 <div className="flex-1 h-px bg-[#E7DCFA] dark:bg-[#2B1E48]" />
               </div>
               <div className="bg-[#FAF7FF] dark:bg-[#120B22] rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] overflow-hidden">
@@ -846,7 +846,7 @@ function UserDetailDrawer({ user, records, onClose, isSuperAdmin }) {
                   { label: "FCM Token",    value: fcmToken ? fcmToken.slice(0, 24) + "…" : "—" },
                 ].map((row, i) => (
                   <div key={row.label} className={`flex items-center justify-between px-4 py-2.5 ${i > 0 ? "border-t border-[#F4EEFF] dark:border-[#1D1333]" : ""}`}>
-                    <span className="text-[11px] text-[#7D7296]">{row.label}</span>
+                    <span className="text-[11px] text-[#716787]">{row.label}</span>
                     <span className="text-[12px] font-semibold text-[#170B29] dark:text-[#F4EEFF] text-right max-w-[200px] truncate">{row.value}</span>
                   </div>
                 ))}
@@ -856,9 +856,9 @@ function UserDetailDrawer({ user, records, onClose, isSuperAdmin }) {
             {/* Call logs */}
             <div>
               <div className="flex items-center gap-2 mb-3">
-                <p className="text-[10px] font-bold text-[#7D7296] uppercase tracking-widest">Device Call Logs</p>
+                <p className="text-[10px] font-bold text-[#716787] uppercase tracking-widest">Device Call Logs</p>
                 <div className="flex-1 h-px bg-[#E7DCFA] dark:bg-[#2B1E48]" />
-                <span className="text-[10px] font-bold text-[#7D7296]">{logsLoading ? "…" : `${totalCalls} calls`}</span>
+                <span className="text-[10px] font-bold text-[#716787]">{logsLoading ? "…" : `${totalCalls} calls`}</span>
               </div>
 
               {/* ── Per-employee call-log sync permission (super-admin only) ── */}
@@ -876,7 +876,7 @@ function UserDetailDrawer({ user, records, onClose, isSuperAdmin }) {
                       <p className="text-[12px] font-semibold text-[#170B29] dark:text-[#F4EEFF]">
                         Device Call Log Sync
                       </p>
-                      <p className="text-[10px] text-[#7D7296] leading-snug">
+                      <p className="text-[10px] text-[#716787] leading-snug">
                         {syncMsg
                           ? syncMsg
                           : syncEnabled
@@ -917,7 +917,7 @@ function UserDetailDrawer({ user, records, onClose, isSuperAdmin }) {
                         ? "bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-800"
                         : "bg-[#FAF7FF] dark:bg-[#120B22] border-[#E7DCFA] dark:border-[#2B1E48]"
                     }`}>
-                      <p className="text-[9px] font-bold text-[#7D7296] uppercase tracking-wide mb-0.5 flex items-center justify-center gap-1">
+                      <p className="text-[9px] font-bold text-[#716787] uppercase tracking-wide mb-0.5 flex items-center justify-center gap-1">
                         {s.dot && unmatchedCalls > 0 && <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0 animate-pulse" />}
                         {s.label}
                       </p>
@@ -945,16 +945,16 @@ function UserDetailDrawer({ user, records, onClose, isSuperAdmin }) {
                   </div>
                   {totalPages > 1 && (
                     <div className="flex items-center justify-between pt-3">
-                      <button disabled={logsPage <= 1} onClick={() => setLogsPage(p => p - 1)} className="text-[11px] font-semibold px-3 py-1.5 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] text-[#7D7296] hover:text-[#170B29] dark:hover:text-white disabled:opacity-40 transition">← Prev</button>
-                      <p className="text-[11px] text-[#7D7296]">Page {logsPage} of {totalPages}</p>
-                      <button disabled={logsPage >= totalPages} onClick={() => setLogsPage(p => p + 1)} className="text-[11px] font-semibold px-3 py-1.5 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] text-[#7D7296] hover:text-[#170B29] dark:hover:text-white disabled:opacity-40 transition">Next →</button>
+                      <button disabled={logsPage <= 1} onClick={() => setLogsPage(p => p - 1)} className="text-[11px] font-semibold px-3 py-1.5 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] text-[#716787] hover:text-[#170B29] dark:hover:text-white disabled:opacity-40 transition">← Prev</button>
+                      <p className="text-[11px] text-[#716787]">Page {logsPage} of {totalPages}</p>
+                      <button disabled={logsPage >= totalPages} onClick={() => setLogsPage(p => p + 1)} className="text-[11px] font-semibold px-3 py-1.5 rounded-lg border border-[#E7DCFA] dark:border-[#2B1E48] text-[#716787] hover:text-[#170B29] dark:hover:text-white disabled:opacity-40 transition">Next →</button>
                     </div>
                   )}
                 </>
               ) : (
                 <div className="flex flex-col items-center justify-center py-6 gap-2 bg-[#FAF7FF] dark:bg-[#120B22] rounded-xl border border-dashed border-[#E7DCFA] dark:border-[#2B1E48]">
-                  <span className="text-[#7D7296]"><PhoneOff className="w-7 h-7" strokeWidth={1.5} /></span>
-                  <p className="text-[12px] text-[#7D7296]">No call logs synced for this user</p>
+                  <span className="text-[#716787]"><PhoneOff className="w-7 h-7" strokeWidth={1.5} /></span>
+                  <p className="text-[12px] text-[#716787]">No call logs synced for this user</p>
                 </div>
               )}
             </div>
@@ -962,8 +962,8 @@ function UserDetailDrawer({ user, records, onClose, isSuperAdmin }) {
             {/* Recent attendance */}
             <div>
               <div className="flex items-center gap-2 mb-3">
-                <CalendarDays className="w-3.5 h-3.5 text-[#7D7296]" />
-                <p className="text-[10px] font-bold text-[#7D7296] uppercase tracking-widest">Recent Attendance</p>
+                <CalendarDays className="w-3.5 h-3.5 text-[#716787]" />
+                <p className="text-[10px] font-bold text-[#716787] uppercase tracking-widest">Recent Attendance</p>
                 <div className="flex-1 h-px bg-[#E7DCFA] dark:bg-[#2B1E48]" />
               </div>
               {sortedAtt.length > 0 ? (
@@ -978,15 +978,15 @@ function UserDetailDrawer({ user, records, onClose, isSuperAdmin }) {
                         <p className="text-[11px] text-[#4A3F66] dark:text-[#9A8DB6]">
                           {fmtTime(rec.loginTime)} → {fmtTime(rec.logoutTime)}
                         </p>
-                        <p className="text-[10px] text-[#7D7296]">{rec.workingHours || "—"}</p>
+                        <p className="text-[10px] text-[#716787]">{rec.workingHours || "—"}</p>
                       </div>
                     </div>
                   ))}
                 </div>
               ) : (
                 <div className="flex flex-col items-center justify-center py-6 gap-2 bg-[#FAF7FF] dark:bg-[#120B22] rounded-xl border border-dashed border-[#E7DCFA] dark:border-[#2B1E48]">
-                  <span className="text-[#7D7296]"><CalendarDays className="w-7 h-7" strokeWidth={1.5} /></span>
-                  <p className="text-[12px] text-[#7D7296]">No attendance records found for this filter</p>
+                  <span className="text-[#716787]"><CalendarDays className="w-7 h-7" strokeWidth={1.5} /></span>
+                  <p className="text-[12px] text-[#716787]">No attendance records found for this filter</p>
                 </div>
               )}
             </div>
@@ -1027,7 +1027,7 @@ function AttendanceTab({ records, loading, onRefresh, onUserClick, isSuperAdmin 
     ? `${fmtShift(shiftCfg.shiftStartHour, shiftCfg.shiftStartMinute)} – ${fmtShift(shiftCfg.shiftEndHour, shiftCfg.shiftEndMinute)}`
     : null;
 
-  const thCls = "px-4 py-3 text-left text-[10px] font-bold text-[#7D7296] dark:text-[#564C70] uppercase tracking-widest whitespace-nowrap";
+  const thCls = "px-4 py-3 text-left text-[10px] font-bold text-[#716787] dark:text-[#564C70] uppercase tracking-widest whitespace-nowrap";
   const tdCls = "px-4 py-3 text-[12px] text-[#4A3F66] dark:text-[#9A8DB6] whitespace-nowrap";
 
   return (
@@ -1071,8 +1071,8 @@ function AttendanceTab({ records, loading, onRefresh, onUserClick, isSuperAdmin 
             ) : records.length === 0 ? (
               <tr>
                 <td colSpan={13} className="px-4 py-12 text-center">
-                  <span className="block mb-2 flex justify-center text-[#7D7296]"><ClipboardList className="w-9 h-9" strokeWidth={1.5} /></span>
-                  <p className="text-[14px] text-[#7D7296]">No attendance records found.</p>
+                  <span className="block mb-2 flex justify-center text-[#716787]"><ClipboardList className="w-9 h-9" strokeWidth={1.5} /></span>
+                  <p className="text-[14px] text-[#716787]">No attendance records found.</p>
                 </td>
               </tr>
             ) : records.map((rec, i) => {
@@ -1106,7 +1106,7 @@ function AttendanceTab({ records, loading, onRefresh, onUserClick, isSuperAdmin 
                         </a>
                       )}
                       {rec.clockInLatitude == null && rec.clockOutLatitude == null && (
-                        <span className="text-[#7D7296]">—</span>
+                        <span className="text-[#716787]">—</span>
                       )}
                     </div>
                   </td>
@@ -1119,13 +1119,13 @@ function AttendanceTab({ records, loading, onRefresh, onUserClick, isSuperAdmin 
                     {recLoginAt ? (
                       <div>
                         <p className="text-[11px] text-[#170B29] dark:text-[#F4EEFF] font-semibold">{fmtDate(recLoginAt)}</p>
-                        <p className="text-[10px] text-[#7D7296]">{daysSince(recLoginAt)}</p>
+                        <p className="text-[10px] text-[#716787]">{daysSince(recLoginAt)}</p>
                       </div>
                     ) : (
-                      <span className="text-[#7D7296]">—</span>
+                      <span className="text-[#716787]">—</span>
                     )}
                   </td>
-                  <td className={tdCls}><span className="italic text-[#7D7296]">{rec.remarks || "—"}</span></td>
+                  <td className={tdCls}><span className="italic text-[#716787]">{rec.remarks || "—"}</span></td>
                   {/* Idle Time — auto-computed gaps where employee was inactive
                       (Auto Idle breaks only, excludes manual breaks). */}
                   <td className={tdCls}>
@@ -1134,7 +1134,7 @@ function AttendanceTab({ records, loading, onRefresh, onUserClick, isSuperAdmin 
                         {rec.idleTime}
                       </span>
                     ) : (
-                      <span className="text-[#7D7296]">—</span>
+                      <span className="text-[#716787]">—</span>
                     )}
                   </td>
                   {/* Idle Remarks — employee-entered reason for each Auto Idle
@@ -1143,7 +1143,7 @@ function AttendanceTab({ records, loading, onRefresh, onUserClick, isSuperAdmin 
                   <td className={tdCls}>
                     {(() => {
                       const idleBreaks = (rec.breaks || []).filter(b => b.reason === "Auto Idle");
-                      if (idleBreaks.length === 0) return <span className="text-[#7D7296]">—</span>;
+                      if (idleBreaks.length === 0) return <span className="text-[#716787]">—</span>;
                       const pendingCount = idleBreaks.filter(b => b.remarkStatus === "pending").length;
                       const filled       = idleBreaks.filter(b => b.remarkStatus === "filled");
                       return (
@@ -1161,18 +1161,18 @@ function AttendanceTab({ records, loading, onRefresh, onUserClick, isSuperAdmin 
                                 </p>
                               ))}
                               {filled.length > 2 && (
-                                <p className="text-[10px] text-[#7D7296]">+{filled.length - 2} more</p>
+                                <p className="text-[10px] text-[#716787]">+{filled.length - 2} more</p>
                               )}
                             </div>
                           )}
-                          {pendingCount === 0 && filled.length === 0 && <span className="text-[#7D7296]">—</span>}
+                          {pendingCount === 0 && filled.length === 0 && <span className="text-[#716787]">—</span>}
                         </div>
                       );
                     })()}
                   </td>
                   <td className={tdCls}>
                     <div className="flex items-center gap-1.5">
-                      <button onClick={() => setEditRec(rec)} className="p-1.5 rounded-lg hover:bg-violet-50 dark:hover:bg-violet-950/40 text-[#7D7296] hover:text-violet-600 dark:hover:text-violet-400 transition" title={rec._id ? "Edit" : "Add attendance"}>
+                      <button onClick={() => setEditRec(rec)} className="p-1.5 rounded-lg hover:bg-violet-50 dark:hover:bg-violet-950/40 text-[#716787] hover:text-violet-600 dark:hover:text-violet-400 transition" title={rec._id ? "Edit" : "Add attendance"}>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5">
                           <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
                           <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
@@ -1209,9 +1209,9 @@ function UsersTab({ records, onUserClick, isSuperAdmin }) {
   if (users.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-16 gap-3">
-        <span className="text-[#7D7296]"><Users className="w-12 h-12" strokeWidth={1.5} /></span>
+        <span className="text-[#716787]"><Users className="w-12 h-12" strokeWidth={1.5} /></span>
         <p className="text-[14px] font-semibold text-[#170B29] dark:text-[#F4EEFF]">No users found</p>
-        <p className="text-[12px] text-[#7D7296]">Employees will appear here once attendance records are loaded.</p>
+        <p className="text-[12px] text-[#716787]">Employees will appear here once attendance records are loaded.</p>
       </div>
     );
   }
@@ -1245,7 +1245,7 @@ function UsersTab({ records, onUserClick, isSuperAdmin }) {
                 <Avatar name={user.name} size="md" />
                 <div className="min-w-0">
                   <p className="text-[13px] font-bold text-[#170B29] dark:text-[#F4EEFF] group-hover:text-violet-600 dark:group-hover:text-violet-400 transition line-clamp-1">{user.name || "Unknown"}</p>
-                  <p className="text-[10px] text-[#7D7296] font-mono truncate">{isSuperAdmin ? (user.email || "—") : (maskEmail(user.email) || "—")}</p>
+                  <p className="text-[10px] text-[#716787] font-mono truncate">{isSuperAdmin ? (user.email || "—") : (maskEmail(user.email) || "—")}</p>
                   {/* ── Phone on user card: masked for admin ── */}
                   {user.phone && (
                     <PhoneText
@@ -1263,7 +1263,7 @@ function UsersTab({ records, onUserClick, isSuperAdmin }) {
 
             <div className="mb-3">
               <div className="flex items-center justify-between mb-1">
-                <span className="text-[10px] text-[#7D7296]">Attendance</span>
+                <span className="text-[10px] text-[#716787]">Attendance</span>
                 <span className="text-[10px] font-black" style={{ color: pct >= 80 ? "#059669" : pct >= 60 ? "#D97706" : "#DC2626" }}>{pct}%</span>
               </div>
               <div className="h-1.5 bg-[#F3EBFF] dark:bg-[#2B1E48] rounded-full overflow-hidden">
@@ -1278,7 +1278,7 @@ function UsersTab({ records, onUserClick, isSuperAdmin }) {
                 { label: "L", value: late,    color: "#D97706" },
               ].map(s => (
                 <div key={s.label} className="flex-1 bg-[#FAF7FF] dark:bg-[#120B22] rounded-lg py-1 text-center">
-                  <p className="text-[9px] text-[#7D7296]">{s.label}</p>
+                  <p className="text-[9px] text-[#716787]">{s.label}</p>
                   <p className="text-[12px] font-black" style={{ color: s.color }}>{s.value}</p>
                 </div>
               ))}
@@ -1288,19 +1288,19 @@ function UsersTab({ records, onUserClick, isSuperAdmin }) {
               <div className="mb-2.5 px-2.5 py-2 bg-[#FAF7FF] dark:bg-[#120B22] rounded-xl border border-[#E7DCFA] dark:border-[#2B1E48] space-y-1">
                 {lastIp && (
                   <div className="flex items-center justify-between gap-2">
-                    <span className="text-[9px] text-[#7D7296] font-semibold uppercase tracking-wide">Last IP</span>
+                    <span className="text-[9px] text-[#716787] font-semibold uppercase tracking-wide">Last IP</span>
                     <IpBadge ip={lastIp} />
                   </div>
                 )}
                 {lastLoginAt && (
                   <div className="flex items-center justify-between gap-2">
-                    <span className="text-[9px] text-[#7D7296] font-semibold uppercase tracking-wide">Last Login</span>
+                    <span className="text-[9px] text-[#716787] font-semibold uppercase tracking-wide">Last Login</span>
                     <span className="text-[10px] text-[#4A3F66] dark:text-[#9A8DB6] font-semibold">{daysSince(lastLoginAt)}</span>
                   </div>
                 )}
                 {historyCount > 0 && (
                   <div className="flex items-center justify-between gap-2">
-                    <span className="text-[9px] text-[#7D7296] font-semibold uppercase tracking-wide">Sessions</span>
+                    <span className="text-[9px] text-[#716787] font-semibold uppercase tracking-wide">Sessions</span>
                     <span className="text-[10px] font-semibold text-violet-500">{historyCount}</span>
                   </div>
                 )}
@@ -1309,10 +1309,10 @@ function UsersTab({ records, onUserClick, isSuperAdmin }) {
 
             <div className="flex items-center justify-between gap-2">
               <div className="flex items-center gap-1 min-w-0">
-                <span className="text-[#7D7296]"><Smartphone className="w-3 h-3" /></span>
-                <span className="text-[11px] text-[#7D7296] truncate">{deviceInfo || "No device info"}</span>
+                <span className="text-[#716787]"><Smartphone className="w-3 h-3" /></span>
+                <span className="text-[11px] text-[#716787] truncate">{deviceInfo || "No device info"}</span>
               </div>
-              <span className="text-[11px] text-[#7D7296] shrink-0">{daysSince(lastRec?.date || lastRec?.loginTime)}</span>
+              <span className="text-[11px] text-[#716787] shrink-0">{daysSince(lastRec?.date || lastRec?.loginTime)}</span>
             </div>
           </button>
         );
@@ -1339,7 +1339,7 @@ export default function AttendancePage({ records = [], loading = false, onRefres
     <div>
       <div className="mb-6">
         <h1 className="font-display text-[24px] font-bold tracking-tight text-[#170B29] dark:text-[#F4EEFF]">Attendance</h1>
-        <p className="text-[13px] text-[#7D7296] mt-0.5">Track employee attendance, device info, and call log sync</p>
+        <p className="text-[13px] text-[#716787] mt-0.5">Track employee attendance, device info, and call log sync</p>
       </div>
 
       <div className="flex items-center gap-1 mb-6 bg-white dark:bg-[#181029] border border-[#E7DCFA] dark:border-[#2B1E48] rounded-2xl ld-card p-1.5 w-fit">
@@ -1350,7 +1350,7 @@ export default function AttendancePage({ records = [], loading = false, onRefres
             className={`flex items-center gap-2 px-4 py-2 rounded-xl text-[13px] font-semibold transition ${
               activeTab === tab.key
                 ? "bg-gradient-to-br from-[#863BFF] to-[#6300D6] text-white shadow-[0_6px_16px_-6px_rgba(126,20,255,0.6)]"
-                : "text-[#7D7296] hover:text-[#170B29] dark:hover:text-[#F4EEFF]"
+                : "text-[#716787] hover:text-[#170B29] dark:hover:text-[#F4EEFF]"
             }`}
           >
             {tab.icon}

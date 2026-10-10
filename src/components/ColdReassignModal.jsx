@@ -78,7 +78,7 @@ export default function ColdReassignModal({ lead, onClose, onSuccess }) {
           </h2>
 
           {result.reassignedTo && (
-            <p className="text-[13px] text-slate-400">
+            <p className="text-[13px] text-slate-500">
               {result.isVerification
                 ? "Sent to "
                 : result.isReturned
@@ -111,7 +111,7 @@ export default function ColdReassignModal({ lead, onClose, onSuccess }) {
 
           {(result.scheduledCalls || []).length > 0 && (
             <div className="text-left space-y-2 bg-slate-50 dark:bg-white/[0.04] rounded-2xl p-4">
-              <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wide mb-2">
+              <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-wide mb-2">
                 Scheduled Calls
               </p>
               {(result.scheduledCalls || []).map((sc, i) => (
@@ -124,7 +124,7 @@ export default function ColdReassignModal({ lead, onClose, onSuccess }) {
                   <span className="text-[12px] text-slate-600 dark:text-slate-300 capitalize">
                     {sc.type}
                   </span>
-                  <span className="ml-auto text-[11px] text-slate-400">
+                  <span className="ml-auto text-[11px] text-slate-500">
                     {fmt(sc.scheduledAt)}
                   </span>
                 </div>
@@ -168,7 +168,7 @@ export default function ColdReassignModal({ lead, onClose, onSuccess }) {
               <h2 className="text-[15px] font-bold text-slate-900 dark:text-white">
                 Mark as Cold &amp; Reassign
               </h2>
-              <p className="text-[12px] text-slate-400">
+              <p className="text-[12px] text-slate-500">
                 {lead.name} · {lead.mobile || lead.phone || ""}
               </p>
             </div>
@@ -198,7 +198,7 @@ export default function ColdReassignModal({ lead, onClose, onSuccess }) {
           {/* Previous call history */}
           {history.length > 0 && (
             <div>
-              <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wide mb-2">
+              <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-wide mb-2">
                 Previous Call History ({history.length})
               </p>
               <div className="space-y-2 max-h-36 overflow-y-auto pr-1 scrollbar-thin">
@@ -211,7 +211,7 @@ export default function ColdReassignModal({ lead, onClose, onSuccess }) {
                       <span className="text-[12px] font-semibold text-slate-900 dark:text-white">
                         {h.userName || "Unknown"}
                       </span>
-                      <span className="text-[10px] text-slate-400">{fmt(h.calledAt)}</span>
+                      <span className="text-[10px] text-slate-500">{fmt(h.calledAt)}</span>
                     </div>
                     <p className="text-[11px] text-slate-500 dark:text-slate-400">{h.remark}</p>
                     {h.outcome && (
@@ -227,7 +227,7 @@ export default function ColdReassignModal({ lead, onClose, onSuccess }) {
 
           {/* Remark input */}
           <div>
-            <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wide mb-1.5">
+            <label className="block text-[11px] font-semibold text-slate-500 uppercase tracking-wide mb-1.5">
               Reason / Remark <span className="text-rose-500">*</span>
             </label>
             <textarea

@@ -75,7 +75,7 @@ export default function AdminFollowUpIntelligence({ leads = [] }) {
         })}
       </div>
       {overdue === 0 && today === 0 && upcoming === 0 && (
-        <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-3">
+        <p className="text-[11px] text-slate-500 dark:text-slate-500 mt-3">
           No follow-ups scheduled in the loaded lead set.
         </p>
       )}
